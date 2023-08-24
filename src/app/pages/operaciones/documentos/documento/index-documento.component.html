@@ -1,0 +1,50 @@
+<p-toast position="top-left" [baseZIndex]="99999"></p-toast>
+<div class="card">
+  <div class="card-body">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h3 class="h3">Documentos</h3>
+      </div>
+      <div class="col-sm-6">
+        <button
+          ngbTooltip="Agregar documento"
+          placement="top"
+          class="btn btn-sm btn-info p-2 float-end"
+          (click)="onModalAddOrEdit({ id: 0, title: 'Nuevo Registro' })"
+        >
+          Nuevo
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="border-dark m-2">
+  <div class="row">
+    <div class="col-12 card-title"></div>
+    <div class="col-sm-3" *ngFor="let item of data">
+      <div class="card p-1 pointer">
+        <div class="card-header">
+          <custom-button-delete-span
+            (OnConfirm)="onModalDelete(item.id)"
+            [nameItem]="item.document"
+            [textHeader]="'Eliminar Documento'"
+            [textpTooltip]="'Eliminar Documento!'"
+          ></custom-button-delete-span>
+        </div>
+        <div
+          class="card-body text-center pointer"
+          routerLink="/documento/view-documento"
+          (click)="viewPdfService.setNameDocument(item.pathDocument)"
+        >
+          <i class="fa-duotone fa-file-pdf fa-4x text-danger"></i>
+        </div>
+        <div class="card-footer text-center">
+          <small>
+            {{ item.document }}
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

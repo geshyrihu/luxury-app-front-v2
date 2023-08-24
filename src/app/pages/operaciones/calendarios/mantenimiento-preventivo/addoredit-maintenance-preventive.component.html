@@ -1,0 +1,156 @@
+<div class="card">
+  <div class="card-body">
+    <form autocomplete="off" (ngSubmit)="submit()" [formGroup]="form">
+      <custom-input-text
+        [hidden]="true"
+        [control]="form.get('id')"
+        formControlName="id"
+        label="Id"
+      ></custom-input-text>
+      <div class="row">
+        <div class="col-sm-6">
+          <custom-input-datalist
+            (propagar)="saveMachineryId($event)"
+            [control]="form.get('machineryName')"
+            [data]="cb_machinery"
+            [horizontal]="false"
+            formControlName="machineryName"
+            label="Equipo o Instalación"
+            dataListId="machineryNameDatalistOptions"
+          ></custom-input-datalist>
+        </div>
+        <div class="col-sm-3">
+          <custom-input-select
+            [horizontal]="false"
+            [control]="form.get('recurrence')"
+            formControlName="recurrence"
+            label="Recurrencia"
+            [data]="cb_recurrencia"
+          ></custom-input-select>
+        </div>
+        <div class="col-sm-3">
+          <custom-input-month
+            [control]="form.get('fechaServicio')"
+            [horizontal]="false"
+            formControlName="fechaServicio"
+            label="Fecha Servicio"
+          ></custom-input-month>
+        </div>
+
+        <div class="col-sm-6">
+          <custom-input-select
+            [horizontal]="false"
+            [control]="form.get('typeMaintance')"
+            formControlName="typeMaintance"
+            label="Tipo de Mantenimiento"
+            [data]="cb_TypeMaintance"
+          ></custom-input-select>
+        </div>
+        <div class="col-sm-6">
+          <custom-input-number
+            [horizontal]="false"
+            [control]="form.get('price')"
+            formControlName="price"
+            label="Precio"
+          ></custom-input-number>
+        </div>
+        <div class="col-sm-6">
+          <custom-input-datalist
+            (propagar)="saveProviderId($event)"
+            [control]="form.get('providerName')"
+            [data]="cb_providers"
+            formControlName="providerName"
+            label="Proveedor"
+            [horizontal]="false"
+            dataListId="providerNameDatalistOptions"
+          ></custom-input-datalist>
+        </div>
+        <div class="col-sm-6">
+          <custom-input-datalist
+            (propagar)="saveSubCuentaId($event)"
+            [control]="form.get('cuentaName')"
+            [data]="cb_subCuentaId"
+            formControlName="cuentaName"
+            label="Cuenta Afectada"
+            [horizontal]="false"
+            dataListId="cuentaNameDatalistOptions"
+          ></custom-input-datalist>
+        </div>
+
+        <div class="col-sm-6">
+          <label>Actividad</label>
+          <div
+            *ngIf="
+              f.activity.errors && (f.activity.dirty || f.activity.touched)
+            "
+            class="text-danger animate__fadeIn"
+          >
+            <small *ngIf="f.activity.errors.required">Campo Requerido</small>
+            <small *ngIf="f.activity.errors.maxLength"
+              >Maximo 200 caracteres</small
+            >
+          </div>
+          <p-editor formControlName="activity" [style]="{ height: '200px' }">
+            <ng-template pTemplate="header">
+              <span class="ql-formats">
+                <button
+                  type="button"
+                  class="ql-bold"
+                  aria-label="Bold"
+                ></button>
+                <button
+                  type="button"
+                  class="ql-italic"
+                  aria-label="Italic"
+                ></button>
+                <button
+                  type="button"
+                  class="ql-underline"
+                  aria-label="Underline"
+                ></button>
+              </span>
+              <span class="ql-formats">
+                <button class="ql-list" value="ordered"></button>
+                <button class="ql-list" value="bullet"></button>
+              </span>
+            </ng-template>
+          </p-editor>
+        </div>
+        <div class="col-sm-6">
+          <label>Observaciones</label>
+
+          <p-editor formControlName="observation" [style]="{ height: '200px' }">
+            <ng-template pTemplate="header">
+              <span class="ql-formats">
+                <button
+                  type="button"
+                  class="ql-bold"
+                  aria-label="Bold"
+                ></button>
+                <button
+                  type="button"
+                  class="ql-italic"
+                  aria-label="Italic"
+                ></button>
+                <button
+                  type="button"
+                  class="ql-underline"
+                  aria-label="Underline"
+                ></button>
+              </span>
+              <span class="ql-formats">
+                <button class="ql-list" value="ordered"></button>
+                <button class="ql-list" value="bullet"></button>
+              </span>
+            </ng-template>
+          </p-editor>
+        </div>
+      </div>
+
+      <div class="mb-1"></div>
+      <custom-button-submit
+        [disabled]="this.form.invalid || submitting"
+      ></custom-button-submit>
+    </form>
+  </div>
+</div>

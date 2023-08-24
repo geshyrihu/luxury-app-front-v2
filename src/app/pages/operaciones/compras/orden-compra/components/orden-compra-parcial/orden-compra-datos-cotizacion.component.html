@@ -1,0 +1,78 @@
+<button
+  ngbTooltip="Modificar dsatos de cotizacion"
+  placement="bottom"
+  [disabled]="bloqueada"
+  (click)="onModalOrdenCompra()"
+  type="button"
+  class="btn btn-info mb-2 p-1 w-100"
+>
+  Datos Cotización
+</button>
+<table class="table table-sm">
+  <tbody>
+    <tr>
+      <td class="font-weight-light" style="width: 40%">
+        <small> Folio </small>
+      </td>
+      <td class="small font-weight-light" style="width: 60%">
+        {{ ordenCompra.folio }}
+      </td>
+    </tr>
+
+    <tr *ngIf="ordenCompra.folioSolicitudCompra">
+      <td class="font-weight-light" style="width: 40%">
+        <small> Solicitud Compra</small>
+      </td>
+      <td class="font-weight-light" style="width: 60%" class="pointer">
+        <small>
+          <a
+            [routerLink]="[
+              '/operaciones/compras/solicitud-compra/',
+              solicitudCompraId
+            ]"
+          >
+            {{ ordenCompra.folioSolicitudCompra }}
+          </a>
+        </small>
+      </td>
+    </tr>
+
+    <tr>
+      <td class="small font-weight-light" style="width: 40%">
+        Fecha de Solicitud
+      </td>
+      <td class="small font-weight-light" style="width: 70%">
+        {{ ordenCompra.fechaSolicitud | date }}
+      </td>
+    </tr>
+    <tr>
+      <td class="small font-weight-light" style="width: 40%">
+        Equipo o instalación
+      </td>
+      <td class="small font-weight-light" style="width: 70%">
+        {{ ordenCompra.equipoOInstalacion }}
+      </td>
+    </tr>
+    <tr>
+      <td class="small font-weight-light text-justify" style="width: 40%">
+        Justificación del gasto
+      </td>
+      <td class="small font-weight-light text-justify" style="width: 70%">
+        {{ ordenCompra.justificacionGasto }}
+      </td>
+    </tr>
+    <tr>
+      <td class="small font-weight-light" style="width: 40%">Archivos</td>
+      <td class="small font-weight-light" style="width: 60%">
+        <a
+          [href]="ordenCompra.urlFile"
+          target="_blank"
+          *ngIf="ordenCompra.urlFile"
+          class="pointer"
+        >
+          <i class="text-dark fa-duotone fa-cloud" aria-hidden="true"></i>
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>

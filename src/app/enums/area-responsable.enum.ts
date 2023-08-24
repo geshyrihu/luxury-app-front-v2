@@ -1,0 +1,16 @@
+export enum EAreaResponsable {
+  'Administración',
+  'Mantenimiento',
+  'Limpieza',
+  'Seguridad Interna',
+  'SeguridadInterna',
+  'Seguridad Externa',
+  'SeguridadExterna',
+  'Jardineria',
+  'Valet Parking',
+  'ValetParkig',
+  'Conserjería',
+  'Externo',
+  'Ludoteca',
+  'Sistemas',
+}

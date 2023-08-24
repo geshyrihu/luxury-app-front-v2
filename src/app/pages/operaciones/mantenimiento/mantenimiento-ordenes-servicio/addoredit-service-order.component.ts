@@ -1,0 +1,208 @@
+import { CommonModule } from '@angular/common';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { SelectItem } from 'primeng/api';
+import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { EditorModule } from 'primeng/editor';
+import { Subscription } from 'rxjs';
+import { EStatusTask } from 'src/app/enums/estatus.enum';
+import { ETypeMaintance } from 'src/app/enums/tipo-mantenimiento.enum';
+import { onGetEnum } from 'src/app/helpers/enumaraciones';
+import { CustomerIdService } from 'src/app/services/customer-id.service';
+import { DataService } from 'src/app/services/data.service';
+import { DateService } from 'src/app/services/date.service';
+import { SelectItemService } from 'src/app/services/select-item.service';
+import { SwalService } from 'src/app/services/swal.service';
+import { ToastService } from 'src/app/services/toast.service';
+import ComponentsModule, {
+  flatpickrFactory,
+} from 'src/app/shared/components.module';
+import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
+@Component({
+  selector: 'app-addoredit-service-order',
+  templateUrl: './addoredit-service-order.component.html',
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    ComponentsModule,
+    EditorModule,
+    CustomInputModule,
+  ],
+  providers: [ToastService],
+})
+export default class ServiceOrderAddOrEditComponent
+  implements OnInit, OnDestroy
+{
+  public config = inject(DynamicDialogConfig);
+  public customerIdService = inject(CustomerIdService);
+  public dataService = inject(DataService);
+  public dateService = inject(DateService);
+  private formBuilder = inject(FormBuilder);
+  public selectItemService = inject(SelectItemService);
+  public ref = inject(DynamicDialogRef);
+  private swalService = inject(SwalService);
+  private toastService = inject(ToastService);
+
+  submitting: boolean = false;
+  subRef$: Subscription;
+
+  cb_machinery: any[] = [];
+  cb_providers: any[] = [];
+  cb_Status: SelectItem[] = onGetEnum(EStatusTask);
+  cb_TypeMaintance: SelectItem[] = onGetEnum(ETypeMaintance);
+  cb_user_customers: SelectItem[] = [];
+
+  form: FormGroup;
+  id: number = 0;
+  idMachinery: number = null;
+  idProvider: number = null;
+  idUserResponsible: string = null;
+
+  customerId: any;
+
+  ngOnInit(): void {
+    flatpickrFactory();
+    this.customerId = this.customerIdService.getcustomerId();
+    this.id = this.config.data.id;
+    this.idMachinery = this.config.data.machineryId;
+    this.idProvider = this.config.data.providerId;
+    this.onLoadSelectItem();
+    this.onLoadForm();
+    if (this.id !== 0) this.onLoadData();
+  }
+
+  onLoadSelectItem() {
+    this.selectItemService
+      .onGetSelectItem(
+        `MachineriesGetAll/${this.customerIdService.getcustomerId()}`
+      )
+      .subscribe((resp: any) => {
+        this.cb_machinery = resp;
+      });
+
+    this.selectItemService.onGetSelectItem('Providers').subscribe((resp) => {
+      this.cb_providers = resp;
+    });
+
+    this.selectItemService
+      .onGetSelectItem(`GetUserCustomer/${this.customerId}`)
+      .subscribe((resp) => {
+        this.cb_user_customers = resp;
+      });
+  }
+
+  public saveMachineryId(e: any): void {
+    let find = this.cb_machinery.find((x) => x?.label === e.target.value);
+    this.form.patchValue({
+      machineryId: find?.value,
+    });
+  }
+  public saveProviderId(e: any): void {
+    let find = this.cb_providers.find((x) => x?.label === e.target.value);
+    this.form.patchValue({
+      providerId: find?.value,
+    });
+  }
+  public saveResponsibleUserId(e: any): void {
+    let find = this.cb_user_customers.find((x) => x?.label === e.target.value);
+    this.form.patchValue({
+      employeeResponsableId: find?.value,
+    });
+  }
+
+  onLoadForm() {
+    this.form = this.formBuilder.group({
+      id: { value: this.id, disabled: true },
+      machineryId: ['', Validators.required],
+      machinery: ['', Validators.required],
+      activity: ['', [Validators.required]],
+      requestDate: ['', Validators.required],
+      status: ['', [Validators.required]],
+      providerId: ['', Validators.required],
+      provider: ['', Validators.required],
+      price: ['', [Validators.required]],
+      employeeResponsableId: ['', Validators.required],
+      employeeResponsable: ['', Validators.required],
+      typeMaintance: ['', Validators.required],
+      executionDate: [''],
+      observations: [''],
+      cumplimientoActividades: [false, Validators.required],
+      equiposOperando: [false, Validators.required],
+      ocacionoDanos: [false, Validators.required],
+      calidadTrabajos: [false, Validators.required],
+      maintenanceCalendarId: [null],
+    });
+  }
+
+  onLoadData() {
+    this.subRef$ = this.dataService
+      .get(`ServiceOrders/${this.id}`)
+      .subscribe((resp: any) => {
+        resp.body.executionDate = this.dateService.formDateToString(
+          resp.body.executionDate
+        );
+        resp.body.requestDate = this.dateService.formDateToString(
+          resp.body.requestDate
+        );
+        this.form.patchValue(resp.body);
+      });
+  }
+  onSubmit() {
+    if (this.form.invalid) {
+      Object.values(this.form.controls).forEach((x) => {
+        x.markAllAsTouched();
+      });
+      return;
+    }
+    this.id = this.config.data.id;
+    // Deshabilitar el botón al iniciar el envío del formulario
+    this.submitting = true;
+    this.swalService.onLoading();
+
+    if (this.id === 0) {
+      this.subRef$ = this.dataService
+        .post(`ServiceOrders`, this.form.value)
+        .subscribe({
+          next: () => {
+            this.swalService.onClose();
+            this.ref.close(true);
+          },
+          error: (err) => {
+            console.log(err.error);
+            this.toastService.onShowError();
+            // Habilitar el botón nuevamente al finalizar el envío del formulario
+            this.submitting = false;
+            this.swalService.onClose();
+          },
+        });
+    } else {
+      this.subRef$ = this.dataService
+        .put(`ServiceOrders/${this.id}`, this.form.value)
+        .subscribe({
+          next: () => {
+            this.swalService.onClose();
+            this.ref.close(true);
+          },
+          error: (err) => {
+            console.log(err.error);
+            this.toastService.onShowError();
+            // Habilitar el botón nuevamente al finalizar el envío del formulario
+            this.submitting = false;
+            this.swalService.onClose();
+          },
+        });
+    }
+  }
+  get f() {
+    return this.form.controls;
+  }
+  ngOnDestroy() {
+    if (this.subRef$) this.subRef$.unsubscribe();
+  }
+}

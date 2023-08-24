@@ -1,0 +1,72 @@
+<div class="card">
+  <div class="card-body">
+    <form autocomplete="off" (ngSubmit)="onSubmit()" [formGroup]="form">
+      <custom-input-text
+        [control]="form.get('id')"
+        formControlName="id"
+        label="Id"
+      ></custom-input-text>
+      <custom-input-datalist
+        (propagar)="saveMachineryId($event)"
+        [control]="form.get('machinery')"
+        [data]="cb_machinery"
+        formControlName="machinery"
+        label="Equipo/Instalación"
+        dataListId="machineryDatalistOptions"
+      ></custom-input-datalist>
+      <!-- <div class="form-group row mb-3">
+        <label class="col-sm-3">Equipo/Instalación</label>
+        <div class="col-sm-9">
+          <input
+            formControlName="machinery"
+            class="form-control"
+            list="machineryDatalistOptions"
+            id="machineryDataList"
+            placeholder="Escribir para buscar..."
+            (change)="saveMachineryId($event)"
+            [ngClass]="{
+              'is-invalid':
+                f.machinery.errors && (f.machinery.dirty || f.machinery.touched)
+            }"
+          />
+
+          <datalist id="machineryDatalistOptions">
+            <option
+              [value]="item.label"
+              *ngFor="let item of cb_machinery"
+            ></option>
+          </datalist>
+
+          <div
+            *ngIf="
+              f.machinery.invalid && (f.machinery.dirty || f.machinery.touched)
+            "
+            class="text-danger small"
+          >
+            <p *ngIf="f.machinery.errors.required">Campo requerido</p>
+          </div>
+        </div>
+      </div> -->
+      <custom-input-datalist
+        (propagar)="saveProductoId($event)"
+        [control]="form.get('producto')"
+        [data]="cb_producto"
+        formControlName="producto"
+        label="Producto"
+        dataListId="productoDatalistOptions"
+      ></custom-input-datalist>
+      <custom-input-text
+        [control]="form.get('area')"
+        formControlName="area"
+        label="Area"
+        placeholder="area"
+      ></custom-input-text>
+
+      <div class="col-12 text-left">
+        <custom-button-submit
+          [disabled]="this.form.invalid || submitting"
+        ></custom-button-submit>
+      </div>
+    </form>
+  </div>
+</div>

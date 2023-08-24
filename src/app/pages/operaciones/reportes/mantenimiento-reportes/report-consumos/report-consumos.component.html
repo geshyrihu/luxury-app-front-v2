@@ -1,0 +1,8 @@
+<div class="card breakPage" *ngFor="let item of medidores">
+  <app-pagetitlereport title="CONSUMOS"></app-pagetitlereport>
+  <!-- <app-custom-bar-chart
+    [labels]="item.labels"
+    [dataSets]="item.dataSets"
+  ></app-custom-bar-chart> -->
+  <app-multi-axis-chart [data]="item"></app-multi-axis-chart>
+</div>

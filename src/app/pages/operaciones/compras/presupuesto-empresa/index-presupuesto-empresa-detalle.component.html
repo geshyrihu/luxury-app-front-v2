@@ -1,0 +1,115 @@
+<!-- <p-toast position="top-left" [baseZIndex]="99999"></p-toast>
+
+<div class="card" *ngIf="data && totales">
+  <p-table
+    #dt
+    [value]="data"
+    [(selection)]="data"
+    sortField="cuenta.descripcion"
+    sortMode="single"
+    rowGroupMode="subheader"
+    groupRowsBy="cuenta.descripcion"
+    responsiveLayout="scroll"
+    [globalFilterFields]="['cuenta.descripcion', 'compraSubCuenta']"
+  >
+    <ng-template pTemplate="caption">
+      <app-table-header
+        [title]="'presupuesto: ' + presupuesto"
+        (add)="
+          onModalAddOrEditPresupuestoEmpresaDetalle({
+            id: 0,
+            title: 'Nuevo Registro'
+          })
+        "
+        [dt]="dt"
+      ></app-table-header>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th scope="col" style="width: 15%" pSortableColumn="compraSubCuenta">
+          Cuenta
+          <p-sortIcon field="compraSubCuenta"></p-sortIcon>
+        </th>
+        <th scope="col" style="width: 10%" pSortableColumn="presupuestoMensual">
+          Mensual<p-sortIcon field="presupuestoMensual"></p-sortIcon>
+        </th>
+        <th
+          scope="col"
+          style="width: 10%"
+          pSortableColumn="presupuestoEjercido"
+        >
+          Ejercido<p-sortIcon field="presupuestoEjercido"></p-sortIcon>
+        </th>
+        <th scope="col" style="width: 10%" pSortableColumn="vigencia">
+          Acumulado<p-sortIcon field="vigencia"></p-sortIcon>
+        </th>
+        <th scope="col" style="width: 10%" pSortableColumn="vigencia">
+          Disponible<p-sortIcon field="vigencia"></p-sortIcon>
+        </th>
+        <th scope="col" style="width: 10%" pSortableColumn="vigencia">
+          Total<p-sortIcon field="vigencia"></p-sortIcon>
+        </th>
+        <th scope="col" style="width: 10%" pSortableColumn="vigencia">
+          Restante a vigencia<p-sortIcon field="vigencia"></p-sortIcon>
+        </th>
+        <th scope="col" style="width: 5%">Opciones</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="groupheader" let-data>
+      <tr pRowGroupHeader>
+        <td colspan="8">{{ data.cuenta.descripcion }}</td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="footer">
+      <tr>
+        <td>Totales.</td>
+        <td>{{ totales.totalPresupuestoMensual }}</td>
+        <td>{{ totales.totalPresupuestoEjercido }}</td>
+        <td>{{ totales.totalPresupuestoAcumulado }}</td>
+        <td>{{ totales.totalPresupuestoDisponible }}</td>
+        <td>{{ totales.totalPresupuestoAnual }}</td>
+        <td>{{ totales.totalPresupuestoRestanteAnio }}</td>
+        <td></td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-item>
+      <tr>
+        <td class="p-column-title">
+          <p>{{ item.compraSubCuenta }}</p>
+        </td>
+        <td class="p-column-title">
+          {{ item.presupuestoMensual }}
+        </td>
+        <td class="p-column-title">
+          {{ item.presupuestoEjercido }}
+        </td>
+        <td class="p-column-title">
+          {{ item.presupuestoAcumulado }}
+        </td>
+        <td class="p-column-title">
+          {{ item.presupuestoDisponible }}
+        </td>
+
+        <td class="p-column-title">
+          {{ item.presupuestoAnual }}
+        </td>
+        <td class="p-column-title">
+          {{ item.presupuestoRestanteAnio }}
+        </td>
+        <td class="p-column-title">
+          <div class="d-flex justify-content-center">
+            <custom-button-edit
+              (edit)="
+                onModalAddOrEditPresupuestoEmpresaDetalle({
+                  id: item.id,
+                  title: 'Editar Registro'
+                })
+              "
+            ></custom-button-edit>
+            <custom-button-delete (OnConfirm)="onDelete(item)"></custom-button-delete>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div> -->

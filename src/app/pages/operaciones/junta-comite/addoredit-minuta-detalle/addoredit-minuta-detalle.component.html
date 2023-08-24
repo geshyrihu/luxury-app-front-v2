@@ -1,0 +1,76 @@
+<div class="card">
+  <div class="card-body">
+    <form autocomplete="off" (ngSubmit)="onSubmit()" [formGroup]="form">
+      <custom-input-text
+        [control]="form.get('id')"
+        formControlName="id"
+        label="Id"
+        [horizontal]="false"
+      ></custom-input-text>
+
+      <custom-input-select
+        [control]="form.get('eAreaMinutasDetalles')"
+        formControlName="eAreaMinutasDetalles"
+        label="Area"
+        [data]="cb_area"
+        [horizontal]="false"
+      ></custom-input-select>
+
+      <custom-input-text
+        [control]="form.get('title')"
+        formControlName="title"
+        label="Título"
+        placeholder="titulo"
+        [horizontal]="false"
+      ></custom-input-text>
+      <div class="form-group mb-2">
+        <label class="form-label">Asunto</label>
+        <p-editor
+          formControlName="requestService"
+          [style]="{ height: '200px' }"
+        >
+          <ng-template pTemplate="header">
+            <label class="form-label" class="ql-formats">
+              <button type="button" class="ql-bold" aria-label="Bold"></button>
+              <button class="ql-italic" aria-label="Italic"></button>
+              <button class="ql-underline" aria-label="Underline"></button>
+              <button
+                type="button"
+                class="ql-format-separator"
+                aria-label="format-separator"
+              ></button>
+            </label>
+            <span
+              class="ql-formats"
+              ngbPopover="Alignment"
+              triggers="mouseenter:mouseleave"
+            >
+              <select class="ql-align">
+                <option selected></option>
+                <option value="center"></option>
+                <option value="justify"></option>
+                <option value="right"></option>
+              </select>
+            </span>
+            <label class="form-label" class="ql-formats">
+              <button class="ql-list" value="ordered"></button>
+              <button class="ql-list" value="bullet"></button>
+            </label>
+          </ng-template>
+        </p-editor>
+      </div>
+
+      <custom-input-select
+        [control]="form.get('status')"
+        formControlName="status"
+        label="Estatus"
+        [data]="cb_estatus"
+        [horizontal]="false"
+      ></custom-input-select>
+
+      <custom-button-submit
+        [disabled]="this.form.invalid || submitting"
+      ></custom-button-submit>
+    </form>
+  </div>
+</div>

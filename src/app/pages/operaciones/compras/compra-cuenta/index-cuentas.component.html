@@ -1,0 +1,108 @@
+<!-- <p-toast position="top-left" [baseZIndex]="99999"></p-toast>
+
+<div class="p-card p-mb-5">
+  <p-table
+    #dt
+    [autoLayout]="true"
+    [globalFilterFields]="['numeroCuenta', 'descripcion']"
+    [paginator]="true"
+    [rowHover]="true"
+    [rows]="100"
+    [rowsPerPageOptions]="[100, 200]"
+    [showCurrentPageReport]="true"
+    [value]="data"
+    currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
+    styleClass="custom-table"
+  >
+    <ng-template pTemplate="caption">
+      <app-table-header
+        [title]="'Cuentas'"
+        (add)="onModalAddOrEditCuenta({ id: 0, title: 'Nuevo Registro' })"
+        [dt]="dt"
+      ></app-table-header>
+    </ng-template>
+
+    <ng-template pTemplate="header">
+      <tr>
+        <th colspan="3" scope="col" pSortableColumn="numeroCuenta">
+          Numero de Cuenta
+          <p-sortIcon field="numeroCuenta"></p-sortIcon>
+        </th>
+        <th scope="col" pSortableColumn="descripcion">
+          Descripción<p-sortIcon field="descripcion"></p-sortIcon>
+        </th>
+        <th scope="col" style="width: 5%">Opciones</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-item let-i="rowIndex">
+      <tr style="background-color: #5d6d7e; color: white">
+        <td colspan="3">
+          {{ item.numeroCuenta }}
+        </td>
+        <td>
+          {{ item.descripcion | titlecase }}
+        </td>
+        <td>
+          <div class="d-flex justify-content-center">
+            <button
+              pTooltip="Agregar Subcuenta"
+              tooltipPosition="top"
+              class="btn btn-sm bg-gradient-primary text-white-50 ml-1"
+              (click)="
+                onModalAddOrEditSubCuenta({
+                  id: 0,
+                  compraCuentaId: item.id,
+                  title: ''
+                })
+              "
+            >
+              <i class="fa-duotone fa-plus fa-1x" aria-hidden="true"></i>
+            </button>
+
+            <custom-button-edit
+              (edit)="
+                onModalAddOrEditCuenta({
+                  id: item.id,
+                  title: 'Editar Registro'
+                })
+              "
+            ></custom-button-edit>
+            <custom-button-delete (OnConfirm)="onDelete(item)"></custom-button-delete>
+          </div>
+        </td>
+      </tr>
+      <tr *ngFor="let items of item.compraSubCuenta; let index = index">
+        <td colspan="2"></td>
+        <td>
+          {{ items.numeroCuenta }}
+        </td>
+        <td>
+          {{ items.descripcion | titlecase }}
+        </td>
+        <td class="hide-print-mode">
+          <div class="d-flex justify-content-center">
+            <custom-button-edit
+              (edit)="
+                onModalAddOrEditSubCuenta({
+                  id: items.id,
+                  title: 'Editar Registro'
+                })
+              "
+            ></custom-button-edit>
+            <custom-button-delete
+              (OnConfirm)="onDeleteSubCuenta(items)"
+            ></custom-button-delete>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="paginatorleft">
+      <div class="p-d-flex p-ai-center p-jc-between 
+ hide-print-mode">
+        En total hay
+        {{ data ? data.length : 0 }} registros.
+      </div>
+    </ng-template>
+  </p-table>
+</div> -->

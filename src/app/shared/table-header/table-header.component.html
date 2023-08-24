@@ -1,0 +1,20 @@
+<div class="row">
+  <div class="col-sm-8" [ngClass]="{ 'col-sm-9': !showAdd || !rolAuth }">
+    <h4 class="mb-sm-0 font-size-18">{{ title }}</h4>
+  </div>
+  <div class="col-sm-3 hide-print-mode">
+    <input
+      *ngIf="showSearch || isDataView"
+      type="text"
+      (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+      placeholder="Ingresa texto para buscar..."
+      class="form-control w-100"
+    />
+  </div>
+  <div class="col-sm-1 hide-print-mode">
+    <custom-button-add
+      *ngIf="showAdd && rolAuth"
+      (clicked)="onAdd($event)"
+    ></custom-button-add>
+  </div>
+</div>

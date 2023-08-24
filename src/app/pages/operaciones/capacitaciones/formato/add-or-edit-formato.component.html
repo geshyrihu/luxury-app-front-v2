@@ -1,0 +1,100 @@
+<div class="card">
+  <div class="card-body">
+    <form autocomplete="off" (ngSubmit)="onSubmit()" [formGroup]="form">
+      <custom-input-text
+        [control]="form.get('id')"
+        formControlName="id"
+        label="Id"
+      ></custom-input-text>
+      <!-- <div class="form-group row mb-1">
+        <label class="col-sm-3">Folio</label>
+        <div class="col-sm-9">
+          <input
+            class="form-control"
+            formControlName="folio"
+            placeholder="Ingrese el folio"
+            [class.is-invalid]="
+              f.folio.invalid && (f.folio.dirty || f.folio.touched)
+            "
+          />
+          <div *ngIf="f.folio.invalid && (f.folio.dirty || f.folio.touched)">
+            <small *ngIf="f.folio.errors.required" class="text-danger"
+              >El campo es reqerido.</small
+            >
+          </div>
+        </div>
+      </div> -->
+
+      <custom-input-text
+        [control]="form.get('folio')"
+        formControlName="folio"
+        label="Folio "
+        placeholder="folio "
+      ></custom-input-text>
+
+      <!-- <div class="form-group row mb-1">
+        <label class="col-sm-3">Descripción</label>
+        <div class="col-sm-9">
+          <input
+            class="form-control"
+            formControlName="descripcion"
+            placeholder="Ingrese el nombre"
+            [class.is-invalid]="
+              f.descripcion.invalid &&
+              (f.descripcion.dirty || f.descripcion.touched)
+            "
+          />
+          <div
+            *ngIf="
+              f.descripcion.invalid &&
+              (f.descripcion.dirty || f.descripcion.touched)
+            "
+          >
+            <small *ngIf="f.descripcion.errors.required" class="text-danger"
+              >El campo es reqerido.</small
+            >
+          </div>
+        </div>
+      </div> -->
+
+      <custom-input-text
+        [control]="form.get('descripcion')"
+        formControlName="descripcion"
+        label="Descripción "
+        placeholder="descripción "
+      ></custom-input-text>
+
+      <div class="form-group row mb-2">
+        <label class="col-sm-3">Documento</label>
+        <div class="col-sm-9">
+          <input
+            type="file"
+            (change)="uploadFile($event)"
+            class="form-control"
+          />
+        </div>
+      </div>
+      <!-- <div class="form-group row mb-2">
+        <label class="col-sm-3">Documento Actual</label>
+        <div class="col-sm-9">
+          <input
+            readonly
+            formControlName="pathFormato"
+            type="text"
+            class="form-control"
+          />
+        </div>
+      </div> -->
+      <custom-input-text
+        [control]="form.get('pathFormato')"
+        formControlName="pathFormato"
+        label="Documento Actual"
+        [readonly]="true"
+        placeholder="documento actual"
+      ></custom-input-text>
+      <custom-button-submit
+        [disabled]="this.form.invalid || submitting"
+      ></custom-button-submit>
+    </form>
+  </div>
+</div>

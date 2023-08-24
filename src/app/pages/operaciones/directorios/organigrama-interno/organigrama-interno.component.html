@@ -1,0 +1,55 @@
+<div class="container-fluid horizontal-scrollable">
+  <div class="row">
+    <div class="col">
+      <ng-container *ngIf="tree">
+        <angular-org-chart
+          [nodeTemplate]="nodeTemplate"
+          [data]="tree"
+          #exampleChart="orgChart"
+        >
+     
+        </angular-org-chart>
+
+        <ng-template #nodeTemplate let-node style="width: 150px; height: 60px">
+          <div class="chart-node">
+            <img class="rounded avatar-md" [src]="baseUrlImg + node?.image" />
+            <div class="name text-truncate small">{{ node?.name }}</div>
+            <div class="description text-truncate small">
+              {{ node?.description }}
+            </div>
+            <div
+              *ngIf="node.children.length"
+              (click)="node.hideChildren = !node.hideChildren"
+              class="tree-fold-btn"
+            >
+              {{ node.hideChildren ? "+" : "-" }}
+            </div>
+          </div>
+        </ng-template>
+        <style>
+          :host {
+            display: block;
+            text-align: center;
+            padding: 64px;
+          }
+
+          .zoom-button {
+            padding: 0;
+            margin: 0;
+            border-radius: 50%;
+            text-align: center;
+            width: 40px;
+            height: 40px;
+            overflow: hidden;
+          }
+        </style>
+      </ng-container>
+    </div>
+  </div>
+</div>
+<style>
+  .horizontal-scrollable > .row {
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+</style>

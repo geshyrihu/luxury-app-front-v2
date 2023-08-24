@@ -1,0 +1,133 @@
+<!-- <div class="card">
+  <div class="card-body">
+    <form autocomplete="off" (ngSubmit)="onSubmit()" [formGroup]="form">
+      <div class="form-group row mb-2">
+        <label class="col-sm-3 font-weight-normal">Fecha de Solicitud</label>
+        <div class="col-sm-9">
+          <input
+            class="form-control flatpickr-input"
+            type="text"
+            formControlName="birth"
+            mwlFlatpickr
+            [altInput]="true"
+            monthSelectorType="dropdown"
+            [convertModelValue]="true"
+            formControlName="fechaSolicitud"
+            [class.is-invalid]="
+              f.fechaSolicitud.invalid &&
+              (f.fechaSolicitud.dirty || f.fechaSolicitud.touched)
+            "
+          />
+          <div
+            *ngIf="
+              f.fechaSolicitud.invalid &&
+              (f.fechaSolicitud.dirty || f.fechaSolicitud.touched)
+            "
+          >
+            <span *ngIf="f.fechaSolicitud.errors.required" class="text-danger"
+              >El campo Código es reqerido.</span
+            >
+          </div>
+        </div>
+      </div>
+      <div class="form-group row mb-2">
+        <label class="col-sm-3 font-weight-normal"
+          >Equipo Area o Instalación</label
+        >
+        <div class="col-sm-9">
+          <textarea
+            class="form-control"
+            inputId="textarea"
+            formControlName="equipoOInstalacion"
+            [class.is-invalid]="
+              f.equipoOInstalacion.invalid &&
+              (f.equipoOInstalacion.dirty || f.equipoOInstalacion.touched)
+            "
+          ></textarea>
+          <div
+            *ngIf="
+              f.equipoOInstalacion.invalid &&
+              (f.equipoOInstalacion.dirty || f.equipoOInstalacion.touched)
+            "
+          >
+            <span
+              *ngIf="f.equipoOInstalacion.errors.required"
+              class="text-danger"
+              >El campo Código es reqerido.</span
+            >
+          </div>
+        </div>
+      </div>
+      <div class="form-group row mb-2">
+        <label class="col-sm-3 font-weight-normal"
+          >Justificación del Gasto</label
+        >
+        <div class="col-sm-9">
+          <textarea
+            class="form-control"
+            inputId="textarea"
+            formControlName="justificacionGasto"
+            [class.is-invalid]="
+              f.justificacionGasto.invalid &&
+              (f.justificacionGasto.dirty || f.justificacionGasto.touched)
+            "
+          ></textarea>
+          <div
+            *ngIf="
+              f.justificacionGasto.invalid &&
+              (f.justificacionGasto.dirty || f.justificacionGasto.touched)
+            "
+          >
+            <span
+              *ngIf="f.justificacionGasto.errors.required"
+              class="text-danger"
+              >El campo Código es reqerido.</span
+            >
+          </div>
+        </div>
+      </div>
+      <div class="form-group row mb-2">
+        <label class="col-sm-3 font-weight-normal">Archivos</label>
+        <div class="col-sm-9">
+          <input type="text" class="form-control" formControlName="urlFile" />
+        </div>
+      </div>
+      <custom-button-submit [disabled]="form.invalid || submitting"></custom-button-submit>
+    </form>
+  </div>
+</div> -->
+<form autocomplete="off" (ngSubmit)="onSubmit()" [formGroup]="form">
+  <custom-input-date
+    [control]="form.get('fechaSolicitud')"
+    formControlName="fechaSolicitud"
+    label="Fecha de solicitud"
+    placeholder="fecha de solicitud"
+  ></custom-input-date>
+
+  <custom-input-text-area
+    [control]="form.get('equipoOInstalacion')"
+    formControlName="equipoOInstalacion"
+    label="Area"
+    placeholder="area"
+    [horizontal]="false"
+  ></custom-input-text-area>
+
+  <custom-input-text-area
+    [control]="form.get('justificacionGasto')"
+    formControlName="justificacionGasto"
+    label="Justificación"
+    placeholder="justificación"
+    [horizontal]="false"
+  ></custom-input-text-area>
+
+  <custom-input-text
+    [control]="form.get('urlFile')"
+    formControlName="urlFile"
+    label="Liga de luxuryCloud"
+    placeholder="Liga de luxuryCloud"
+  ></custom-input-text>
+
+  <custom-button-submit
+    [disabled]="form.invalid || submitting"
+  ></custom-button-submit>
+</form>

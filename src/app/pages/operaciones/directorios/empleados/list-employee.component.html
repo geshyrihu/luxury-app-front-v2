@@ -1,0 +1,194 @@
+<p-toast position="top-left" [baseZIndex]="99999"></p-toast>
+
+<div class="card">
+  <p-table
+    #dt
+    [value]="data"
+    sortField="areaResponsable.nameArea"
+    sortMode="single"
+    rowGroupMode="subheader"
+    groupRowsBy="areaResponsable.nameArea"
+    [globalFilterFields]="[
+      'correoPersonal',
+      'fullName',
+      'celularPersonal',
+      'profession'
+    ]"
+    styleClass="custom-table"
+  >
+    <ng-template pTemplate="caption">
+      <app-table-header
+        [title]="'DIRECTORIO DE PERSONAL ' + tipoContrato | uppercase"
+        (add)="showModalAddAccount()"
+        [dt]="dt"
+        [rolAuth]="
+          authService.onValidateRoles([
+            'Asistente',
+            'Residente',
+            'SuperUsuario'
+          ])
+        "
+      ></app-table-header>
+      <br />
+      <div class="row">
+        <custom-button-active-desactive
+          (activo)="onSelectActive($event)"
+          (inactivo)="onSelectActive($event)"
+        ></custom-button-active-desactive>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th
+          colspan="2"
+          scope="col"
+          style="width: 30%"
+          pSortableColumn="fullName"
+        >
+          EMPLEADO
+          <p-sortIcon field="fullName"></p-sortIcon>
+        </th>
+        <th scope="col" style="width: 30%" pSortableColumn="email">
+          EMAIL
+          <p-sortIcon field="email"></p-sortIcon>
+        </th>
+        <th
+          scope="col"
+          style="width: 30%"
+          pSortableColumn="areaResponsable.position"
+        >
+          PUESTO
+          <p-sortIcon field="areaResponsable.position"></p-sortIcon>
+        </th>
+        <th
+          scope="col"
+          style="width: 30%"
+          pSortableColumn="celularPersonal"
+          class="hide-print-mode"
+        >
+          TÉLEFONO
+
+          <p-sortIcon field="celularPersonal"></p-sortIcon>
+        </th>
+        <th
+          *ngIf="
+            authService.onValidateRoles([
+              'Asistente',
+              'Residente',
+              'SuperUsuario'
+            ])
+          "
+          scope="col"
+          style="width: 5%"
+        ></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="groupheader" let-item>
+      <tr pRowGroupHeader>
+        <td colspan="6">
+          <span class="font-bold ml-2">{{
+            item.areaResponsable.nameArea
+          }}</span>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="groupfooter" let-item>
+      <tr>
+        <td colspan="6" class="text-right font-bold pr-6">
+          Total: {{ calculateItemTotal(item.areaResponsable.nameArea) }}
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-item let-rowIndex="rowIndex">
+      <tr>
+        <td>
+          <img [src]="url + item.photoPath" alt="" class="rounded avatar-sm" />
+        </td>
+        <td>
+          {{ item.fullName }}
+        </td>
+        <td>
+          {{ item.correoPersonal }}
+        </td>
+        <td>
+          {{ item.profession }}
+        </td>
+        <td>
+          {{ item.celularPersonal }}
+        </td>
+        <td
+          class="p-column-title hide-print-mode"
+          *ngIf="
+            authService.onValidateRoles([
+              'Asistente',
+              'Residente',
+              'SuperUsuario'
+            ])
+          "
+        >
+          <div class="d-flex justify-content-center">
+            <custom-button
+              ngbTooltip="Contactos de Emergencia"
+              [customClass]="'btn-sm btn-outline-success '"
+              icon="fa-duotone fa-id-card-clip text-warning"
+              (clicked)="
+                showModalcontactEmployee(item, 'Contactos de emergencia ')
+              "
+            ></custom-button>
+            <custom-button-edit
+              *ngIf="item.employee"
+              (edit)="
+                showModalAddOrEdit({
+                  id: item.employee.id,
+                  title: 'Editar Registro'
+                })
+              "
+            ></custom-button-edit>
+
+            <custom-button
+              ngbTooltip="Actualizar imagen"
+              [customClass]="'btn-sm btn-outline-info'"
+              icon="fa-duotone fa-camera text-info"
+              (clicked)="showModalAddOrEditDataPrincipal(item.id)"
+            ></custom-button>
+
+            <custom-button-confirmation
+              (OnConfirm)="onBlockEmployee(item.id)"
+              [mostrar]="activo"
+              classButton="btn btn-sm btn-outline-danger me-1"
+              confirmButtonText="Sí"
+              icon="fa-duotone fa-user-xmark"
+              label=""
+              text="Se va dar de baja al empleado"
+              title="Dar de baja"
+              tooltipText="Dar de baja"
+            ></custom-button-confirmation>
+            <custom-button-confirmation
+              (OnConfirm)="onBlockEmployee(item.id)"
+              [mostrar]="!activo"
+              classButton="btn btn-sm btn-outline-success me-1"
+              confirmButtonText="Sí"
+              icon="fa-duotone fa-user-xmark"
+              label=""
+              text="Se va dar de alta al empleado"
+              title="Dar de alta"
+              tooltipText="Dar de alta"
+            ></custom-button-confirmation>
+
+            <custom-button-edit
+              (edit)="
+                showModalAddOrEdit({
+                  id: item.id,
+                  title: 'Agregar Datos'
+                })
+              "
+            ></custom-button-edit>
+            <custom-button-delete
+              (OnConfirm)="onDelete(item)"
+            ></custom-button-delete>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

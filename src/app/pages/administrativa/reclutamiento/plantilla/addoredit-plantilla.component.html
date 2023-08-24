@@ -1,0 +1,195 @@
+<div class="card" *ngIf="this.form">
+  <div class="card-body">
+    <form autocomplete="off" (ngSubmit)="onSubmit()" [formGroup]="form">
+      <!-- Id -->
+
+      <custom-input-text
+        [control]="form.get('id')"
+        formControlName="id"
+        label="Id"
+        placeholder="id"
+      ></custom-input-text>
+
+      <!-- Id -->
+      <!-- Profesion -->
+      <!-- <custom-input-text
+        [control]="form.get('professionName')"
+        formControlName="professionName"
+        label="Profesion"
+        placeholder="Profesion"
+        [readonly]="authService.onValidateRoles(['Residente', 'Asistente'])"
+      ></custom-input-text> -->
+
+      <!-- *ngIf="authService.onValidateRoles(['SuperUsuario'])" -->
+      <custom-input-datalist
+        (propagar)="saveprofessionIdId($event)"
+        [control]="form.get('professionName')"
+        [data]="cb_profession"
+        formControlName="professionName"
+        label="Profesion"
+        dataListId="professionNameDatalistOptions"
+      ></custom-input-datalist>
+
+      <!-- Profesion -->
+
+      <!-- Empleado -->
+      <custom-input-datalist
+        (propagar)="saveemployeeIdId($event)"
+        [control]="form.get('employeeName')"
+        [data]="cb_employee"
+        formControlName="employeeName"
+        label="Empleado"
+        dataListId="employeeNameDatalistOptions"
+      ></custom-input-datalist>
+      <!-- Empleado -->
+
+      <!-- Sueldo -->
+
+      <custom-input-number
+        [control]="form.get('sueldo')"
+        formControlName="sueldo"
+        label="Sueldo"
+        placeholder="sueldo"
+      ></custom-input-number>
+      <!-- Sueldo -->
+
+      <!-- Horarios -->
+
+      <custom-input-select
+        [control]="form.get('turnoTrabajo')"
+        formControlName="turnoTrabajo"
+        label="Turno de trabajo"
+        [data]="cb_turnoTrabajo"
+      ></custom-input-select>
+
+      <div class="form-group row mb-2">
+        <label class="font-weight-lighter col-sm-4">Lunes</label>
+        <div class="col-sm-4">
+          <input
+            formControlName="lunesEntrada"
+            class="form-control"
+            type="time"
+          />
+        </div>
+        <div class="col-sm-4">
+          <input
+            class="form-control"
+            formControlName="lunesSalida"
+            type="time"
+          />
+        </div>
+      </div>
+      <div class="form-group row mb-2">
+        <label class="font-weight-lighter col-sm-4">Martes</label>
+        <div class="col-sm-4">
+          <input
+            class="form-control"
+            formControlName="martesEntrada"
+            type="time"
+          />
+        </div>
+        <div class="col-sm-4">
+          <input
+            class="form-control"
+            formControlName="martesSalida"
+            type="time"
+          />
+        </div>
+      </div>
+      <div class="form-group row mb-2">
+        <label class="font-weight-lighter col-sm-4">Miercoles</label>
+        <div class="col-sm-4">
+          <input
+            class="form-control"
+            formControlName="miercolesEntrada"
+            type="time"
+          />
+        </div>
+        <div class="col-sm-4">
+          <input
+            class="form-control"
+            formControlName="miercolesSalida"
+            type="time"
+          />
+        </div>
+      </div>
+      <div class="form-group row mb-2">
+        <label class="font-weight-lighter col-sm-4">Jueves</label>
+        <div class="col-sm-4">
+          <input
+            class="form-control"
+            formControlName="juevesEntrada"
+            type="time"
+          />
+        </div>
+        <div class="col-sm-4">
+          <input
+            class="form-control"
+            formControlName="juevesSalida"
+            type="time"
+          />
+        </div>
+      </div>
+      <div class="form-group row mb-2">
+        <label class="font-weight-lighter col-sm-4">Viernes</label>
+        <div class="col-sm-4">
+          <input
+            class="form-control"
+            formControlName="viernesEntrada"
+            type="time"
+          />
+        </div>
+        <div class="col-sm-4">
+          <input
+            class="form-control"
+            formControlName="viernesSalida"
+            type="time"
+          />
+        </div>
+      </div>
+      <div class="form-group row mb-2">
+        <label class="font-weight-lighter col-sm-4">Sabado</label>
+        <div class="col-sm-4">
+          <input
+            class="form-control"
+            formControlName="sabadoEntrada"
+            type="time"
+          />
+        </div>
+        <div class="col-sm-4">
+          <input
+            class="form-control"
+            formControlName="sabadoSalida"
+            type="time"
+          />
+        </div>
+      </div>
+      <div class="form-group row mb-2">
+        <label class="font-weight-lighter col-sm-4">Domingo</label>
+        <div class="col-sm-4">
+          <input
+            class="form-control"
+            formControlName="domingoEntrada"
+            type="time"
+          />
+        </div>
+        <div class="col-sm-4">
+          <input
+            class="form-control"
+            formControlName="domingoSalida"
+            type="time"
+          />
+        </div>
+      </div>
+      <custom-input-select
+        [control]="form.get('state')"
+        formControlName="state"
+        label="Posición activa"
+        [data]="cb_state"
+      ></custom-input-select>
+      <custom-button-submit
+        [disabled]="this.form.invalid || submitting"
+      ></custom-button-submit>
+    </form>
+  </div>
+</div>

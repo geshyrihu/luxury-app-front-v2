@@ -1,0 +1,240 @@
+<ng-container *ngIf="data">
+  <div class="row">
+    <div class="col-sm-7">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm order-2 order-sm-1">
+              <div class="d-flex align-items-start mt-3 mt-sm-0">
+                <div class="flex-shrink-0">
+                  <div class="avatar-xl me-3">
+                    <img
+                      [src]="
+                        baseUrlImg +
+                        'Administration/customer/' +
+                        data.cliente.photoPath
+                      "
+                      alt=""
+                      class="rounded avatar-lg"
+                    />
+                  </div>
+                </div>
+                <div class="flex-grow-1">
+                  <div>
+                    <h5 class="font-size-16 mb-1">
+                      {{ data.cliente.nameCustomer }}
+                    </h5>
+                    <p class="text-muted font-size-13">
+                      {{ data.cliente.adreess }}
+                    </p>
+
+                    <div
+                      class="d-flex flex-wrap align-items-start gap-2 gap-lg-3 text-muted font-size-13"
+                    >
+                      <div>
+                        <i
+                          class="mdi mdi-circle-medium me-1 text-success align-middle"
+                        ></i
+                        >{{ data.cliente.phoneOne }}
+                      </div>
+                      <div>
+                        <i
+                          class="mdi mdi-circle-medium me-1 text-success align-middle"
+                        ></i>
+                        {{ data.cliente.phoneTwo }}
+                      </div>
+                      <div>
+                        <i
+                          class="mdi mdi-circle-medium me-1 text-success align-middle"
+                        ></i>
+                        {{ data.torres }} Torres
+                      </div>
+                      <div>
+                        <i
+                          class="mdi mdi-circle-medium me-1 text-success align-middle"
+                        ></i>
+                        {{ data.departamentos }} Departamentos
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-auto order-1 order-sm-2">
+              <div class="d-flex align-items-start justify-content-end gap-2">
+                <div>
+                  <p class="text-muted font-size-13">
+                    {{ data.cliente.rfc }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <p-table
+          [value]="data.empleadosAdministracion"
+          styleClass="custom-table"
+        >
+          <ng-template pTemplate="header">
+            <tr>
+              <th colspan="5" scope="col">Personal Operativo Administrativo</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-item>
+            <tr>
+              <td>
+                <img
+                  [src]="baseUrlImg + item.photoEmployee"
+                  alt=""
+                  class="rounded avatar-sm"
+                />
+              </td>
+              <td>{{ item.nameEmployee }}</td>
+              <td>{{ item.profession }}</td>
+              <td>{{ item.email }}</td>
+              <td>{{ item.phoneNumber }}</td>
+            </tr>
+          </ng-template>
+        </p-table>
+        <!-- <div class="card-body">
+          <table class="table table-sm">
+            <thead>
+              <tr>
+                <th colspan="5" scope="col">
+                  Personal Operativo Administrativo
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of data.empleadosAdministracion">
+                <th>
+                  <img
+                    [src]="baseUrlImg + item.photoEmployee"
+                    alt=""
+                    class="rounded avatar-sm"
+                  />
+                </th>
+                <td>{{ item.nameEmployee }}</td>
+                <td>{{ item.profession }}</td>
+                <td>{{ item.email }}</td>
+                <td>{{ item.phoneNumber }}</td>
+              </tr>
+            </tbody>
+          </table> -->
+        <!-- </div> -->
+      </div>
+    </div>
+    <div class="col-sm-5">
+      <div class="card">
+        <div class="card-header">Ubicación</div>
+        <div class="card-body">
+          <app-map-box
+            [longitud]="data.cliente.latitud"
+            [latitud]="data.cliente.longitud"
+          ></app-map-box>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <h4 class="h4">Amenidades</h4>
+    <div class="col-2 p-1" *ngFor="let item of data.amenidades">
+      <p class="text-muted font-size-13 text-truncate">
+        {{ item.nombreEquipo }}
+      </p>
+      <img
+        (click)="showModalFichatecnica(item)"
+        class="rounded me-2 pointer"
+        alt="200x200"
+        width="100%"
+        height="150px"
+        [src]="baseUrlImg + item.imagen"
+        data-holder-rendered="true"
+      />
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-3">
+      <div class="card-header">Amenidades</div>
+      <div class="card">
+        <div class="card-body">
+          <i class="fa-duotone fa-address-book"></i>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <div class="card-header">Equipos Eelctromecanicos</div>
+      <div class="card">
+        <div class="card-body">
+          <i class="fa-duotone fa-address-book"></i>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <div class="card-header">Torres</div>
+      <div class="card">
+        <div class="card-body">
+          <i class="fa-duotone fa-address-book"></i>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <div class="card-header">Departamentos</div>
+      <div class="card">
+        <div class="card-body">
+          <i class="fa-duotone fa-address-book"></i>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <div class="card-header">Personal de Mantenimiento</div>
+      <div class="card">
+        <div class="card-body">
+          <i class="fa-duotone fa-address-book"></i>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <div class="card-header">Personal de Limpieza</div>
+      <div class="card">
+        <div class="card-body">
+          <i class="fa-duotone fa-address-book"></i>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <div class="card-header">Personal de Limpieza</div>
+      <div class="card">
+        <div class="card-body">
+          <i class="fa-duotone fa-address-book"></i>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <div class="card-header">Seguridad</div>
+      <div class="card">
+        <div class="card-body">
+          <i class="fa-duotone fa-address-book"></i>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <div class="card-header">Jardineria</div>
+      <div class="card">
+        <div class="card-body">
+          <i class="fa-duotone fa-address-book"></i>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <div class="card-header">Recepción</div>
+      <div class="card">
+        <div class="card-body">
+          <i class="fa-duotone fa-address-book"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>

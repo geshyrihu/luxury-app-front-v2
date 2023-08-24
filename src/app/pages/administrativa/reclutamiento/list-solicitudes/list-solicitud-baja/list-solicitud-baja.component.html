@@ -1,0 +1,122 @@
+<p-toast position="top-left" [baseZIndex]="99999"></p-toast>
+<app-filter-requests
+  apiUrl="RequestDismissal/ExportRequestToExcel"
+  nameFile="Reporte de bajas.xlsx"
+></app-filter-requests>
+<div class="card" *ngIf="data !== undefined">
+  <p-table
+    #dt
+    [autoLayout]="true"
+    [globalFilterFields]="['employee', 'phone', 'fuente']"
+    [rowHover]="true"
+    [value]="data"
+    styleClass="custom-table"
+  >
+    <ng-template pTemplate="caption">
+      <app-table-header
+        [title]="'Lista d solicitudes de bajas'"
+        [showAdd]="false"
+        [dt]="dt"
+      ></app-table-header>
+    </ng-template>
+
+    <ng-template pTemplate="header">
+      <tr>
+        <th scope="col" class="small" pSortableColumn="folio">
+          FOLIO <p-sortIcon field="folio"></p-sortIcon>
+        </th>
+        <th scope="col" class="small">SOLICITUD</th>
+        <th scope="col" class="small">EXEMPLEADO</th>
+        <th scope="col" class="small">TÉLEFONO</th>
+        <th scope="col" class="small">PUESTO</th>
+        <th scope="col" class="small">FECHA BAJA</th>
+        <th scope="col" class="small">TIPO BAJA</th>
+        <th scope="col" class="small">RAZÓN</th>
+        <th scope="col" class="small">REQUIERE ABOGADO</th>
+        <th scope="col" class="small">EMPLEADO ENTERADO</th>
+        <th scope="col" class="small">ESTATUS</th>
+
+        <th scope="col" class="small"></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-item>
+      <tr>
+        <td class="p-column-title small text-center">
+          <small> {{ item.folio }}</small>
+        </td>
+        <td class="p-column-title small text-center">
+          <small> {{ item.requestDate }}</small>
+        </td>
+        <td class="p-column-title small text-center">
+          <small> {{ item.nameEmployee }}</small>
+        </td>
+        <td class="p-column-title small text-center">
+          <small> {{ item.phoneNumber | phoneFormat }}</small>
+        </td>
+        <td class="p-column-title small">
+          <small> {{ item.nameProfession }}</small>
+        </td>
+        <td class="p-column-title small">
+          <small> {{ item.executionDate }}</small>
+        </td>
+        <td class="p-column-title small">
+          <small> {{ item.tipoBaja }}</small>
+        </td>
+        <td class="p-column-title small text-justify">
+          <small> {{ item.reasonForLeaving }}</small>
+        </td>
+        <td class="p-column-title small">
+          <small> {{ item.lawyerAssistance }}</small>
+        </td>
+        <td class="p-column-title small">
+          <small> {{ item.employeeInformed }}</small>
+        </td>
+        <td class="p-column-title small">
+          <span
+            [ngClass]="{
+              'bg-danger': item.status === 'Pendiente',
+              'bg-warning': item.status === 'Proceso',
+              'bg-success': item.status === 'Terminado',
+              'bg-dark': item.status === 'Cancelado'
+            }"
+            class="badge m-3 p-2 font-size-12"
+          >
+            {{
+              item.status === "Pendiente"
+                ? "Pendiente"
+                : item.status === "Proceso"
+                ? "En Proceso"
+                : item.status === "Terminado"
+                ? "Terminado"
+                : "Cancelada"
+            }}
+          </span>
+        </td>
+        <!-- Opciones -->
+        <td class="p-column-title small">
+          <div class="d-flex justify-content-center">
+            <custom-button-edit
+              (edit)="
+                onModalAddOrEdit({
+                  id: item.id,
+                  title: 'Editar Registro',
+                  workPositionRequestId: item.workPositionRequestId
+                })
+              "
+            ></custom-button-edit>
+            <custom-button-delete
+              (OnConfirm)="onDelete(item.id)"
+            ></custom-button-delete>
+          </div>
+        </td>
+        <!-- Opciones -->
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="paginatorleft">
+      <div class="p-d-flex p-ai-center p-jc-between">
+        En total hay
+        {{ data ? data.candidates.length : 0 }} registros.
+      </div>
+    </ng-template>
+  </p-table>
+</div>

@@ -1,0 +1,697 @@
+<!-- <p-toast position="top-left" [baseZIndex]="99999"></p-toast>
+
+<ng-container *ngIf="ordenCompra !== undefined">
+  <div class="row">
+    <div class="col-sm-3">
+      <table class="table table-light">
+        <tbody>
+          <tr>
+            <td colspan="2">
+              <div class="p-fluid">
+                <button
+                  [disabled]="ordenCompraEstaAutorizada"
+                  (click)="onModalOrdenCompra()"
+                  pButton
+                  pRipple
+                  type="button"
+                  label="Datos Cotización"
+                  class="p-button-info p-button-sm mb-2"
+                ></button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="font-weight-light" style="width: 40%">
+              <small> Folio </small>
+            </td>
+            <td class="small font-weight-light" style="width: 60%">
+              {{ ordenCompra.folio }}
+            </td>
+          </tr>
+
+          <tr *ngIf="ordenCompra.folioSolicitudCompra">
+            <td class="font-weight-light" style="width: 40%">
+              <small> Solicitud Compra</small>
+            </td>
+            <td class="font-weight-light" style="width: 60%" class="pointer">
+              <small>
+                <a
+                  [routerLink]="[
+                    '/compras/solicitudCompra/',
+                    solicitudCompraId
+                  ]"
+                >
+                  {{ ordenCompra.folioSolicitudCompra }}
+                </a>
+              </small>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="small font-weight-light" style="width: 40%">
+              Fecha de Solicitud
+            </td>
+            <td class="small font-weight-light" style="width: 70%">
+              {{ ordenCompra.fechaSolicitud | date }}
+            </td>
+          </tr>
+          <tr>
+            <td class="small font-weight-light" style="width: 40%">
+              Equipo o instalación
+            </td>
+            <td class="small font-weight-light" style="width: 70%">
+              {{ ordenCompra.equipoOInstalacion }}
+            </td>
+          </tr>
+          <tr>
+            <td class="small font-weight-light text-justify" style="width: 40%">
+              Justificación del gasto
+            </td>
+            <td class="small font-weight-light text-justify" style="width: 70%">
+              {{ ordenCompra.justificacionGasto }}
+            </td>
+          </tr>
+          <tr>
+            <td class="small font-weight-light" style="width: 40%">Archivos</td>
+            <td class="small font-weight-light" style="width: 60%">
+              <a
+                [href]="ordenCompra.urlFile"
+                target="_blank"
+                *ngIf="ordenCompra.urlFile"
+              >
+                <i class="fab fa-dropbox" aria-hidden="true"></i>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="col-sm-3">
+      <table class="table table-light">
+        <tbody>
+          <tr>
+            <td colspan="2">
+              <div class="p-fluid">
+                <button
+                  [disabled]="ordenCompraEstaAutorizada"
+                  (click)="onModalOrdenCompraDatosPago()"
+                  pButton
+                  pRipple
+                  type="button"
+                  label="Datos de pago"
+                  class="p-button-info p-button-sm mb-2"
+                ></button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="small font-weight-light text-justify" style="width: 30%">
+              Proveedor
+            </td>
+            <td class="small font-weight-light" style="width: 70%">
+              {{ ordenCompra.ordenCompraDatosPago.provider.nameProvider }}
+            </td>
+          </tr>
+          <tr>
+            <td class="small font-weight-light text-justify" style="width: 30%">
+              Uso de CFDI
+            </td>
+            <td class="small font-weight-light" style="width: 70%">
+              {{ ordenCompra.ordenCompraDatosPago.usoCFDI.codigo }}-
+              {{ ordenCompra.ordenCompraDatosPago.usoCFDI.descripcion }}
+            </td>
+          </tr>
+          <tr>
+            <td class="small font-weight-light text-justify" style="width: 30%">
+              Metodo de Pago
+            </td>
+            <td class="small font-weight-light" style="width: 70%">
+              {{ ordenCompra.ordenCompraDatosPago.metodoDePago.codigo }}-
+              {{ ordenCompra.ordenCompraDatosPago.metodoDePago.descripcion }}
+            </td>
+          </tr>
+          <tr>
+            <td class="small font-weight-light text-justify" style="width: 30%">
+              Forma de Pago
+            </td>
+            <td class="small font-weight-light" style="width: 70%">
+              {{ ordenCompra.ordenCompraDatosPago.formaDePago.codigo }}-
+              {{ ordenCompra.ordenCompraDatosPago.formaDePago.descripcion }}
+            </td>
+          </tr>
+          <tr>
+            <td class="small font-weight-light text-justify" style="width: 30%">
+              Tipo de Gasto
+            </td>
+            <td class="small font-weight-light" style="width: 70%">
+              {{ ordenCompra.ordenCompraDatosPago.tipoGasto | eTipoGasto }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="col-sm-3">
+      <table class="table table-light">
+        <tbody>
+          <tr>
+            <td style="width: 50%">
+              <div class="p-fluid">
+                <div
+                  *ngIf="
+                    authService.onValidateRoles(['SupervisionOperativa']) &&
+                    ordenCompra.ordenCompraAuth.statusOrdenCompra !== 0
+                  "
+                >
+                  <button
+                    (click)="autorizarCompra()"
+                    *ngIf="
+                      ordenCompra.ordenCompraPresupuestoUtilizado.length > 0 &&
+                      this.ordenCompraService.getTotalPorCubrir() === 0 &&
+                      ordenCompra.ordenCompraAuth.revisadoPorResidente
+                    "
+                    pButton
+                    pRipple
+                    type="button"
+                    label="Autorizar S."
+                    class="p-button-info p-button-sm mb-2"
+                  ></button>
+                </div>
+                <div
+                  *ngIf="!authService.onValidateRoles(['SupervisionOperativa'])"
+                >
+                  <button
+                    (click)="autorizarCompra()"
+                    *ngIf="
+                      (authService.onValidateRoles(['Residente']) &&
+                        revisadaPorResidente &&
+                        totalOrdenCompra < 2000.0 &&
+                        this.ordenCompraService.getTotalPorCubrir() === 0.0 &&
+                        totalRelacionadoConOtrasOrdenes <= 2000) ||
+                      (esGastoFijo &&
+                        authService.onValidateRoles(['Residente']) &&
+                        revisadaPorResidente)
+                    "
+                    pButton
+                    pRipple
+                    type="button"
+                    label="Autorizar R."
+                    class="p-button-success p-button-sm mb-2"
+                  ></button>
+                </div>
+              </div>
+            </td>
+            <td style="width: 50%">
+              <div
+                class="p-fluid"
+                *ngIf="ordenCompra.ordenCompraAuth.statusOrdenCompra === 0"
+              >
+                <button
+                  (click)="deautorizarCompra()"
+                  [disabled]="
+                    !authService.onValidateRoles(['SupervisionOperativa'])
+                  "
+                  pButton
+                  pRipple
+                  type="button"
+                  label="Desautorizar"
+                  class="p-button-danger p-button-sm mb-2"
+                ></button>
+              </div>
+              <div class="p-fluid">
+                <button
+                  (click)="onModalcompraNoAutorizada()"
+                  [disabled]="
+                    !authService.onValidateRoles(['SupervisionOperativa'])
+                  "
+                  pButton
+                  pRipple
+                  type="button"
+                  label="No Autorizada"
+                  class="p-button-danger p-button-sm mb-2"
+                ></button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="small font-weight-light text-justify" style="width: 30%">
+              Status
+            </td>
+            <td class="small font-weight-light" style="width: 70%">
+              {{
+                ordenCompra.ordenCompraAuth.statusOrdenCompra
+                  | eStatusOrdenCompra
+              }}
+            </td>
+          </tr>
+          <tr>
+            <td class="small font-weight-light text-justify" style="width: 30%">
+              Autorización
+            </td>
+            <td class="small font-weight-light" style="width: 70%">
+              {{ nombreAutorizador }}
+            </td>
+          </tr>
+          <tr>
+            <td class="small font-weight-light text-justify" style="width: 30%">
+              Fecha de Autorización
+            </td>
+            <td class="small font-weight-light" style="width: 70%">
+              {{
+                ordenCompra.ordenCompraAuth.fechaAutorizacion | date : "medium"
+              }}
+            </td>
+          </tr>
+          <tr>
+            <td class="small font-weight-light text-justify" style="width: 30%">
+              Residente que valido
+            </td>
+            <td class="small font-weight-light" style="width: 70%">
+              {{ ordenCompra.ordenCompraAuth.revisadoPorResidente }}
+            </td>
+          </tr>
+          <tr>
+            <td class="small font-weight-light text-justify" style="width: 30%">
+              Observaciones
+            </td>
+            <td class="small font-weight-light" style="width: 70%">
+              {{ ordenCompra.ordenCompraAuth.observaciones }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="col-sm-3">
+      <table class="table table-light">
+        <tbody>
+          <tr>
+            <td colspan="2">
+              <div class="p-fluid">
+                <button
+                  [disabled]="ordenCompraPresupuesto.length === 0"
+                  (click)="onModalOrdenCompraStatus()"
+                  pButton
+                  pRipple
+                  type="button"
+                  label="Status de Compra"
+                  class="p-button-info p-button-sm mb-2"
+                ></button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="small font-weight-light text-justify" style="width: 30%">
+              Pagado
+            </td>
+            <td class="small font-weight-light" style="width: 70%">
+              {{ ordenCompra.ordenCompraStatus.sePago | eBoolText }}
+            </td>
+          </tr>
+          <tr>
+            <td class="small font-weight-light text-justify" style="width: 30%">
+              Entregado
+            </td>
+            <td class="small font-weight-light" style="width: 70%">
+              {{ ordenCompra.ordenCompraStatus.sePago | eBoolText }}
+            </td>
+          </tr>
+          <tr>
+            <td class="small font-weight-light text-justify" style="width: 30%">
+              Recibido por
+            </td>
+            <td class="small font-weight-light" style="width: 70%">
+              {{ ordenCompra.ordenCompraStatus.recibidoPor }}
+            </td>
+          </tr>
+          <tr>
+            <td class="small font-weight-light text-justify" style="width: 30%">
+              Factura
+            </td>
+            <td class="small font-weight-light" style="width: 70%">
+              {{ ordenCompra.ordenCompraStatus.factura }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-sm-4">
+          <button
+            [disabled]="
+              ordenCompraEstaAutorizada ||
+              this.ordenCompraService.getTotalPorCubrir() === 0
+            "
+            (click)="onModalOrdenCompraPresupuesto()"
+            type="button"
+            class="btn-secondary btn-sm mb-2"
+          >
+            Seleccionar Partidas presupuestales para cubrir:
+          </button>
+          <button
+            [class.text-danger]="
+              ordenCompraService.getTotalPorCubrir() > 0 ||
+              ordenCompraService.getTotalPorCubrir() < 0
+            "
+            [class.text-success]="ordenCompraService.getTotalPorCubrir() == 0"
+            class="btn font-italic h6"
+          >
+            {{ ordenCompraService.getTotalPorCubrir() | currency : "MXN" }}
+          </button>
+        </div>
+        <div class="col-sm-8 text-right d-flex justify-content-end">
+          <div *ngIf="this.ordenCompra.folioSolicitudCompra">
+            <button class="btn-warning btn-sm mb-2 p-mr-1" type="button">
+              Total a pagar por la solicitud $
+              {{ totalRelacionadoConOtrasOrdenes }}
+            </button>
+          </div>
+          <div>
+            <button
+              *ngIf="solicitudCompraId > 0"
+              class="p-button-info p-button-sm mb-2 p-mr-1"
+              pButton
+              pRipple
+              (click)="onCuadroComparativo(solicitudCompraId)"
+              label="Cuadro Comparativo"
+              icon="fa-duotone fa-paper-plane me-2"
+              type="button"
+            ></button>
+          </div>
+
+          <div>
+            <button
+              *ngIf="ordenCompraEstaAutorizada"
+              [routerLink]="['/compras/ordenCompraPdf/', ordenCompraId]"
+              class="p-button-danger p-button-sm mb-2 p-mr-1"
+              pButton
+              pRipple
+              label="O. de Compra"
+              icon="fa-duotone fa-file-pdf"
+              type="button"
+            ></button>
+            <button
+              *ngIf="ordenCompraEstaAutorizada"
+              [routerLink]="[
+                '/compras/ordenCompraSolicitudPago/',
+                ordenCompraId
+              ]"
+              class="mr-auto p-button-danger p-button-sm mb-2 p-mr-1"
+              pButton
+              pRipple
+              label="S. de Pago"
+              icon="fa-duotone fa-file-pdf"
+              type="button"
+            ></button>
+          </div>
+        </div>
+        <div class="col-sm-12">
+          <table
+            *ngIf="ordenCompraPresupuesto.length > 0"
+            class="table table-sm table-responsive table-borderless"
+          >
+            <thead class="thead-inverse">
+              <tr>
+                <th scope="col" style="width: 60%">Cuenta</th>
+                <th scope="col" style="width: 15%">Saldo Disponible</th>
+                <th scope="col" style="width: 15%">Monto a usar</th>
+                <th scope="col" style="width: 10%">Opciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of ordenCompraPresupuesto">
+                <td>
+                  <small class="p-fluid">
+                    <input
+                      disabled
+                      type="text"
+                      pInputText
+                      [(ngModel)]="
+                        item.cedulaPresupuestalDetalle.cuenta.descripcion
+                      "
+                      class="p-inputtext-sm"
+                    />
+                  </small>
+                </td>
+                <td
+                  [class.bg-danger]="
+                    item.cedulaPresupuestalDetalle.presupuestoDisponible <
+                    item.dineroUsado
+                  "
+                  [class.bg-success]="
+                    item.cedulaPresupuestalDetalle.presupuestoDisponible >=
+                    item.dineroUsado
+                  "
+                >
+                  <p-inputNumber
+                    disabled
+                    [(ngModel)]="
+                      item.cedulaPresupuestalDetalle.presupuestoDisponible
+                    "
+                    mode="currency"
+                    currency="USD"
+                    locale="en-US"
+                    class="p-inputtext-sm"
+                  >
+                  </p-inputNumber>
+                </td>
+                <td>
+                  <p-inputNumber
+                    [disabled]="ordenCompraEstaAutorizada"
+                    [(ngModel)]="item.dineroUsado"
+                    mode="currency"
+                    currency="USD"
+                    locale="en-US"
+                    class="p-inputtext-sm"
+                  >
+                  </p-inputNumber>
+                </td>
+                <td>
+                  <custom-button-edit
+                    *ngIf="!ordenCompraEstaAutorizada"
+                    (edit)="onEditOrdenCompraPresupuesto(item)"
+                  ></custom-button-edit>
+                  <custom-button-delete
+                    *ngIf="!ordenCompraEstaAutorizada"
+                    (OnConfirm)="onDeleteOrdenCompraPresupuesto(item.id)"
+                  ></custom-button-delete>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<div class="card">
+  <div class="card-body">
+    <div class="row" *ngIf="!ordenCompraEstaAutorizada">
+      <div class="col-sm-12 text-right">
+        <button
+          (click)="onModalAgregarproducto()"
+          label="Agregar producto o servicio"
+          class="p-button-info p-button-sm mb-2 mr-1"
+          pButton
+          pRipple
+          type="button"
+        ></button>
+      </div>
+    </div>
+    <table class="table table-sm table-borderless mt-1">
+      <caption></caption>
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col" class="font-weight-normal" style="width: 38%">
+            Producto
+          </th>
+          <th scope="col" class="font-weight-normal" style="width: 8%">
+            Cantidad
+          </th>
+          <th scope="col" class="font-weight-normal" style="width: 8%">
+            Unidad
+          </th>
+          <th scope="col" class="font-weight-normal" style="width: 8%">
+            Precio
+          </th>
+          <th scope="col" class="font-weight-normal" style="width: 8%">
+            Descuento
+          </th>
+          <th scope="col" class="font-weight-normal" style="width: 8%">
+            Iva Aplicado
+          </th>
+          <th scope="col" class="font-weight-normal" style="width: 8%">
+            Iva Total
+          </th>
+          <th scope="col" class="font-weight-normal" style="width: 8%">
+            Total
+          </th>
+          <th
+            *ngIf="!ordenCompraEstaAutorizada"
+            scope="col"
+            class="font-weight-normal"
+            style="width: 6%"
+          >
+            Opciones
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of ordenCompraDetalle">
+          <td class="p-fluid">
+            <input
+              pInputText
+              class="p-inputtext-sm"
+              [value]="
+                item.producto.marca +
+                ' ' +
+                item.producto.nombreProducto +
+                ' ' +
+                item.producto.modelo
+              "
+            />
+          </td>
+          <td class="p-fluid">
+            <input
+              pInputText
+              class="p-inputtext-sm"
+              type="number"
+              [(ngModel)]="item.cantidad"
+            />
+          </td>
+          <td class="p-fluid">
+            <p-dropdown
+              [(ngModel)]="item.unidadMedidaId"
+              class="p-inputtext-sm"
+              [options]="cb_unidadMedida"
+              optionLabel="label"
+              optionValue="value"
+            >
+            </p-dropdown>
+          </td>
+          <td class="p-fluid">
+            <input
+              type="text"
+              pInputText
+              [(ngModel)]="item.precio"
+              type="number"
+              class="p-inputtext-sm"
+            />
+          </td>
+          <td class="p-fluid">
+            <input
+              pInputText
+              class="p-inputtext-sm"
+              type="number"
+              [(ngModel)]="item.descuento"
+            />
+          </td>
+          <td class="p-fluid">
+            <input
+              pInputText
+              class="p-inputtext-sm"
+              type="number"
+              [(ngModel)]="item.ivaAplicado"
+            />
+          </td>
+          <td class="p-fluid">
+            <input
+              pInputText
+              class="p-inputtext-sm"
+              type="number"
+              [(ngModel)]="item.iva"
+            />
+          </td>
+
+          <td class="p-fluid">
+            <p-inputNumber
+              [(ngModel)]="item.total"
+              mode="currency"
+              currency="USD"
+              locale="en-US"
+              class="p-inputtext-sm"
+            >
+            </p-inputNumber>
+          </td>
+          <td *ngIf="!ordenCompraEstaAutorizada">
+            <div class="d-flex justify-content-center">
+              <button icon="" (click)="onSubmitProducto(item)" class="btn-sm">
+                <i class="fa-thin fa-floppy-disk"></i>
+              </button>
+              <custom-button-delete
+                (OnConfirm)="onDeleteProduct(item)"
+              ></custom-button-delete>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td colspan="6"></td>
+          <td class="font-italic">Subtotal</td>
+          <td class="p-fluid">
+            <p-inputNumber
+              [(ngModel)]="subtotal"
+              mode="currency"
+              currency="USD"
+              locale="en-US"
+              class="p-inputtext-sm"
+            >
+            </p-inputNumber>
+          </td>
+          <td></td>
+        </tr>
+        <tr>
+          <td colspan="6"></td>
+          <td class="font-italic">IVA</td>
+          <td class="p-fluid">
+            <p-inputNumber
+              [(ngModel)]="iva"
+              mode="currency"
+              currency="USD"
+              locale="en-US"
+              class="p-inputtext-sm"
+            >
+            </p-inputNumber>
+          </td>
+          <td></td>
+        </tr>
+        <tr *ngIf="retencionIva !== 0">
+          <td colspan="6"></td>
+          <td class="font-italic">Retención de IVA</td>
+          <td class="p-fluid">
+            <p-inputNumber
+              [(ngModel)]="retencionIva"
+              mode="currency"
+              currency="USD"
+              locale="en-US"
+              class="p-inputtext-sm"
+            >
+            </p-inputNumber>
+          </td>
+          <td></td>
+        </tr>
+
+        <tr>
+          <td colspan="6"></td>
+          <td class="font-italic">Total</td>
+          <td class="p-fluid">
+            <p-inputNumber
+              [(ngModel)]="totalOrdenCompra"
+              mode="currency"
+              currency="USD"
+              locale="en-US"
+              class="p-inputtext-sm"
+            >
+            </p-inputNumber>
+          </td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div> -->

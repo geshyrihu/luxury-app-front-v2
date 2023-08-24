@@ -1,0 +1,14 @@
+@media print {
+  .hide-print-mode {
+    display: none;
+  }
+  p-sortIcon,p-columnFilter {
+    display: none;
+  }
+ 
+  .breakPage {
+    break-inside: avoid;
+  }
+
+
+}
