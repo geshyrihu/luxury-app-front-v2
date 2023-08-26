@@ -43,3 +43,20 @@
 /* // .custom-table tbody tr:nth-child(even) {
 //   background-color: #f9f9f9 !important;
 // } */
+/* styles.css o tu archivo de estilos personalizado */
+
+
+
+.my-small-table {
+  font-size: 14px; /* Ajusta el tamaño de letra según tus necesidades */
+  padding: 4px; /* Ajusta el espaciado interior */ 
+  font-family: 'San Francisco', sans-serif !important  ;
+}
+
+.my-small-table .p-datatable-thead > tr > th {
+  padding: 4px; /* Ajusta el espaciado de las celdas del encabezado */
+}
+
+.my-small-table .p-datatable-tbody > tr > td {
+  padding: 4px; /* Ajusta el espaciado de las celdas de contenido */
+}

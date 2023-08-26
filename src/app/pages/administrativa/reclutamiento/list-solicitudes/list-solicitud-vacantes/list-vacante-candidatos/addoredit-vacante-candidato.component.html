@@ -1,26 +1,20 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
-  <!--
   <custom-input-text
-    [control]="form.get('positionRequestId')"
-    formControlName="positionRequestId"
-    label="Id Vacante"
-    placeholder="Id Vacante"
-    [readonly]="true"
-  ></custom-input-text>
- -->
-  <custom-input-text
+    *ngIf="this.authService.onValidateRoles(['SuperUsuario', 'Reclutamiento'])"
     [control]="form.get('firstName')"
     formControlName="firstName"
     label="Nombre"
     placeholder="nombre"
   ></custom-input-text>
   <custom-input-text
+    *ngIf="this.authService.onValidateRoles(['SuperUsuario', 'Reclutamiento'])"
     [control]="form.get('lastName')"
     formControlName="lastName"
     label="Apellidos"
     placeholder="apellidos"
   ></custom-input-text>
   <custom-input-text
+    *ngIf="this.authService.onValidateRoles(['SuperUsuario', 'Reclutamiento'])"
     [control]="form.get('email')"
     formControlName="email"
     label="Email"
@@ -28,6 +22,7 @@
   ></custom-input-text>
 
   <custom-input-date
+    *ngIf="this.authService.onValidateRoles(['SuperUsuario', 'Reclutamiento'])"
     [control]="form.get('birthDate')"
     formControlName="birthDate"
     label="Nacimiento"
@@ -35,6 +30,7 @@
   ></custom-input-date>
 
   <custom-input-select
+    *ngIf="this.authService.onValidateRoles(['SuperUsuario', 'Reclutamiento'])"
     [control]="form.get('fuente')"
     formControlName="fuente"
     label="Fuente"
@@ -42,6 +38,7 @@
   ></custom-input-select>
 
   <custom-input-mask
+    *ngIf="this.authService.onValidateRoles(['SuperUsuario', 'Reclutamiento'])"
     [control]="form.get('phone')"
     formControlName="phone"
     label="Tél. Celular"
@@ -49,7 +46,10 @@
     customMask="(00) 0000-0000"
   ></custom-input-mask>
 
-  <div class="form-group row mb-2">
+  <div
+    class="form-group row mb-2"
+    *ngIf="this.authService.onValidateRoles(['SuperUsuario', 'Reclutamiento'])"
+  >
     <label class="col-sm-3">Curriculim:</label>
     <div class="col-sm-9">
       <input
@@ -62,6 +62,7 @@
   </div>
 
   <custom-input-date
+    *ngIf="this.authService.onValidateRoles(['SuperUsuario', 'Reclutamiento'])"
     [control]="form.get('date')"
     formControlName="date"
     label="Fecha de cita"
@@ -69,6 +70,7 @@
   ></custom-input-date>
 
   <custom-input-time
+    *ngIf="this.authService.onValidateRoles(['SuperUsuario', 'Reclutamiento'])"
     [control]="form.get('hour')"
     formControlName="hour"
     label="Hora de cita"

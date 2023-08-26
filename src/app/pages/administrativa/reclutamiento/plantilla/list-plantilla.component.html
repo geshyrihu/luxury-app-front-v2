@@ -4,8 +4,8 @@
   <p-table
     #dt
     [value]="data"
-    [globalFilterFields]="['professionName', 'departament', 'employeeName']"
-    styleClass="custom-table"
+    [globalFilterFields]="['professionName', 'departament', 'empleado']"
+    styleClass="my-small-table"
   >
     <!-- rowGroupMode="subheader"
     groupRowsBy="responsibleArea.nameArea" -->
@@ -127,7 +127,7 @@
               (clicked)="onRouteEstatusSolicitud(item.positionRequest.id)"
             ></custom-button>
             <custom-button
-              *ngIf="item.requestDismissal === 0"
+              *ngIf="item.requestDismissal === 0 || item.requestDismissal === 3"
               ngbTooltip="Solicitud de baja vigente"
               placement="top"
               customClass="btn-sm btn-outline-danger"
@@ -215,6 +215,7 @@
               *ngIf="
                 item.empleado &&
                 item.requestDismissal !== 0 &&
+                item.requestDismissal !== 3 &&
                 onValidateRole(item.professionId)
               "
               ngbTooltip="Solicitar baja"

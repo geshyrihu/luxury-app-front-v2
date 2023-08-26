@@ -5,10 +5,10 @@
       <div class="navbar-brand-box d-none d-lg-block">
         <a routerLink="/" class="logo logo-light">
           <span class="logo-sm">
-            <img src="assets/images/logo.PNG" alt="" height="24" />
+            <img src="assets/images/logo.PNG" alt="" height="22" />
           </span>
           <span class="logo-lg">
-            <img src="assets/images/logo.PNG" alt="" height="24" />
+            <img src="assets/images/logo.PNG" alt="" height="22" />
             <span class="logo-txt">Grupo Luxury</span>
           </span>
         </a>
@@ -89,10 +89,9 @@
           <span class="d-none d-xl-inline-block ms-1 fw-medium"
             >{{ dataInfo.firstName }} {{ dataInfo.lastName }}</span
           >
-          <i class="ms-1 fa-duotone fa-arrow-down d-none d-xl-inline-block"></i>
+          <i class="ms-2 fa-solid fa-caret-down d-none d-xl-inline-block"></i>
         </button>
         <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
-          <!-- item-->
           <a
             class="dropdown-item card-title"
             [routerLink]="['/accounts/actualizar-perfil']"
@@ -103,7 +102,6 @@
             ><i class="fa-duotone fa-right-from-bracket align-middle me-1"></i>
             <span class="align-middle" key="t-logout">Salir</span></a
           >
-          <!-- item-->
         </div>
       </div>
     </div>

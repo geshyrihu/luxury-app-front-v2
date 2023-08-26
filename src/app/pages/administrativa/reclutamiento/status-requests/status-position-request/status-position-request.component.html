@@ -152,7 +152,6 @@
             ></custom-button>
             <!-- Solo puede editar o modificar los candidatos que cada usuario registro -->
             <custom-button-edit
-              *ngIf="applicationUserId == item.applicationUserId"
               (edit)="
                 onModalAddOrEdit({
                   id: item.id,

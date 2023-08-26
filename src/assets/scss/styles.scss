@@ -21,7 +21,8 @@ label,
 input,
 textarea,
 select {
-font-family: 'IBM Plex Sans', sans-serif !important;
+// font-family: 'IBM Plex Sans', sans-serif !important;
+font-family:'San Francisco', sans-serif !important
 }
 
 
@@ -183,3 +184,10 @@ body {
   color: rgba(255, 255, 255, 0.8);
 }
 
+
+
+
+/* styles.css o tu archivo de estilos personalizado */
+.topbar {
+  height: 4000px  !important; /* Ajusta la altura según tus necesidades */
+}

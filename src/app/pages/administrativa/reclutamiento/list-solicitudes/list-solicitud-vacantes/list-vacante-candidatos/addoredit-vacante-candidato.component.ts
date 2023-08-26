@@ -71,6 +71,7 @@ export default class AddOrEditVacanteCandidatoComponent
     date: ['', Validators.required],
     hour: ['', Validators.required],
     decision: [''],
+    observations: [''],
     comments: [],
     sendMail: [false],
   });
