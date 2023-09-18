@@ -54,6 +54,7 @@ export default class SolicitudVacanteComponent implements OnInit, OnDestroy {
     id: [this.config.data.workPositionId],
     professionName: [, Validators.required],
     sueldo: ['', [Validators.required, Validators.minLength(4)]],
+    sueldoBase: ['', [Validators.required, Validators.minLength(4)]],
     turnoTrabajo: [0],
     lunesEntrada: [''],
     lunesSalida: [''],

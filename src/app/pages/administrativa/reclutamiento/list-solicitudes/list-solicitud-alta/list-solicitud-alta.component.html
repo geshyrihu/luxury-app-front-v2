@@ -13,7 +13,7 @@
     [showCurrentPageReport]="true"
     [value]="data"
     currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
-    styleClass="custom-table"
+    styleClass="custom-table p-datatable-sm"
     [globalFilterFields]="['profession', 'status', 'numInternal']"
   >
     <ng-template pTemplate="caption">
@@ -25,50 +25,50 @@
     </ng-template>
     <ng-template pTemplate="header">
       <tr>
-        <th scope="col" class="small" pSortableColumn="folio">
+        <th scope="col" pSortableColumn="folio">
           FOLIO <p-sortIcon field="folio"></p-sortIcon>
         </th>
-        <th scope="col" class="small">FOLIO VACANTE</th>
-        <th scope="col" class="small" pSortableColumn="requestDateFilter">
-          FECHA DE SOLICITUD
+        <th scope="col">FOLIO VACANTE</th>
+        <th scope="col" pSortableColumn="requestDateFilter">
+          SOLICITUD
           <p-sortIcon field="requestDateFilter"></p-sortIcon>
         </th>
-        <th scope="col" class="small">NOMBRE</th>
-        <th scope="col" class="small">CLIENTE</th>
-        <th scope="col" class="small">PUESTO</th>
-        <th scope="col" class="small">FECHA DE EJECUCIÓN</th>
-        <th scope="col" class="small">CONTRATO</th>
-        <th scope="col" class="small">ESTATUS</th>
-        <th scope="col" class="small"></th>
+        <th scope="col">CLIENTE</th>
+        <th scope="col">NOMBRE</th>
+        <th scope="col">PUESTO</th>
+        <th scope="col">FECHA DE EJECUCIÓN</th>
+        <th scope="col">CONTRATO</th>
+        <th scope="col">ESTATUS</th>
+        <th scope="col"></th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-item>
       <tr>
-        <td class="p-column-title small text-center">
+        <td class="p-column-title text-center">
           {{ item.folio }}
         </td>
-        <td class="p-column-title small text-center">
+        <td class="p-column-title text-center">
           {{ item.folioVacant }}
         </td>
-        <td class="p-column-title small">
+        <td class="p-column-title">
           {{ item.requestDate }}
         </td>
-        <td class="p-column-title small text-center">
-          {{ item.nameEmployee }}
-        </td>
-        <td class="p-column-title small text-center">
+        <td class="p-column-title text-center">
           {{ item.nameCustomer }}
         </td>
-        <td class="p-column-title small">
+        <td class="p-column-title text-center">
+          {{ item.nameEmployee }}
+        </td>
+        <td class="p-column-title">
           {{ item.profession }}
         </td>
-        <td class="p-column-title small">
+        <td class="p-column-title">
           {{ item.executionDate }}
         </td>
-        <td class="p-column-title small text-center">
+        <td class="p-column-title text-center">
           {{ item.typeContractRegister }}
         </td>
-        <td class="p-column-title small text-center">
+        <td class="p-column-title text-center">
           <span
             [ngClass]="{
               'bg-danger': item.status === 'Pendiente',
@@ -91,7 +91,7 @@
         </td>
 
         <!-- Opciones -->
-        <td class="p-column-title small">
+        <td class="p-column-title">
           <!-- Opciones -->
           <div class="d-flex justify-content-center">
             <custom-button-edit

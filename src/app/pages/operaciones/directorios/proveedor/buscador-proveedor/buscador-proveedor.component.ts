@@ -14,7 +14,6 @@ import { AuthService } from 'src/app/services/auth.service';
 import { DataService } from 'src/app/services/data.service';
 import { SwalService } from 'src/app/services/swal.service';
 import { ToastService } from 'src/app/services/toast.service';
-import { ViewPdfService } from 'src/app/services/view-pdf.service';
 import ComponentsModule from 'src/app/shared/components.module';
 import { environment } from 'src/environments/environment';
 import AddoreditProveedorComponent from '../addoredit-proveedor/addoredit-proveedor.component';
@@ -43,7 +42,6 @@ export default class BuscadorProvedorComponent implements OnInit, OnDestroy {
   public messageService = inject(MessageService);
   public dialogService = inject(DialogService);
   public authService = inject(AuthService);
-  public viewPdfService = inject(ViewPdfService);
   incluirInactivos: boolean = false;
   url_img = `${environment.base_urlImg}providers/`;
   subRef$: Subscription;

@@ -13,7 +13,6 @@ import { DateService } from 'src/app/services/date.service';
 import { FiltroCalendarService } from 'src/app/services/filtro-calendar.service';
 import { SwalService } from 'src/app/services/swal.service';
 import { ToastService } from 'src/app/services/toast.service';
-import { ViewPdfService } from 'src/app/services/view-pdf.service';
 import ComponentsModule from 'src/app/shared/components.module';
 import Swal from 'sweetalert2';
 import AddPresentacionJuntaComiteComponent from './add-presentacion-junta-comite/add-presentacion-junta-comite.component';
@@ -40,7 +39,6 @@ export default class PresentacionJuntaComiteComponent
   public route = inject(Router);
   public swalService = inject(SwalService);
   public toastService = inject(ToastService);
-  public viewPdfService = inject(ViewPdfService);
   public dialogService = inject(DialogService);
 
   enviarEstadosFinancierosCondominos(id: any) {
@@ -407,10 +405,6 @@ export default class PresentacionJuntaComiteComponent
       });
   }
 
-  navigateToPdf(url: string) {
-    this.viewPdfService.setNameDocument(url);
-    this.route.navigate(['documento/view-documento']);
-  }
   ngOnDestroy() {
     if (this.subRef$) this.subRef$.unsubscribe();
   }

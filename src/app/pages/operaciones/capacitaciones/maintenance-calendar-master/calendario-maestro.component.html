@@ -1,11 +1,6 @@
 <p-toast position="top-left" [baseZIndex]="99999"></p-toast>
 
-<div class="row">
-  <div class="col-11">
-    <h4 class="mb-sm-0 font-size-18">Calendario General de Mantenimiento</h4>
-  </div>
-  <div class="col-sm-1 d-grid"></div>
-</div>
+<h4 class="mb-sm-0 font-size-18">Calendario General de Mantenimiento</h4>
 
 <hr />
 <div class="row">
@@ -20,7 +15,7 @@
         (click)="onModalAddOrEdit(0, item.key.mes)"
         class="btn btn-sm float-end"
       >
-        <i class="fa-duotone fa-list"></i>
+        <i class="fa-duotone fa-plus"></i>
       </button>
     </ngb-alert>
 
@@ -29,27 +24,41 @@
         *ngFor="let evento of item.items"
         class="pointer list-group-item mb-2"
       >
-        <div class="row">
+        <div class="d-flex justify-content-start">
           <div
-            class="col-auto pointer"
             *ngIf="authService.onValidateRoles(['SuperUsuario'])"
-            (click)="onModalAddOrEdit(evento.id, item.key.mes)"
+            class="btn-group me-3"
+            role="group"
+            ngbDropdown
           >
-            <i class="fa-duotone fa-pen"></i>
+            <i
+              id="btnGroupVerticalDrop1"
+              type="button"
+              class="btn btn-sm btn-ligth dropdown-toggle"
+              data-bs-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+              ngbDropdownToggle
+              class="fa-duotone fa-bars"
+            ></i>
+            <div
+              class="dropdown-menu"
+              aria-labelledby="btnGroupVerticalDrop1"
+              ngbDropdownMenu
+            >
+              <a class="dropdown-item">
+                <custom-button-edit
+                  (edit)="onModalAddOrEdit(evento.id, item.key.mes)"
+                ></custom-button-edit>
+              </a>
+              <a class="dropdown-item">
+                <custom-button-delete
+                  (OnConfirm)="onDelete(evento)"
+                ></custom-button-delete>
+              </a>
+            </div>
           </div>
 
-          <div class="col-auto pointer">
-            <custom-button-confirmation
-              title="Confirmar"
-              icon="fa-duotone fa-xmark"
-              text="Eliminar "
-              label=""
-              tooltipText="Eliminar "
-              classButton=""
-              confirmButtonText="Sí, eliminar"
-              (OnConfirm)="onDelete(evento)"
-            ></custom-button-confirmation>
-          </div>
           <div
             (click)="onDatosServicio(evento)"
             class="col-auto pointer"

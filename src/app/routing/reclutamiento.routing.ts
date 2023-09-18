@@ -10,6 +10,7 @@ export default [
   },
   {
     path: 'plantilla-interna',
+    title: 'Plantilla interna',
     loadComponent: () =>
       import(
         'src/app/pages/administrativa/reclutamiento/plantilla/list-plantilla.component'

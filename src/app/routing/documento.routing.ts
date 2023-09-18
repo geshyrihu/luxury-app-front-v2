@@ -15,13 +15,13 @@ export default [
         'src/app/pages/operaciones/documentos/contrato-poliza/index-contrato-poliza.component'
       ),
   },
-  {
-    path: 'view-documento',
-    loadComponent: () =>
-      import(
-        'src/app/pages/operaciones/documentos/visor-pdf-contrato-poliza/visor-pdf-contrato-poliza.component'
-      ),
-  },
+  // {
+  //   path: 'view-documento',
+  //   loadComponent: () =>
+  //     import(
+  //       'src/app/pages/operaciones/documentos/pdf-viewer/pdf-viewer.component'
+  //     ),
+  // },
   {
     path: 'documento',
     loadComponent: () =>

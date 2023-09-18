@@ -86,6 +86,7 @@ export default class SolicitudModificacionSalarioComponent {
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
+          console.log('🚀 ~ resp.body:', resp.body);
           this.form.patchValue(resp.body);
         },
         error: (err) => {

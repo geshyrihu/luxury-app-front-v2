@@ -9,6 +9,13 @@ export default [
       ),
   },
   {
+    path: 'tiket-mantenimiento-v2',
+    loadComponent: () =>
+      import(
+        'src/app/pages/operaciones/tikets/tiket-mantenimiento-v2/tiket-mantenimiento-v2.component'
+      ),
+  },
+  {
     path: 'reporte-terminados',
     loadComponent: () =>
       import(

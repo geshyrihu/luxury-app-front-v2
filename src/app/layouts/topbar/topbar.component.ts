@@ -4,15 +4,16 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { NgbDropdownModule, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { MessageService } from 'primeng/api';
+import { DialogModule } from 'primeng/dialog';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { InfoEmployeeAuthDto } from 'src/app/interfaces/auth/user-token.interface';
 import { AuthService } from 'src/app/services/auth.service';
-import { BuscardorMenuService } from 'src/app/services/buscardor-menu.service';
 import { CustomerIdService } from 'src/app/services/customer-id.service';
 import { ProfielServiceService } from 'src/app/services/profiel-service.service';
 import { SelectItemService } from 'src/app/services/select-item.service';
 import { ToastService } from 'src/app/services/toast.service';
 import { environment } from 'src/environments/environment';
+import ModalSearchComponent from '../modal-search/modal-search.component';
 
 @Component({
   selector: 'app-topbar',
@@ -24,11 +25,11 @@ import { environment } from 'src/environments/environment';
     CommonModule,
     NgbDropdownModule,
     NgbTooltip,
+    DialogModule,
   ],
   providers: [DialogService, MessageService, ToastService],
 })
 export class TopbarComponent implements OnInit {
-  private buscadorMenuService = inject(BuscardorMenuService);
   private customerIdService = inject(CustomerIdService);
   private router = inject(Router);
   private selectItemService = inject(SelectItemService);
@@ -38,6 +39,7 @@ export class TopbarComponent implements OnInit {
   public toastService = inject(ToastService);
   private location = inject(Location);
 
+  //TODO REVISAR FUNCIONAKLIDAD QUE SE OCULTE MENU EN VERSION MOBIL
   @Output()
   mobileMenuButtonClicked = new EventEmitter();
 
@@ -46,7 +48,7 @@ export class TopbarComponent implements OnInit {
   customerId = this.customerIdService.customerId;
   cb_customer: any[] = [];
   imagenPerfilUrl = '';
-  ref: DynamicDialogRef;
+  ref: DynamicDialogRef | undefined;
 
   onLoadSelectItem() {
     this.selectItemService
@@ -58,11 +60,22 @@ export class TopbarComponent implements OnInit {
       });
   }
 
-  onSearch(event: any) {
-    this.buscadorMenuService.onFiltrar({ valor: event.target.value });
-  }
   selectCustomer(customerId: number) {
     this.customerIdService.setCustomerId(customerId);
+  }
+
+  onModalSearch() {
+    this.ref = this.dialogService.open(ModalSearchComponent, {
+      closeOnEscape: true,
+      contentStyle: { overflow: 'auto', borderRadius: '3px' },
+      position: 'top',
+      showHeader: false,
+      width: '40%',
+      modal: true,
+      dismissableMask: true,
+      baseZIndex: 10000,
+      maximizable: true,
+    });
   }
 
   ngOnInit(): void {

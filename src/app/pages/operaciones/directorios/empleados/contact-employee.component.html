@@ -19,11 +19,12 @@
   </div>
 </div>
 <div class="row">
-  <div class="col-sm-4">Nombre</div>
-  <div class="col-sm-3">Relación</div>
+  <div class="col-sm-2">Nombre</div>
+  <div class="col-sm-2">Apellido</div>
+  <div class="col-sm-2">Relación</div>
   <div class="col-sm-2">Télefono1</div>
   <div class="col-sm-2">Télefono2</div>
-  <div class="col-sm-1">Opciones</div>
+  <div class="col-sm-2">Opciones</div>
 </div>
 <form
   *ngIf="showButtonAddOrCancel"
@@ -32,10 +33,13 @@
   (ngSubmit)="onSubmit()"
   [formGroup]="form"
 >
-  <div class="col-sm-4">
-    <input class="form-control" formControlName="name" />
+  <div class="col-sm-2">
+    <input class="form-control" formControlName="firstName" />
   </div>
-  <div class="col-sm-3">
+  <div class="col-sm-2">
+    <input class="form-control" formControlName="lastName" />
+  </div>
+  <div class="col-sm-2">
     <select class="form-select" formControlName="relacion">
       <option value="">Selecciona</option>
       <option [value]="item.value" *ngFor="let item of cb_contactEmployee">
@@ -47,17 +51,19 @@
     <input
       formControlName="phoneOne"
       class="form-control"
-      placeholder="99-9999-9999"
+      placeholder="(00)-0000-0000"
+      mask="(00)-0000-0000"
     />
   </div>
   <div class="col-sm-2">
     <input
       formControlName="phoneTwo"
       class="form-control"
-      placeholder="99-9999-9999"
+      placeholder="(00)-0000-0000"
+      mask="(00)-0000-0000"
     />
   </div>
-  <div class="col-sm-1">
+  <div class="col-sm-2">
     <custom-button-submit
       [disabled]="this.form.invalid || submitting"
     ></custom-button-submit>
@@ -66,10 +72,13 @@
 <hr />
 
 <div class="row mt-2" *ngFor="let item of data">
-  <div class="col-sm-4">
-    <input class="form-control" [(ngModel)]="item.name" />
+  <div class="col-sm-2">
+    <input class="form-control" [(ngModel)]="item.firstName" />
   </div>
-  <div class="col-sm-3">
+  <div class="col-sm-2">
+    <input class="form-control" [(ngModel)]="item.lastName" />
+  </div>
+  <div class="col-sm-2">
     <select class="form-select" [(ngModel)]="item.relacion">
       <option value="">Selecciona</option>
       <option [value]="item.value" *ngFor="let item of cb_contactEmployee">
@@ -94,7 +103,7 @@
     />
   </div>
 
-  <div class="col-sm-1">
+  <div class="col-sm-2">
     <div class="d-flex justify-content-center">
       <custom-button-edit (edit)="onUpdate(item)"></custom-button-edit>
       <custom-button-delete (OnConfirm)="onDelete(item)"></custom-button-delete>

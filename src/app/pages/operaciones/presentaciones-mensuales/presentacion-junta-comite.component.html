@@ -10,7 +10,7 @@
   >
     <ng-template pTemplate="caption">
       <app-table-header
-        [title]="'Presentaciónes Juntas de comité '"
+        [title]="'Presentaciónes Juntas de comité'"
         (add)="showModalAdd({ id: 0, titulo: 'Nuevo Registro' })"
         [dt]="dt"
       ></app-table-header>
@@ -151,19 +151,10 @@
             </div>
 
             <div class="col-12 mt-1 d-flex align-content-start">
-              <button
+              <custom-button-download-pdf
                 *ngIf="item.archivoPortada"
-                ngbTooltip="Visualizar Pdf"
-                placement="top"
-                (click)="
-                  navigateToPdf(url + item.id + '/' + item.archivoPortada)
-                "
-                type="button"
-                class="btn btn-soft-danger btn-sm w-xs waves-effect btn-label waves-light me-1 hide-print-mode"
-              >
-                <i class="fa-duotone fa-download fa-2x pointer label-icon"></i>
-                Pdf
-              </button>
+                [urlFile]="url + item.id + '/' + item.archivoPortada"
+              ></custom-button-download-pdf>
               <custom-button-edit
                 *ngIf="
                   authService.onValidateRoles(['Residente']) &&
@@ -222,19 +213,10 @@
               </p>
             </div>
             <div class="col-12 mt-1 d-flex align-content-start">
-              <button
+              <custom-button-download-pdf
                 *ngIf="item.archivoContable"
-                ngbTooltip="Visualizar Pdf"
-                placement="top"
-                (click)="
-                  navigateToPdf(url + item.id + '/' + item.archivoContable)
-                "
-                type="button"
-                class="btn btn-soft-danger btn-sm w-xs waves-effect btn-label waves-light me-1 hide-print-mode"
-              >
-                <i class="fa-duotone fa-download fa-2x pointer label-icon"></i>
-                Pdf
-              </button>
+                [urlFile]="url + item.id + '/' + item.archivoContable"
+              ></custom-button-download-pdf>
 
               <custom-button-edit
                 *ngIf="
@@ -330,19 +312,11 @@
               </p>
             </div>
             <div class="col-12 mt-1 d-flex align-content-start">
-              <button
+              <custom-button-download-pdf
                 *ngIf="item.archivoFinancieros"
-                ngbTooltip="Visualizar Pdf"
-                placement="top"
-                (click)="
-                  navigateToPdf(url + item.id + '/' + item.archivoFinancieros)
-                "
-                type="button"
-                class="btn btn-soft-danger btn-sm w-xs waves-effect btn-label waves-light me-1 hide-print-mode"
-              >
-                <i class="fa-duotone fa-download fa-2x pointer label-icon"></i>
-                Pdf
-              </button>
+                [urlFile]="url + item.id + '/' + item.archivoFinancieros"
+              ></custom-button-download-pdf>
+
               <custom-button-edit
                 *ngIf="
                   authService.onValidateRoles(['Contador']) &&
@@ -452,17 +426,10 @@
               <p class="m-0">{{ item.fechaCarga }}</p>
             </div>
             <div class="col-12 mt-1 d-flex align-content-end">
-              <button
+              <custom-button-download-pdf
                 *ngIf="item.archivoJunta"
-                ngbTooltip="Visualizar Pdf"
-                placement="top"
-                (click)="navigateToPdf(url + item.id + '/' + item.archivoJunta)"
-                type="button"
-                class="btn btn-soft-danger btn-sm w-xs waves-effect btn-label waves-light me-1 hide-print-mode"
-              >
-                <i class="fa-duotone fa-download fa-2x pointer label-icon"></i>
-                Pdf
-              </button>
+                [urlFile]="url + item.id + '/' + item.archivoJunta"
+              ></custom-button-download-pdf>
 
               <custom-button-edit
                 *ngIf="
@@ -524,17 +491,11 @@
               </p>
             </div>
             <div class="col-12 mt-1 d-flex align-content-start">
-              <button
-                *ngIf="item.archivoFinal"
+              <custom-button-download-pdf
                 ngbTooltip="Visualizar Pdf"
-                placement="top"
-                (click)="navigateToPdf(url + item.id + '/' + item.archivoFinal)"
-                type="button"
-                class="btn btn-soft-danger btn-sm w-xs waves-effect btn-label waves-light me-1 hide-print-mode"
-              >
-                <i class="fa-duotone fa-download fa-2x pointer label-icon"></i>
-                Pdf
-              </button>
+                [urlFile]="url + item.id + '/' + item.archivoFinal"
+              ></custom-button-download-pdf>
+
               <custom-button
                 *ngIf="authService.onValidateRoles(['SupervisionOperativa'])"
                 ngbTooltip="Actualizar archivo"

@@ -1,8 +1,5 @@
  /* You can add global styles to this file, and also import other style files */
 
-
-
-
 .uppercase-table-headers th {
   text-transform: uppercase;
 }
@@ -22,7 +19,11 @@ input,
 textarea,
 select {
 // font-family: 'IBM Plex Sans', sans-serif !important;
-font-family:'San Francisco', sans-serif !important
+// font-family:'San Francisco', sans-serif !important
+// font-family: 'Roboto', sans-serif !important ;
+// font-family: 'Nunito', sans-serif !important ;
+// font-family: 'Lato', sans-serif !important ;
+font-family: 'PT Sans', sans-serif !important ;
 }
 
 
@@ -166,9 +167,6 @@ font-family:'San Francisco', sans-serif !important
 }
 
 
-body {
-  background-color: #ffffff; /* Código de color para blanco */
-}
 
 
 .bg-contable {
@@ -184,10 +182,3 @@ body {
   color: rgba(255, 255, 255, 0.8);
 }
 
-
-
-
-/* styles.css o tu archivo de estilos personalizado */
-.topbar {
-  height: 4000px  !important; /* Ajusta la altura según tus necesidades */
-}

@@ -2,7 +2,10 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
+import {
+  ISelectItemCheckDto,
+  ISelectItemDto,
+} from 'src/app/interfaces/ISelectItemDto.interface';
 import { environment } from 'src/environments/environment';
 import { CustomerIdService } from './customer-id.service';
 import { DataService } from './data.service';
@@ -81,6 +84,20 @@ export class SelectItemService {
 
   onGetSelectItem(urlApi: string): Observable<ISelectItemDto[]> {
     const dataSubject = new Subject<ISelectItemDto[]>();
+    this.dataService.get<ISelectItemDto[]>('SelectItem/' + urlApi).subscribe({
+      next: (resp: any) => {
+        dataSubject.next(resp.body);
+        dataSubject.complete();
+      },
+      error: (err) => {
+        console.error(err.error);
+        dataSubject.error(err.error);
+      },
+    });
+    return dataSubject.asObservable();
+  }
+  onGetSelectItemCheck(urlApi: string): Observable<ISelectItemCheckDto[]> {
+    const dataSubject = new Subject<ISelectItemCheckDto[]>();
     this.dataService.get<ISelectItemDto[]>('SelectItem/' + urlApi).subscribe({
       next: (resp: any) => {
         dataSubject.next(resp.body);

@@ -49,6 +49,10 @@ export default class ModalEditCotizacionComponent implements OnInit, OnDestroy {
   proveedorResult: any[] = [];
   cotizacionesRelacionadas: any[] = [];
 
+  garantia: string = '';
+  entrega: string = '';
+  politicaPago: string = '';
+
   ngOnInit(): void {
     this.solicitudCompraId = this.config.data.solicitudCompraId;
     this.posicionCotizacion = this.config.data.posicionCotizacion;
@@ -82,6 +86,10 @@ export default class ModalEditCotizacionComponent implements OnInit, OnDestroy {
       )
       .subscribe((resp: any) => {
         this.cotizacionProveedor = resp.body;
+        console.log('🚀 ~ GetPosicionCotizacion:', resp.body);
+        this.garantia = resp.body.garantia;
+        this.entrega = resp.body.entrega;
+        this.politicaPago = resp.body.politicaPago;
         this.providerId = resp.body.providerId;
         this.providerName = resp.body.provider;
       });
@@ -93,6 +101,7 @@ export default class ModalEditCotizacionComponent implements OnInit, OnDestroy {
         next: (resp: any) => {
           this.solicitudCompra = resp.body;
           this.solicitudCompraDetalle = resp.body.solicitudCompraDetalle;
+          console.log('🚀 ~ resp.body:', resp.body);
         },
         error: (err) => {
           this.toastService.onShowError();
@@ -103,6 +112,11 @@ export default class ModalEditCotizacionComponent implements OnInit, OnDestroy {
 
   onUpdateProvider() {
     this.cotizacionProveedor.providerId = this.providerId;
+    this.cotizacionProveedor.garantia = this.garantia;
+    this.cotizacionProveedor.entrega = this.entrega;
+    this.cotizacionProveedor.politicaPago = this.politicaPago;
+    console.log('🚀 ~ this.cotizacionProveedor:', this.cotizacionProveedor);
+
     this.subRef$ = this.dataService
       .put(
         `CotizacionProveedor/UpdateProvider/${this.cotizacionProveedor.id}`,

@@ -13,7 +13,7 @@
     [showCurrentPageReport]="true"
     [value]="data"
     currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
-    styleClass="custom-table"
+    styleClass="custom-table p-datatable-sm"
     [globalFilterFields]="['profession', 'status', 'numInternal']"
   >
     <ng-template pTemplate="caption">
@@ -25,59 +25,59 @@
     </ng-template>
     <ng-template pTemplate="header">
       <tr>
-        <th scope="col" class="small" pSortableColumn="folio">
+        <th scope="col" pSortableColumn="folio">
           FOLIO <p-sortIcon field="folio"></p-sortIcon>
         </th>
-        <th scope="col" class="small" pSortableColumn="requestDateFilter">
+        <th scope="col" pSortableColumn="requestDateFilter">
           FECHA DE SOLICITUD
           <p-sortIcon field="requestDateFilter"></p-sortIcon>
         </th>
-        <th scope="col" class="small">N° INTERNO</th>
-        <th scope="col" class="small">N° VAC</th>
-        <th scope="col" class="small">CLIENTE</th>
-        <th scope="col" class="small" pSortableColumn="profession">
+        <!-- <th scope="col" >N° INTERNO</th>
+        <th scope="col" >N° VAC</th> -->
+        <th scope="col">CLIENTE</th>
+        <th scope="col" pSortableColumn="profession">
           PUESTO
           <p-sortIcon field="profession"></p-sortIcon>
         </th>
-        <th scope="col" class="small">SUELDO MENSUAL LIBRE</th>
-        <th scope="col" class="small">DIAS TRANSCURRIDOS</th>
-        <th scope="col" class="small" pSortableColumn="status">
+        <th scope="col">SUELDO MENSUAL LIBRE</th>
+        <th scope="col">DIAS TRANSCURRIDOS</th>
+        <th scope="col" pSortableColumn="status">
           ESTATUS
           <p-sortIcon field="status"></p-sortIcon>
         </th>
-        <th scope="col" class="small">FECHA DE SELECCION</th>
-        <th scope="col" class="small">CANDIDATO</th>
-        <th scope="col" class="small">FUENTE</th>
-        <th scope="col" class="small">FECHA DE INGRESO</th>
-        <th scope="col" class="small">OBSERVACIONES</th>
-        <th scope="col" class="small"></th>
+        <th scope="col">FECHA DE SELECCION</th>
+        <th scope="col">CANDIDATO</th>
+        <th scope="col">FUENTE</th>
+        <th scope="col">FECHA DE INGRESO</th>
+        <th scope="col">OBSERVACIONES</th>
+        <th scope="col"></th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-item>
       <tr>
-        <td class="p-column-title small text-center">
+        <td class="p-column-title text-center">
           {{ item.folio }}
         </td>
-        <td class="p-column-title small">
+        <td class="p-column-title">
           {{ item.requestDate }}
         </td>
-        <td class="p-column-title small text-center">
+        <!-- <td class="p-column-title text-center">
           {{ item.numInternal }}
         </td>
-        <td class="p-column-title small text-center">
+        <td class="p-column-title text-center">
           {{ item.numVacante }}
-        </td>
-        <td class="p-column-title small">
+        </td> -->
+        <td class="p-column-title">
           {{ item.customer }}
         </td>
-        <td class="p-column-title small">
+        <td class="p-column-title">
           {{ item.profession }}
         </td>
-        <td class="p-column-title small">
+        <td class="p-column-title">
           {{ item.sueldoMensualLibre }}
         </td>
-        <td class="p-column-title small text-center">{{ item.daysPassed }}</td>
-        <td class="p-column-title small text-center">
+        <td class="p-column-title text-center">{{ item.daysPassed }}</td>
+        <td class="p-column-title text-center">
           <span
             [ngClass]="{
               'bg-danger': item.status === 'Pendiente',
@@ -98,14 +98,14 @@
             }}
           </span>
         </td>
-        <td class="p-column-title small">{{ item.selectionDate }}</td>
-        <td class="p-column-title small">{{ item.nameCandidate }}</td>
-        <td class="p-column-title small">{{ item.fuente }}</td>
-        <td class="p-column-title small">{{ item.entryDate }}</td>
-        <td class="p-column-title small">{{ item.observations }}</td>
+        <td class="p-column-title">{{ item.selectionDate }}</td>
+        <td class="p-column-title">{{ item.nameCandidate }}</td>
+        <td class="p-column-title">{{ item.fuente }}</td>
+        <td class="p-column-title">{{ item.entryDate }}</td>
+        <td class="p-column-title">{{ item.observations }}</td>
 
         <!-- Opciones -->
-        <td class="p-column-title small">
+        <td class="p-column-title">
           <!-- Opciones -->
           <div class="d-flex justify-content-center">
             <custom-button

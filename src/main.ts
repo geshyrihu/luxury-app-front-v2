@@ -9,21 +9,29 @@ import {
   withInterceptorsFromDi,
 } from '@angular/common/http';
 import localeEsMX from '@angular/common/locales/es-MX';
-import { LOCALE_ID, enableProdMode, importProvidersFrom, isDevMode } from '@angular/core';
+import {
+  LOCALE_ID,
+  enableProdMode,
+  importProvidersFrom,
+  isDevMode,
+} from '@angular/core';
 import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
 import {
   BrowserAnimationsModule,
   provideAnimations,
 } from '@angular/platform-browser/animations';
 import { Routes, provideRouter } from '@angular/router';
-import { ServiceWorkerModule, provideServiceWorker } from '@angular/service-worker';
+import {
+  ServiceWorkerModule,
+  provideServiceWorker,
+} from '@angular/service-worker';
 import { TranslateModule } from '@ngx-translate/core';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { NgxMaskModule } from 'ngx-mask';
 import { AppComponent } from './app/app.component';
 import { AuthGuard } from './app/guards/auth.guard';
+import { LayoutComponent } from './app/layouts/layout.component';
 import { JwtInterceptor } from './app/services/jwt-interceptor.service';
-import { LayoutComponent } from './app/shared/layouts/layout.component';
 import { environment } from './environments/environment';
 if (environment.production) {
   enableProdMode();
@@ -59,93 +67,99 @@ registerLocaleData(localeEsMX);
 
 bootstrapApplication(AppComponent, {
   providers: [
-    importProvidersFrom(TranslateModule.forRoot({
+    importProvidersFrom(
+      TranslateModule.forRoot({
         defaultLanguage: 'es',
-    }), ServiceWorkerModule.register('ngsw-worker.js', {
+      }),
+      ServiceWorkerModule.register('ngsw-worker.js', {
         enabled: environment.production,
         registrationStrategy: 'registerWhenStable:30000',
-    }), FlatpickrModule.forRoot(), BrowserModule, NgxMaskModule.forRoot()),
+      }),
+      FlatpickrModule.forRoot(),
+      BrowserModule,
+      NgxMaskModule.forRoot()
+    ),
     { provide: LOCALE_ID, useValue: 'es-MX' },
     {
-        provide: HTTP_INTERCEPTORS,
-        useClass: JwtInterceptor,
-        multi: true,
+      provide: HTTP_INTERCEPTORS,
+      useClass: JwtInterceptor,
+      multi: true,
     },
     {
-        provide: LocationStrategy,
-        useClass: HashLocationStrategy,
+      provide: LocationStrategy,
+      useClass: HashLocationStrategy,
     },
     {
-        provide: LOCALE_ID,
-        useValue: 'es-MX',
+      provide: LOCALE_ID,
+      useValue: 'es-MX',
     },
     provideHttpClient(withInterceptorsFromDi()),
     provideAnimations(),
     importProvidersFrom([BrowserModule, BrowserAnimationsModule]),
     provideRouter(routes),
     provideServiceWorker('ngsw-worker.js', {
-        enabled: !isDevMode(),
-        registrationStrategy: 'registerWhenStable:30000'
+      enabled: !isDevMode(),
+      registrationStrategy: 'registerWhenStable:30000',
     }),
     provideServiceWorker('ngsw-worker.js', {
-        enabled: !isDevMode(),
-        registrationStrategy: 'registerWhenStable:30000'
+      enabled: !isDevMode(),
+      registrationStrategy: 'registerWhenStable:30000',
     }),
     provideServiceWorker('ngsw-worker.js', {
-        enabled: !isDevMode(),
-        registrationStrategy: 'registerWhenStable:30000'
+      enabled: !isDevMode(),
+      registrationStrategy: 'registerWhenStable:30000',
     }),
     provideServiceWorker('ngsw-worker.js', {
-        enabled: !isDevMode(),
-        registrationStrategy: 'registerWhenStable:30000'
+      enabled: !isDevMode(),
+      registrationStrategy: 'registerWhenStable:30000',
     }),
     provideServiceWorker('ngsw-worker.js', {
-        enabled: !isDevMode(),
-        registrationStrategy: 'registerWhenStable:30000'
+      enabled: !isDevMode(),
+      registrationStrategy: 'registerWhenStable:30000',
     }),
     provideServiceWorker('ngsw-worker.js', {
-        enabled: !isDevMode(),
-        registrationStrategy: 'registerWhenStable:30000'
+      enabled: !isDevMode(),
+      registrationStrategy: 'registerWhenStable:30000',
     }),
     provideServiceWorker('ngsw-worker.js', {
-        enabled: !isDevMode(),
-        registrationStrategy: 'registerWhenStable:30000'
+      enabled: !isDevMode(),
+      registrationStrategy: 'registerWhenStable:30000',
     }),
     provideServiceWorker('ngsw-worker.js', {
-        enabled: !isDevMode(),
-        registrationStrategy: 'registerWhenStable:30000'
+      enabled: !isDevMode(),
+      registrationStrategy: 'registerWhenStable:30000',
     }),
     provideServiceWorker('ngsw-worker.js', {
-        enabled: !isDevMode(),
-        registrationStrategy: 'registerWhenStable:30000'
+      enabled: !isDevMode(),
+      registrationStrategy: 'registerWhenStable:30000',
     }),
     provideServiceWorker('ngsw-worker.js', {
-        enabled: !isDevMode(),
-        registrationStrategy: 'registerWhenStable:30000'
+      enabled: !isDevMode(),
+      registrationStrategy: 'registerWhenStable:30000',
     }),
     provideServiceWorker('ngsw-worker.js', {
-        enabled: !isDevMode(),
-        registrationStrategy: 'registerWhenStable:30000'
+      enabled: !isDevMode(),
+      registrationStrategy: 'registerWhenStable:30000',
     }),
     provideServiceWorker('ngsw-worker.js', {
-        enabled: !isDevMode(),
-        registrationStrategy: 'registerWhenStable:30000'
+      enabled: !isDevMode(),
+      registrationStrategy: 'registerWhenStable:30000',
     }),
     provideServiceWorker('ngsw-worker.js', {
-        enabled: !isDevMode(),
-        registrationStrategy: 'registerWhenStable:30000'
+      enabled: !isDevMode(),
+      registrationStrategy: 'registerWhenStable:30000',
     }),
     provideServiceWorker('ngsw-worker.js', {
-        enabled: !isDevMode(),
-        registrationStrategy: 'registerWhenStable:30000'
+      enabled: !isDevMode(),
+      registrationStrategy: 'registerWhenStable:30000',
     }),
     provideServiceWorker('ngsw-worker.js', {
-        enabled: !isDevMode(),
-        registrationStrategy: 'registerWhenStable:30000'
+      enabled: !isDevMode(),
+      registrationStrategy: 'registerWhenStable:30000',
     }),
     provideServiceWorker('ngsw-worker.js', {
-        enabled: !isDevMode(),
-        registrationStrategy: 'registerWhenStable:30000'
-    })
-],
+      enabled: !isDevMode(),
+      registrationStrategy: 'registerWhenStable:30000',
+    }),
+  ],
 }).catch((err) => console.error(err));

@@ -13,7 +13,7 @@
     [showCurrentPageReport]="true"
     [value]="data"
     currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
-    styleClass="custom-table"
+    styleClass="custom-table p-datatable-sm"
     [globalFilterFields]="['profession', 'status', 'numInternal']"
   >
     <ng-template pTemplate="caption">
@@ -25,52 +25,52 @@
     </ng-template>
     <ng-template pTemplate="header">
       <tr>
-        <th scope="col" class="small">FOLIO</th>
-        <th scope="col" class="small">CLIENTE</th>
-        <th scope="col" class="small">FECHA DE SOLICITUD</th>
-        <th scope="col" class="small">EMPLEADO</th>
-        <th scope="col" class="small">FECHA DE APLICACIÓN</th>
-        <th scope="col" class="small">PUESTO ACTUAL</th>
-        <th scope="col" class="small">SUELDO ACTUAL</th>
-        <th scope="col" class="small">PUESTO NUEVO</th>
-        <th scope="col" class="small">SUELDO NUEVO</th>
-        <th scope="col" class="small">RETROACTIVO</th>
-        <th scope="col" class="small">ESTATUS</th>
-        <!-- <th scope="col" class="small">CONFIRMACION </th> -->
-        <th scope="col" class="small"></th>
+        <th scope="col">FOLIO</th>
+        <th scope="col">SOLICITUD</th>
+        <th scope="col">CLIENTE</th>
+        <th scope="col">EMPLEADO</th>
+        <th scope="col">FECHA DE APLICACIÓN</th>
+        <th scope="col">PUESTO ACTUAL</th>
+        <th scope="col">SUELDO ACTUAL</th>
+        <th scope="col">PUESTO NUEVO</th>
+        <th scope="col">SUELDO NUEVO</th>
+        <th scope="col">RETROACTIVO</th>
+        <th scope="col">ESTATUS</th>
+        <!-- <th scope="col" >CONFIRMACION </th> -->
+        <th scope="col"></th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-item>
       <tr>
-        <td class="p-column-title small text-center">
+        <td class="text-center">
           {{ item.folio }}
         </td>
-        <td class="p-column-title small text-center">
-          {{ item.customer }}
-        </td>
-        <td class="p-column-title small">
+        <td>
           {{ item.requestDate }}
         </td>
-        <td class="p-column-title small">
+        <td>
+          {{ item.customer }}
+        </td>
+        <td>
           {{ item.employee }}
         </td>
-        <td class="p-column-title small">
+        <td>
           {{ item.executionDate }}
         </td>
-        <td class="p-column-title small">
+        <td>
           {{ item.professionCurrent }}
         </td>
-        <td class="p-column-title small">
+        <td>
           {{ item.currentSalary }}
         </td>
-        <td class="p-column-title small">
+        <td>
           {{ item.professionNew }}
         </td>
-        <td class="p-column-title small text-center">{{ item.finalSalary }}</td>
-        <td class="p-column-title small">
+        <td class="text-center">{{ item.finalSalary }}</td>
+        <td>
           {{ item.retroactive }}
         </td>
-        <td class="p-column-title small text-center">
+        <td class="text-center">
           <span
             [ngClass]="{
               'bg-danger': item.status === 'Pendiente',
@@ -93,7 +93,7 @@
         </td>
 
         <!-- Opciones -->
-        <td class="p-column-title small">
+        <td>
           <!-- Opciones -->
           <div class="d-flex justify-content-center">
             <custom-button-edit

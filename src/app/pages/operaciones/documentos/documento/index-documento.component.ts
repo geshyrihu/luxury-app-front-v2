@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { Observable, Subscription } from 'rxjs';
 import { CustomerIdService } from 'src/app/services/customer-id.service';
@@ -17,7 +18,7 @@ import AddoreditDocumentoComponent from './addoredit-documento.component';
   selector: 'app-index-docuento',
   templateUrl: './index-documento.component.html',
   standalone: true,
-  imports: [ComponentsModule, CommonModule, ToastModule],
+  imports: [ComponentsModule, CommonModule, ToastModule, TableModule],
   providers: [DialogService, MessageService, ToastService],
 })
 export default class IndexDocumentoComponent implements OnInit, OnDestroy {
@@ -32,7 +33,7 @@ export default class IndexDocumentoComponent implements OnInit, OnDestroy {
 
   customerId$: Observable<number> = this.customerIdService.getCustomerId$();
   urlBase = environment.base_urlImg;
-  state: boolean = true;
+  // state: boolean = true;
   ref: DynamicDialogRef;
   subRef$: Subscription;
   items = [
@@ -47,25 +48,25 @@ export default class IndexDocumentoComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.onLoadData(this.state);
+    this.onLoadData();
     this.customerId$ = this.customerIdService.getCustomerId$();
-    this.customerId$.subscribe((resp) => {
-      this.onLoadData(this.state);
+    this.customerId$.subscribe((_) => {
+      this.onLoadData();
     });
   }
 
-  onLoadData(state: boolean) {
+  onLoadData() {
     this.swalService.onLoading();
     this.subRef$ = this.dataService
       .get(
         'DocumentoCustomer/GetAll/' +
           this.customerIdService.getcustomerId() +
-          '/' +
-          state
+          '/'
       )
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
+          console.log('🚀 ~ resp.body:', resp.body);
           this.swalService.onClose();
         },
         error: (err) => {
@@ -74,10 +75,9 @@ export default class IndexDocumentoComponent implements OnInit, OnDestroy {
         },
       });
   }
-  onChangeState(state: boolean) {
-    this.state = state;
-    this.onLoadData(state);
-  }
+  // onChangeState(state: boolean) {
+  //   this.onLoadData();
+  // }
   onModalAddOrEdit(data: any) {
     this.ref = this.dialogService.open(AddoreditDocumentoComponent, {
       data: {
@@ -91,12 +91,12 @@ export default class IndexDocumentoComponent implements OnInit, OnDestroy {
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
         this.toastService.onShowSuccess();
-        this.onLoadData(this.state);
+        this.onLoadData();
       }
     });
   }
 
-  onModalDelete(id: number) {
+  onDelete(id: number) {
     this.swalService.onLoading();
     this.subRef$ = this.dataService
       .delete('DocumentoCustomer/' + id)
@@ -104,12 +104,13 @@ export default class IndexDocumentoComponent implements OnInit, OnDestroy {
         next: (resp: any) => {
           this.toastService.onShowSuccess();
           this.swalService.onClose();
+          this.onLoadData();
           this.data = resp.body;
         },
         error: (err) => {
           this.toastService.onShowError();
-          console.log(err.error);
           this.swalService.onClose();
+          console.log(err.error);
         },
       });
   }

@@ -7,6 +7,7 @@ export default [
       import(
         'src/app/pages/operaciones/calendarios/fiestas-judias/fiestas-judias.component'
       ),
+    title: 'Fiestas judias',
   },
   {
     path: 'fiestas-cristianas',
@@ -14,6 +15,7 @@ export default [
       import(
         'src/app/pages/operaciones/calendarios/fiestas-cristianas/fiestas-cristianas.component'
       ),
+    title: 'Fiestas cristianas',
   },
   {
     path: 'cumpleanos',
@@ -21,6 +23,7 @@ export default [
       import(
         'src/app/pages/operaciones/calendarios/cumpleanos/birthday.component'
       ),
+    title: 'Fiestas Cumpleaños',
   },
   {
     path: 'mantenimiento-master',

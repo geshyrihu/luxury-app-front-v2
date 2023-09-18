@@ -9,10 +9,9 @@ export class ViewPdfService {
   url: string = '';
 
   setNameDocument(nameDocument: string): void {
+    this.url = '';
     this.url = this.urlBase + nameDocument;
   }
-
-  //TODO: REVISAR QUE SE BORRE DE MEMORIA ULTIMO ARCHIVO CARGADO
 
   getNameDocument(): string {
     return this.url;

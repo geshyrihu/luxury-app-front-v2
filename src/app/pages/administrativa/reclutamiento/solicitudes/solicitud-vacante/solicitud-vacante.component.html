@@ -27,12 +27,17 @@
           </tr>
           <tr *ngIf="data && data.sueldo">
             <td style="width: 20%">Sueldo mensual neto:</td>
-            <td style="width: 80%">{{ data.sueldo }}</td>
+            <td style="width: 80%">{{ data.sueldoBase }}</td>
           </tr>
+          <!-- <tr *ngIf="data && data.sueldo">
+            <td style="width: 20%">Sueldo mensual neto:</td>
+            <td style="width: 80%">{{ data.sueldo }}</td>
+          </tr> -->
           <tr *ngIf="data && data.turnoTrabajo != undefined">
             <td style="width: 20%">Turno de trabajo:</td>
             <td style="width: 80%">{{ data.turnoTrabajo }}</td>
           </tr>
+
           <tr>
             <td colspan="2">
               <table class="custom-table mb-2">
@@ -129,7 +134,10 @@
               </table>
             </td>
           </tr>
-
+          <tr *ngIf="data && data.observationsWorkShift != undefined">
+            <td style="width: 20%">Obs. referentes al horario:</td>
+            <td style="width: 80%">{{ data.observationsWorkShift }}</td>
+          </tr>
           <tr>
             <td style="width: 20%">Comentarios adicionales:</td>
             <td style="width: 80%">
@@ -141,7 +149,6 @@
             </td>
           </tr>
         </table>
-
 
         <custom-button-send-email
           [disabled]="this.form.invalid || submitting"

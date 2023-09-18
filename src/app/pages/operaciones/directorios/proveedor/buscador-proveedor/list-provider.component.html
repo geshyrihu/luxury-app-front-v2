@@ -134,12 +134,10 @@
         </td>
         <td>
           <div class="d-flex bd-highlight">
-            <custom-button-download-file
-              (clicked)="
-                viewPdfService.setNameDocument(item.constanciaFiscalPath)
-              "
-            ></custom-button-download-file>
-
+            <custom-button-download-pdf
+              ngbTooltip="Visualizar Pdf"
+              [urlFile]="item.constanciaFiscalPath"
+            ></custom-button-download-pdf>
             <custom-button-edit
               *ngIf="
                 validateRole([

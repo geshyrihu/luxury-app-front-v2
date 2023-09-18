@@ -8,6 +8,7 @@ export default [
       import(
         'src/app/pages/operaciones/mantenimiento/mantenimiento-bitacoras/recorridos/bitacora-mantenimiento.component'
       ),
+    title: 'Bitacora de equipos',
   },
 
   {
@@ -16,6 +17,7 @@ export default [
       import(
         'src/app/pages/operaciones/mantenimiento/mantenimiento-recorrido/index-recorrido.component'
       ),
+    title: 'Recorrido',
   },
 
   {
@@ -24,6 +26,7 @@ export default [
       import(
         'src/app/pages/operaciones/mantenimiento/mantenimiento-bitacoras/piscina/list-piscina/list-piscina.component'
       ),
+    title: 'Bitacora Alberca',
   },
   {
     path: 'piscina-bitacora/:piscinaId',
@@ -38,6 +41,7 @@ export default [
       import(
         'src/app/pages/operaciones/mantenimiento/mantenimiento-recorrido/reporte-bitacora-recorrido.component'
       ),
+    title: 'Reporte Bitacora Recorrido',
   },
   {
     path: 'lista-medidor',
@@ -45,6 +49,7 @@ export default [
       import(
         'src/app/pages/operaciones/mantenimiento/mantenimiento-bitacoras/medidores/medidores/lista-medidores/lista-medidores.component'
       ),
+    title: 'Lista de medidores',
   },
   {
     path: 'lista-medidar-lectura/:id',
@@ -66,5 +71,6 @@ export default [
       import(
         'src/app/pages/operaciones/mantenimiento/mantenimiento-bitacoras/prestamo-herramienta/control-prestamo-herramientas.component'
       ),
+    title: 'Prestamo de herramientas',
   },
 ] as Routes;

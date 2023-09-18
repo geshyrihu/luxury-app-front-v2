@@ -220,6 +220,97 @@
   </div>
 </div>
 
+<table *ngIf="cotizacionProveedor" class="custom-table w-100">
+  <tr>
+    <td
+      colspan="3"
+      style="width: 50%; border: none !important; text-align: end !important"
+    >
+      TIEMPO DE ENTREGA
+    </td>
+    <td
+      *ngIf="provider1 !== undefined"
+      [class.one]="cotizacionProveedor.length === 1"
+      [class.two]="cotizacionProveedor.length === 2"
+      [class.three]="cotizacionProveedor.length === 3"
+    >
+      {{ cotizacionProveedor[0].entrega }}
+    </td>
+    <td
+      *ngIf="provider2 !== undefined"
+      [class.two]="cotizacionProveedor.length === 2"
+      [class.three]="cotizacionProveedor.length === 3"
+    >
+      {{ cotizacionProveedor[1].entrega }}
+    </td>
+    <td
+      *ngIf="provider3 !== undefined"
+      [class.three]="cotizacionProveedor.length === 3"
+    >
+      {{ cotizacionProveedor[2].entrega }}
+    </td>
+  </tr>
+  <tr>
+    <td
+      colspan="3"
+      style="width: 50%; border: none !important; text-align: end !important"
+    >
+      GARANTIA
+    </td>
+    <td
+      *ngIf="provider1 !== undefined"
+      [class.one]="cotizacionProveedor.length === 1"
+      [class.two]="cotizacionProveedor.length === 2"
+      [class.three]="cotizacionProveedor.length === 3"
+    >
+      {{ cotizacionProveedor[0].garantia }}
+    </td>
+    <td
+      *ngIf="provider2 !== undefined"
+      [class.two]="cotizacionProveedor.length === 2"
+      [class.three]="cotizacionProveedor.length === 3"
+    >
+      {{ cotizacionProveedor[1].garantia }}
+    </td>
+    <td
+      *ngIf="provider3 !== undefined"
+      [class.three]="cotizacionProveedor.length === 3"
+    >
+      {{ cotizacionProveedor[2].garantia }}
+    </td>
+  </tr>
+
+  <tr>
+    <td
+      colspan="3"
+      style="width: 50%; border: none !important; text-align: end !important"
+    >
+      POLITICAS DE PAGO
+    </td>
+    <td
+      *ngIf="provider1 !== undefined"
+      [class.one]="cotizacionProveedor.length === 1"
+      [class.two]="cotizacionProveedor.length === 2"
+      [class.three]="cotizacionProveedor.length === 3"
+    >
+      {{ cotizacionProveedor[0].politicaPago }}
+    </td>
+    <td
+      *ngIf="provider2 !== undefined"
+      [class.two]="cotizacionProveedor.length === 2"
+      [class.three]="cotizacionProveedor.length === 3"
+    >
+      {{ cotizacionProveedor[1].politicaPago }}
+    </td>
+    <td
+      *ngIf="provider3 !== undefined"
+      [class.three]="cotizacionProveedor.length === 3"
+    >
+      {{ cotizacionProveedor[2].politicaPago }}
+    </td>
+  </tr>
+</table>
+
 <style>
   .one {
     width: 50%;

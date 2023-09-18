@@ -62,7 +62,8 @@ export default class ContactEmployeeComponent implements OnInit, OnDestroy {
   onLoadForm() {
     this.form = this.formBuilder.group({
       id: { value: this.id, disabled: true },
-      name: ['', Validators.required],
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
       relacion: ['', Validators.required],
       phoneOne: ['', Validators.required],
       phoneTwo: [''],

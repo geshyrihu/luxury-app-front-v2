@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col">
+  <div class="col hide-print-mode">
     <button
       class="btn btn-outline-secondary w-sm me-1 mb-1"
       type="button"
@@ -93,7 +93,7 @@
   </div>
 </div>
 
-<div *ngIf="ligaReporte">
+<div *ngIf="ligaReporte" class="hide-print-mode">
   {{ ligaReporte }}
 </div>
 
@@ -177,8 +177,10 @@
           LIMITE
           <p-sortIcon field="fechaLimiteFiltro"></p-sortIcon>
         </th>
-        <th scope="col" class="font-size-12" style="width: 5%">RELEVANTE</th>
-        <th scope="col" style="width: 5%"></th>
+        <th scope="col" class="font-size-12 hide-print-mode" style="width: 5%">
+          RELEVANTE
+        </th>
+        <th scope="col" class="hide-print-mode" style="width: 5%"></th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-item>
@@ -310,7 +312,7 @@
               'Mantenimiento'
             ])
           "
-          class="text-center"
+          class="text-center hide-print-mode"
         >
           <input
             type="checkbox"
@@ -319,7 +321,7 @@
             (change)="onUpdateStateTicket(item)"
           />
         </td>
-        <td>
+        <td class="hide-print-mode">
           <div class="d-flex justify-content-center">
             <custom-button-edit
               (edit)="

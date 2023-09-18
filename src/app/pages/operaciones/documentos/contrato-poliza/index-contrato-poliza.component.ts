@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
-import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { TableModule } from 'primeng/table';
@@ -9,7 +8,6 @@ import { CustomerIdService } from 'src/app/services/customer-id.service';
 import { DataService } from 'src/app/services/data.service';
 import { SwalService } from 'src/app/services/swal.service';
 import { ToastService } from 'src/app/services/toast.service';
-import { ViewPdfService } from 'src/app/services/view-pdf.service';
 import ComponentsModule from 'src/app/shared/components.module';
 import { environment } from 'src/environments/environment';
 import AddoreditContratoPolizaComponent from './addoredit-contrato-poliza.component';
@@ -27,8 +25,7 @@ export default class IndexContratoPolizaComponent implements OnInit, OnDestroy {
   public dialogService = inject(DialogService);
   public messageService = inject(MessageService);
   public customerIdService = inject(CustomerIdService);
-  public viewPdfService = inject(ViewPdfService);
-  private route = inject(Router);
+
   data: any[] = [];
 
   ref: DynamicDialogRef;
@@ -47,10 +44,7 @@ export default class IndexContratoPolizaComponent implements OnInit, OnDestroy {
       this.onLoadData();
     });
   }
-  onVviewPdfService(pathDocument: string) {
-    this.viewPdfService.setNameDocument(pathDocument);
-    this.route.navigate(['documento/view-documento']);
-  }
+
   onLoadData() {
     this.swalService.onLoading();
     this.subRef$ = this.dataService

@@ -108,17 +108,12 @@
 
         <div class="d-flex bd-highlight">
           <!-- Constancia Fiscal -->
-          <buttton
-            *ngIf="item.constanciaFiscal"
-            routerLink="/documento/view-documento"
-            type="button"
-            ngbTooltip="Constancia Fiscal"
-            placement="top"
-            class="btn btn-sm me-1 btn-outline-danger pointer bd-highlight"
-            (click)="viewPdfService.setNameDocument(item.constanciaFiscalPath)"
-          >
-            <i class="fa-duotone fa-download fa-2x pointer label-icon"> </i>
-          </buttton>
+
+          <custom-button-download-pdf
+            ngbTooltip="Constancia fiscal"
+            [urlFile]="item.constanciaFiscalPath"
+          ></custom-button-download-pdf>
+
           <!-- Constancia Fiscal -->
           <custom-button-edit
             *ngIf="

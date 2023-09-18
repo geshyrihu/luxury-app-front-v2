@@ -1,10 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;700&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;700&display=swap'); */
 
 /* // // Definición del estilo con un modificador de especificidad mayor
 // #tabla-custom .custom-table tbody tr.fondo-rojo-tenue-custom {
 //   background-color: rgba(255, 0, 0, 0.1) !important;
 // } */
-
 
 .custom-table table {
   border-collapse: collapse !important;
@@ -15,7 +14,7 @@
 .custom-table td {
   border: 1px solid rgb(60, 60, 60) !important;
   color: black !important;
-  font-family: 'IBM Plex Sans', sans-serif !important;
+  font-family: "IBM Plex Sans", sans-serif !important;
   padding: 8px !important;
 }
 
@@ -23,7 +22,6 @@
   color: #f9f9f9 !important;
   background-color: black !important;
 }
-
 
 .custom-table .subgroup table {
   margin-top: 8px !important;
@@ -45,12 +43,11 @@
 // } */
 /* styles.css o tu archivo de estilos personalizado */
 
-
-
 .my-small-table {
-  font-size: 14px; /* Ajusta el tamaño de letra según tus necesidades */
-  padding: 4px; /* Ajusta el espaciado interior */ 
-  font-family: 'San Francisco', sans-serif !important  ;
+  font-size: 16px; /* Ajusta el tamaño de letra según tus necesidades */
+  padding: 4px; /* Ajusta el espaciado interior */
+  /* font-family: 'San Francisco', sans-serif !important  ; */
+  font-family: "Nunito", sans-serif !important ;
 }
 
 .my-small-table .p-datatable-thead > tr > th {

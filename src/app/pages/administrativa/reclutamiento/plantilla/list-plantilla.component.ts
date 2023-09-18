@@ -1,7 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbDropdownModule,
+  NgbTooltipModule,
+} from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { TableModule } from 'primeng/table';
@@ -17,6 +20,7 @@ import { SwalService } from 'src/app/services/swal.service';
 import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
 import { environment } from 'src/environments/environment';
+import Swal from 'sweetalert2';
 import { StatusSolicitudVacanteService } from '../../../../services/status-solicitud-vacante.service';
 import DescripcionPuestoComponent from '../professions/descripcion-puesto.component';
 import SolicitudBajaComponent from '../solicitudes/solicitud-baja/solicitud-baja.component';
@@ -30,13 +34,14 @@ import HoursWorkPositionComponent from './hours-work-position.component';
   templateUrl: './list-plantilla.component.html',
   standalone: true,
   imports: [
-    ComponentsModule,
     CommonModule,
+    ComponentsModule,
+    ETurnoTrabajoPipe,
+    NgbDropdownModule,
     NgbTooltipModule,
+    RouterModule,
     TableModule,
     ToastModule,
-    ETurnoTrabajoPipe,
-    RouterModule,
   ],
   providers: [ConfirmationService, DialogService, MessageService, ToastService],
 })
@@ -248,18 +253,31 @@ export default class ListWorkPlantillaComponent implements OnInit, OnDestroy {
   }
   //Eliminar vacante workPosition
   onDelete(id: number) {
-    this.swalService.onLoading();
-    this.subRef$ = this.dataService.delete(`WorkPosition/${id}`).subscribe({
-      next: () => {
-        this.toastService.onShowSuccess();
-        this.swalService.onClose();
-        this.onLoadData();
-      },
-      error: (err) => {
-        this.toastService.onShowError();
-        this.swalService.onClose();
-        console.log(err.error);
-      },
+    Swal.fire({
+      title: '¿Confirmar?',
+      text: 'Se va a eliminar el registro',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#34c38f',
+      cancelButtonColor: '#f46a6a',
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar',
+    }).then((result) => {
+      if (result.value) {
+        this.swalService.onLoading();
+        this.subRef$ = this.dataService.delete(`WorkPosition/${id}`).subscribe({
+          next: () => {
+            this.toastService.onShowSuccess();
+            this.swalService.onClose();
+            this.onLoadData();
+          },
+          error: (err) => {
+            this.toastService.onShowError();
+            this.swalService.onClose();
+            console.log(err.error);
+          },
+        });
+      }
     });
   }
 
@@ -282,6 +300,25 @@ export default class ListWorkPlantillaComponent implements OnInit, OnDestroy {
     }
     return permission;
   }
+  SendMailTest() {
+    this.swalService.onLoading();
+    this.subRef$ = this.dataService
+      .get('SolicitudesReclutamiento/SendMailTest')
+      .subscribe({
+        next: (_) => {
+          this.swalService.onClose();
+        },
+        error: (err) => {
+          console.log(err.error);
+          this.swalService.onClose();
+          this.toastService.onShowError();
+        },
+      });
+  }
+
+  //TODO:IMPLEMENTAR MEDTODO
+
+  onSendPasswordAccount(workPositionId: number) {}
   ngOnDestroy(): void {
     if (this.subRef$) this.subRef$.unsubscribe();
   }

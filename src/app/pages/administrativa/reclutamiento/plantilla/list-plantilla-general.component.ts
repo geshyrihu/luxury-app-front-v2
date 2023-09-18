@@ -13,6 +13,7 @@ import { SwalService } from 'src/app/services/swal.service';
 import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
 import { environment } from 'src/environments/environment';
+import Swal from 'sweetalert2';
 import AddoreditPlantillaComponent from './addoredit-plantilla.component';
 
 @Component({
@@ -70,18 +71,31 @@ export default class ListPlantillaGeneralComponent
       });
   }
   onDelete(id: number) {
-    this.swalService.onLoading();
-    this.subRef$ = this.dataService.delete(`WorkPosition/${id}`).subscribe({
-      next: () => {
-        this.toastService.onShowSuccess();
-        this.swalService.onClose();
-        this.onLoadData();
-      },
-      error: (err) => {
-        this.toastService.onShowError();
-        this.swalService.onClose();
-        console.log(err.error);
-      },
+    Swal.fire({
+      title: '¿Confirmar?',
+      text: 'Se va a eliminar el registro',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#34c38f',
+      cancelButtonColor: '#f46a6a',
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar',
+    }).then((result) => {
+      if (result.value) {
+        this.swalService.onLoading();
+        this.subRef$ = this.dataService.delete(`WorkPosition/${id}`).subscribe({
+          next: () => {
+            this.toastService.onShowSuccess();
+            this.swalService.onClose();
+            this.onLoadData();
+          },
+          error: (err) => {
+            this.toastService.onShowError();
+            this.swalService.onClose();
+            console.log(err.error);
+          },
+        });
+      }
     });
   }
 

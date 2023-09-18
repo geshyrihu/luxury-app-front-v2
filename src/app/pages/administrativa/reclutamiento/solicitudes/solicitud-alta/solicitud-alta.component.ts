@@ -56,7 +56,7 @@ export default class SolicitudAltaComponent implements OnInit, OnDestroy {
     boss: ['', Validators.required],
     candidateName: ['', Validators.required],
     customerAddress: ['', Validators.required],
-    executionDate: ['', Validators.required],
+    // executionDate: ['', Validators.required],
     professionName: ['', Validators.required],
     salary: ['', Validators.required],
     typeContractRegister: ['', Validators.required],
@@ -78,6 +78,7 @@ export default class SolicitudAltaComponent implements OnInit, OnDestroy {
           this.data = resp.body;
           this.form.patchValue(resp.body);
         },
+
         error: (err) => {
           this.toastService.onShowError();
           console.log(err.error);

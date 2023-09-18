@@ -11,9 +11,8 @@ import { AuthService } from 'src/app/services/auth.service';
 import { DataService } from 'src/app/services/data.service';
 import { SwalService } from 'src/app/services/swal.service';
 import { ToastService } from 'src/app/services/toast.service';
-import { ViewPdfService } from 'src/app/services/view-pdf.service';
+// import { ViewPdfService } from 'src/app/services/view-pdf.service';
 import ComponentsModule from 'src/app/shared/components.module';
-import { environment } from 'src/environments/environment';
 import AddoreditProveedorComponent from '../addoredit-proveedor/addoredit-proveedor.component';
 import TarjetaProveedorComponent from '../tarjeta-proveedor/tarjeta-proveedor.component';
 @Component({
@@ -36,9 +35,8 @@ export default class ListProviderComponent implements OnInit, OnDestroy {
   public messageService = inject(MessageService);
   public dialogService = inject(DialogService);
   public authService = inject(AuthService);
-  public viewPdfService = inject(ViewPdfService);
+  // public viewPdfService = inject(ViewPdfService);
 
-  url_img = `${environment.base_urlImg}providers/`;
   data: BusquedaProveedor[] = [];
   ref: DynamicDialogRef;
   subRef$: Subscription;

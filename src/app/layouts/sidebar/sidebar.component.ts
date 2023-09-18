@@ -2,18 +2,14 @@ import { CommonModule } from '@angular/common';
 import {
   Component,
   ElementRef,
-  EventEmitter,
   OnInit,
-  Output,
   ViewChild,
   inject,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import MetisMenu from 'metismenujs';
-import { Observable } from 'rxjs';
 import { SimplebarAngularModule } from 'simplebar-angular';
-import { BuscardorMenuService } from 'src/app/services/buscardor-menu.service';
 import { SidebarService } from 'src/app/services/sidebar.service';
 import { MenuItem } from './menu.model';
 
@@ -29,44 +25,16 @@ import { MenuItem } from './menu.model';
  */
 export default class SidebarComponent implements OnInit {
   private sidebarService = inject(SidebarService);
-  private buscadorMenuService = inject(BuscardorMenuService);
   @ViewChild('sideMenu') sideMenu!: ElementRef;
   menu: any;
   menuItems: MenuItem[] = [];
-  menuItemsFiltrado: MenuItem[] = [];
-  menu$: Observable<MenuItem[]>;
-
-  mostrarFiltro: boolean = false;
-
-  @Output()
-  OculatrBarra = new EventEmitter();
 
   ngOnInit(): void {
-    this.menu$ = this.buscadorMenuService.getResultados$();
-    this.menuItems = this.buscadorMenuService.onReturnMenu();
     this.menuItems = this.sidebarService.onLoadMenu;
-
-    this.menu$.subscribe((resp) => {
-      this.menuItemsFiltrado = this.buscadorMenuService.onReturnMenu();
-      this.mostrarFiltro = this.buscadorMenuService.onReturStateFiltro();
-      this.menuItems = this.sidebarService.menu;
-      this.initialize();
-      this.ngAfterViewInit();
-    });
   }
 
-  onOcultarBarra() {
-    this.OculatrBarra.emit();
-  }
-
-  onSearch(event: any) {
-    this.buscadorMenuService.onFiltrar({ valor: event.target.value });
-  }
-  /**
-   * Initialize
-   */
   initialize(): void {
-    this.menuItems = this.sidebarService.menu;
+    // this.menuItems = this.sidebarService.menu;
   }
 
   /***

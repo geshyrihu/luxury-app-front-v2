@@ -41,8 +41,6 @@ export default class ListCandidatesComponent implements OnInit, OnDestroy {
   }
 
   onLoadData() {
-    console.log('🚀 ~ value:', this.value);
-
     this.subRef$ = this.dataService
       .get(`Candidate/${this.dateService.formDateToString(this.value)}`)
       .subscribe({

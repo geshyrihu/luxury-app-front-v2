@@ -23,8 +23,10 @@
             "
             (add)="onModalAddOrEdit({ id: 0, title: 'Nuevo Registro' })"
             [dt]="dt"
-            [showAdd]="!data.requestInProcess"
+            [showAdd]="true"
           ></app-table-header>
+          <!-- TODO: REVISAR QUE SE VALIDE LA OPCION DE NO AGREGAR SI HAY ALGUNA EN PROCESO -->
+          <!-- [showAdd]="!data.requestInProcess" -->
         </div>
         <div
           class="col-1"

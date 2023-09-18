@@ -1,6 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
-import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbAlertModule,
+  NgbDropdownModule,
+  NgbTooltipModule,
+} from '@ng-bootstrap/ng-bootstrap';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ToastModule } from 'primeng/toast';
@@ -24,6 +28,8 @@ import ModalDatosServicioComponent from './modal-datos-servicio/modal-datos-serv
     ComponentsModule,
     ToastModule,
     EMonthPipe,
+    NgbTooltipModule,
+    NgbDropdownModule,
   ],
   providers: [DialogService, MessageService, ToastService],
 })

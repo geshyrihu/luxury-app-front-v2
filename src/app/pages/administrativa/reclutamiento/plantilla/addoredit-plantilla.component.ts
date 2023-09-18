@@ -57,10 +57,12 @@ export default class AddoreditPlantillaComponent implements OnInit, OnDestroy {
   form: FormGroup = this.formBuilder.group({
     id: { value: this.id, disabled: true },
     customerId: [this.customerIdService.getcustomerId(), Validators.required],
+    applicationUserId: ['', Validators.required],
     professionId: ['', Validators.required],
     responsibleAreaId: [''],
     professionName: [''],
     sueldo: ['', Validators.required],
+    sueldoBase: ['', Validators.required],
     state: [EState.Activo, Validators.required],
     employeeId: [null],
     employeeName: [''],
@@ -79,6 +81,7 @@ export default class AddoreditPlantillaComponent implements OnInit, OnDestroy {
     sabadoSalida: [''],
     domingoEntrada: [''],
     domingoSalida: [''],
+    observationsWorkShift: [''],
   });
 
   ngOnInit(): void {
@@ -90,7 +93,7 @@ export default class AddoreditPlantillaComponent implements OnInit, OnDestroy {
   }
   onLoadData() {
     this.subRef$ = this.dataService
-      .get<IWorkPositionAddOrEditDto>(`WorkPosition/${this.id}`)
+      .get<IWorkPositionAddOrEditDto>(`WorkPosition/GetById/${this.id}`)
       .subscribe({
         next: (resp: any) => {
           this.form.patchValue(resp.body);
@@ -106,6 +109,7 @@ export default class AddoreditPlantillaComponent implements OnInit, OnDestroy {
     return this.form.controls;
   }
   onSubmit() {
+    console.log('Formulario...', this.form.value);
     if (this.form.invalid) {
       Object.values(this.form.controls).forEach((x) => {
         x.markAllAsTouched();

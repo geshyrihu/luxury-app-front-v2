@@ -56,17 +56,10 @@
           {{ item.endDate }}
         </td>
         <td class="p-column-title text-center">
-          <!-- TODO:REVISARMEDORO PARA PDF -->
-          <a
-            routerLink="/documento/view-documento"
-            (click)="onVviewPdfService(item.pathDocument)"
-          >
-            <!-- {{ item.document }} -->
-            <i
-              class="fa-duotone fa-file-pdf text-danger"
-              style="font-size: 2rem"
-            ></i>
-          </a>
+          <custom-button-download-pdf
+            ngbTooltip="Visualizar Pdf"
+            [urlFile]="item.pathDocument"
+          ></custom-button-download-pdf>
         </td>
 
         <!-- Opciones -->
