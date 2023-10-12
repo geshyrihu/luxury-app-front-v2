@@ -13,7 +13,7 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ToastModule } from 'primeng/toast';
 import { Subscription } from 'rxjs';
 import { ERelationEmployee } from 'src/app/enums/relacion-empleado.enum';
-import { onGetEnum } from 'src/app/helpers/enumaraciones';
+import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
 import { DataService } from 'src/app/services/data.service';
 import { SwalService } from 'src/app/services/swal.service';
 import { ToastService } from 'src/app/services/toast.service';
@@ -44,7 +44,7 @@ export default class ContactEmployeeComponent implements OnInit, OnDestroy {
 
   id: number;
   idEmployee: number;
-  cb_contactEmployee: any[] = onGetEnum(ERelationEmployee);
+  cb_contactEmployee: any[] = onGetSelectItemFromEnum(ERelationEmployee);
   showButtonAddOrCancel: boolean = false;
   contactEmployeeAdd: any;
   submitting: boolean = false;

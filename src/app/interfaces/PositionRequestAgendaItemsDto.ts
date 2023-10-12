@@ -1,5 +1,5 @@
-import { EDecisionCandidadoReclutamiento } from '../enums/EDecisionCandidadoReclutamiento';
-import { EFuenteReclutamiento } from '../enums/EFuenteReclutamiento';
+import { EDecisionCandidadoReclutamiento } from '../enums/decision-candidado-reclutamiento';
+import { EFuenteReclutamiento } from '../enums/fuente-reclutamiento';
 
 export interface PositionRequestAgendaItemsDto {
   id: number;

@@ -9,7 +9,7 @@ import {
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import { EState } from 'src/app/enums/state.enum';
-import { onGetEnum } from 'src/app/helpers/enumaraciones';
+import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
 import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
 import { AuthService } from 'src/app/services/auth.service';
 import { CustomerIdService } from 'src/app/services/customer-id.service';
@@ -58,7 +58,7 @@ export default class AddoreditToolsComponent implements OnInit, OnDestroy {
   photoFileUpdate: boolean = false;
 
   cb_category: any[] = [{}];
-  optionActive: ISelectItemDto[] = onGetEnum(EState);
+  optionActive: ISelectItemDto[] = onGetSelectItemFromEnum(EState);
   form: FormGroup;
 
   ngOnInit(): void {
@@ -165,7 +165,7 @@ export default class AddoreditToolsComponent implements OnInit, OnDestroy {
     formData.append('state', String(dto.state));
     formData.append(
       'dateOfPurchase',
-      this.dateService.formDateToString(dto.dateOfPurchase)
+      this.dateService.getDateFormat(dto.dateOfPurchase)
     );
     formData.append('technicalSpecifications', dto.technicalSpecifications);
     formData.append('observations', dto.observations);

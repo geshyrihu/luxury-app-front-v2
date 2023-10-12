@@ -114,9 +114,7 @@ export default class AddOrEditEntradasComponent implements OnInit, OnDestroy {
         this.cantidadActual = resp.body.cantidad;
         this.form.patchValue(resp.body);
         this.form.patchValue({
-          fechaEntrada: this.dateService.formDateToString(
-            resp.body.fechaEntrada
-          ),
+          fechaEntrada: this.dateService.getDateFormat(resp.body.fechaEntrada),
         });
         this.form.patchValue({
           providerId: resp.body.providerId,

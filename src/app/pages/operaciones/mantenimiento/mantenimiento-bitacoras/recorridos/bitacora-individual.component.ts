@@ -40,10 +40,10 @@ export default class BitacoraIndividualComponent implements OnInit, OnDestroy {
 
   machineryId: number;
   nameMachinery: string = '';
-  fechaInicial: string = this.dateService.formDateToString(
+  fechaInicial: string = this.dateService.getDateFormat(
     this.rangoCalendarioService.fechaInicioDateFull
   );
-  fechaFinal: string = this.dateService.formDateToString(
+  fechaFinal: string = this.dateService.getDateFormat(
     this.rangoCalendarioService.fechaFinalDateFull
   );
   data: any[];

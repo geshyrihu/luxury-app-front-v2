@@ -40,7 +40,7 @@ export default [
     path: 'empleados-general',
     loadComponent: () =>
       import(
-        'src/app/pages/operaciones/directorios/empleados/index-employee-all.component'
+        'src/app/pages/operaciones/directorios/empleados/list-persons.component'
       ),
   },
   {

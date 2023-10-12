@@ -6,7 +6,7 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { TableModule } from 'primeng/table';
 import { Observable, Subscription } from 'rxjs';
 import { EMonths } from 'src/app/enums/meses.enum';
-import { onGetEnum } from 'src/app/helpers/enumaraciones';
+import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
 import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
 import { CurrencyMexicoPipe } from 'src/app/pipes/currencyMexico.pipe';
 import { EInventoryCategoryPipe } from 'src/app/pipes/inventoryCategory.pipe';
@@ -53,7 +53,7 @@ export default class ListadoAnualMantenimientoComponent
   subRef$: Subscription;
   customerId$: Observable<number> = this.customerIdService.getCustomerId$();
   month = date.getMonth() + 1;
-  months: ISelectItemDto[] = onGetEnum(EMonths);
+  months: ISelectItemDto[] = onGetSelectItemFromEnum(EMonths);
 
   ngOnInit() {
     this.onLoadData();

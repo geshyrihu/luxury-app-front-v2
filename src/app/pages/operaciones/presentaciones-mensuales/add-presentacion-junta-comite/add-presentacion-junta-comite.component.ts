@@ -62,10 +62,10 @@ export default class AddPresentacionJuntaComiteComponent implements OnDestroy {
       .get('PresentacionJuntaComite/Get/' + id)
       .subscribe({
         next: (resp: any) => {
-          resp.body.fechaCorrespondiente = this.dateService.formDateToString(
+          resp.body.fechaCorrespondiente = this.dateService.getDateFormat(
             resp.body.fechaCorrespondiente
           );
-          resp.body.fechaJunta = this.dateService.formDateToString(
+          resp.body.fechaJunta = this.dateService.getDateFormat(
             resp.body.fechaJunta
           );
           this.form.patchValue(resp.body);

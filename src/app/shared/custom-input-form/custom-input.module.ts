@@ -10,6 +10,7 @@ import CustomInputMaskComponent from './custom-input-mask/custom-input-mask.comp
 import CustomInputMonthComponent from './custom-input-month/custom-input-month.component';
 import CustomInputNumberComponent from './custom-input-number/custom-input-number.component';
 import CustomInputPasswordComponent from './custom-input-password/custom-input-password.component';
+import CustomInputSelectPrefixComponent from './custom-input-select prefix/custom-input-select-prefix.component';
 import CustomInputSelectComponent from './custom-input-select/custom-input-select.component';
 import CustomInputTextComponent from './custom-input-text/custom-input-text.component';
 import CustomInputTextAreaComponent from './custom-input-textarea/custom-input-textarea.component';
@@ -32,6 +33,7 @@ import CustomInputTimeComponent from './custom-input-time/custom-input-time.comp
     CustomInputMonthComponent,
     CustomInputEditorComponent,
     CustomInputDateTimeComponent,
+    CustomInputSelectPrefixComponent,
   ],
   exports: [
     CustomInputCheckComponent,
@@ -49,6 +51,7 @@ import CustomInputTimeComponent from './custom-input-time/custom-input-time.comp
     CustomInputMonthComponent,
     CustomInputEditorComponent,
     CustomInputDateTimeComponent,
+    CustomInputSelectPrefixComponent,
   ],
 })
 export default class CustomInputModule {}

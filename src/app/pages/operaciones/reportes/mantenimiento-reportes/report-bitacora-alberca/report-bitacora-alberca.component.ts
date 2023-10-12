@@ -41,7 +41,7 @@ export default class ReportBitacoraAlbercaComponent implements OnInit {
 
     this.subRef$ = this.dataService
       .get<IChartData[]>(
-        `MaintenanceReport/bitacoraalbercaparametros/${this.customerIdService.getcustomerId()}/${this.dateService.formDateToString(
+        `MaintenanceReport/bitacoraalbercaparametros/${this.customerIdService.getcustomerId()}/${this.dateService.getDateFormat(
           this.periodoMonthService.getPeriodoInicio
         )}`
       )

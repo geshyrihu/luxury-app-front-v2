@@ -47,7 +47,6 @@ export default class ServiceHistoryMachineryComponent
         next: (resp: any) => {
           this.swalService.onClose();
           this.data = resp.body;
-          console.log('🚀 ~ resp.body:', resp.body);
         },
         error: (err) => {
           this.swalService.onClose();

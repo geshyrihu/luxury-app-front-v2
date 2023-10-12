@@ -6,6 +6,7 @@ import {
   ValidatorFn,
 } from '@angular/forms';
 
+// Esta función factory devuelve una función validadora personalizada.
 export function passwordValidation(): ValidatorFn {
   return (control: AbstractControl) => {
     const passwordValidationDirective = new PasswordValidationDirective();
@@ -26,6 +27,7 @@ export function passwordValidation(): ValidatorFn {
 export class PasswordValidationDirective implements Validator {
   passwordsProhibidos = ['123456', 'querty', '123456789'];
 
+  // Este método se llama cuando se valida un control con la directiva.
   validate(
     control: import('@angular/forms').AbstractControl
   ): import('@angular/forms').ValidationErrors {
@@ -35,18 +37,21 @@ export class PasswordValidationDirective implements Validator {
       return;
     }
     if (password.length < 6) {
+      // Devuelve un error de validación si la longitud del password es menor que 6.
       return {
         passwordValidation: {
-          message: 'El password debe ser de minimo 6 caracteres',
+          message: 'El password debe ser de mínimo 6 caracteres',
         },
       };
     }
 
     if (this.passwordsProhibidos.indexOf(password) !== -1) {
+      // Devuelve un error de validación si el password está en la lista de contraseñas prohibidas.
       return { passwordValidation: { message: 'Escoge un mejor password' } };
     }
 
     if (password === password.toLowerCase()) {
+      // Devuelve un error de validación si el password no contiene letras mayúsculas.
       return {
         passwordValidation: {
           message: 'Tu password debe de contener mayúsculas',
@@ -55,6 +60,7 @@ export class PasswordValidationDirective implements Validator {
     }
 
     if (password === password.toUpperCase()) {
+      // Devuelve un error de validación si el password no contiene letras minúsculas.
       return {
         passwordValidation: {
           message: 'Tu password debe de contener minúsculas',
@@ -63,6 +69,7 @@ export class PasswordValidationDirective implements Validator {
     }
 
     if (!/\d/.test(password)) {
+      // Devuelve un error de validación si el password no contiene un caracter numérico.
       return {
         passwordValidation: {
           message: 'Tu password debe de incluir un caracter numérico',
@@ -70,6 +77,7 @@ export class PasswordValidationDirective implements Validator {
       };
     }
 
+    // Si no se encuentra ningún error de validación, devuelve null.
     return null;
   }
 }

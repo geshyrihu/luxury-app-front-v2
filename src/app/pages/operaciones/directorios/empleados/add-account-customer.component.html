@@ -1,10 +1,11 @@
 <form autocomplete="off" (ngSubmit)="register()" [formGroup]="form">
   <p class="text-danger card-text">
-    Valida con el Administrador del sistema que este empleado no este ya en la
-    base de datos, si este empleado ha trabajado en otro edificio de GRUPO
-    LUXURY, es probable que ya este registrado y solo sea necesario activar el
-    registro y asignarlo al edificio de nuevo ingreso (esta tarea la realizaría
-    el administrador del sistema)
+    Valida con el Administrador del sistema que este
+    <strong>COLABORADOR</strong> no este ya en la base de datos, si este
+    <strong>COLABORADOR</strong> ha trabajado en otro edificio de GRUPO LUXURY,
+    es probable que ya este registrado y solo sea necesario activar el registro
+    y asignarlo al edificio de nuevo ingreso (esta tarea la realizaría el
+    administrador del sistema)
   </p>
 
   <custom-input-text
@@ -12,6 +13,7 @@
     formControlName="firstName"
     label="Nombre"
     placeholder="nombre"
+    (input)="searchExistingPerson($event)"
   ></custom-input-text>
 
   <custom-input-text
@@ -19,6 +21,7 @@
     formControlName="lastName"
     label="Apellidos"
     placeholder="apellidos"
+    (input)="searchExistingPerson($event)"
   ></custom-input-text>
 
   <custom-input-date
@@ -29,16 +32,17 @@
   ></custom-input-date>
 
   <custom-input-mask
-    [control]="form.get('celularPersonal')"
-    formControlName="celularPersonal"
+    [control]="form.get('phoneNumber')"
+    formControlName="phoneNumber"
     label="Tél. Celular"
     placeholder="(00) 0000-0000"
     customMask="(00) 0000-0000"
+    (input)="searchExistingPhone($event)"
   ></custom-input-mask>
 
   <custom-input-email
-    [control]="form.get('correoPersonal')"
-    formControlName="correoPersonal"
+    [control]="form.get('email')"
+    formControlName="email"
     label="Email personal"
     placeholder="email personal"
   ></custom-input-email>
@@ -94,3 +98,19 @@
   ></custom-button-submit>
   <!-- Boton Submin -->
 </form>
+
+<p class="text-danger">
+  <strong>Coincidencias registradas</strong> , Si hay coincidencias, solicita el
+  apoyo del administrador del sistema
+</p>
+
+<div class="row">
+  <div class="col-4">
+    <p class="text-danger">POR NOMBRE:</p>
+    <p class="text-danger" *ngFor="let item of existingPerson">{{ item }}</p>
+  </div>
+  <div class="col-4">
+    <p class="text-danger">POR TÉLEFONO:</p>
+    <p class="text-danger" *ngFor="let item of existingPhone">{{ item }}</p>
+  </div>
+</div>

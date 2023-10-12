@@ -11,7 +11,7 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { EditorModule } from 'primeng/editor';
 import { Subscription } from 'rxjs';
 import { ERecurrence } from 'src/app/enums/recurrencia.enum';
-import { onGetEnum } from 'src/app/helpers/enumaraciones';
+import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
 import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
 import { AuthService } from 'src/app/services/auth.service';
 import { CustomerIdService } from 'src/app/services/customer-id.service';
@@ -50,7 +50,7 @@ export default class AddoreditMaintenancePreventiveComponent
 
   cb_machinery: any[] = [];
   cb_providers: any[] = [];
-  cb_recurrencia: ISelectItemDto[] = onGetEnum(ERecurrence);
+  cb_recurrencia: ISelectItemDto[] = onGetSelectItemFromEnum(ERecurrence);
   cb_subCuentaId: ISelectItemDto[] = [];
   submitting: boolean = false;
   subRef$: Subscription;
@@ -106,7 +106,6 @@ export default class AddoreditMaintenancePreventiveComponent
       .onGetSelectItem('TypeMaintance')
       .subscribe((resp) => {
         this.cb_TypeMaintance = resp;
-        console.log('🚀 ~ resp:', resp);
       });
   }
 

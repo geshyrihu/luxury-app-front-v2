@@ -1,13 +1,13 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ETipoGasto } from '../enums/tipo-gasto.enum';
-import { onGetEnum } from '../helpers/enumaraciones';
+import { onGetSelectItemFromEnum } from '../helpers/enumeration';
 
 @Pipe({
   name: 'eTipoGasto',
   standalone: true,
 })
 export class ETipoGastoPipe implements PipeTransform {
-  enum: any[] = onGetEnum(ETipoGasto);
+  enum: any[] = onGetSelectItemFromEnum(ETipoGasto);
   transform(value: unknown): string {
     let dato: string = '';
     if (value === null) {

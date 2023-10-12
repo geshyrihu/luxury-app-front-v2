@@ -40,8 +40,8 @@ export default class RangoCalendarioyyyymmddComponent
     this.rangoCalendarioService.setFechas(fechaInicio, fechaFinal);
     if (fechaInicio != null && fechaFinal != null) {
       const fechasFiltro: IFechasFiltro = {
-        fechaInicio: this.dateService.formDateToString(fechaInicio),
-        fechaFinal: this.dateService.formDateToString(fechaFinal),
+        fechaInicio: this.dateService.getDateFormat(fechaInicio),
+        fechaFinal: this.dateService.getDateFormat(fechaFinal),
       };
       this.rangoCalendarioService.fechas$.emit(fechasFiltro);
     }

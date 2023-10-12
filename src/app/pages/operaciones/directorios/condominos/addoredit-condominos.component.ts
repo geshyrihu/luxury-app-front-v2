@@ -9,7 +9,7 @@ import {
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import { EHabitant } from 'src/app/enums/habitante.enum';
-import { onGetEnum } from 'src/app/helpers/enumaraciones';
+import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
 import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
 import { AuthService } from 'src/app/services/auth.service';
 import { CustomerIdService } from 'src/app/services/customer-id.service';
@@ -59,7 +59,7 @@ export default class AddOrEditCondominosComponent implements OnInit, OnDestroy {
       value: false,
     },
   ];
-  cb_Habitant: ISelectItemDto[] = onGetEnum(EHabitant);
+  cb_Habitant: ISelectItemDto[] = onGetSelectItemFromEnum(EHabitant);
   form: FormGroup = this.formBuilder.group({
     id: { value: this.id, disabled: true },
     customerId: [this.customerId],

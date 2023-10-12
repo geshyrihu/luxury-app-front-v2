@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { onGetEnum } from 'src/app/helpers/enumaraciones';
+import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
 import { EMonths } from '../enums/meses.enum';
 
 @Pipe({
@@ -7,7 +7,7 @@ import { EMonths } from '../enums/meses.enum';
   standalone: true,
 })
 export class EMonthPipe implements PipeTransform {
-  enum: any = onGetEnum(EMonths);
+  enum: any = onGetSelectItemFromEnum(EMonths);
   transform(value: number): string {
     let dato: string = '';
     if (value === null) {

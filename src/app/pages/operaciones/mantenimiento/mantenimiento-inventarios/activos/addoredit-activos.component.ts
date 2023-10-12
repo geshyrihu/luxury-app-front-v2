@@ -15,7 +15,7 @@ import { EditorModule } from 'primeng/editor';
 import { Subscription } from 'rxjs';
 import { EInventoryCategory } from 'src/app/enums/categoria-inventario.enum';
 import { EState } from 'src/app/enums/state.enum';
-import { onGetEnum } from 'src/app/helpers/enumaraciones';
+import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
 import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
 import { AuthService } from 'src/app/services/auth.service';
 import { CustomerIdService } from 'src/app/services/customer-id.service';
@@ -60,7 +60,8 @@ export default class AddOrEditActivosComponent implements OnInit, OnDestroy {
   public id: number = 0;
   user = this.authService.userTokenDto.infoUserAuthDto.applicationUserId;
   customerId: number = this.customerIdService.getcustomerId();
-  cb_inventoryCategory: ISelectItemDto[] = onGetEnum(EInventoryCategory);
+  cb_inventoryCategory: ISelectItemDto[] =
+    onGetSelectItemFromEnum(EInventoryCategory);
   machineryDTO: any;
   photoFileUpdate: boolean = false;
   category: any;
@@ -68,7 +69,7 @@ export default class AddOrEditActivosComponent implements OnInit, OnDestroy {
 
   form: FormGroup;
 
-  optionActive: any[] = onGetEnum(EState);
+  optionActive: any[] = onGetSelectItemFromEnum(EState);
   ngOnInit(): void {
     this.onLoadEquipoClasificacion();
     this.urlBaseImg = `${
@@ -168,7 +169,7 @@ export default class AddOrEditActivosComponent implements OnInit, OnDestroy {
     formData.append('state', String(machineryDTO.state));
     formData.append(
       'dateOfPurchase',
-      this.dateService.formDateToString(machineryDTO.dateOfPurchase)
+      this.dateService.getDateFormat(machineryDTO.dateOfPurchase)
     );
     formData.append('customerId', String(this.customerId));
     formData.append(

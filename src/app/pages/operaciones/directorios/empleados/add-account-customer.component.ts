@@ -8,7 +8,7 @@ import {
 } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { toBase64 } from 'src/app/helpers/utilities';
+import { imageToBase64 } from 'src/app/helpers/enumeration';
 import { UserInfoDto } from 'src/app/interfaces/auth/user-info.interface';
 import { CustomerIdService } from 'src/app/services/customer-id.service';
 import { DataService } from 'src/app/services/data.service';
@@ -54,10 +54,10 @@ export default class AddAccountCustomerComponent implements OnInit, OnDestroy {
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
     birth: ['', Validators.required],
-    celularPersonal: ['', Validators.required],
+    phoneNumber: ['', Validators.required],
     professionId: ['', Validators.required],
     photoPath: ['', Validators.required],
-    correoPersonal: ['', [Validators.required]],
+    email: ['', [Validators.required]],
   });
   register() {
     if (this.form.invalid) {
@@ -103,15 +103,15 @@ export default class AddAccountCustomerComponent implements OnInit, OnDestroy {
   private createFormData(model: any): FormData {
     const formData = new FormData();
 
-    formData.append('birth', this.dateService.formDateToString(model.birth));
-    formData.append('correoPersonal', model.correoPersonal);
+    formData.append('birth', this.dateService.getDateFormat(model.birth));
+    formData.append('email', model.email);
     formData.append(
       'customerId',
       String(this.customerIdService.getcustomerId())
     );
     formData.append('firstName', model.firstName);
     formData.append('lastName', model.lastName);
-    formData.append('celularPersonal', model.celularPersonal);
+    formData.append('phoneNumber', model.phoneNumber);
     formData.append('professionId', model.professionId);
 
     if (this.imagen) {
@@ -124,7 +124,7 @@ export default class AddAccountCustomerComponent implements OnInit, OnDestroy {
   change(event: any): void {
     if (event.target.files.length > 0) {
       const file: File = event.target.files[0];
-      toBase64(file)
+      imageToBase64(file)
         .then((value: string) => {
           this.imgBase64 = value;
         })
@@ -132,6 +132,38 @@ export default class AddAccountCustomerComponent implements OnInit, OnDestroy {
       this.imagen = file;
     }
   }
+
+  searchExistingPerson(fullName: any) {
+    this.existingPerson = [];
+    this.subRef$ = this.dataService
+      .get('Employees/SearchExistingPerson/' + fullName.target.value)
+      .subscribe({
+        next: (resp) => {
+          this.existingPerson = resp.body;
+        },
+        error: (err) => {
+          console.log(err.error);
+          // Habilitar el botón nuevamente al finalizar el envío del formulario
+          this.swalService.onClose();
+        },
+      });
+  }
+  existingPerson: any;
+  existingPhone: any;
+  searchExistingPhone(phone: any) {
+    this.existingPhone = [];
+    this.subRef$ = this.dataService
+      .get('Employees/SearchExistingPhone/' + phone.target.value)
+      .subscribe({
+        next: (resp) => {
+          this.existingPhone = resp.body;
+        },
+        error: (err) => {
+          console.log(err.error);
+        },
+      });
+  }
+
   ngOnDestroy() {
     if (this.subRef$) this.subRef$.unsubscribe();
   }

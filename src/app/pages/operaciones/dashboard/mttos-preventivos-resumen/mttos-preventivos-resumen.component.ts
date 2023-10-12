@@ -46,10 +46,8 @@ export default class MantenimientosPreventivosResumenComponent
   ngOnInit(): void {
     this.estatus = this.config.data.estatus;
     this.onLoadData(
-      this.dateService.formDateToString(
-        this.periodoMonthService.getPeriodoInicio
-      ),
-      this.dateService.formDateToString(this.periodoMonthService.getPeriodoFin),
+      this.dateService.getDateFormat(this.periodoMonthService.getPeriodoInicio),
+      this.dateService.getDateFormat(this.periodoMonthService.getPeriodoFin),
       this.estatus
     );
   }

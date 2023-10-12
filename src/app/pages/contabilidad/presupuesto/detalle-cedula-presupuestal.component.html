@@ -1,0 +1,151 @@
+<!-- <p-toast position="top-left" [baseZIndex]="99999"></p-toast>
+<div class="card">
+  <p-table
+    #dt
+    styleClass="custom-table"
+    [value]="data"
+    [rowHover]="true"
+    [globalFilterFields]="['cuenta.descripcion']"
+    responsiveLayout="scroll"
+  >
+    <ng-template pTemplate="caption">
+      <app-table-header
+        [title]="'Detalle de Cedula presupuestal'"
+        (add)="onModalAdd()"
+        [dt]="dt"
+        [rolAuth]="authService.onValidateRoles(['SuperUsuario'])"
+      ></app-table-header>
+    </ng-template>
+
+    <ng-template pTemplate="header">
+      <tr>
+        <th
+          class="small"
+          scope="col"
+          style="width: 10%"
+          pSortableColumn="cuenta.descripcion"
+        >
+          Partida presupuestal
+          <p-sortIcon field="cuenta.descripcion"></p-sortIcon>
+        </th>
+        <th
+          class="small"
+          scope="col"
+          style="width: 10%"
+          pSortableColumn="presupuestoMensual"
+        >
+          Presupuesto Mensual
+          <p-sortIcon field="presupuestoMensual"></p-sortIcon>
+        </th>
+        <th
+          class="small"
+          scope="col"
+          style="width: 10%"
+          pSortableColumn="presupuestoEjercido"
+        >
+          Presupuesto ejercido
+          <p-sortIcon field="presupuestoEjercido"></p-sortIcon>
+        </th>
+        <th
+          class="small"
+          scope="col"
+          style="width: 10%"
+          pSortableColumn="presupuestoAcumulado"
+        >
+          Presupuesto Acumulado
+          <p-sortIcon field="presupuestoAcumulado"></p-sortIcon>
+        </th>
+        <th
+          class="small"
+          scope="col"
+          style="width: 10%"
+          pSortableColumn="presupuestoDisponible"
+        >
+          Presupuesto disponible
+          <p-sortIcon field="presupuestoDisponible"></p-sortIcon>
+        </th>
+        <th
+          class="small"
+          scope="col"
+          style="width: 10%"
+          pSortableColumn="presupuestoAnual"
+        >
+          Presupuesto Anual
+          <p-sortIcon field="presupuestoAnual"></p-sortIcon>
+        </th>
+        <th
+          class="small"
+          scope="col"
+          style="width: 10%"
+          pSortableColumn="presupuestoRestanteAnio"
+        >
+          Presupuesto a fin de año
+          <p-sortIcon field="presupuestoRestanteAnio"></p-sortIcon>
+        </th>
+        <th
+          *ngIf="authService.onValidateRoles(['SuperUsuario'])"
+          class="small"
+          scope="col"
+          style="width: 10%"
+        >
+          Opciones
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-item>
+      <tr>
+        <td class="p-column-title">
+          <small>
+            {{ item.cuenta.descripcion }}
+          </small>
+        </td>
+        <td class="p-column-title">
+          <small>{{
+            item.presupuestoMensual | currency : "MXN" : "symbol"
+          }}</small>
+        </td>
+        <td class="p-column-title">
+          <small>{{
+            item.presupuestoEjercido | currency : "MXN" : "symbol"
+          }}</small>
+        </td>
+        <td class="p-column-title">
+          <small>{{
+            item.presupuestoAcumulado | currency : "MXN" : "symbol"
+          }}</small>
+        </td>
+        <td class="p-column-title">
+          <small>{{
+            item.presupuestoDisponible | currency : "MXN" : "symbol"
+          }}</small>
+        </td>
+        <td class="p-column-title">
+          <small>{{
+            item.presupuestoAnual | currency : "MXN" : "symbol"
+          }}</small>
+        </td>
+        <td class="p-column-title">
+          <small>{{
+            item.presupuestoRestanteAnio | currency : "MXN" : "symbol"
+          }}</small>
+        </td>
+        <!-- Opciones -->
+        <div
+          *ngIf="authService.onValidateRoles(['SuperUsuario'])"
+          class="d-flex justify-content-center"
+        >
+          <custom-button-edit
+            (edit)="onModalEditar({ id: item.id, title: 'Editar Registro' })"
+          ></custom-button-edit>
+          <custom-button-delete
+            (OnConfirm)="onDelete(item)"
+          ></custom-button-delete>
+        </div>
+        <!-- Opciones -->
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="paginatorleft">
+      <app-table-footer [data]="data"></app-table-footer>
+    </ng-template>
+  </p-table>
+</div> -->

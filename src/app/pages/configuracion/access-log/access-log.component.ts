@@ -46,23 +46,19 @@ export default class AccessLogComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.onLoadData(
-      this.dateService.formDateToString(
-        this.filtroCalendarService.fechaInicial
-      ),
-      this.dateService.formDateToString(this.filtroCalendarService.fechaFinal)
+      this.dateService.getDateFormat(this.filtroCalendarService.fechaInicial),
+      this.dateService.getDateFormat(this.filtroCalendarService.fechaFinal)
     );
     this.customerId$.subscribe(() => {
       this.onLoadData(
-        this.dateService.formDateToString(
-          this.filtroCalendarService.fechaInicial
-        ),
-        this.dateService.formDateToString(this.filtroCalendarService.fechaFinal)
+        this.dateService.getDateFormat(this.filtroCalendarService.fechaInicial),
+        this.dateService.getDateFormat(this.filtroCalendarService.fechaFinal)
       );
     });
     this.dates$.subscribe((dates) => {
       this.onLoadData(
-        this.dateService.formDateToString(dates[0]),
-        this.dateService.formDateToString(dates[1])
+        this.dateService.getDateFormat(dates[0]),
+        this.dateService.getDateFormat(dates[1])
       );
     });
   }

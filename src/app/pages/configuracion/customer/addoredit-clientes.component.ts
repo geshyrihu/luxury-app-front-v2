@@ -84,7 +84,7 @@ export default class AddOrEditClienteComponent implements OnInit, OnDestroy {
       .get<ICustomerAddOrEditDto>(`Customers/${this.id}`)
       .subscribe((resp: any) => {
         this.model = resp.body;
-        const register = this.dateService.formDateToString(resp.body.register);
+        const register = this.dateService.getDateFormat(resp.body.register);
         this.model.register = register;
         this.form.patchValue(this.model);
       });
@@ -155,7 +155,7 @@ export default class AddOrEditClienteComponent implements OnInit, OnDestroy {
     }
     formData.append(
       'register',
-      this.dateService.formDateToString(customerAdCustomerAddOrEdit.register)
+      this.dateService.getDateFormat(customerAdCustomerAddOrEdit.register)
     );
     formData.append('rfc', customerAdCustomerAddOrEdit.rfc);
     formData.append('numeroCliente', customerAdCustomerAddOrEdit.numeroCliente);

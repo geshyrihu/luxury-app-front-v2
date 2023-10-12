@@ -133,14 +133,11 @@ export default class TiketMantenimientoV2Component implements OnInit {
       .onGetSelectItemCheck('ResponsibleAreaCheck')
       .subscribe((resp) => {
         this.cb_responsible_area = resp;
-        console.log('🚀 ~ this.cb_responsible_area:', this.cb_responsible_area);
       });
   }
 
   ///OPCIONES PARA SELECCIONAR AREA RESPONSABLE
   onSelectResponsibleArea(item) {
-    console.log('🚀 ~ item:', item);
-    console.log('🚀 ~ cb_responsible_area:', this.cb_responsible_area);
     this.onLoadData();
   }
   ngOnDestroy() {

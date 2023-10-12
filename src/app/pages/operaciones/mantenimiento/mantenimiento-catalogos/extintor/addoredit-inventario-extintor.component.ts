@@ -9,7 +9,7 @@ import {
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import { EExtintor } from 'src/app/enums/extintor.enum';
-import { onGetEnum } from 'src/app/helpers/enumaraciones';
+import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
 import { IInventarioExtintorDto } from 'src/app/interfaces/IInventarioExtintorDto.interface';
 import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
 import { AuthService } from 'src/app/services/auth.service';
@@ -47,7 +47,7 @@ export default class AddoreditInventarioExtintorComponent
 
   submitting: boolean = false;
   subRef$: Subscription;
-  cb_extintor: ISelectItemDto[] = onGetEnum(EExtintor);
+  cb_extintor: ISelectItemDto[] = onGetSelectItemFromEnum(EExtintor);
   urlBaseImg = `${environment.base_urlImg}customers/`;
   photoFileUpdate: boolean = false;
   id: number = 0;

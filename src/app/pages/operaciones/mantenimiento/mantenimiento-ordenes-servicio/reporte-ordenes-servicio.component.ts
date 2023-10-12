@@ -69,7 +69,7 @@ export default class ReporteOrdenesServicioComponent
         'ServiceOrders/ReporteOrdenesServicio/' +
           this.customerIdService.customerId +
           '/' +
-          this.dateService.formDateToString(
+          this.dateService.getDateFormat(
             this.periodoMonthService.getPeriodoInicio
           ) +
           '-01'

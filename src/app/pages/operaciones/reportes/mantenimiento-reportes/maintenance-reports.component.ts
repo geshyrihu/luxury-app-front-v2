@@ -43,7 +43,7 @@ export default class MaintenanceReportsComponent implements OnInit {
     this.onLoadMenu();
     this.periodoInicial$.subscribe(() => {
       console.log(
-        this.dateService.formatDateTimeMonthyear(
+        this.dateService.formatDateTimeToMMAAAA(
           this.periodoMonthService.getPeriodoInicio
         )
       );

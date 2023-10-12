@@ -11,51 +11,51 @@ import { TopbarComponent } from '../topbar/topbar.component';
   standalone: true,
   imports: [CommonModule, SidebarComponent, TopbarComponent, RouterModule],
 })
-
 /**
  * Vertical Component
  */
 export default class VerticalComponent implements OnInit, OnDestroy {
-  @ViewChild('myDialog') myDialog: Dialog;
-  private router = inject(Router);
-  private bnIdle = inject(BnNgIdleService);
+  @ViewChild('myDialog') myDialog: Dialog; // Referencia al elemento 'myDialog' en el componente
+  private router = inject(Router); // Inyección del servicio Router
+  private bnIdle = inject(BnNgIdleService); // Inyección del servicio BnNgIdleService
 
   // @HostListener('window:resize', ['$event'])
-  isCondensed = false;
+  isCondensed = false; // Variable para controlar si la interfaz está condensada o no
 
-  // some fields to store our state so we can display it in the UI
-  idleState = 'NOT_STARTED';
-  countdown?: number = null;
-  lastPing?: Date = null;
+  // Algunos campos para almacenar el estado y mostrarlo en la interfaz de usuario
+  idleState = 'NOT_STARTED'; // Estado de inactividad
+  countdown?: number = null; // Contador regresivo de inactividad
+  lastPing?: Date = null; // Último ping recibido
 
   ngOnInit(): void {
-    document.body.setAttribute('data-layout', 'vertical');
+    document.body.setAttribute('data-layout', 'vertical'); // Establecer un atributo en el body del documento
 
     /**
-     * Metodo despues de 15 minutos de inactividad, se va a cerrar sesión
+     * Método que se ejecuta después de 15 minutos de inactividad para cerrar la sesión
      */
-    // this.bnIdle.startWatching(900).subscribe((isTimedOut: boolean) => {
     this.bnIdle.startWatching(900).subscribe((isTimedOut: boolean) => {
       if (isTimedOut) {
-        const currentUrl = this.router.url;
-        localStorage.setItem('currentUrl', currentUrl);
-        this.myDialog.close(null);
-        this.router.navigate(['/auth/login']);
+        const currentUrl = this.router.url; // Obtener la URL actual
+        localStorage.setItem('currentUrl', currentUrl); // Almacenar la URL actual en el almacenamiento local
+        this.myDialog.close(null); // Cerrar el diálogo
+        this.router.navigate(['/auth/login']); // Navegar a la página de inicio de sesión
       }
     });
   }
   ngOnDestroy(): void {
-    this.bnIdle.stopTimer();
+    this.bnIdle.stopTimer(); // Detener el temporizador de inactividad al destruir el componente
   }
 
   /**
-   * On mobile toggle button clicked
+   * Se ejecuta cuando se hace clic en el botón de alternar menú móvil
    */
   onToggleMobileMenu() {
-    document.body.classList.toggle('sidebar-enable');
+    document.body.classList.toggle('sidebar-enable'); // Alternar la clase 'sidebar-enable' en el body
+
     const currentSIdebarSize = document.body.getAttribute('data-sidebar-size');
     if (window.screen.width >= 992) {
       if (currentSIdebarSize == null) {
+        // Configurar el atributo 'data-sidebar-size' en 'sm' o 'lg' según el valor actual
         document.body.getAttribute('data-sidebar-size') == null ||
         document.body.getAttribute('data-sidebar-size') == 'lg'
           ? document.body.setAttribute('data-sidebar-size', 'sm')
@@ -70,21 +70,21 @@ export default class VerticalComponent implements OnInit, OnDestroy {
           : document.body.setAttribute('data-sidebar-size', 'sm');
       }
     }
-    this.isCondensed = !this.isCondensed;
+    this.isCondensed = !this.isCondensed; // Cambiar el estado de 'isCondensed'
   }
 
   /**
-   * on settings button clicked from topbar
+   * Se ejecuta cuando se hace clic en el botón de configuración en la barra superior
    */
   onSettingsButtonClicked() {
-    document.body.classList.toggle('right-bar-enabled');
+    document.body.classList.toggle('right-bar-enabled'); // Alternar la clase 'right-bar-enabled' en el body
   }
 
   onOcultarBarra() {
     if (window.innerWidth <= 992) {
-      /**Aca la funcion que oculte el menu */
-      this.onSettingsButtonClicked();
-      this.onToggleMobileMenu();
+      /** Aquí deberías proporcionar una descripción de lo que hace esta función, ya que no está claro en el código. */
+      this.onSettingsButtonClicked(); // Llamar a la función onSettingsButtonClicked
+      this.onToggleMobileMenu(); // Llamar a la función onToggleMobileMenu
     }
   }
 }

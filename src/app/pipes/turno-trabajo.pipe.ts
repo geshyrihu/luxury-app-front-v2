@@ -1,13 +1,13 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ETurnoTrabajo } from '../enums/turno-trabajo.enum';
-import { onGetEnum } from '../helpers/enumaraciones';
+import { onGetSelectItemFromEnum } from '../helpers/enumeration';
 
 @Pipe({
   name: 'eTurnoTrabajo',
   standalone: true,
 })
 export class ETurnoTrabajoPipe implements PipeTransform {
-  enum: any[] = onGetEnum(ETurnoTrabajo);
+  enum: any[] = onGetSelectItemFromEnum(ETurnoTrabajo);
   transform(value: unknown): string {
     let dato: string = '';
     if (value === null) {

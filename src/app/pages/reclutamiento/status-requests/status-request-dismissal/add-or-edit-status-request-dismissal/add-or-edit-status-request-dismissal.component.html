@@ -1,0 +1,77 @@
+<div class="mt-2">
+  <form autocomplete="off" (ngSubmit)="onSubmit()" [formGroup]="form">
+    <custom-input-text
+      [control]="form.get('id')"
+      formControlName="id"
+      label="Id"
+      [hidden]="true"
+    ></custom-input-text>
+    <custom-input-text
+      [control]="form.get('employeeId')"
+      formControlName="employeeId"
+      label="IdColaborador"
+      placeholder="IdColaborador"
+      [hidden]="true"
+    ></custom-input-text>
+
+    <custom-input-text
+      [control]="form.get('folio')"
+      formControlName="folio"
+      label="Folio"
+      placeholder="Folio"
+    ></custom-input-text>
+
+    <custom-input-date
+      [control]="form.get('requestDate')"
+      formControlName="requestDate"
+      label="Fecha de solicitud"
+      placeholder="fecha de solicitud"
+      [disabled]="true"
+    ></custom-input-date>
+
+    <custom-input-date
+      [control]="form.get('executionDate')"
+      formControlName="executionDate"
+      label="Fecha de la baja"
+      placeholder="fecha de la baja"
+    ></custom-input-date>
+
+    <custom-input-select
+      [control]="form.get('status')"
+      formControlName="status"
+      label="Estatus"
+      [data]="cb_status"
+    ></custom-input-select>
+
+    <custom-input-select
+      [control]="form.get('tipoBaja')"
+      formControlName="tipoBaja"
+      label="Tipo de baja"
+      [data]="cb_type_departure"
+    ></custom-input-select>
+
+    <custom-input-text-area
+      [control]="form.get('reasonForLeaving')"
+      formControlName="reasonForLeaving"
+      label="Motivo de la baja"
+      placeholder="motivo de la baja"
+    ></custom-input-text-area>
+
+    <custom-input-select
+      [control]="form.get('lawyerAssistance')"
+      formControlName="lawyerAssistance"
+      label="Require abogado"
+      [data]="cb_si_no"
+    ></custom-input-select>
+    <custom-input-select
+      [control]="form.get('employeeInformed')"
+      formControlName="employeeInformed"
+      label="Colaborador enterado de su baja"
+      [data]="cb_si_no"
+    ></custom-input-select>
+
+    <custom-button-submit
+      [disabled]="this.form.invalid || submitting"
+    ></custom-button-submit>
+  </form>
+</div>

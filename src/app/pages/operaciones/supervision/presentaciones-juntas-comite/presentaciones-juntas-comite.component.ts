@@ -50,7 +50,7 @@ export default class PresentacionesJuntasComiteComponent
   }
 
   onLoadData(): void {
-    let inicial = this.dateService.formDateToString(
+    let inicial = this.dateService.getDateFormat(
       new Date(this.periodo + '-' + 1)
     );
     this.swalService.onLoading();

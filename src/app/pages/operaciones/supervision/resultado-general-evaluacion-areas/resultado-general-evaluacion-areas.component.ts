@@ -39,10 +39,10 @@ export default class EvaluacionAreasComponent implements OnInit, OnDestroy {
   ref: DynamicDialogRef;
 
   ngOnInit() {
-    this.fechaInicial = this.dateService.formDateToString(
+    this.fechaInicial = this.dateService.getDateFormat(
       this.rangoCalendarioService.fechaInicial
     );
-    this.fechaFinal = this.dateService.formDateToString(
+    this.fechaFinal = this.dateService.getDateFormat(
       this.rangoCalendarioService.fechaFinal
     );
     this.onLoadData(this.fechaInicial, this.fechaFinal);

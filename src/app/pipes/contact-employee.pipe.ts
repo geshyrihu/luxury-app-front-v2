@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { onGetEnum } from 'src/app/helpers/enumaraciones';
+import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
 import { ERelationEmployee } from '../enums/relacion-empleado.enum';
 
 @Pipe({
@@ -7,7 +7,7 @@ import { ERelationEmployee } from '../enums/relacion-empleado.enum';
   standalone: true,
 })
 export class ERelationEmployeePipe implements PipeTransform {
-  enum: any[] = onGetEnum(ERelationEmployee);
+  enum: any[] = onGetSelectItemFromEnum(ERelationEmployee);
   transform(value: unknown): string {
     let dato: string = '';
     if (value === null) {

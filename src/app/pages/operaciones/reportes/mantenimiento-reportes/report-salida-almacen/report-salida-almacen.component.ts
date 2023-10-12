@@ -51,7 +51,7 @@ export default class ReportSalidaAlmacenComponent implements OnInit {
       .get(
         `MaintenanceReport/salidaproducto/${
           this.customerIdService.customerId
-        }/${this.dateService.formDateToString(
+        }/${this.dateService.getDateFormat(
           this.periodoMonthService.getPeriodoInicio
         )}`
       )

@@ -7,6 +7,7 @@ import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { Observable, Subscription } from 'rxjs';
 import { IEmployeeDto } from 'src/app/interfaces/IEmployeeDto.interface';
+import UpdatePasswordModalComponent from 'src/app/pages/configuracion/accounts/modal-edit-account/update-password-modal/update-password-modal.component';
 import { AuthService } from 'src/app/services/auth.service';
 import { CustomerIdService } from 'src/app/services/customer-id.service';
 import { DataService } from 'src/app/services/data.service';
@@ -14,6 +15,7 @@ import { SwalService } from 'src/app/services/swal.service';
 import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
 import { environment } from 'src/environments/environment';
+import AccountToEmployeeComponent from './account-to-employee/account-to-employee.component';
 import AddAccountCustomerComponent from './add-account-customer.component';
 import AddOrEditEmployeeOnlyImgComponent from './add-or-edit-employee-img.component';
 import AddOrEditEmplopyeeComponent from './addoredit-employee.component';
@@ -36,13 +38,13 @@ export default class ListEmployeeComponent implements OnInit, OnDestroy {
   private swalService = inject(SwalService);
   public toastService = inject(ToastService);
 
+  activo: boolean = true;
   data: IEmployeeDto[] = [];
   getAllEmployeeActive: any = [];
-  tipoContrato: any;
-  activo: boolean = true;
-  url = base_urlImg;
   ref: DynamicDialogRef;
   subRef$: Subscription;
+  tipoContrato: any;
+  url = base_urlImg;
 
   customerId$: Observable<number> = this.customerIdService.getCustomerId$();
 
@@ -105,7 +107,6 @@ export default class ListEmployeeComponent implements OnInit, OnDestroy {
         applicationUserId: employeeId,
       },
       header: 'Actualizar Foto',
-
       baseZIndex: 10000,
       closeOnEscape: true,
       styleClass: 'modal-md',
@@ -146,16 +147,29 @@ export default class ListEmployeeComponent implements OnInit, OnDestroy {
       closeOnEscape: true,
     });
     this.ref.onClose.subscribe((resp: boolean) => {
-      if (resp) {
-        this.toastService.onShowSuccess();
-        this.onLoadData();
-      }
+      this.toastService.onShowSuccess();
+      this.onLoadData();
     });
   }
   showModalAddAccount() {
     this.ref = this.dialogService.open(AddAccountCustomerComponent, {
       data: {},
       header: 'Agregar cuenta de usuario',
+      styleClass: 'modal-lg',
+      baseZIndex: 10000,
+      closeOnEscape: true,
+    });
+    this.ref.onClose.subscribe((resp: boolean) => {
+      if (resp) {
+        this.toastService.onShowSuccess();
+        this.onLoadData();
+      }
+    });
+  }
+  onModalAccountToEmployee(id: number, applicationUserId: string) {
+    this.ref = this.dialogService.open(AccountToEmployeeComponent, {
+      data: { id, applicationUserId },
+      header: 'Asignar cuenta de usuario',
       styleClass: 'modal-lg',
       baseZIndex: 10000,
       closeOnEscape: true,
@@ -184,6 +198,26 @@ export default class ListEmployeeComponent implements OnInit, OnDestroy {
       }
     });
   }
+
+  // TODO: MIGRAR METODO
+  onModalUpdatePassword(applicationUserId: string) {
+    this.ref = this.dialogService.open(UpdatePasswordModalComponent, {
+      data: {
+        applicationUserId,
+      },
+      header: 'Cambio de contraseña',
+      styleClass: 'modal-md',
+      closeOnEscape: true,
+      baseZIndex: 10000,
+    });
+    this.ref.onClose.subscribe((resp: boolean) => {
+      if (resp) {
+        this.toastService.onShowSuccess();
+        this.onLoadData();
+      }
+    });
+  }
+
   calculateItemTotal(nameArea: string) {
     let total = 0;
 

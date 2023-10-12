@@ -162,7 +162,7 @@ export default class AddOrEditRadioComunicacionComponent implements OnInit {
     formData.append('serie', dto.serie);
     formData.append(
       'fechaCompra',
-      this.dateService.formDateToString(dto.fechaCompra)
+      this.dateService.getDateFormat(dto.fechaCompra)
     );
     formData.append('bateria', dto.bateria);
 

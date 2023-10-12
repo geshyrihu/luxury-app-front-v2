@@ -12,7 +12,7 @@ import { EditorModule } from 'primeng/editor';
 import { Subscription } from 'rxjs';
 import { EStatusTask } from 'src/app/enums/estatus.enum';
 import { ETypeMaintance } from 'src/app/enums/tipo-mantenimiento.enum';
-import { onGetEnum } from 'src/app/helpers/enumaraciones';
+import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
 import { CustomerIdService } from 'src/app/services/customer-id.service';
 import { DataService } from 'src/app/services/data.service';
 import { DateService } from 'src/app/services/date.service';
@@ -54,8 +54,8 @@ export default class ServiceOrderAddOrEditComponent
 
   cb_machinery: any[] = [];
   cb_providers: any[] = [];
-  cb_Status: SelectItem[] = onGetEnum(EStatusTask);
-  cb_TypeMaintance: SelectItem[] = onGetEnum(ETypeMaintance);
+  cb_Status: SelectItem[] = onGetSelectItemFromEnum(EStatusTask);
+  cb_TypeMaintance: SelectItem[] = onGetSelectItemFromEnum(ETypeMaintance);
   cb_user_customers: SelectItem[] = [];
 
   form: FormGroup;
@@ -144,10 +144,10 @@ export default class ServiceOrderAddOrEditComponent
     this.subRef$ = this.dataService
       .get(`ServiceOrders/${this.id}`)
       .subscribe((resp: any) => {
-        resp.body.executionDate = this.dateService.formDateToString(
+        resp.body.executionDate = this.dateService.getDateFormat(
           resp.body.executionDate
         );
-        resp.body.requestDate = this.dateService.formDateToString(
+        resp.body.requestDate = this.dateService.getDateFormat(
           resp.body.requestDate
         );
         this.form.patchValue(resp.body);

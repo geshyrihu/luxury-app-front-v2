@@ -62,7 +62,7 @@ export default class ReportSolicitudCompraComponent
       .get(
         `MaintenanceReport/solicitudinsumos/${
           this.customerIdService.customerId
-        }/${this.dateService.formDateToString(
+        }/${this.dateService.getDateFormat(
           this.periodoMonthService.getPeriodoInicio
         )}`
       )

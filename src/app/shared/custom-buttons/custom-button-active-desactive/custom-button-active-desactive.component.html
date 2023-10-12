@@ -1,7 +1,7 @@
-<div class="row mt-1 hide-print-mode">
-  <div class="col">
+<div class="row hide-print-mode">
+  <div class="col-12">
     <div
-      class="btn-group"
+      class="btn-group w-100"
       role="group"
       aria-label="Basic checkbox toggle button group"
     >
@@ -13,7 +13,9 @@
         (click)="onPropagarActivo()"
         [disabled]="state == true"
       />
-      <label class="btn btn-success" for="btncheck1">{{ activas }}</label>
+      <label class="btn btn-success bg-gradient w-50" for="btncheck1">{{
+        activas
+      }}</label>
 
       <input
         type="checkbox"
@@ -23,7 +25,9 @@
         [disabled]="state == false"
         (click)="onPropagarInactivo()"
       />
-      <label class="btn btn-danger" for="btncheck2">{{ inactivas }}</label>
+      <label class="btn btn-danger bg-gradient w-50" for="btncheck2">{{
+        inactivas
+      }}</label>
     </div>
   </div>
 </div>

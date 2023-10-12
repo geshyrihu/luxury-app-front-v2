@@ -4,7 +4,7 @@ import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { TableModule } from 'primeng/table';
 import { Subscription } from 'rxjs';
-import { EAreaMinutasDetallesPipe } from 'src/app/pipes/areaMinutaDetalles.pipe';
+import { EAreaMinutasDetallesPipe } from 'src/app/pipes/area-minuta-detalles.pipe';
 import { SanitizeHtmlPipe } from 'src/app/pipes/sanitize-html.pipe';
 import { EStatusPipe } from 'src/app/pipes/status.pipe';
 import { DataService } from 'src/app/services/data.service';

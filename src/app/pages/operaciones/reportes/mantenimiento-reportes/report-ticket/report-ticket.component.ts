@@ -63,14 +63,13 @@ export default class ReportTicketComponent implements OnInit, OnDestroy {
       .get(
         `MaintenanceReport/ticket/${
           this.customerIdService.customerId
-        }/${this.dateService.formDateToString(
+        }/${this.dateService.getDateFormat(
           this.periodoMonthService.getPeriodoInicio
         )}`
       )
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          console.log('🚀 ~ resp.body:', resp.body);
           this.swalService.onClose();
         },
         error: (err) => {
@@ -83,7 +82,7 @@ export default class ReportTicketComponent implements OnInit, OnDestroy {
       .get(
         `MaintenanceReport/ticketresponsable/${
           this.customerIdService.customerId
-        }/${this.dateService.formDateToString(
+        }/${this.dateService.getDateFormat(
           this.periodoMonthService.getPeriodoInicio
         )}`
       )
@@ -102,7 +101,7 @@ export default class ReportTicketComponent implements OnInit, OnDestroy {
       .get(
         `MaintenanceReport/cargaticket/${
           this.customerIdService.customerId
-        }/${this.dateService.formDateToString(
+        }/${this.dateService.getDateFormat(
           this.periodoMonthService.getPeriodoInicio
         )}`
       )

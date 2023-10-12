@@ -11,21 +11,32 @@ export class SecurityService {
   private authSource = new Subject<boolean>();
   authChallenge$ = this.authSource.asObservable();
 
-  //.... Obtener el valor del Token
+  /**
+   * Obtiene el token de autenticación almacenado en el almacenamiento local.
+   * @returns El token de autenticación o null si no está presente.
+   */
   getToken(): any {
-    return this.storeService.retireve('token');
+    return this.storeService.retrieve('token');
   }
 
-  // Remover los valores del storaSession
+  /**
+   * Elimina los datos de autenticación del almacenamiento local.
+   */
   resetAuthData() {
     this.storeService.remove('token');
   }
 
-  // Se asigna los valores a las claves en el storaSession
+  /**
+   * Almacena el token de autenticación en el almacenamiento local.
+   * @param token El token de autenticación a almacenar.
+   */
   setAuthData(token: string) {
     this.storeService.store('token', token);
   }
 
+  /**
+   * Cierra la sesión del usuario eliminando los datos de autenticación.
+   */
   logOff() {
     this.resetAuthData();
   }

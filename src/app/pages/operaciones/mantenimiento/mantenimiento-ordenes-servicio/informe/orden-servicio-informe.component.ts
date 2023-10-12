@@ -49,7 +49,7 @@
 //           this.data = resp.body;
 
 //           if (this.data.length !== 0) {
-//             this.nameCarpetaFecha = this.dateService.formDateToString(
+//             this.nameCarpetaFecha = this.dateService.getDateFormat
 //               this.data[0].requestDate
 //             );
 //             this.urlImg = `${environment.base_urlImg}customers/${this.customerId}/ordenServicio/${this.nameCarpetaFecha}/`;

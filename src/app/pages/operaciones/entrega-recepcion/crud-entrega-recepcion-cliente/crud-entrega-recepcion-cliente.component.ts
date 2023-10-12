@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import { EState } from 'src/app/enums/state.enum';
-import { onGetEnum } from 'src/app/helpers/enumaraciones';
+import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
 import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
 import { AuthService } from 'src/app/services/auth.service';
 import { CustomerIdService } from 'src/app/services/customer-id.service';
@@ -35,7 +35,7 @@ export default class CrudEntregaRecepcionClienteComponent
   id: number = 0;
   subRef$: Subscription;
 
-  cb_estatus: ISelectItemDto[] = onGetEnum(EState);
+  cb_estatus: ISelectItemDto[] = onGetSelectItemFromEnum(EState);
   form: FormGroup = this.formBuilder.group({
     id: { value: this.id, disabled: true },
     observaciones: [''],

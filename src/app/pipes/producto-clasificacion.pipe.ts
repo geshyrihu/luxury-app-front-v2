@@ -1,13 +1,13 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { EProductClasificacion } from 'src/app/enums/producto-clasificacion.enum';
-import { onGetEnum } from 'src/app/helpers/enumaraciones';
+import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
 
 @Pipe({
   name: 'eProductoClasificacion',
   standalone: true,
 })
 export class EProductoClasificacionPipe implements PipeTransform {
-  enum: any[] = onGetEnum(EProductClasificacion);
+  enum: any[] = onGetSelectItemFromEnum(EProductClasificacion);
   transform(value: unknown): string {
     let dato: string = '';
     if (value === null) {

@@ -36,7 +36,7 @@ export default class FormMedidorLecturaComponent implements OnInit, OnDestroy {
   submitting: boolean = false;
   subRef$: Subscription;
 
-  dateString: string = this.dateService.formDateToString(date);
+  dateString: string = this.dateService.getDateFormat(date);
   dateStringUltimoRegistro: string = '';
   seRegistroEsteDia: boolean = false;
   seRegistroEsteDiaMensaje: string = 'Ya se cargo el registro de este día';
@@ -61,7 +61,7 @@ export default class FormMedidorLecturaComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (resp: any) => {
           if (resp.body !== null) {
-            this.dateStringUltimoRegistro = this.dateService.formDateToString(
+            this.dateStringUltimoRegistro = this.dateService.getDateFormat(
               resp.body.fechaRegistro
             );
             this.validarUltimaLectura();

@@ -9,7 +9,7 @@ import {
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import { ERouteRecurrence } from 'src/app/enums/recurrencia-recorrido.enum';
-import { onGetEnum } from 'src/app/helpers/enumaraciones';
+import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
 import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
 import { CustomerIdService } from 'src/app/services/customer-id.service';
 import { DataService } from 'src/app/services/data.service';
@@ -48,7 +48,8 @@ export default class RecorridoAddOrEditComponent implements OnInit, OnDestroy {
   id: number = 0;
   cb_machinery: ISelectItemDto[] = [];
   idMachinery: number = null;
-  cb_RouteRecurrence: ISelectItemDto[] = onGetEnum(ERouteRecurrence);
+  cb_RouteRecurrence: ISelectItemDto[] =
+    onGetSelectItemFromEnum(ERouteRecurrence);
 
   onLoadSelectItem() {
     this.selectItemService

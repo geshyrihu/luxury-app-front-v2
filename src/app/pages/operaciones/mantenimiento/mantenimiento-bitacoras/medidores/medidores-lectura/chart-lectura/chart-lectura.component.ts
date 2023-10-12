@@ -40,10 +40,10 @@ export default class ChartLecturaComponent implements OnInit, OnDestroy {
   medidorId: number = 0;
   dates$: Observable<Date[]> = this.filtroCalendarService.getDates$();
 
-  fechaInicial: string = this.dateService.formDateToString(
+  fechaInicial: string = this.dateService.getDateFormat(
     this.filtroCalendarService.fechaInicioDateFull
   );
-  fechaFinal: string = this.dateService.formDateToString(
+  fechaFinal: string = this.dateService.getDateFormat(
     this.filtroCalendarService.fechaFinalDateFull
   );
 
@@ -59,10 +59,8 @@ export default class ChartLecturaComponent implements OnInit, OnDestroy {
   onLoadData() {
     if (this.ViewMonth) {
       this.onDataGraficoMensual(
-        this.dateService.formDateToString(
-          this.filtroCalendarService.fechaInicial
-        ),
-        this.dateService.formDateToString(this.filtroCalendarService.fechaFinal)
+        this.dateService.getDateFormat(this.filtroCalendarService.fechaInicial),
+        this.dateService.getDateFormat(this.filtroCalendarService.fechaFinal)
       );
     }
     if (this.ViewDay) {
@@ -80,8 +78,8 @@ export default class ChartLecturaComponent implements OnInit, OnDestroy {
     });
     this.dates$.subscribe((dates) => {
       this.onDataGraficoMensual(
-        this.dateService.formDateToString(dates[0]),
-        this.dateService.formDateToString(dates[1])
+        this.dateService.getDateFormat(dates[0]),
+        this.dateService.getDateFormat(dates[1])
       );
     });
   }

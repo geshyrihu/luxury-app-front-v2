@@ -51,7 +51,7 @@ export default class ReportEntradaAlmacenComponent implements OnInit {
       .get(
         `MaintenanceReport/entradaproducto/${
           this.customerIdService.customerId
-        }/${this.dateService.formDateToString(
+        }/${this.dateService.getDateFormat(
           this.periodoMonthService.getPeriodoInicio
         )}`
       )

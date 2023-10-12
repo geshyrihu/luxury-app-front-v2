@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { EStatusTask } from 'src/app/enums/estatus.enum';
 import { EPriority } from 'src/app/enums/prioridad.enum';
-import { onGetEnum } from 'src/app/helpers/enumaraciones';
+import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
 import { IFilterTicket } from 'src/app/interfaces/IFilterTicket.interface';
 import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
 import { SelectItemService } from 'src/app/services/select-item.service';
@@ -26,8 +26,8 @@ export default class FilterTicketComponent implements OnInit {
   public ref = inject(DynamicDialogRef);
 
   filterTicket: IFilterTicket;
-  cb_status: ISelectItemDto[] = onGetEnum(EStatusTask);
-  cb_priority: ISelectItemDto[] = onGetEnum(EPriority);
+  cb_status: ISelectItemDto[] = onGetSelectItemFromEnum(EStatusTask);
+  cb_priority: ISelectItemDto[] = onGetSelectItemFromEnum(EPriority);
   cb_area_responsable: ISelectItemDto[] = [];
   cb_customer: ISelectItemDto[] = [];
   cb_solicitantes: ISelectItemDto[] = [];

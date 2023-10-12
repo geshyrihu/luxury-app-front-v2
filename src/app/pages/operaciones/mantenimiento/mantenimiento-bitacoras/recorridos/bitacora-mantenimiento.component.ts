@@ -40,10 +40,10 @@ export default class BitacoraMantenimientoComponent
   customerList: any[] = [];
   subRef$: Subscription;
 
-  fechaInicial: string = this.dateService.formDateToString(
+  fechaInicial: string = this.dateService.getDateFormat(
     this.rangoCalendarioService.fechaInicioDateFull
   );
-  fechaFinal: string = this.dateService.formDateToString(
+  fechaFinal: string = this.dateService.getDateFormat(
     this.rangoCalendarioService.fechaFinalDateFull
   );
   es: LocaleSettings;

@@ -9,7 +9,7 @@ import {
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import { ETipoGasto } from 'src/app/enums/tipo-gasto.enum';
-import { onGetEnum } from 'src/app/helpers/enumaraciones';
+import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
 import { DataService } from 'src/app/services/data.service';
 import { SelectItemService } from 'src/app/services/select-item.service';
 import { SwalService } from 'src/app/services/swal.service';
@@ -48,7 +48,7 @@ export default class OrdenCompraDatosPagoComponent
   cb_formaPago: any[] = [];
   cb_payment_method: any[] = [];
   cb_usoCfdi: any[] = [];
-  cb_tipoGasto = onGetEnum(ETipoGasto);
+  cb_tipoGasto = onGetSelectItemFromEnum(ETipoGasto);
   form: FormGroup = this.formBuilder.group({
     id: [0],
     ordenCompraId: [0],

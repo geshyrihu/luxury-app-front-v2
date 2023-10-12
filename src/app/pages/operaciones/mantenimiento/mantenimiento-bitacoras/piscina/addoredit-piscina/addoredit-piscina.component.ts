@@ -9,7 +9,7 @@ import {
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import { ETypePiscina } from 'src/app/enums/type-piscina.enum';
-import { onGetEnum } from 'src/app/helpers/enumaraciones';
+import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
 import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
 import { AuthService } from 'src/app/services/auth.service';
 import { CustomerIdService } from 'src/app/services/customer-id.service';
@@ -51,7 +51,7 @@ export default class AddOrEditPiscinaComponent implements OnInit, OnDestroy {
   photoFileUpdate: boolean = false;
   subRef$: Subscription;
 
-  cb_typePiscina: ISelectItemDto[] = onGetEnum(ETypePiscina);
+  cb_typePiscina: ISelectItemDto[] = onGetSelectItemFromEnum(ETypePiscina);
   form: FormGroup;
 
   ngOnInit(): void {

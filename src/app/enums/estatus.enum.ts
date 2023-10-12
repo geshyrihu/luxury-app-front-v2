@@ -10,14 +10,3 @@ export enum EStatus {
   'En proceso',
   'Cancelado',
 }
-
-// [Display(Name = "Pendiente")]
-// Pendiente,
-// [Display(Name = "Terminado")]
-// Terminado,
-// [Display(Name = "No autorizado")]
-// noAutorizado,
-// [Display(Name = "En proceso")]
-// EnProceso,
-// [Display(Name = "Cancelado")]
-// Cancelado

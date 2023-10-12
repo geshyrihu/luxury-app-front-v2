@@ -66,7 +66,6 @@ export default class IndexDocumentoComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          console.log('🚀 ~ resp.body:', resp.body);
           this.swalService.onClose();
         },
         error: (err) => {

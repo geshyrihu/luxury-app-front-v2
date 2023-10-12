@@ -28,8 +28,8 @@ export default class SidebarComponent implements OnInit {
   @ViewChild('sideMenu') sideMenu!: ElementRef;
   menu: any;
   menuItems: MenuItem[] = [];
-
   ngOnInit(): void {
+    // Cargar elementos del menú desde el servicio de la barra lateral
     this.menuItems = this.sidebarService.onLoadMenu;
   }
 
@@ -37,8 +37,8 @@ export default class SidebarComponent implements OnInit {
     // this.menuItems = this.sidebarService.menu;
   }
 
-  /***
-   * Activate droup down set
+  /**
+   * Activa el menú desplegable
    */
   ngAfterViewInit() {
     this.menu = new MetisMenu('#side-menu');
@@ -46,15 +46,16 @@ export default class SidebarComponent implements OnInit {
   }
 
   /**
-   * Returns true or false if given menu item has child or not
-   * @param item menuItem
+   * Comprueba si un elemento del menú tiene subelementos
+   * @param item Elemento del menú
    */
   hasItems(item: MenuItem) {
     return item.subItems !== undefined ? item.subItems.length > 0 : false;
   }
 
   /**
-   * remove active and mm-active class
+   * Elimina las clases 'mm-active' y 'mm-show'
+   * @param className Nombre de la clase a eliminar
    */
   _removeAllClass(className: any) {
     const els = document.getElementsByClassName(className);
@@ -64,14 +65,13 @@ export default class SidebarComponent implements OnInit {
   }
 
   /**
-   * Activate the parent dropdown
+   * Activa el menú desplegable principal
    */
   _activateMenuDropdown() {
     this._removeAllClass('mm-active');
     this._removeAllClass('mm-show');
     const links: any = document.getElementsByClassName('side-nav-link-ref');
     let menuItemEl = null;
-    // tslint:disable-next-line: prefer-for-of
     const paths = [];
     for (let i = 0; i < links.length; i++) {
       paths.push(links[i]['pathname']);

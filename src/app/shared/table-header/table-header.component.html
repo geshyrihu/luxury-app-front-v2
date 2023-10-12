@@ -1,4 +1,4 @@
-<div class="row">
+<!-- <div class="row">
   <div class="col-sm-8" [ngClass]="{ 'col-sm-9': !showAdd || !rolAuth }">
     <h4 class="mb-sm-0 font-size-18">{{ title }}</h4>
   </div>
@@ -11,6 +11,36 @@
       class="form-control w-100"
     />
   </div>
+  <div class="col-sm-1 hide-print-mode">
+    <custom-button-add
+      *ngIf="showAdd && rolAuth"
+      (clicked)="onAdd($event)"
+    ></custom-button-add>
+  </div>
+</div> -->
+<div class="row">
+  <!-- Columna Bootstrap: ocupa 8 unidades en pantallas pequeñas (col-sm-8) -->
+  <!-- Utiliza una directiva ngClass para aplicar una clase condicionalmente -->
+  <div class="col-sm-8" [ngClass]="{ 'col-sm-9': !showAdd || !rolAuth }">
+    <!-- Título dinámico utilizando interpolación de datos -->
+    <h4 class="mb-sm-0 font-size-18">{{ title }}</h4>
+  </div>
+
+  <!-- Columna Bootstrap: ocupa 3 unidades en pantallas pequeñas (col-sm-3) -->
+  <!-- Esta columna se utiliza para el campo de búsqueda y solo se muestra en el modo no imprimible -->
+  <div class="col-sm-3 hide-print-mode">
+    <!-- Utiliza *ngIf para condicionalmente renderizar el input -->
+    <input
+      *ngIf="showSearch || isDataView"
+      type="text"
+      (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+      placeholder="Ingresa texto para buscar..."
+      class="form-control w-100"
+    />
+  </div>
+
+  <!-- Columna Bootstrap: ocupa 1 unidad en pantallas pequeñas (col-sm-1) -->
+  <!-- Esta columna se utiliza para un botón personalizado de agregar y solo se muestra si showAdd es verdadero y rolAuth es verdadero -->
   <div class="col-sm-1 hide-print-mode">
     <custom-button-add
       *ngIf="showAdd && rolAuth"

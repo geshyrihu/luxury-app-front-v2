@@ -10,7 +10,7 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { EditorModule } from 'primeng/editor';
 import { Subscription } from 'rxjs';
 import { EAreaMinutasDetalles } from 'src/app/enums/area-minutas-detalles.enum';
-import { onGetEnum } from 'src/app/helpers/enumaraciones';
+import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
 import { AuthService } from 'src/app/services/auth.service';
 import { DataService } from 'src/app/services/data.service';
 import { SwalService } from 'src/app/services/swal.service';
@@ -58,7 +58,7 @@ export default class AddoreditMinutaDetalleComponent
       label: 'No Autorizado',
     },
   ];
-  cb_area = onGetEnum(EAreaMinutasDetalles);
+  cb_area = onGetSelectItemFromEnum(EAreaMinutasDetalles);
   cb_responsibleArea: any[] = [
     { value: 1, label: 'Administración' },
     { value: 12, label: 'Mantenimiento' },

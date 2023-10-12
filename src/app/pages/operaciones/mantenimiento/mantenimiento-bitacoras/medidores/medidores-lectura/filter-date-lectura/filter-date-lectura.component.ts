@@ -26,8 +26,8 @@ export default class FilterDateLecturaComponent implements OnInit {
   finalYearNow: number = date.getFullYear();
   initialYearNow: number = date.getFullYear();
 
-  initialDate = this.dateService.formDateToString(mesAnterior);
-  finalDate = this.dateService.formDateToString(date);
+  initialDate = this.dateService.getDateFormatmesAnterior);
+  finalDate = this.dateService.getDateFormat(date);
 
   ngOnInit(): void {
     this.onLoadYears();

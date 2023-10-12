@@ -12,7 +12,7 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import { EStatusTask } from 'src/app/enums/estatus.enum';
 import { EPriority } from 'src/app/enums/prioridad.enum';
-import { onGetEnum } from 'src/app/helpers/enumaraciones';
+import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
 import { IFilterTicket } from 'src/app/interfaces/IFilterTicket.interface';
 import { AuthService } from 'src/app/services/auth.service';
 import { CustomerIdService } from 'src/app/services/customer-id.service';
@@ -55,9 +55,9 @@ export default class AddoreditTicketComponent implements OnInit, OnDestroy {
 
   subRef$: Subscription;
 
-  cb_priority = onGetEnum(EPriority);
+  cb_priority = onGetSelectItemFromEnum(EPriority);
   cb_area_responsable: any[] = [];
-  cb_status = onGetEnum(EStatusTask);
+  cb_status = onGetSelectItemFromEnum(EStatusTask);
   cb_user_customers: any[] = [];
   form: FormGroup;
   id: any = 0;
@@ -258,12 +258,12 @@ export default class AddoreditTicketComponent implements OnInit, OnDestroy {
     if (dto.fechaProgamacion)
       formData.append(
         'fechaProgamacion',
-        this.dateService.formDateToString(dto.fechaProgamacion)
+        this.dateService.getDateFormat(dto.fechaProgamacion)
       );
     if (dto.fechaLimite)
       formData.append(
         'fechaLimite',
-        this.dateService.formDateToString(dto.fechaLimite)
+        this.dateService.getDateFormat(dto.fechaLimite)
       );
     if (dto.dateFinished)
       formData.append('dateFinished', String(dto.dateFinished));

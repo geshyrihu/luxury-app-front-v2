@@ -140,10 +140,10 @@ export default class ListTicketComponent implements OnInit, OnDestroy {
     this.ref = this.dialogService.open(EnviarMailReporteSemanalComponent, {
       data: {
         customerId: this.customerIdService.customerId,
-        fechaInicial: this.dateService.formDateToString(
+        fechaInicial: this.dateService.getDateFormat(
           this.ticketFilterService.filterTicket.finishedStart
         ),
-        fechaFinal: this.dateService.formDateToString(
+        fechaFinal: this.dateService.getDateFormat(
           this.ticketFilterService.filterTicket.finishedEnd
         ),
       },
@@ -193,9 +193,9 @@ export default class ListTicketComponent implements OnInit, OnDestroy {
       if (resp.fechaInicial && resp.fechaFinal) {
         this.dataService
           .get(
-            `Ticket/FilterWorkPlan/${this.customerIdService.getcustomerId()}/${this.dateService.formDateToString(
+            `Ticket/FilterWorkPlan/${this.customerIdService.getcustomerId()}/${this.dateService.getDateFormat(
               resp.fechaInicial
-            )}/${this.dateService.formDateToString(resp.fechaFinal)}`
+            )}/${this.dateService.getDateFormat(resp.fechaFinal)}`
           )
           .subscribe(
             (resp: any) => {
@@ -278,11 +278,11 @@ export default class ListTicketComponent implements OnInit, OnDestroy {
         'http://luxurybuildingapp.com:1008/#/publico/reporte-operacion/' +
         this.customerIdService.getcustomerId() +
         '/' +
-        this.dateService.formDateToString(
+        this.dateService.getDateFormat(
           this.ticketFilterService.filterTicket.finishedStart
         ) +
         '/' +
-        this.dateService.formDateToString(
+        this.dateService.getDateFormat(
           this.ticketFilterService.filterTicket.finishedEnd
         );
       this.ligaReporte = liga;

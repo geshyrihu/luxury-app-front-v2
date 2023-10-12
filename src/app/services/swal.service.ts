@@ -5,6 +5,9 @@ import Swal from 'sweetalert2';
   providedIn: 'root',
 })
 export class SwalService {
+  /**
+   * Muestra una ventana emergente de carga.
+   */
   onLoading() {
     Swal.fire({
       allowOutsideClick: false,
@@ -14,9 +17,17 @@ export class SwalService {
     Swal.showLoading(null);
   }
 
+  /**
+   * Cierra la ventana emergente actual.
+   */
   onClose() {
     Swal.close();
   }
+
+  /**
+   * Muestra una ventana emergente de error con un mensaje personalizado.
+   * @param mensaje Mensaje de error a mostrar.
+   */
   onLoadingError(mensaje: string) {
     Swal.fire({
       allowOutsideClick: false,

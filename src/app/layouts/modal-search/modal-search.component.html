@@ -7,8 +7,6 @@
           class="form-control form-control-lg w-100"
           placeholder="Ingresa texto para buscar"
           (keyup)="onSearch($event.target.value)"
-          (keydown.arrowdown)="navigateMenu('down', $event)"
-          (keydown.arrowup)="navigateMenu('up', $event)"
         />
       </div>
       <br />
@@ -19,8 +17,6 @@
       (click)="onNavigate(item.link)"
       type="button"
       class="btn btn-light waves-effect waves-light w-100 mb-1"
-      [class.selected]="selectedButtonIndex === i"
-      (keydown.enter)="onNavigate(item.link)"
     >
       <div class="row">
         <div class="col-10">
@@ -38,11 +34,3 @@
     <cite clas="font-size-8">presiona la tecla esc para salir</cite>
   </div>
 </div>
-
-<!-- Contenido del modal -->
-<style>
-  .selected {
-    background-color: #007bff; /* Cambia el color de fondo a tu elección */
-    color: #ffffff; /* Cambia el color del texto a tu elección */
-  }
-</style>

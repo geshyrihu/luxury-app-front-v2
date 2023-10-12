@@ -12,7 +12,7 @@ import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { Subscription } from 'rxjs';
 import { ETypeMeeting } from 'src/app/enums/tipo-reunion.enum';
-import { onGetEnum } from 'src/app/helpers/enumaraciones';
+import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
 import { AuthService } from 'src/app/services/auth.service';
 import { DataService } from 'src/app/services/data.service';
 import { DateService } from 'src/app/services/date.service';
@@ -65,7 +65,7 @@ export default class AddOrEditMeetingComponent implements OnInit, OnDestroy {
   idNew: number;
   customerId: number;
   participantInvitado: any[] = [];
-  cb_typeMeeting = onGetEnum(ETypeMeeting);
+  cb_typeMeeting = onGetSelectItemFromEnum(ETypeMeeting);
   form: FormGroup;
 
   ngOnInit() {

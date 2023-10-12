@@ -695,6 +695,62 @@ export default class DepuracionComponent implements OnDestroy {
         },
       });
   }
+  UpdatePerson() {
+    this.swalService.onLoading();
+    this.subRef$ = this.dataService
+      .get('UpdateDataBase/UpdatePerson')
+      .subscribe({
+        next: (_) => {
+          this.swalService.onClose();
+        },
+        error: (err) => {
+          console.log(err.error);
+          this.swalService.onClose();
+        },
+      });
+  }
+  UpdateProfession() {
+    this.swalService.onLoading();
+    this.subRef$ = this.dataService
+      .get('UpdateDataBase/UpdateProfession')
+      .subscribe({
+        next: (_) => {
+          this.swalService.onClose();
+        },
+        error: (err) => {
+          console.log(err.error);
+          this.swalService.onClose();
+        },
+      });
+  }
+  WorkPosition() {
+    this.swalService.onLoading();
+    this.subRef$ = this.dataService
+      .get('UpdateDataBase/WorkPosition')
+      .subscribe({
+        next: (_) => {
+          this.swalService.onClose();
+        },
+        error: (err) => {
+          console.log(err.error);
+          this.swalService.onClose();
+        },
+      });
+  }
+  RemovePerson() {
+    this.swalService.onLoading();
+    this.subRef$ = this.dataService
+      .get('UpdateDataBase/RemovePerson')
+      .subscribe({
+        next: (_) => {
+          this.swalService.onClose();
+        },
+        error: (err) => {
+          console.log(err.error);
+          this.swalService.onClose();
+        },
+      });
+  }
 
   subRef$: Subscription;
   ngOnDestroy(): void {

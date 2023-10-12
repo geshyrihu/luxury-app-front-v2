@@ -146,7 +146,7 @@
                   'Residente',
                   'SuperUsuario',
                   'SupervisionOperativa'
-                ])
+                ]) && item.id != 109
               "
               class="bd-highlight"
               (edit)="
@@ -158,6 +158,7 @@
             ></custom-button-edit>
 
             <custom-button-delete
+              *ngIf="validateRole(['SuperUsuario'])"
               class="bd-highlight"
               (OnConfirm)="onDelete(item.providerId)"
             ></custom-button-delete>

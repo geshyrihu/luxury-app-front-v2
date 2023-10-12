@@ -50,14 +50,13 @@ export default class ReportPrestamoHerramientaComponent implements OnInit {
       .get(
         `MaintenanceReport/presatamoherramienta/${
           this.customerIdService.customerId
-        }/${this.dateService.formDateToString(
+        }/${this.dateService.getDateFormat(
           this.periodoMonthService.getPeriodoInicio
         )}`
       )
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          console.log('🚀 ~ resp.body:', resp.body);
           this.swalService.onClose();
         },
         error: (err) => {

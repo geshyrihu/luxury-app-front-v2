@@ -56,7 +56,7 @@ export default class ResumenOrdenesServicioComponent
         'MeetingDertailsSeguimiento/ResumenPreventivosPresentacion/' +
           this.customerId +
           '/' +
-          this.dateService.formDateToString(
+          this.dateService.getDateFormat(
             this.reporteOrdenesServicioService.getDate()
           )
       )
@@ -76,7 +76,7 @@ export default class ResumenOrdenesServicioComponent
         'MeetingDertailsSeguimiento/ResumenPreventivosGraficoPresentacion/' +
           this.customerId +
           '/' +
-          this.dateService.formDateToString(
+          this.dateService.getDateFormat(
             this.reporteOrdenesServicioService.getDate()
           )
       )

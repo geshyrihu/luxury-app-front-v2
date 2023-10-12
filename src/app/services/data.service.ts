@@ -5,13 +5,19 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 const urlBase = environment.base_url;
+
 @Injectable({
   providedIn: 'root',
 })
 export class DataService {
   private http = inject(HttpClient);
 
-  /*GET */
+  /**
+   * Realiza una solicitud GET al servidor.
+   * @param url La URL del recurso.
+   * @param httpParams Los parámetros de la solicitud HTTP (opcional).
+   * @returns Un observable que emite una respuesta HTTP con datos de tipo T.
+   */
   get<T>(url: string, httpParams?: any): Observable<HttpResponse<T>> {
     const httpHeaders: HttpHeaders = this.getHeaders();
     return this.http.get<T>(urlBase + url, {
@@ -21,17 +27,27 @@ export class DataService {
     });
   }
 
-  /*GET FILE */
+  /**
+   * Realiza una solicitud GET al servidor para obtener un archivo (por ejemplo, una imagen o un archivo PDF).
+   * @param url La URL del recurso.
+   * @param httpParams Los parámetros de la solicitud HTTP (opcional).
+   * @returns Un observable que emite un objeto Blob representando el archivo.
+   */
   getFile(url: string, httpParams?: any): Observable<Blob> {
     const httpHeaders: HttpHeaders = this.getHeaders();
     return this.http.get<Blob>(urlBase + url, {
       headers: httpHeaders,
       params: httpParams,
-      responseType: 'blob' as 'json', // Especificar el tipo de respuesta como 'blob'
+      responseType: 'blob' as 'json', // Especificar el tipo de respuesta como 'blob'.
     });
   }
 
-  /*POST */
+  /**
+   * Realiza una solicitud POST al servidor.
+   * @param url La URL del recurso.
+   * @param data Los datos a enviar en el cuerpo de la solicitud.
+   * @returns Un observable que emite una respuesta HTTP con datos de tipo T.
+   */
   post<T>(url: string, data: any): Observable<HttpResponse<T>> {
     const httpHeaders: HttpHeaders = this.getHeaders();
     return this.http.post<T>(urlBase + url, data, {
@@ -39,7 +55,13 @@ export class DataService {
       observe: 'response',
     });
   }
-  /*PUT */
+
+  /**
+   * Realiza una solicitud PUT al servidor.
+   * @param url La URL del recurso.
+   * @param data Los datos a enviar en el cuerpo de la solicitud.
+   * @returns Un observable que emite una respuesta HTTP con datos de tipo T.
+   */
   put<T>(url: string, data: any): Observable<HttpResponse<T>> {
     const httpHeaders: HttpHeaders = this.getHeaders();
     return this.http.put<T>(urlBase + url, data, {
@@ -47,7 +69,13 @@ export class DataService {
       observe: 'response',
     });
   }
-  /*DELETE */
+
+  /**
+   * Realiza una solicitud DELETE al servidor.
+   * @param url La URL del recurso.
+   * @param params Los parámetros de la solicitud HTTP (opcional).
+   * @returns Un observable que emite una respuesta HTTP con datos de tipo T.
+   */
   delete<T>(url: string, params?: any): Observable<HttpResponse<T>> {
     const httpHeaders: HttpHeaders = this.getHeaders();
     return this.http.delete<T>(urlBase + url, {
@@ -56,13 +84,19 @@ export class DataService {
     });
   }
 
+  /**
+   * Obtiene las cabeceras HTTP para la solicitud.
+   * @returns Un objeto HttpHeaders con las cabeceras de la solicitud.
+   */
   getHeaders(): HttpHeaders {
     let httpHeaders: HttpHeaders = new HttpHeaders();
 
+    // Aquí puedes agregar la lógica para incluir el token de autenticación si es necesario.
     // const token = this.securityService.getToken();
     // if (token) {
     //   httpHeaders = httpHeaders.append('Authorization', 'Bearer ' + token);
     // }
+
     return httpHeaders;
   }
 }

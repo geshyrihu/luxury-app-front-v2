@@ -60,7 +60,7 @@ export default class ResumenMantenimientosComponent
       .get(
         `MaintenanceReport/resumen/${
           this.customerIdService.customerId
-        }/${this.dateService.formDateToString(
+        }/${this.dateService.getDateFormat(
           this.periodoMonthService.getPeriodoInicio
         )}`
       )
@@ -79,7 +79,7 @@ export default class ResumenMantenimientosComponent
       .get(
         `MaintenanceReport/proveedor/${
           this.customerIdService.customerId
-        }/${this.dateService.formDateToString(
+        }/${this.dateService.getDateFormat(
           this.periodoMonthService.getPeriodoInicio
         )}`
       )

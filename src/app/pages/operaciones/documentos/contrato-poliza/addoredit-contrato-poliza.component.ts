@@ -161,11 +161,11 @@ export default class AddoreditContratoPolizaComponent
     formData.append('description', form.get('description').value);
     formData.append(
       'startDate',
-      this.dateService.formDateToString(form.get('startDate').value)
+      this.dateService.getDateFormat(form.get('startDate').value)
     );
     formData.append(
       'endDate',
-      this.dateService.formDateToString(form.get('endDate').value)
+      this.dateService.getDateFormat(form.get('endDate').value)
     );
 
     return formData;

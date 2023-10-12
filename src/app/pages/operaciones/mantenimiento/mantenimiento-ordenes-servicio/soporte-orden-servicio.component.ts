@@ -48,7 +48,7 @@ export default class SoporteOrdenServicioComponent
     this.subRef$ = this.dataService
       .get(`ServiceOrders/SoporteOrdenServicio/${this.id}`)
       .subscribe((resp: any) => {
-        this.nameCarpetaFecha = this.dateService.formDateToString(
+        this.nameCarpetaFecha = this.dateService.getDateFormat(
           resp.body.fechaSolicitud
         );
         this.urlImg = `${environment.base_urlImg}customers/${this.customerIdService.customerId}/ordenServicio/${this.nameCarpetaFecha}/`;

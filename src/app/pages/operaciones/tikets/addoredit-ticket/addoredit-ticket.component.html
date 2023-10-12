@@ -160,7 +160,6 @@
             </div>
           </div>
           <!-- Area Responsable -->
-
           <!-- Responsable -->
           <div class="mb-3">
             <label class="form-label">Colaborador Responsable</label>
@@ -175,6 +174,7 @@
                   (f.employeeResponsable.dirty || f.employeeResponsable.touched)
               }"
               (change)="saveResponsableId($event)"
+              autocomplete="off"
             />
 
             <datalist id="responsableOptions">

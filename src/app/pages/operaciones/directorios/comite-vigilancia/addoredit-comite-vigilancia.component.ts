@@ -9,7 +9,7 @@ import {
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import { ECargoComite } from 'src/app/enums/cargo-comite.enum';
-import { onGetEnum } from 'src/app/helpers/enumaraciones';
+import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
 import { IComiteVigilanciaAddOrEditDto } from 'src/app/interfaces/IComiteVigilanciaAddOrEditDto.interface';
 import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
 import { CustomerIdService } from 'src/app/services/customer-id.service';
@@ -45,7 +45,7 @@ export default class AddOrEditComiteVigilanciaComponent
 
   submitting: boolean = false;
 
-  cb_position: ISelectItemDto[] = onGetEnum(ECargoComite);
+  cb_position: ISelectItemDto[] = onGetSelectItemFromEnum(ECargoComite);
   cb_condomino: ISelectItemDto[] = [];
   id: number = 0;
   form: FormGroup = this.formBuilder.group({

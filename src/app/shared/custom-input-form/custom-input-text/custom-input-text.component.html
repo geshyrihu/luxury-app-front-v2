@@ -51,6 +51,7 @@
       [value]="value"
       [attr.disabled]="disabled ? 'disabled' : null"
       (input)="onChange($event.target.value)"
+      [readonly]="readonly"
       (blur)="onTouch()"
       [ngClass]="{
         'is-invalid': control.invalid && (control.dirty || control.touched)

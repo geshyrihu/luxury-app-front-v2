@@ -68,7 +68,7 @@ export default class AddorEditMeetingSeguimientoComponent
       .get(`MeetingDertailsSeguimiento/${this.id}`)
       .subscribe({
         next: (resp: any) => {
-          resp.body.fecha = this.dateService.formDateToString(resp.body.fecha);
+          resp.body.fecha = this.dateService.getDateFormat(resp.body.fecha);
           this.form.patchValue(resp.body);
         },
         error: (err) => {

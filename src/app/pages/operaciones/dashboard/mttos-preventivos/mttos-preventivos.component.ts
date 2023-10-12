@@ -40,29 +40,23 @@ export default class MantenimientosPreventivosComponent
   onChangePeriodo(periodo: string) {
     this.periodoMonthService.setPeriodo(periodo);
     this.onLoadOrdenServicio(
-      this.dateService.formDateToString(
-        this.periodoMonthService.getPeriodoInicio
-      ),
-      this.dateService.formDateToString(this.periodoMonthService.getPeriodoFin)
+      this.dateService.getDateFormat(this.periodoMonthService.getPeriodoInicio),
+      this.dateService.getDateFormat(this.periodoMonthService.getPeriodoFin)
     );
   }
 
   ngOnInit(): void {
     this.customerId$ = this.customerIdService.getCustomerId$();
     this.onLoadOrdenServicio(
-      this.dateService.formDateToString(
-        this.periodoMonthService.getPeriodoInicio
-      ),
-      this.dateService.formDateToString(this.periodoMonthService.getPeriodoFin)
+      this.dateService.getDateFormat(this.periodoMonthService.getPeriodoInicio),
+      this.dateService.getDateFormat(this.periodoMonthService.getPeriodoFin)
     );
     this.customerId$.subscribe((resp) => {
       this.onLoadOrdenServicio(
-        this.dateService.formDateToString(
+        this.dateService.getDateFormat(
           this.periodoMonthService.getPeriodoInicio
         ),
-        this.dateService.formDateToString(
-          this.periodoMonthService.getPeriodoFin
-        )
+        this.dateService.getDateFormat(this.periodoMonthService.getPeriodoFin)
       );
     });
   }

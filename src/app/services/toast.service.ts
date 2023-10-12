@@ -7,14 +7,21 @@ import { MessageService } from 'primeng/api';
 export class ToastService {
   public messageService = inject(MessageService);
 
+  /**
+   * Muestra un mensaje de éxito.
+   */
   onShowSuccess() {
     this.messageService.add({
       severity: 'success',
-      summary: 'Exito!',
+      summary: 'Éxito!',
       detail: 'Operación completada',
     });
   }
 
+  /**
+   * Muestra un mensaje de información.
+   * @param detail Detalles del mensaje de información.
+   */
   onShowInfo(detail: string) {
     this.messageService.add({
       severity: 'info',
@@ -23,6 +30,10 @@ export class ToastService {
     });
   }
 
+  /**
+   * Muestra un mensaje de advertencia.
+   * @param detail Detalles del mensaje de advertencia.
+   */
   onShowWarn(detail: string) {
     this.messageService.add({
       severity: 'warn',
@@ -31,6 +42,9 @@ export class ToastService {
     });
   }
 
+  /**
+   * Muestra un mensaje de error.
+   */
   onShowError() {
     this.messageService.add({
       severity: 'error',

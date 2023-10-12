@@ -114,6 +114,7 @@ export default class UpdateAccountComponent implements OnInit, OnDestroy {
           this.onLoadData();
           this.swalService.onClose();
           this.toastService.onShowSuccess();
+          this.submitting = false;
         },
         error: (err) => {
           this.toastService.onShowError();

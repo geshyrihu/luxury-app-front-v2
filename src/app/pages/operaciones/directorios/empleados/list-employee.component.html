@@ -4,10 +4,8 @@
   <p-table
     #dt
     [value]="data"
-    sortField="areaResponsable.nameArea"
     sortMode="single"
     rowGroupMode="subheader"
-    groupRowsBy="areaResponsable.nameArea"
     [globalFilterFields]="[
       'correoPersonal',
       'fullName',
@@ -17,48 +15,52 @@
     styleClass="custom-table"
   >
     <ng-template pTemplate="caption">
-      <app-table-header
-        [title]="'DIRECTORIO DE PERSONAL ' + tipoContrato | uppercase"
-        (add)="showModalAddAccount()"
-        [dt]="dt"
-        [rolAuth]="
-          authService.onValidateRoles([
-            'Asistente',
-            'Residente',
-            'SuperUsuario'
-          ])
-        "
-      ></app-table-header>
-      <br />
       <div class="row">
-        <custom-button-active-desactive
-          (activo)="onSelectActive($event)"
-          (inactivo)="onSelectActive($event)"
-        ></custom-button-active-desactive>
+        <div class="col-sm-10">
+          <app-table-header
+            [title]="'DIRECTORIO DE PERSONAL ' + tipoContrato | uppercase"
+            (add)="showModalAddAccount()"
+            [dt]="dt"
+            [rolAuth]="
+              authService.onValidateRoles([
+                'Asistente',
+                'Residente',
+                'SuperUsuario'
+              ])
+            "
+          ></app-table-header>
+        </div>
+        <div class="col-sm-2">
+          <custom-button-active-desactive
+            (activo)="onSelectActive($event)"
+            (inactivo)="onSelectActive($event)"
+          ></custom-button-active-desactive>
+        </div>
       </div>
     </ng-template>
     <ng-template pTemplate="header">
       <tr>
+        <th
+          scope="col"
+          style="width: 10%"
+          pSortableColumn="userName"
+          class="hide-print-mode"
+        >
+          USUARIO
+          <p-sortIcon field="userName"></p-sortIcon>
+        </th>
+        <th scope="col" style="width: 20%" pSortableColumn="workPositionFolio">
+          PUESTO QUE CUBRE
+          <p-sortIcon field="workPositionFolio"></p-sortIcon>
+        </th>
         <th
           colspan="2"
           scope="col"
           style="width: 30%"
           pSortableColumn="fullName"
         >
-          EMPLEADO
+          COLABORADOR
           <p-sortIcon field="fullName"></p-sortIcon>
-        </th>
-        <th scope="col" style="width: 30%" pSortableColumn="email">
-          EMAIL
-          <p-sortIcon field="email"></p-sortIcon>
-        </th>
-        <th
-          scope="col"
-          style="width: 30%"
-          pSortableColumn="areaResponsable.position"
-        >
-          PUESTO
-          <p-sortIcon field="areaResponsable.position"></p-sortIcon>
         </th>
         <th
           scope="col"
@@ -67,9 +69,13 @@
           class="hide-print-mode"
         >
           TÉLEFONO
-
           <p-sortIcon field="celularPersonal"></p-sortIcon>
         </th>
+        <th scope="col" style="width: 30%" pSortableColumn="email">
+          EMAIL
+          <p-sortIcon field="email"></p-sortIcon>
+        </th>
+
         <th
           *ngIf="
             authService.onValidateRoles([
@@ -83,24 +89,15 @@
         ></th>
       </tr>
     </ng-template>
-    <ng-template pTemplate="groupheader" let-item>
-      <tr pRowGroupHeader>
-        <td colspan="6">
-          <span class="font-bold ml-2">{{
-            item.areaResponsable.nameArea
-          }}</span>
-        </td>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="groupfooter" let-item>
-      <tr>
-        <td colspan="6" class="text-right font-bold pr-6">
-          Total: {{ calculateItemTotal(item.areaResponsable.nameArea) }}
-        </td>
-      </tr>
-    </ng-template>
+
     <ng-template pTemplate="body" let-item let-rowIndex="rowIndex">
       <tr>
+        <td>
+          {{ item.userName }}
+        </td>
+        <td>
+          {{ item.workPositionFolio }}
+        </td>
         <td>
           <img [src]="url + item.photoPath" alt="" class="rounded avatar-sm" />
         </td>
@@ -108,14 +105,12 @@
           {{ item.fullName }}
         </td>
         <td>
-          {{ item.correoPersonal }}
-        </td>
-        <td>
-          {{ item.profession }}
-        </td>
-        <td>
           {{ item.celularPersonal }}
         </td>
+        <td>
+          {{ item.correoPersonal }}
+        </td>
+
         <td
           class="p-column-title hide-print-mode"
           *ngIf="
@@ -151,6 +146,38 @@
               icon="fa-duotone fa-camera text-info"
               (clicked)="showModalAddOrEditDataPrincipal(item.id)"
             ></custom-button>
+            <custom-button
+              *ngIf="
+                authService.onValidateRoles([
+                  'SuperUsuario',
+                  'Residente',
+                  'Asistente'
+                ])
+              "
+              ngbTooltip="Reestablecer contraseña de usuario"
+              customClass="btn-sm btn-outline-warning "
+              icon="fa-duotone fa-key "
+              (clicked)="onModalUpdatePassword(item.applicationUserId)"
+            ></custom-button>
+
+            <!-- ASIGRNAR ACCOUNT -->
+            <!-- ASIGRNAR ACCOUNT -->
+            <custom-button
+              *ngIf="
+                authService.onValidateRoles([
+                  'SuperUsuario',
+                  'Residente',
+                  'Asistente'
+                ])
+              "
+              ngbTooltip="Asignar cuenta de usuario"
+              customClass="btn-sm btn-outline-info "
+              icon="fa-duotone fa-users-rectangle"
+              (clicked)="
+                onModalAccountToEmployee(item.id, item.applicationUserId)
+              "
+            ></custom-button>
+            <!-- ASIGRNAR ACCOUNT -->
 
             <custom-button-confirmation
               (OnConfirm)="onBlockEmployee(item.id)"
@@ -159,7 +186,7 @@
               confirmButtonText="Sí"
               icon="fa-duotone fa-user-xmark"
               label=""
-              text="Se va dar de baja al empleado"
+              text="Se va dar de baja al colaborador"
               title="Dar de baja"
               tooltipText="Dar de baja"
             ></custom-button-confirmation>
@@ -170,7 +197,7 @@
               confirmButtonText="Sí"
               icon="fa-duotone fa-user-xmark"
               label=""
-              text="Se va dar de alta al empleado"
+              text="Se va dar de alta al colaborador"
               title="Dar de alta"
               tooltipText="Dar de alta"
             ></custom-button-confirmation>

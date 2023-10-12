@@ -1,13 +1,13 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { EHabitant } from '../enums/habitante.enum';
-import { onGetEnum } from '../helpers/enumaraciones';
+import { onGetSelectItemFromEnum } from '../helpers/enumeration';
 
 @Pipe({
   name: 'eHabitant',
   standalone: true,
 })
 export class EHabitantPipe implements PipeTransform {
-  enum: any[] = onGetEnum(EHabitant);
+  enum: any[] = onGetSelectItemFromEnum(EHabitant);
   transform(value: unknown): string {
     let dato: string = '';
     if (value === null) {

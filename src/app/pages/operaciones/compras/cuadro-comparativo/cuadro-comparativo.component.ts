@@ -94,7 +94,6 @@ export default class CuadroComparativoComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (resp: any) => {
           this.folio = resp.body.folio;
-          console.log('🚀 ~ CuadroComparativo:', resp.body);
           this.solicitudCompra = resp.body;
           this.cotizacionProveedor = this.solicitudCompra.cotizacionProveedor;
           this.solicitudCompraDetalle =

@@ -5,26 +5,44 @@ import { Injectable } from '@angular/core';
 })
 export class StorageService {
   private storage: any;
+
   constructor() {
+    // Inicializamos el servicio de almacenamiento (localStorage en este caso)
     this.storage = localStorage;
   }
 
-  // Metodo para obeter el valor de la clave asignada en sessio storage
-  retireve(key: string): any {
+  /**
+   * Obtiene el valor asociado a una clave en el almacenamiento.
+   * @param key Clave para la cual se desea obtener el valor.
+   * @returns Valor asociado a la clave o undefined si no existe.
+   */
+  // retrieve(key: string): any {
+  retrieve(key: string): any {
     const item = this.storage.getItem(key);
 
     if (item && item !== 'undefined') {
+      // Si se encuentra el valor en el almacenamiento, se parsea de JSON y se devuelve.
       return JSON.parse(item);
-      // return item;
     }
     return;
   }
-  // Metodo para agregar clave y valor en session storage
+
+  /**
+   * Almacena una clave y su valor en el almacenamiento.
+   * @param key Clave que se va a almacenar.
+   * @param value Valor asociado a la clave.
+   */
   store(key: string, value: any) {
+    // Almacena la clave y el valor en el almacenamiento en formato JSON.
     this.storage.setItem(key, JSON.stringify(value));
   }
-  // Metodo para remover el valor de una clave
+
+  /**
+   * Elimina el valor asociado a una clave en el almacenamiento.
+   * @param key Clave cuyo valor se va a eliminar.
+   */
   remove(key: string) {
+    // Remueve el valor asociado a la clave del almacenamiento.
     this.storage.removeItem(key);
   }
 }

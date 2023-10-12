@@ -5,7 +5,7 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { Observable, Subscription } from 'rxjs';
-import ModalSeguimientosComponent from 'src/app/pages/administrativa/contabilidad/contabilidad-pendientes-minuta/modal-seguimientos/modal-seguimientos.component';
+import ContMinutaSeguimientosComponent from 'src/app/pages/contabilidad/contabilidad-pendientes-minuta/cont-minuta-seguimientos.component';
 import AddoreditMinutaDetalleComponent from 'src/app/pages/operaciones/junta-comite/addoredit-minuta-detalle/addoredit-minuta-detalle.component';
 import AddorEditMeetingSeguimientoComponent from 'src/app/pages/operaciones/junta-comite/addoredit-seguimiento/addor-edit-meeting-seguimiento.component';
 import { SanitizeHtmlPipe } from 'src/app/pipes/sanitize-html.pipe';
@@ -135,7 +135,7 @@ export default class SeguimientoMinutaComponent implements OnInit, OnDestroy {
   }
 
   onModalTodosSeguimientos(idItem: number) {
-    this.ref = this.dialogService.open(ModalSeguimientosComponent, {
+    this.ref = this.dialogService.open(ContMinutaSeguimientosComponent, {
       data: {
         idItem,
       },

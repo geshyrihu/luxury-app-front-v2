@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable } from 'rxjs';
 import { ETipoGasto } from 'src/app/enums/tipo-gasto.enum';
-import { onGetEnum } from 'src/app/helpers/enumaraciones';
+import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
 import { CaratulaFondeoService } from 'src/app/services/caratula-fondeo.service';
 import { CustomerIdService } from 'src/app/services/customer-id.service';
 import { DateService } from 'src/app/services/date.service';
@@ -39,10 +39,10 @@ export default class CaratulaFondeoComponent implements OnInit {
 
   submitting: boolean = false;
 
-  tipoGasto = onGetEnum(ETipoGasto);
+  tipoGasto = onGetSelectItemFromEnum(ETipoGasto);
   form: FormGroup = this.formBuilder.group({
     fechaInicial: ['', Validators.required],
-    fechaFinal: [this.dateService.formDateToString(date), Validators.required],
+    fechaFinal: [this.dateService.getDateFormat(date), Validators.required],
     eTipoGasto: [0, Validators.required],
     cuenta: ['', Validators.required],
     datoDePago: ['', Validators.required],

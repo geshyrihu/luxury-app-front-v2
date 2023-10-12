@@ -54,10 +54,10 @@ export default class BitacoraDiariaComponent implements OnInit, OnDestroy {
   cb_estatus: any[] = ['Terminado', 'Pendiente'];
 
   //TODO: REVISAR SERVICIO FECHASSERVICE
-  fechaInicial: string = this.dateService.formDateToString(
+  fechaInicial: string = this.dateService.getDateFormat(
     this.rangoCalendarioService.fechaInicioDateFull
   );
-  fechaFinal: string = this.dateService.formDateToString(
+  fechaFinal: string = this.dateService.getDateFormat(
     this.rangoCalendarioService.fechaFinalDateFull
   );
   employeeId = this.authService.infoEmployeeDto.employeeId;

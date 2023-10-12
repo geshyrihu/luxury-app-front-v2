@@ -51,7 +51,7 @@ export default class ReportRecorridoDiarioComponent implements OnInit {
       .get(
         `MaintenanceReport/bitacoradiaria/${
           this.customerIdService.customerId
-        }/${this.dateService.formDateToString(
+        }/${this.dateService.getDateFormat(
           this.periodoMonthService.getPeriodoInicio
         )}`
       )

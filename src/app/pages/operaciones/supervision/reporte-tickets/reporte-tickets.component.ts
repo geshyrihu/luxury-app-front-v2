@@ -63,9 +63,9 @@ export default class ReporteTicketsComponent implements OnInit, OnDestroy {
       .get(
         `ResumenGeneral/ReporteResumenTicket/${
           this.customerIdService.customerId
-        }/${this.dateService.formDateToString(
+        }/${this.dateService.getDateFormat(
           this.periodoMonthService.getPeriodoInicio
-        )}/${this.dateService.formDateToString(
+        )}/${this.dateService.getDateFormat(
           this.periodoMonthService.getPeriodoFin
         )}`
       )

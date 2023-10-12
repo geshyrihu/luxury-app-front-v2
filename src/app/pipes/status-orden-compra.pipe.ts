@@ -1,13 +1,13 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { EStatusOrdenCompra } from 'src/app/enums/estatus-orden-compra.enum';
-import { onGetEnum } from '../helpers/enumaraciones';
+import { onGetSelectItemFromEnum } from '../helpers/enumeration';
 
 @Pipe({
   name: 'eStatusOrdenCompra',
   standalone: true,
 })
 export class EStatusOrdenCompraPipe implements PipeTransform {
-  enum: any[] = onGetEnum(EStatusOrdenCompra);
+  enum: any[] = onGetSelectItemFromEnum(EStatusOrdenCompra);
   transform(value: unknown): string {
     let dato: string = '';
     if (value === null) {

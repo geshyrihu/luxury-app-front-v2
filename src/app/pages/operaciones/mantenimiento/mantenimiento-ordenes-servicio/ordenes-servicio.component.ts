@@ -181,7 +181,7 @@ export default class OrdenesServicioComponentComponent
       .get(
         `ServiceOrders/GetAllPintura/${
           this.customerIdService.customerId
-        }/${this.dateService.formDateToString(converToDate)}`
+        }/${this.dateService.getDateFormat(converToDate)}`
       )
       .subscribe({
         next: (resp: any) => {
@@ -189,7 +189,7 @@ export default class OrdenesServicioComponentComponent
           this.reporteOrdenesServicioService.setData(this.data);
 
           if (this.data.length !== 0) {
-            this.nameCarpetaFecha = this.dateService.formDateToString(
+            this.nameCarpetaFecha = this.dateService.getDateFormat(
               this.data[0].requestDate
             );
             this.urlImg = `${environment.base_urlImg}customers/${this.customerIdService.customerId}/ordenServicio/${this.nameCarpetaFecha}/`;
@@ -212,7 +212,7 @@ export default class OrdenesServicioComponentComponent
       .get(
         `ServiceOrders/GetAll/${
           this.customerIdService.customerId
-        }/${this.dateService.formDateToString(converToDate)}/${this.filtroId}`
+        }/${this.dateService.getDateFormat(converToDate)}/${this.filtroId}`
       )
       .subscribe({
         next: (resp: any) => {
@@ -220,7 +220,7 @@ export default class OrdenesServicioComponentComponent
           this.reporteOrdenesServicioService.setData(this.data);
 
           if (this.data.length !== 0) {
-            this.nameCarpetaFecha = this.dateService.formDateToString(
+            this.nameCarpetaFecha = this.dateService.getDateFormat(
               this.data[0].requestDate
             );
             this.urlImg = `${environment.base_urlImg}customers/${this.customerIdService.customerId}/ordenServicio/${this.nameCarpetaFecha}/`;

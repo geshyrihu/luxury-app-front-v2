@@ -10,7 +10,7 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import { EStatusTask } from 'src/app/enums/estatus.enum';
 import { EPriority } from 'src/app/enums/prioridad.enum';
-import { onGetEnum } from 'src/app/helpers/enumaraciones';
+import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
 import { AuthService } from 'src/app/services/auth.service';
 import { DataService } from 'src/app/services/data.service';
 import { DateService } from 'src/app/services/date.service';
@@ -53,8 +53,8 @@ export default class AddoreditSistemasReporteComponent
 
   //TODOñ REVISAR ESTE CustomerId
   _customerId: number = 0;
-  cb_status = onGetEnum(EStatusTask);
-  cb_priority: any = onGetEnum(EPriority);
+  cb_status = onGetSelectItemFromEnum(EStatusTask);
+  cb_priority: any = onGetSelectItemFromEnum(EPriority);
   cb_area_responsable: any[] = [];
   cb_user: any[] = [];
   cb_responsableSistemas: any[] = [];
@@ -182,7 +182,7 @@ export default class AddoreditSistemasReporteComponent
     }
     formData.append(
       'dateRequest',
-      this.dateService.formDateToString(dto.dateRequest)
+      this.dateService.getDateFormat(dto.dateRequest)
     );
     formData.append('activity', dto.activity);
     formData.append('observations', dto.observations);

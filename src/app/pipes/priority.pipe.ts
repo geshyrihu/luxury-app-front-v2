@@ -1,13 +1,13 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { EPriority } from '../enums/prioridad.enum';
-import { onGetEnum } from '../helpers/enumaraciones';
+import { onGetSelectItemFromEnum } from '../helpers/enumeration';
 
 @Pipe({
   name: 'ePriority',
   standalone: true,
 })
 export class EPriorityPipe implements PipeTransform {
-  enum: any[] = onGetEnum(EPriority);
+  enum: any[] = onGetSelectItemFromEnum(EPriority);
   transform(value: unknown): string {
     let dato: string = '';
     if (value === null) {

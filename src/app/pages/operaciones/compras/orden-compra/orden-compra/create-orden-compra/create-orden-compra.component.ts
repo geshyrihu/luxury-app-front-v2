@@ -64,7 +64,7 @@ export default class CreateOrdenCompraComponent implements OnInit, OnDestroy {
     if (this.proveedorIdRecibido === undefined) {
       this.proveedorIdRecibido = 0;
     }
-    this.date = this.dateService.formDateToString(new Date());
+    this.date = this.dateService.getDateFormat(new Date());
     if (this.solicitudCompraId !== undefined) {
       this.onLoadSolicitudCompra();
     }

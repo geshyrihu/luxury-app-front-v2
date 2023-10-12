@@ -78,9 +78,9 @@ export default class ResultadoGeneralDashboardComponent
     this.swalService.onLoading();
     this.subRef$ = this.dataService
       .get(
-        `ResumenGeneral/ReporteResumenMinutas/${this.dateService.formDateToString(
+        `ResumenGeneral/ReporteResumenMinutas/${this.dateService.getDateFormat(
           this.periodoMonthService.getPeriodoInicio
-        )}/${this.dateService.formDateToString(
+        )}/${this.dateService.getDateFormat(
           this.periodoMonthService.getPeriodoFin
         )}/${this.nivelReporte}`
       )
@@ -100,9 +100,9 @@ export default class ResultadoGeneralDashboardComponent
     this.swalService.onLoading();
     this.subRef$ = this.dataService
       .get(
-        `ResumenGeneral/ReporteResumenMinutasFiltro/${this.dateService.formDateToString(
+        `ResumenGeneral/ReporteResumenMinutasFiltro/${this.dateService.getDateFormat(
           this.periodoMonthService.getPeriodoInicio
-        )}/${this.dateService.formDateToString(
+        )}/${this.dateService.getDateFormat(
           this.periodoMonthService.getPeriodoFin
         )}/${EAreaMinutasDetalles}/${this.nivelReporte}`
       )
@@ -124,9 +124,9 @@ export default class ResultadoGeneralDashboardComponent
     this.swalService.onLoading();
     this.subRef$ = this.dataService
       .get(
-        `ResumenGeneral/ReporteResumenPreventivos/${this.dateService.formDateToString(
+        `ResumenGeneral/ReporteResumenPreventivos/${this.dateService.getDateFormat(
           this.periodoMonthService.getPeriodoInicio
-        )}/${this.dateService.formDateToString(
+        )}/${this.dateService.getDateFormat(
           this.periodoMonthService.getPeriodoFin
         )}`
       )
@@ -148,9 +148,9 @@ export default class ResultadoGeneralDashboardComponent
     this.swalService.onLoading();
     this.subRef$ = this.dataService
       .get(
-        `ResumenGeneral/ReporteResumenTicket/${this.dateService.formDateToString(
+        `ResumenGeneral/ReporteResumenTicket/${this.dateService.getDateFormat(
           this.periodoMonthService.getPeriodoInicio
-        )}/${this.dateService.formDateToString(
+        )}/${this.dateService.getDateFormat(
           this.periodoMonthService.getPeriodoFin
         )}`
       )

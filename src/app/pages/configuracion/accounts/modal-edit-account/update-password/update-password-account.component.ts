@@ -38,7 +38,6 @@ export default class UpdatePasswordAccountComponent
   private toastService = inject(ToastService);
   public swalService = inject(SwalService);
 
-  // password: string = '';
   @Input()
   applicationUserId: string = '';
   userInfoDto: ResetPasswordDto;

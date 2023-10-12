@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { onGetEnum } from 'src/app/helpers/enumaraciones';
+import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
 import { ETypeMaintance } from '../enums/tipo-mantenimiento.enum';
 
 @Pipe({
@@ -7,7 +7,7 @@ import { ETypeMaintance } from '../enums/tipo-mantenimiento.enum';
   standalone: true,
 })
 export class ETypeMaintancePipe implements PipeTransform {
-  enum: any[] = onGetEnum(ETypeMaintance);
+  enum: any[] = onGetSelectItemFromEnum(ETypeMaintance);
   transform(value: unknown): string {
     let dato: string = '';
     if (value === null) {

@@ -1,13 +1,13 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ETypePiscina } from '../enums/type-piscina.enum';
-import { onGetEnum } from '../helpers/enumaraciones';
+import { onGetSelectItemFromEnum } from '../helpers/enumeration';
 
 @Pipe({
   name: 'ETypePiscina',
   standalone: true,
 })
 export class ETypePiscinaPipe implements PipeTransform {
-  enum: any[] = onGetEnum(ETypePiscina);
+  enum: any[] = onGetSelectItemFromEnum(ETypePiscina);
   transform(value: unknown): string {
     let dato: string = '';
     if (value === null) {

@@ -27,7 +27,7 @@ export default class PagetitleReportComponent {
 
   @Input() title: string | undefined;
   // @Input() titulo: string;
-  @Input() periodo: string = this.dateService.formatDateTimetoMMMMyyyy(
+  @Input() periodo: string = this.dateService.formatDateTimeToMMMMAAAA(
     this.periodoMonthService.getPeriodoInicio
   );
 

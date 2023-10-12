@@ -70,10 +70,10 @@ export default class PresentacionJuntaComiteComponent
   estatusParteContable: boolean = false;
   supervisorContable: boolean = false;
 
-  fechaInicial: string = this.dateService.formDateToString(
+  fechaInicial: string = this.dateService.getDateFormat(
     this.rangoCalendarioService.fechaInicial
   );
-  fechaFinal: string = this.dateService.formDateToString(
+  fechaFinal: string = this.dateService.getDateFormat(
     this.rangoCalendarioService.fechaFinal
   );
 

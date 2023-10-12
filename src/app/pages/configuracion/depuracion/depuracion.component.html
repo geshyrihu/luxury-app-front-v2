@@ -282,6 +282,12 @@
 </custom-button> -->
 
 <custom-button
+  (clicked)="UpdateProfession()"
+  customClass="btn-outline-primary me-1 mb-1"
+  label="UpdateProfession"
+>
+</custom-button>
+<custom-button
   (clicked)="onEmployeeUpdate()"
   customClass="btn-outline-primary me-1 mb-1"
   label="onEmployeeUpdate"
@@ -309,5 +315,23 @@
   (clicked)="UpdateEmployeeToAccountUser()"
   customClass="btn-outline-primary me-1 mb-1"
   label="UpdateEmployeeToAccountUser"
+>
+</custom-button>
+<custom-button
+  (clicked)="UpdatePerson()"
+  customClass="btn-outline-primary me-1 mb-1"
+  label="UpdatePerson"
+>
+</custom-button>
+<custom-button
+  (clicked)="WorkPosition()"
+  customClass="btn-outline-primary me-1 mb-1"
+  label="WorkPosition"
+>
+</custom-button>
+<custom-button
+  (clicked)="RemovePerson()"
+  customClass="btn-outline-primary me-1 mb-1"
+  label="RemovePerson"
 >
 </custom-button>

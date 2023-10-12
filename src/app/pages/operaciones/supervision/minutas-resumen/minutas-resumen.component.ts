@@ -48,20 +48,16 @@ export default class MinutasResumenComponent implements OnInit, OnDestroy {
       this.cb_customers = resp;
     });
     this.onLoadData(
-      this.dateService.formDateToString(
-        this.periodoMonthService.getPeriodoInicio
-      ),
-      this.dateService.formDateToString(this.periodoMonthService.getPeriodoFin)
+      this.dateService.getDateFormat(this.periodoMonthService.getPeriodoInicio),
+      this.dateService.getDateFormat(this.periodoMonthService.getPeriodoFin)
     );
   }
 
   onFiltrarPeriodo(periodo: string) {
     this.periodoMonthService.setPeriodo(periodo);
     this.onLoadData(
-      this.dateService.formDateToString(
-        this.periodoMonthService.getPeriodoInicio
-      ),
-      this.dateService.formDateToString(this.periodoMonthService.getPeriodoFin)
+      this.dateService.getDateFormat(this.periodoMonthService.getPeriodoInicio),
+      this.dateService.getDateFormat(this.periodoMonthService.getPeriodoFin)
     );
     this.periodo = this.dateService.getNameMontYear(
       this.periodoMonthService.fechaInicial

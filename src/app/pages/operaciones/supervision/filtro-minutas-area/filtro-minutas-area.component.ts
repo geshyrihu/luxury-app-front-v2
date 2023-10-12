@@ -1,12 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { MessageService } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { TableModule } from 'primeng/table';
 import { Subscription } from 'rxjs';
 import { EAreaMinutasDetalles } from 'src/app/enums/area-minutas-detalles.enum';
-import { onGetEnum } from 'src/app/helpers/enumaraciones';
-import { onGetNameEnum } from 'src/app/helpers/utilities';
-import { EAreaMinutasDetallesPipe } from 'src/app/pipes/areaMinutaDetalles.pipe';
+import {
+  onGetNameEnumeration,
+  onGetSelectItemFromEnum,
+} from 'src/app/helpers/enumeration';
+import { EAreaMinutasDetallesPipe } from 'src/app/pipes/area-minuta-detalles.pipe';
 import { SanitizeHtmlPipe } from 'src/app/pipes/sanitize-html.pipe';
 import { EStatusPipe } from 'src/app/pipes/status.pipe';
 import { DataService } from 'src/app/services/data.service';
@@ -26,7 +29,7 @@ import ComponentsModule from 'src/app/shared/components.module';
     SanitizeHtmlPipe,
     EStatusPipe,
   ],
-  providers: [ToastService],
+  providers: [ToastService, MessageService],
 })
 export default class FiltroMinutasAreaComponent implements OnInit, OnDestroy {
   private dataService = inject(DataService);
@@ -55,8 +58,8 @@ export default class FiltroMinutasAreaComponent implements OnInit, OnDestroy {
     this.estatus = this.config.data.estatus;
     this.meetingId = this.config.data.meetingId;
     this.customerName = this.config.data.customerName;
-    this.areaName = onGetNameEnum(
-      onGetEnum(EAreaMinutasDetalles),
+    this.areaName = onGetNameEnumeration(
+      onGetSelectItemFromEnum(EAreaMinutasDetalles),
       this.config.data.area
     );
   }

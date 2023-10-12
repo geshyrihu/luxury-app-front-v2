@@ -14,7 +14,7 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ToastModule } from 'primeng/toast';
 import { Subscription } from 'rxjs';
 import { EStatusOrdenCompra } from 'src/app/enums/estatus-orden-compra.enum';
-import { onGetEnum } from 'src/app/helpers/enumaraciones';
+import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
 import { AuthService } from 'src/app/services/auth.service';
 import { CustomerIdService } from 'src/app/services/customer-id.service';
 import { DataService } from 'src/app/services/data.service';
@@ -59,12 +59,12 @@ export default class SolicitudCompraComponent implements OnInit, OnDestroy {
 
   submitting: boolean = false;
 
-  statusCompra = onGetEnum(EStatusOrdenCompra);
+  statusCompra = onGetSelectItemFromEnum(EStatusOrdenCompra);
   id: number = 0;
   solicitudCompra: any;
   idAuth: string =
     this.authService.userTokenDto.infoUserAuthDto.applicationUserId;
-  private _cb_Status = onGetEnum(EStatusOrdenCompra);
+  private _cb_Status = onGetSelectItemFromEnum(EStatusOrdenCompra);
   public get cb_Status() {
     return this._cb_Status;
   }

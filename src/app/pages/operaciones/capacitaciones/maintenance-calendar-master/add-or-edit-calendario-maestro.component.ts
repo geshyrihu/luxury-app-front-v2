@@ -11,7 +11,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import { EMonths2 } from 'src/app/enums/meses.enum';
-import { onGetEnum } from 'src/app/helpers/enumaraciones';
+import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
 import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
 import { DataService } from 'src/app/services/data.service';
 import { SelectItemService } from 'src/app/services/select-item.service';
@@ -52,7 +52,7 @@ export default class AddOrEditCalendarioMaestroComponent
   proveedoresSeleccionados: ISelectItemDto[] = [];
   cb_equipoCalendarioMaestro: ISelectItemDto[] = [];
   cb_providers: ISelectItemDto[] = [];
-  cb_meses: ISelectItemDto[] = onGetEnum(EMonths2);
+  cb_meses: ISelectItemDto[] = onGetSelectItemFromEnum(EMonths2);
 
   id: number = 0;
   submitting: boolean = false;

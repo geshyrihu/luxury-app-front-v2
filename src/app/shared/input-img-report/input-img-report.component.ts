@@ -1,6 +1,6 @@
 import { NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { toBase64 } from 'src/app/helpers/utilities';
+import { imageToBase64 } from 'src/app/helpers/enumeration';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -28,7 +28,7 @@ export default class InputImgReportComponent {
   change(event: any): void {
     if (event.target.files.length > 0) {
       const file: File = event.target.files[0];
-      toBase64(file)
+      imageToBase64(file)
         .then((value: string) => {
           this.imgBase64 = value;
         })

@@ -5,7 +5,7 @@ export default [
     path: 'pendientes-minutas',
     loadComponent: () =>
       import(
-        'src/app/pages/administrativa/contabilidad/contabilidad-pendientes-minuta/contabilidad-pendientes-minuta.component'
+        'src/app/pages/contabilidad/contabilidad-pendientes-minuta/cont-list-minuta-pendientes.component'
       ),
   },
 
@@ -20,7 +20,7 @@ export default [
     path: 'pendientes-minutas-pdf',
     loadComponent: () =>
       import(
-        'src/app/pages/administrativa/contabilidad/contabilidad-pendiente-minuta-pdf/contabilidad-pendiente-minuta-pdf.component'
+        'src/app/pages/contabilidad/cont-minuta-pendientes-pdf/cont-minuta-pendientes-pdf.component'
       ),
   },
   {
@@ -32,7 +32,7 @@ export default [
     path: 'catalogo-cuentas',
     loadComponent: () =>
       import(
-        'src/app/pages/administrativa/contabilidad/presupuesto-cuentas/list-ledger-accounts.component'
+        'src/app/pages/contabilidad/presupuesto-cuentas/list-ledger-accounts.component'
       ),
   },
   {
@@ -58,14 +58,14 @@ export default [
     path: 'cedulas-presupuestales',
     loadComponent: () =>
       import(
-        'src/app/pages/administrativa/contabilidad/presupuesto/index-cedulas-presupuestales.component'
+        'src/app/pages/contabilidad/presupuesto/list-cedulas-presupuestales.component'
       ),
   },
-  {
-    path: 'cedula-presupuestal-detalle/:id',
-    loadComponent: () =>
-      import(
-        'src/app/pages/administrativa/contabilidad/presupuesto/detalle-cedula-presupuestal.component'
-      ),
-  },
+  // {
+  //   path: 'cedula-presupuestal-detalle/:id',
+  //   loadComponent: () =>
+  //     import(
+  //       'src/app/pages/administrativa/contabilidad/presupuesto/detalle-cedula-presupuestal.component'
+  //     ),
+  // },
 ] as Routes;

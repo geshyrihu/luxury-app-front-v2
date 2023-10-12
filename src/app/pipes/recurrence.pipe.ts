@@ -1,13 +1,13 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ERecurrence } from '../enums/recurrencia.enum';
-import { onGetEnum } from '../helpers/enumaraciones';
+import { onGetSelectItemFromEnum } from '../helpers/enumeration';
 
 @Pipe({
   name: 'eRecurrence',
   standalone: true,
 })
 export class ERecurrencePipe implements PipeTransform {
-  enum: any[] = onGetEnum(ERecurrence);
+  enum: any[] = onGetSelectItemFromEnum(ERecurrence);
   transform(value: unknown): string {
     let dato: string = '';
     if (value === null) {

@@ -71,8 +71,6 @@ export default class AddOrEditComunicadoComponent implements OnInit, OnDestroy {
     this.subRef$ = this.dataService.get(`Comunicado/${this.id}`).subscribe({
       next: (resp: any) => {
         this.form.patchValue(resp.body);
-        console.log('🚀 ~ this.form:', this.form.value);
-
         this.swalService.onClose();
       },
       error: (err) => {
@@ -149,7 +147,7 @@ export default class AddOrEditComunicadoComponent implements OnInit, OnDestroy {
     formData.append('folioComunicado', dto.folioComunicado);
     formData.append(
       'fechaPublicacion',
-      this.dateService.formDateToString(dto.fechaPublicacion)
+      this.dateService.getDateFormat(dto.fechaPublicacion)
     );
     formData.append('responsibleAreaId', String(dto.responsibleAreaId));
     if (this.file != null) {

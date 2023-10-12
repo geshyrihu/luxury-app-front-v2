@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { onGetEnum } from 'src/app/helpers/enumaraciones';
+import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
 import { EState } from '../enums/state.enum';
 
 @Pipe({
@@ -7,7 +7,7 @@ import { EState } from '../enums/state.enum';
   standalone: true,
 })
 export class EStatePipe implements PipeTransform {
-  enum: any[] = onGetEnum(EState);
+  enum: any[] = onGetSelectItemFromEnum(EState);
   transform(value: unknown): string {
     let dato: string = '';
     if (value === null) {

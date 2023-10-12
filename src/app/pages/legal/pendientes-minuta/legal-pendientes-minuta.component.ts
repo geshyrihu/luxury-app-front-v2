@@ -13,7 +13,7 @@ import { DataService } from 'src/app/services/data.service';
 import { SwalService } from 'src/app/services/swal.service';
 import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
-import ModalSeguimientosComponent from '../../administrativa/contabilidad/contabilidad-pendientes-minuta/modal-seguimientos/modal-seguimientos.component';
+import ContMinutaSeguimientosComponent from '../../contabilidad/contabilidad-pendientes-minuta/cont-minuta-seguimientos.component';
 @Component({
   selector: 'app-legal-pendientes-minuta',
   templateUrl: './legal-pendientes-minuta.component.html',
@@ -130,7 +130,7 @@ export default class LegalPendientesMinutaComponent
   }
 
   onModalTodosSeguimientos(idItem: number) {
-    this.ref = this.dialogService.open(ModalSeguimientosComponent, {
+    this.ref = this.dialogService.open(ContMinutaSeguimientosComponent, {
       data: {
         idItem,
       },

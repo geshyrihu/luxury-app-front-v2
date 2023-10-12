@@ -8,6 +8,7 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { Observable, Subscription } from 'rxjs';
+import { ETypeMeeting } from 'src/app/enums/tipo-reunion.enum';
 import { IMeetingIndexDto } from 'src/app/interfaces/IMeetingIndexDto.interface';
 import { SanitizeHtmlPipe } from 'src/app/pipes/sanitize-html.pipe';
 import { ETypeMeetingPipe } from 'src/app/pipes/typeMeeting.pipe';
@@ -51,6 +52,7 @@ export default class ListMinutasComponent implements OnInit, OnDestroy {
   public swalService = inject(SwalService);
   public toastService = inject(ToastService);
 
+  public EnumTypeMeeting = ETypeMeeting;
   data: IMeetingIndexDto[] = [];
   tipoJunta: number = 1;
   ref: DynamicDialogRef;

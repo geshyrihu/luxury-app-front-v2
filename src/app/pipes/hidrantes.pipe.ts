@@ -1,13 +1,13 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { EExtintor } from 'src/app/enums/extintor.enum';
-import { onGetEnum } from 'src/app/helpers/enumaraciones';
+import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
 
 @Pipe({
   name: 'eExtintorPipe',
   standalone: true,
 })
 export class EExtintorPipe implements PipeTransform {
-  enum: any[] = onGetEnum(EExtintor);
+  enum: any[] = onGetSelectItemFromEnum(EExtintor);
   transform(value: unknown): string {
     let dato: string = '';
     if (value === null) {

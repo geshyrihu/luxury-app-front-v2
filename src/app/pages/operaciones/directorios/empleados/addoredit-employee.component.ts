@@ -1,6 +1,11 @@
 import { CommonModule, DatePipe } from '@angular/common';
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import { EAreaResponsable } from 'src/app/enums/area-responsable.enum';
@@ -10,8 +15,10 @@ import { ECountry } from 'src/app/enums/paises.enum';
 import { ESex } from 'src/app/enums/sexo.enum';
 import { ETypeContract } from 'src/app/enums/tipo-contrato.enum';
 import { EBloodType } from 'src/app/enums/tipo-sangre.enum';
-import { onGetEnum } from 'src/app/helpers/enumaraciones';
+import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
 import { IEmployeeAddOrEditDto } from 'src/app/interfaces/IEmployeeAddOrEditDto.interface';
+import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
+import { phonePrefixes } from 'src/app/interfaces/phone-number-prefix';
 import { AuthService } from 'src/app/services/auth.service';
 import { CustomerIdService } from 'src/app/services/customer-id.service';
 import { DataService } from 'src/app/services/data.service';
@@ -52,59 +59,59 @@ export default class AddOrEditEmplopyeeComponent implements OnInit, OnDestroy {
 
   id = 0;
 
-  cb_sex = onGetEnum(ESex);
-  cb_education_level = onGetEnum(EEducationLevel);
-  cb_area = onGetEnum(EAreaResponsable);
-  cb_blood_type = onGetEnum(EBloodType);
-  cb_marital_status = onGetEnum(EMaritalStatus);
+  cb_sex = onGetSelectItemFromEnum(ESex);
+  cb_education_level = onGetSelectItemFromEnum(EEducationLevel);
+  cb_area = onGetSelectItemFromEnum(EAreaResponsable);
+  cb_blood_type = onGetSelectItemFromEnum(EBloodType);
+  cb_marital_status = onGetSelectItemFromEnum(EMaritalStatus);
   cb_nationality = ECountry.GetEnum();
-  cb_type_contract = onGetEnum(ETypeContract);
+  cb_type_contract = onGetSelectItemFromEnum(ETypeContract);
+  cb_profession: ISelectItemDto[];
+  cb_phonePrefixes: any = phonePrefixes;
 
   cb_state = [
     { value: true, label: 'Activo' },
     { value: false, label: 'Inactivo' },
   ];
   model: IEmployeeAddOrEditDto;
-  formDataPersonal: FormGroup;
   form: FormGroup;
-  formDataLaboral: FormGroup;
 
   formDataPersonalId = 0;
   formDataLaboralId = 0;
   ngOnInit(): void {
+    this.selectItemService.onGetSelectItem('Professions').subscribe((resp) => {
+      this.cb_profession = resp;
+    });
     flatpickrFactory();
     this.id = this.config.data.id;
     if (this.id !== 0) this.onLoadData();
     this.form = this.formBuilder.group({
       id: { value: this.id, disabled: true },
-      firstName: [],
-      lastName: [],
+      firstName: [, Validators.required],
+      lastName: [, Validators.required],
       active: [],
-      photoPath: [],
-      correoPersonal: [],
-      celularPersonal: [],
-      dateCreation: [],
-      typeContract: [],
-      applicationUserId: [],
-    });
-    this.formDataPersonal = this.formBuilder.group({
-      employeeId: [],
-      curp: [],
-      rfc: [],
-      nss: [],
-      sex: [],
       address: [],
-      localPhone: [],
+      birth: [],
       bloodType: [],
-      nationality: [],
-      maritalStatus: [],
+      celularPersonal: [, Validators.required],
+      correoPersonal: [, Validators.required],
+      curp: [],
+      customerId: [],
+      dateAdmission: [],
+      dateCreation: [],
       educationLevel: [],
-      birthDate: [],
-    });
-    this.formDataLaboral = this.formBuilder.group({
-      employeeId: [],
-      admissionDate: [],
+      localPhone: [],
+      maritalStatus: [],
+      nationality: [],
+      nss: [],
+      personId: [],
+      phoneNumberPrefix: [, Validators.required],
+      photoPath: [],
+      professionId: [],
+      rfc: [],
       salary: [],
+      sex: [],
+      typeContract: [],
     });
   }
 
@@ -120,14 +127,13 @@ export default class AddOrEditEmplopyeeComponent implements OnInit, OnDestroy {
     }
     this.submitting = true;
     this.swalService.onLoading();
-
     this.subRef$ = this.dataService
       .put(`Employees/${this.id}`, this.form.value)
       .subscribe({
         next: () => {
           this.swalService.onClose();
           this.submitting = false;
-          this.onLoadData();
+          this.ref.close();
         },
         error: (err) => {
           console.log(err.error);
@@ -138,129 +144,27 @@ export default class AddOrEditEmplopyeeComponent implements OnInit, OnDestroy {
         },
       });
   }
-  submitformDataPersonal() {
-    if (this.formDataPersonal.invalid) {
-      Object.values(this.formDataPersonal.controls).forEach((x) => {
-        x.markAllAsTouched();
-      });
-      return;
-    }
-    this.submitting = true;
-    this.swalService.onLoading();
 
-    this.subRef$ = this.dataService
-      .put(
-        `Employees/PostEmployeeDataPersonal/${this.formDataPersonalId}`,
-        this.formDataPersonal.value
-      )
-      .subscribe({
-        next: () => {
-          this.swalService.onClose();
-          this.onLoadData();
-          this.submitting = false;
-        },
-        error: (err) => {
-          console.log(err.error);
-          this.toastService.onShowError();
-          // Habilitar el botón nuevamente al finalizar el envío del formulario
-          this.submitting = false;
-          this.swalService.onClose();
-        },
-      });
-  }
-  submitformDataLaboral() {
-    if (this.formDataLaboral.invalid) {
-      Object.values(this.formDataLaboral.controls).forEach((x) => {
-        x.markAllAsTouched();
-      });
-      return;
-    }
-    // const formData = this.createFormData(this.form.value);
-    // Deshabilitar el botón al iniciar el envío del formulario
-    this.submitting = true;
-    this.swalService.onLoading();
-
-    this.subRef$ = this.dataService
-      .put(
-        `Employees/PostEmployeeDataLaboral/${this.formDataLaboralId}`,
-        this.formDataLaboral.value
-      )
-      .subscribe({
-        next: () => {
-          this.swalService.onClose();
-          this.onLoadData();
-          this.submitting = false;
-        },
-        error: (err) => {
-          console.log(err.error);
-          this.toastService.onShowError();
-          // Habilitar el botón nuevamente al finalizar el envío del formulario
-          this.submitting = false;
-          this.swalService.onClose();
-        },
-      });
-  }
   onLoadData() {
-    this.subRef$ = this.dataService
-      .get(`Employees/GetEmployeeDataPersonal/${this.id}`)
-      .subscribe((resp: any) => {
-        this.model = resp.body;
-        this.formDataPersonalId = resp.body.id;
-        console.log('🚀 ~ GetEmployeeDataPersonal:', resp.body);
-        this.formDataPersonal.patchValue(this.model);
-      });
-    this.subRef$ = this.dataService
-      .get(`Employees/GetEmployeeDataLaboral/${this.id}`)
-      .subscribe((resp: any) => {
-        this.model = resp.body;
-        this.formDataLaboralId = resp.body.id;
-        console.log('🚀 ~ GetEmployeeDataLaboral:', resp.body);
-
-        this.formDataLaboral.patchValue(this.model);
-      });
     this.subRef$ = this.dataService
       .get(`Employees/${this.id}`)
       .subscribe((resp: any) => {
         this.model = resp.body;
-        console.log('🚀 ~ GetEmployeeDataLaboral:', resp.body);
         this.form.patchValue(this.model);
+        this.onLoadPrefix(resp.body.phoneNumberPrefix);
       });
+  }
+
+  onLoadPrefix(phoneNumberPrefix: string) {
+    this.cb_phonePrefixes.find((x) => {
+      x?.prefix === phoneNumberPrefix;
+      this.form.patchValue({
+        phoneNumberPrefix: `${x.country} ${x.prefix}`,
+      });
+    });
   }
 
   ngOnDestroy() {
     if (this.subRef$) this.subRef$.unsubscribe();
   }
-}
-export interface EmployeeLaborData {
-  id: number;
-  employeeId: number;
-  admissionDate: string | null;
-  salary: number;
-}
-export interface EmployeePersonalData {
-  id: number;
-  employeeId: number;
-  curp: string;
-  rFC: string;
-  nSS: string;
-  sex: ESex;
-  address: string;
-  localPhone: string;
-  bloodType: EBloodType;
-  nationality: string;
-  maritalStatus: EMaritalStatus;
-  educationLevel: EEducationLevel;
-  birthDate: string;
-}
-export interface Employee {
-  id: number;
-  firstName: string;
-  lastName: string;
-  active: boolean;
-  photoPath: string;
-  correoPersonal: string;
-  celularPersonal: string;
-  dateCreation: string;
-  typeContract: ETypeContract;
-  applicationUserId: string;
 }
