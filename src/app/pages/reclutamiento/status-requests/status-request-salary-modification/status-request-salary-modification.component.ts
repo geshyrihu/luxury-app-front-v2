@@ -4,8 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
 import { Subscription } from 'rxjs';
 import CardEmployeeComponent from 'src/app/pages/operaciones/directorios/empleados/card-employee/card-employee.component';
 import PhoneFormatPipe from 'src/app/pipes/phone-format.pipe';
@@ -17,6 +15,7 @@ import { SwalService } from 'src/app/services/swal.service';
 import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
+import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import { environment } from 'src/environments/environment';
 import AddOrEditStatusRequestSalaryModificationComponent from './add-or-edit-status-request-salary-modification/add-or-edit-status-request-salary-modification.component';
 
@@ -26,12 +25,12 @@ import AddOrEditStatusRequestSalaryModificationComponent from './add-or-edit-sta
   standalone: true,
   imports: [
     ComponentsModule,
-    TableModule,
-    ToastModule,
+    PrimeNgModule,
     FormsModule,
     CommonModule,
     CustomInputModule,
     PhoneFormatPipe,
+    PrimeNgModule,
   ],
   providers: [DialogService, MessageService, ToastService],
 })

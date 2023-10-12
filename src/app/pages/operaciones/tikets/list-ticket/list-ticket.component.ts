@@ -4,9 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { ImageModule } from 'primeng/image';
-import { TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
 import { Observable, Subscription } from 'rxjs';
 import { IFilterTicket } from 'src/app/interfaces/IFilterTicket.interface';
 import CardEmployeeComponent from 'src/app/pages/operaciones/directorios/empleados/card-employee/card-employee.component';
@@ -19,6 +16,7 @@ import { SwalService } from 'src/app/services/swal.service';
 import { TicketFilterService } from 'src/app/services/ticket-filter.service';
 import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
+import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import { environment } from 'src/environments/environment';
 import EnviarMailReporteSemanalComponent from '../../enviar-email/enviar-mail-reporte-semanal/enviar-mail-reporte-semanal.component';
 import AddoreditTicketComponent from '../addoredit-ticket/addoredit-ticket.component';
@@ -35,9 +33,7 @@ import FilterTicketComponent from '../ticket-filter/ticket-filter.component';
     CommonModule,
     ComponentsModule,
     FormsModule,
-    TableModule,
-    ToastModule,
-    ImageModule,
+    PrimeNgModule,
   ],
   providers: [DialogService, MessageService, ConfirmationService, ToastService],
 })

@@ -18,7 +18,7 @@
 //   selector: 'app-detalle-cedula-presupuestal',
 //   templateUrl: './detalle-cedula-presupuestal.component.html',
 //   standalone: true,
-//   imports: [ComponentsModule, CommonModule, TableModule, ToastModule],
+//   imports: [ComponentsModule, CommonModule],
 //   providers: [DialogService, MessageService, ToastService],
 // })
 

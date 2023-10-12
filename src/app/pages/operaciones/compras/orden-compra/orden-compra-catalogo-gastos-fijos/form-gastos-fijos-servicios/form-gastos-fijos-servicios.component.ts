@@ -2,8 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
-import { TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { CatalogoGastosFijosService } from 'src/app/services/catalogo-gastos-fijos.service';
@@ -12,19 +10,14 @@ import { SelectItemService } from 'src/app/services/select-item.service';
 import { SwalService } from 'src/app/services/swal.service';
 import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
+import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-form-gastos-fijos-servicios',
   templateUrl: './form-gastos-fijos-servicios.component.html',
   standalone: true,
-  imports: [
-    ComponentsModule,
-    FormsModule,
-    CommonModule,
-    TableModule,
-    ToastModule,
-  ],
+  imports: [ComponentsModule, FormsModule, CommonModule, PrimeNgModule],
   providers: [MessageService, ToastService],
 })
 export default class FormGastosFijosServiciosComponent

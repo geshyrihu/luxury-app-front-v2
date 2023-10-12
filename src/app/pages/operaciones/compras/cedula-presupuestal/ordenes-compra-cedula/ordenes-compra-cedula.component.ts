@@ -6,27 +6,20 @@ import {
   DynamicDialogConfig,
   DynamicDialogRef,
 } from 'primeng/dynamicdialog';
-import { TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
 import { Subscription } from 'rxjs';
 import { DataService } from 'src/app/services/data.service';
 import { OrdenCompraService } from 'src/app/services/orden-compra.service';
 import { SwalService } from 'src/app/services/swal.service';
 import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
+import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import OrdenCompraComponent from '../../orden-compra/orden-compra/orden-compra.component';
 
 @Component({
   selector: 'app-ordenes-compra-cedula',
   templateUrl: './ordenes-compra-cedula.component.html',
   standalone: true,
-  imports: [
-    ComponentsModule,
-    CommonModule,
-    TableModule,
-    ToastModule,
-    NgbTooltip,
-  ],
+  imports: [ComponentsModule, CommonModule, PrimeNgModule, NgbTooltip],
   providers: [ToastService],
 })
 export default class OrdenesCompraCedulaComponent implements OnInit, OnDestroy {

@@ -7,8 +7,6 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
 import { Observable, Subscription } from 'rxjs';
 import { IWorkPositionDto } from 'src/app/interfaces/IEmpresaOrganigramaDto.interface';
 import CardEmployeeComponent from 'src/app/pages/operaciones/directorios/empleados/card-employee/card-employee.component';
@@ -20,6 +18,7 @@ import { StatusSolicitudVacanteService } from 'src/app/services/status-solicitud
 import { SwalService } from 'src/app/services/swal.service';
 import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
+import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import { environment } from 'src/environments/environment';
 import Swal from 'sweetalert2';
 import DescripcionPuestoComponent from '../../professions/descripcion-puesto.component';
@@ -41,8 +40,7 @@ import HoursWorkPositionComponent from '../hours-work-position.component';
     NgbDropdownModule,
     NgbTooltipModule,
     RouterModule,
-    TableModule,
-    ToastModule,
+    PrimeNgModule,
   ],
   providers: [ConfirmationService, DialogService, MessageService, ToastService],
 })

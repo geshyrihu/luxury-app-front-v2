@@ -2,8 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
 import { Observable, Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { CustomerIdService } from 'src/app/services/customer-id.service';
@@ -11,13 +9,14 @@ import { DataService } from 'src/app/services/data.service';
 import { SwalService } from 'src/app/services/swal.service';
 import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
+import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import AddOrEditEntradasComponent from './addoredit-entradas.component';
 
 @Component({
   selector: 'app-index-entradas',
   templateUrl: './index-entradas.component.html',
   standalone: true,
-  imports: [ComponentsModule, CommonModule, TableModule, ToastModule],
+  imports: [ComponentsModule, CommonModule, PrimeNgModule],
   providers: [DialogService, MessageService, ToastService],
 })
 export default class IndexEntradasComponent implements OnInit, OnDestroy {

@@ -3,8 +3,6 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
 import { Observable, Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { CustomerIdService } from 'src/app/services/customer-id.service';
@@ -13,6 +11,7 @@ import { ReporteHerramientasPdfService } from 'src/app/services/reporte-herramie
 import { SwalService } from 'src/app/services/swal.service';
 import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
+import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import { environment } from 'src/environments/environment';
 import AddoreditToolsComponent from './addoredit-herramienta.component';
 
@@ -20,13 +19,7 @@ import AddoreditToolsComponent from './addoredit-herramienta.component';
   selector: 'app-index-herramientas',
   templateUrl: './index-herramientas.component.html',
   standalone: true,
-  imports: [
-    ComponentsModule,
-    CommonModule,
-    RouterModule,
-    TableModule,
-    ToastModule,
-  ],
+  imports: [ComponentsModule, CommonModule, RouterModule, PrimeNgModule],
   providers: [DialogService, MessageService, ToastService],
 })
 export default class IndexerramientasComponent implements OnInit, OnDestroy {

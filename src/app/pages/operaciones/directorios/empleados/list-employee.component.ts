@@ -3,8 +3,6 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
 import { Observable, Subscription } from 'rxjs';
 import { IEmployeeDto } from 'src/app/interfaces/IEmployeeDto.interface';
 import UpdatePasswordModalComponent from 'src/app/pages/configuracion/accounts/modal-edit-account/update-password-modal/update-password-modal.component';
@@ -14,6 +12,7 @@ import { DataService } from 'src/app/services/data.service';
 import { SwalService } from 'src/app/services/swal.service';
 import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
+import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import { environment } from 'src/environments/environment';
 import AccountToEmployeeComponent from './account-to-employee/account-to-employee.component';
 import AddAccountCustomerComponent from './add-account-customer.component';
@@ -26,7 +25,7 @@ const base_urlImg = environment.base_urlImg + 'Administration/accounts/';
   selector: 'app-list-employee',
   templateUrl: './list-employee.component.html',
   standalone: true,
-  imports: [CommonModule, ComponentsModule, TableModule, ToastModule],
+  imports: [CommonModule, ComponentsModule, PrimeNgModule],
   providers: [DialogService, MessageService, ConfirmationService, ToastService],
 })
 export default class ListEmployeeComponent implements OnInit, OnDestroy {

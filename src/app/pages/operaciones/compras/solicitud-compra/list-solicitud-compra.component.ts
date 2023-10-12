@@ -3,8 +3,6 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
 import { Observable, Subscription } from 'rxjs';
 import { EStatusOrdenCompraPipe } from 'src/app/pipes/status-orden-compra.pipe';
 import { AuthService } from 'src/app/services/auth.service';
@@ -14,6 +12,7 @@ import { SolicitudCompraService } from 'src/app/services/solicitud-compra.servic
 import { SwalService } from 'src/app/services/swal.service';
 import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
+import PrimeNgModule from 'src/app/shared/prime-ng.module';
 
 @Component({
   selector: 'app-list-solicitud-compra',
@@ -22,8 +21,7 @@ import ComponentsModule from 'src/app/shared/components.module';
   imports: [
     ComponentsModule,
     CommonModule,
-    TableModule,
-    ToastModule,
+    PrimeNgModule,
     EStatusOrdenCompraPipe,
   ],
   providers: [DialogService, MessageService, ConfirmationService, ToastService],

@@ -4,13 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
 import { Subscription } from 'rxjs';
 import { DataService } from 'src/app/services/data.service';
 import { SwalService } from 'src/app/services/swal.service';
 import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
+import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import ModalAddProveedorComponent from './modal-add-proveedor/modal-add-proveedor.component';
 import ModalEditCotizacionComponent from './modal-edit-cotizacion/modal-edit-cotizacion.component';
 
@@ -18,13 +17,7 @@ import ModalEditCotizacionComponent from './modal-edit-cotizacion/modal-edit-cot
   selector: 'app-cuadro-comparativo',
   templateUrl: './cuadro-comparativo.component.html',
   standalone: true,
-  imports: [
-    FormsModule,
-    ComponentsModule,
-    CommonModule,
-    TableModule,
-    ToastModule,
-  ],
+  imports: [FormsModule, ComponentsModule, CommonModule, PrimeNgModule],
   providers: [ConfirmationService, DialogService, MessageService, ToastService],
 })
 export default class CuadroComparativoComponent implements OnInit, OnDestroy {

@@ -6,8 +6,6 @@ import { RouterModule } from '@angular/router';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
 import { Observable, Subscription } from 'rxjs';
 import PhoneFormatPipe from 'src/app/pipes/phone-format.pipe';
 import { AuthService } from 'src/app/services/auth.service';
@@ -16,6 +14,7 @@ import { FilterRequestsService } from 'src/app/services/filter-requests.service'
 import { SwalService } from 'src/app/services/swal.service';
 import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
+import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import FilterRequestsComponent from '../filter-requests.component';
 import AddoreditSolicitudBajaComponent from './addoredit-solicitud-baja/addoredit-solicitud-baja.component';
 @Component({
@@ -30,8 +29,7 @@ import AddoreditSolicitudBajaComponent from './addoredit-solicitud-baja/addoredi
     NgbDropdownModule,
     PhoneFormatPipe,
     RouterModule,
-    TableModule,
-    ToastModule,
+    PrimeNgModule,
   ],
   providers: [DialogService, MessageService, ToastService],
 })

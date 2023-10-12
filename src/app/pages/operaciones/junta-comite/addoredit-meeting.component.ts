@@ -8,8 +8,6 @@ import {
 } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
 import { Subscription } from 'rxjs';
 import { ETypeMeeting } from 'src/app/enums/tipo-reunion.enum';
 import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
@@ -20,6 +18,7 @@ import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule, {
   flatpickrFactory,
 } from 'src/app/shared/components.module';
+import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import { IMeetingDto } from '../../../interfaces/IMeetingDto.interface';
 import { SwalService } from './../../../services/swal.service';
 import AddOrEditListAdministrationComponent from './addoredit-administration/addoredit-list-administration.component';
@@ -37,8 +36,7 @@ const date = new Date();
     AddOrEditComiteComponent,
     AddOrEditListAdministrationComponent,
     AddOrEditInvitedComponent,
-    TableModule,
-    ToastModule,
+    PrimeNgModule,
     ComponentsModule,
   ],
   providers: [MessageService, ToastService],

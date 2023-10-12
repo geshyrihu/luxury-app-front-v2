@@ -3,8 +3,6 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
 import { Subscription } from 'rxjs';
 import { IProfessionDto } from 'src/app/interfaces/IProfessionDto.interface';
 import { AuthService } from 'src/app/services/auth.service';
@@ -12,6 +10,7 @@ import { DataService } from 'src/app/services/data.service';
 import { SwalService } from 'src/app/services/swal.service';
 import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
+import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import AddOrEditProfessionsComponent from './addoredit-professions.component';
 import DescripcionPuestoComponent from './descripcion-puesto.component';
 
@@ -19,13 +18,7 @@ import DescripcionPuestoComponent from './descripcion-puesto.component';
   selector: 'app-professions',
   templateUrl: './list-professions.component.html',
   standalone: true,
-  imports: [
-    CommonModule,
-    ComponentsModule,
-    NgbAlertModule,
-    TableModule,
-    ToastModule,
-  ],
+  imports: [CommonModule, ComponentsModule, NgbAlertModule, PrimeNgModule],
   providers: [DialogService, MessageService, ToastService],
 })
 export default class ListProfessionsComponent implements OnInit, OnDestroy {

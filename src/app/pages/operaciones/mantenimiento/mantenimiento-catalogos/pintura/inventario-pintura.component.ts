@@ -4,8 +4,6 @@ import { NgbAlert } from '@ng-bootstrap/ng-bootstrap';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ImageModule } from 'primeng/image';
-import { TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
 import { Observable, Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { CustomerIdService } from 'src/app/services/customer-id.service';
@@ -13,6 +11,7 @@ import { DataService } from 'src/app/services/data.service';
 import { SwalService } from 'src/app/services/swal.service';
 import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
+import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import AddoreditInventarioPinturaComponent from './addoredit-inventario-pintura.component';
 @Component({
   selector: 'app-inventario-pintura',
@@ -22,8 +21,7 @@ import AddoreditInventarioPinturaComponent from './addoredit-inventario-pintura.
     ComponentsModule,
     NgbAlert,
     CommonModule,
-    TableModule,
-    ToastModule,
+    PrimeNgModule,
     ImageModule,
   ],
   providers: [DialogService, MessageService, ToastService],

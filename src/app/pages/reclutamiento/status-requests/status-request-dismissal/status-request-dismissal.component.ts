@@ -4,8 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
 import { Subscription } from 'rxjs';
 import CardEmployeeComponent from 'src/app/pages/operaciones/directorios/empleados/card-employee/card-employee.component';
 import PhoneFormatPipe from 'src/app/pipes/phone-format.pipe';
@@ -17,6 +15,7 @@ import { SwalService } from 'src/app/services/swal.service';
 import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
+import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import { environment } from 'src/environments/environment';
 import AddOrEditStatusRequestDismissalDiscountComponent from './add-or-edit-status-request-dismissal-discount/add-or-edit-status-request-dismissal-discount.component';
 import AddOrEditStatusRequestDismissalComponent from './add-or-edit-status-request-dismissal/add-or-edit-status-request-dismissal.component';
@@ -27,8 +26,7 @@ import AddOrEditStatusRequestDismissalComponent from './add-or-edit-status-reque
   standalone: true,
   imports: [
     ComponentsModule,
-    TableModule,
-    ToastModule,
+    PrimeNgModule,
     FormsModule,
     CommonModule,
     CustomInputModule,
@@ -40,13 +38,13 @@ export default class StatusRequestDismissalComponent
   implements OnInit, OnDestroy
 {
   private statusSolicitudVacanteService = inject(StatusSolicitudVacanteService);
+  public authService = inject(AuthService);
   public customerIdService = inject(CustomerIdService);
   public dataService = inject(DataService);
   public dialogService = inject(DialogService);
+  public router = inject(Router);
   public swalService = inject(SwalService);
   public toastService = inject(ToastService);
-  public router = inject(Router);
-  public authService = inject(AuthService);
 
   workPositionId = this.statusSolicitudVacanteService.getworkPositionId();
   ref: DynamicDialogRef;

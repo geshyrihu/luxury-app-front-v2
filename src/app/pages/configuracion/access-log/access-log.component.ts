@@ -1,31 +1,25 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
-import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
-import { TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
 import { Observable, Subscription } from 'rxjs';
-import { AuthService } from 'src/app/services/auth.service';
+import {
+  AuthService,
+  DataService,
+  MessageService,
+  SwalService,
+  ToastService,
+} from 'src/app/services/common-services';
 import { CustomerIdService } from 'src/app/services/customer-id.service';
-import { DataService } from 'src/app/services/data.service';
 import { DateService } from 'src/app/services/date.service';
 import { FiltroCalendarService } from 'src/app/services/filtro-calendar.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
+import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import { environment } from 'src/environments/environment';
-
 @Component({
   selector: 'app-access-log',
   templateUrl: './access-log.component.html',
   standalone: true,
-  imports: [
-    CommonModule,
-    ComponentsModule,
-    TableModule,
-    ToastModule,
-    ButtonModule,
-  ],
+  imports: [CommonModule, ComponentsModule, ButtonModule, PrimeNgModule],
   providers: [MessageService, ToastService],
 })
 export default class AccessLogComponent implements OnInit, OnDestroy {

@@ -6,8 +6,6 @@ import { RouterModule } from '@angular/router';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
 import { Observable, Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { DataService } from 'src/app/services/data.service';
@@ -16,6 +14,7 @@ import { StatusSolicitudVacanteService } from 'src/app/services/status-solicitud
 import { SwalService } from 'src/app/services/swal.service';
 import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
+import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import FilterRequestsComponent from '../filter-requests.component';
 import AddoreditModificacionSalarioComponent from './addoredit-modificacion-salario/addoredit-modificacion-salario.component';
 
@@ -30,8 +29,7 @@ import AddoreditModificacionSalarioComponent from './addoredit-modificacion-sala
     FormsModule,
     NgbDropdownModule,
     RouterModule,
-    TableModule,
-    ToastModule,
+    PrimeNgModule,
   ],
   providers: [DialogService, MessageService, ToastService],
 })

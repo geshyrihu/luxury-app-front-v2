@@ -2,8 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
 import { Subscription } from 'rxjs';
 import AddoreditMinutaDetalleComponent from 'src/app/pages/operaciones/junta-comite/addoredit-minuta-detalle/addoredit-minuta-detalle.component';
 import AddorEditMeetingSeguimientoComponent from 'src/app/pages/operaciones/junta-comite/addoredit-seguimiento/addor-edit-meeting-seguimiento.component';
@@ -13,18 +11,13 @@ import { DataService } from 'src/app/services/data.service';
 import { SwalService } from 'src/app/services/swal.service';
 import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
+import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import ContMinutaSeguimientosComponent from '../../contabilidad/contabilidad-pendientes-minuta/cont-minuta-seguimientos.component';
 @Component({
   selector: 'app-legal-pendientes-minuta',
   templateUrl: './legal-pendientes-minuta.component.html',
   standalone: true,
-  imports: [
-    CommonModule,
-    ComponentsModule,
-    SanitizeHtmlPipe,
-    TableModule,
-    ToastModule,
-  ],
+  imports: [CommonModule, ComponentsModule, SanitizeHtmlPipe, PrimeNgModule],
   providers: [DialogService, MessageService, ToastService],
 })
 export default class LegalPendientesMinutaComponent

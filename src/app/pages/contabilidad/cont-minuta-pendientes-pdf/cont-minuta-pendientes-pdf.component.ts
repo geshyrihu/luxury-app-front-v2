@@ -1,19 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { MessageService } from 'primeng/api';
-import { TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
 import { Subscription } from 'rxjs';
 import { SanitizeHtmlPipe } from 'src/app/pipes/sanitize-html.pipe';
 import { DataService } from 'src/app/services/data.service';
 import { SwalService } from 'src/app/services/swal.service';
 import { ToastService } from 'src/app/services/toast.service';
+import PrimeNgModule from 'src/app/shared/prime-ng.module';
 
 @Component({
   selector: 'app-cont-minuta-pendientes-pdf',
   templateUrl: './cont-minuta-pendientes-pdf.component.html',
   standalone: true,
-  imports: [CommonModule, TableModule, ToastModule, SanitizeHtmlPipe],
+  imports: [CommonModule, PrimeNgModule, SanitizeHtmlPipe],
   providers: [MessageService, ToastService],
 })
 export default class ConMinutaPendientesPdfComponent

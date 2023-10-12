@@ -1,20 +1,19 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
 import { Subscription } from 'rxjs';
 import { DataService } from 'src/app/services/data.service';
 import { SwalService } from 'src/app/services/swal.service';
 import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
+import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import AddOrEditCalendarioMaestroEquipoComponent from './add-or-edit-calendario-maestro-equipo.component';
 
 @Component({
   selector: 'app-calendario-maestro-equipo',
   templateUrl: './calendario-maestro-equipo.component.html',
   standalone: true,
-  imports: [ComponentsModule, TableModule, ToastModule],
+  imports: [ComponentsModule, PrimeNgModule],
   providers: [DialogService, MessageService, ToastService],
 })
 export default class CalendarioMaestroEquipoComponent

@@ -1,8 +1,6 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
 import { Observable, Subscription } from 'rxjs';
 import { IComiteVigilanciaDto } from 'src/app/interfaces/IComiteVigilanciaDto.interface';
 import { EPosicionComitePipe } from 'src/app/pipes/posicionComite.pipe';
@@ -12,13 +10,14 @@ import { DataService } from 'src/app/services/data.service';
 import { SwalService } from 'src/app/services/swal.service';
 import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
+import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import AddOrEditComiteVigilanciaComponent from './addoredit-comite-vigilancia.component';
 
 @Component({
   selector: 'app-index-comite-vigilancia',
   templateUrl: './index-comite-vigilancia.component.html',
   standalone: true,
-  imports: [ComponentsModule, TableModule, ToastModule, EPosicionComitePipe],
+  imports: [ComponentsModule, PrimeNgModule, EPosicionComitePipe],
   providers: [DialogService, MessageService, ToastService],
 })
 export default class IndexComiteVigilanciaComponent

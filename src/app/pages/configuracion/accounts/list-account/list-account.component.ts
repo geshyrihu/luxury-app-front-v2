@@ -3,8 +3,6 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { NgbDropdownModule, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
 import { Subscription } from 'rxjs';
 import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
 import { IAccountDto } from 'src/app/interfaces/account-dto.interface';
@@ -16,6 +14,7 @@ import { SwalService } from 'src/app/services/swal.service';
 import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
 import DropdownRouteComponent from 'src/app/shared/ngb-dropdown-menu/dropdown-route.component';
+import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import { environment } from 'src/environments/environment';
 import CreateAccountComponent from '../create-account/create-account.component';
 import AddOrEditEmailDataComponent from '../email-data/add-or-edit-email-data.component';
@@ -27,8 +26,7 @@ import MdEditAccountComponent from '../modal-edit-account/md-edit-account.compon
   imports: [
     CommonModule,
     ComponentsModule,
-    TableModule,
-    ToastModule,
+    PrimeNgModule,
     NgbDropdownModule,
     DropdownRouteComponent,
     PhoneFormatPipe,

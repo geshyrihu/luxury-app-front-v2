@@ -3,20 +3,19 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { DataService } from 'src/app/services/data.service';
 import { SwalService } from 'src/app/services/swal.service';
 import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
+import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import AddoreditPiscinaBitacoraComponent from '../addoredit-piscina-bitacora/addoredit-piscina-bitacora.component';
 @Component({
   selector: 's-list-piscina-bitacora',
   templateUrl: './list-piscina-bitacora.component.html',
   standalone: true,
-  imports: [ComponentsModule, TableModule, ToastModule, CommonModule],
+  imports: [ComponentsModule, PrimeNgModule, CommonModule],
   providers: [DialogService, MessageService, ToastService],
 })
 export default class ListPiscinaBitacoraComponent implements OnInit, OnDestroy {

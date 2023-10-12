@@ -3,8 +3,6 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
 import { Observable, Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { CustomerIdService } from 'src/app/services/customer-id.service';
@@ -13,6 +11,7 @@ import { OrdenCompraService } from 'src/app/services/orden-compra.service';
 import { SwalService } from 'src/app/services/swal.service';
 import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
+import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import CaratulaFondeoComponent from '../../caratula-fondeo/caratula-fondeo.component';
 import CreateOrdenCompraComponent from './create-orden-compra/create-orden-compra.component';
 import OrdenCompraComponent from './orden-compra.component';
@@ -21,13 +20,7 @@ import OrdenCompraComponent from './orden-compra.component';
   selector: 'app-list-orden-compra',
   templateUrl: './list-orden-compra.component.html',
   standalone: true,
-  imports: [
-    ComponentsModule,
-    CommonModule,
-    TableModule,
-    ToastModule,
-    RouterModule,
-  ],
+  imports: [ComponentsModule, CommonModule, PrimeNgModule, RouterModule],
   providers: [DialogService, MessageService, ConfirmationService, ToastService],
 })
 export default class ListOrdenCompraComponent implements OnInit, OnDestroy {

@@ -5,8 +5,6 @@ import { Router } from '@angular/router';
 import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { CustomerIdService } from 'src/app/services/customer-id.service';
@@ -16,6 +14,7 @@ import { SwalService } from 'src/app/services/swal.service';
 import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
+import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import { environment } from 'src/environments/environment';
 import AddOrEditVacanteComponent from '../../list-solicitudes/list-solicitud-vacantes/addoredit-vacante.component';
 import AddOrEditVacanteCandidatoComponent from '../../list-solicitudes/list-solicitud-vacantes/list-vacante-candidatos/addoredit-vacante-candidato.component';
@@ -27,8 +26,7 @@ import SolicitudAltaComponent from '../../solicitudes/solicitud-alta/solicitud-a
   standalone: true,
   imports: [
     ComponentsModule,
-    TableModule,
-    ToastModule,
+    PrimeNgModule,
     FormsModule,
     CommonModule,
     CustomInputModule,

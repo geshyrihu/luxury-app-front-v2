@@ -17,7 +17,7 @@
 //   selector: "app-index-presupuesto-empresa-detalle",
 //   templateUrl: "./index-presupuesto-empresa-detalle.component.html",
 //   standalone: true,
-//   imports: [ComponentsModule, CommonModule, TableModule, ToastModule],
+//   imports: [ComponentsModule, CommonModule],
 //   providers: [DialogService, MessageService, ToastService],
 // })
 // export default class IndexPresupuestoEmpresaDetalleComponent

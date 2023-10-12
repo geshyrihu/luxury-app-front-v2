@@ -5,8 +5,6 @@ import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import * as saveAs from 'file-saver';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
 import { Observable, Subscription } from 'rxjs';
 import { ETypeMeeting } from 'src/app/enums/tipo-reunion.enum';
 import { IMeetingIndexDto } from 'src/app/interfaces/IMeetingIndexDto.interface';
@@ -19,6 +17,7 @@ import { ReportService } from 'src/app/services/report.service';
 import { SwalService } from 'src/app/services/swal.service';
 import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
+import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import AddOrEditMeetingDetailComponent from './addoredit-meeting-detail.component';
 import AddOrEditMeetingComponent from './addoredit-meeting.component';
 import AddoreditMinutaDetalleComponent from './addoredit-minuta-detalle/addoredit-minuta-detalle.component';
@@ -32,8 +31,7 @@ import AddorEditMeetingSeguimientoComponent from './addoredit-seguimiento/addor-
     ComponentsModule,
     RouterModule,
     CommonModule,
-    TableModule,
-    ToastModule,
+    PrimeNgModule,
     ETypeMeetingPipe,
     SanitizeHtmlPipe,
     NgbTooltip,

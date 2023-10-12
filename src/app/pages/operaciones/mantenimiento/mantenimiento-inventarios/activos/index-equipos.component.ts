@@ -4,8 +4,6 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ImageModule } from 'primeng/image';
-import { TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
 import { Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { EInventoryCategory } from 'src/app/enums/categoria-inventario.enum';
@@ -20,6 +18,7 @@ import { DataService } from 'src/app/services/data.service';
 import { SwalService } from 'src/app/services/swal.service';
 import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
+import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import { environment } from 'src/environments/environment';
 import BitacoraIndividualComponent from '../../mantenimiento-bitacoras/recorridos/bitacora-individual.component';
 import OrderServiceComponent from '../orden-service/order-service.component';
@@ -35,8 +34,7 @@ import ServiceHistoryMachineryComponent from './service-history-machinery/servic
   imports: [
     ComponentsModule,
     CommonModule,
-    TableModule,
-    ToastModule,
+    PrimeNgModule,
     ImageModule,
     ERecurrencePipe,
     EMonthPipe,

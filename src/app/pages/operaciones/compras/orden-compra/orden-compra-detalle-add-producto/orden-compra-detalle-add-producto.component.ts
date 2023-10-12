@@ -7,8 +7,6 @@ import {
   DynamicDialogConfig,
   DynamicDialogRef,
 } from 'primeng/dynamicdialog';
-import { TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
 import { Subscription } from 'rxjs';
 import AddProductosAlmacenComponent from 'src/app/pages/operaciones/mantenimiento/mantenimiento-almacen/inventario-productos/add-productos-almacen.component';
 import { AuthService } from 'src/app/services/auth.service';
@@ -17,19 +15,14 @@ import { SelectItemService } from 'src/app/services/select-item.service';
 import { SwalService } from 'src/app/services/swal.service';
 import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
+import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-orden-compra-detalle-add-producto',
   templateUrl: './orden-compra-detalle-add-producto.component.html',
   standalone: true,
-  imports: [
-    ComponentsModule,
-    FormsModule,
-    CommonModule,
-    TableModule,
-    ToastModule,
-  ],
+  imports: [ComponentsModule, FormsModule, CommonModule, PrimeNgModule],
   providers: [ToastService],
 })
 export default class OrdenCompraDetalleAddProductoComponent

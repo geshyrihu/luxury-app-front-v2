@@ -3,8 +3,6 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
 import { Subscription } from 'rxjs';
 import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
 import { AuthService } from 'src/app/services/auth.service';
@@ -13,6 +11,7 @@ import { SelectItemService } from 'src/app/services/select-item.service';
 import { SwalService } from 'src/app/services/swal.service';
 import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
+import PrimeNgModule from 'src/app/shared/prime-ng.module';
 
 const date = new Date();
 
@@ -20,13 +19,7 @@ const date = new Date();
   selector: 'app-list-cedulas-presupuestales',
   templateUrl: './list-cedulas-presupuestales.component.html',
   standalone: true,
-  imports: [
-    ComponentsModule,
-    RouterModule,
-    CommonModule,
-    TableModule,
-    ToastModule,
-  ],
+  imports: [ComponentsModule, RouterModule, CommonModule, PrimeNgModule],
   providers: [DialogService, MessageService, ToastService],
 })
 export default class ListCedulasPresupuestalesComponent

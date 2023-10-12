@@ -6,8 +6,6 @@ import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ContextMenuModule } from 'primeng/contextmenu';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
 import { Subscription } from 'rxjs';
 import { EStatusOrdenCompraPipe } from 'src/app/pipes/status-orden-compra.pipe';
 import { AuthService } from 'src/app/services/auth.service';
@@ -17,6 +15,7 @@ import { SelectItemService } from 'src/app/services/select-item.service';
 import { SwalService } from 'src/app/services/swal.service';
 import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
+import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import OrdenCompraDatosPagoParcialComponent from '../components/orden-compra-datos-pago-parcial/orden-compra-datos-pago-parcial.component';
 import OrdenCompraDatosCotizacionComponent from '../components/orden-compra-parcial/orden-compra-datos-cotizacion.component';
 import OrdenCompraStatusParcialComponent from '../components/orden-compra-status-parcial/orden-compra-status-parcial.component';
@@ -40,8 +39,7 @@ import OrdenCompraEditPresupustoUtilizadoComponent from './orden-compra-edit-pre
     OrdenCompraDatosPagoParcialComponent,
     OrdenCompraStatusParcialComponent,
     OrdenCompraEditPresupustoUtilizadoComponent,
-    TableModule,
-    ToastModule,
+    PrimeNgModule,
     ContextMenuModule,
     ConfirmDialogModule,
     EStatusOrdenCompraPipe,

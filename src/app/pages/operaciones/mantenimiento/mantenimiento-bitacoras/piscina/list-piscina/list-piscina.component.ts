@@ -5,8 +5,6 @@ import { TooltipModule } from '@swimlane/ngx-charts';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ImageModule } from 'primeng/image';
-import { TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
 import { Observable, Subscription } from 'rxjs';
 import { ETypePiscinaPipe } from 'src/app/pipes/type-piscina.pipe';
 import { AuthService } from 'src/app/services/auth.service';
@@ -15,6 +13,7 @@ import { DataService } from 'src/app/services/data.service';
 import { SwalService } from 'src/app/services/swal.service';
 import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
+import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import { environment } from 'src/environments/environment';
 import AddOrEditPiscinaComponent from '../addoredit-piscina/addoredit-piscina.component';
 
@@ -23,8 +22,7 @@ import AddOrEditPiscinaComponent from '../addoredit-piscina/addoredit-piscina.co
   templateUrl: './list-piscina.component.html',
   standalone: true,
   imports: [
-    ToastModule,
-    TableModule,
+    PrimeNgModule,
     ComponentsModule,
     ImageModule,
     CommonModule,

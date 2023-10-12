@@ -5,8 +5,6 @@ import { RouterModule } from '@angular/router';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
 import { Observable, Subscription } from 'rxjs';
 import { ETypeMaintancePipe } from 'src/app/pipes/typeMaintance.pipe';
 import { AuthService } from 'src/app/services/auth.service';
@@ -17,6 +15,7 @@ import { ReporteOrdenesServicioService } from 'src/app/services/reporte-ordenes-
 import { SwalService } from 'src/app/services/swal.service';
 import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
+import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import SubirPdfComponent from 'src/app/shared/subir-pdf/subir-pdf.component';
 import { environment } from 'src/environments/environment';
 import ServiceOrderAddOrEditComponent from './addoredit-service-order.component';
@@ -35,8 +34,7 @@ const date = new Date();
     FormsModule,
     ComponentsModule,
     NgbTooltipModule,
-    TableModule,
-    ToastModule,
+    PrimeNgModule,
     ETypeMaintancePipe,
   ],
   providers: [DialogService, MessageService, ToastService],

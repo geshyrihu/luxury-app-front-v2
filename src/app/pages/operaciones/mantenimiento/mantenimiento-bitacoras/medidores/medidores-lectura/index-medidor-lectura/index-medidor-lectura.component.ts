@@ -4,8 +4,6 @@ import { ActivatedRoute } from '@angular/router';
 import * as FileSaver from 'file-saver';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
 import { Subscription } from 'rxjs';
 import { IMedidorLecturaDto } from 'src/app/interfaces/IMedidorLecturaDto.interface';
 import { AuthService } from 'src/app/services/auth.service';
@@ -13,13 +11,14 @@ import { DataService } from 'src/app/services/data.service';
 import { SwalService } from 'src/app/services/swal.service';
 import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
+import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import AdminFormMedidorLecturaComponent from '../admin-form-medidor-lectura/admin-form-medidor-lectura.component';
 import FormMedidorLecturaComponent from '../form-medidor-lectura/form-medidor-lectura.component';
 @Component({
   selector: 'app-index-medidor-lectura',
   templateUrl: './index-medidor-lectura.component.html',
   standalone: true,
-  imports: [ComponentsModule, CommonModule, TableModule, ToastModule],
+  imports: [ComponentsModule, CommonModule, PrimeNgModule],
   providers: [DialogService, MessageService, ConfirmationService, ToastService],
 })
 export default class IndexMedidorLecturaComponent implements OnInit, OnDestroy {

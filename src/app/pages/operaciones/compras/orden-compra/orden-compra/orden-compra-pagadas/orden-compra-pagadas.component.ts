@@ -3,8 +3,6 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
 import { Observable, Subscription } from 'rxjs';
 import { CurrencyMexicoPipe } from 'src/app/pipes/currencyMexico.pipe';
 import { CustomerIdService } from 'src/app/services/customer-id.service';
@@ -13,6 +11,7 @@ import { OrdenCompraService } from 'src/app/services/orden-compra.service';
 import { SwalService } from 'src/app/services/swal.service';
 import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
+import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import OrdenCompraComponent from '../orden-compra.component';
 
 @Component({
@@ -23,8 +22,7 @@ import OrdenCompraComponent from '../orden-compra.component';
     CommonModule,
     ComponentsModule,
     RouterModule,
-    TableModule,
-    ToastModule,
+    PrimeNgModule,
     CurrencyMexicoPipe,
   ],
   providers: [DialogService, MessageService, ToastService],

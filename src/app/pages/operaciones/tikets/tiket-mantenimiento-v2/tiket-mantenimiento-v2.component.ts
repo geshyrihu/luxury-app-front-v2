@@ -5,14 +5,8 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { CheckboxModule } from 'primeng/checkbox';
-import { DialogModule } from 'primeng/dialog';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { ImageModule } from 'primeng/image';
-import { MenuModule } from 'primeng/menu';
 import { MultiSelectModule } from 'primeng/multiselect';
-import { TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
 import { Observable, Subscription } from 'rxjs';
 import { ISelectItemCheckDto } from 'src/app/interfaces/ISelectItemDto.interface';
 import { AuthService } from 'src/app/services/auth.service';
@@ -25,6 +19,7 @@ import { SwalService } from 'src/app/services/swal.service';
 import { TicketFilterService } from 'src/app/services/ticket-filter.service';
 import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
+import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-tiket-mantenimiento-v2',
@@ -35,13 +30,8 @@ import { environment } from 'src/environments/environment';
     CommonModule,
     ComponentsModule,
     FormsModule,
-    TableModule,
-    ToastModule,
-    DialogModule,
-    ImageModule,
-    MenuModule,
+    PrimeNgModule,
     NgbDropdownModule,
-    CheckboxModule,
     MultiSelectModule,
   ],
   providers: [DialogService, MessageService, ConfirmationService, ToastService],

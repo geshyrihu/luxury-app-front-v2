@@ -1,21 +1,20 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
 import { Observable, Subscription } from 'rxjs';
 import { CustomerIdService } from 'src/app/services/customer-id.service';
 import { DataService } from 'src/app/services/data.service';
 import { SwalService } from 'src/app/services/swal.service';
 import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
+import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import { environment } from 'src/environments/environment';
 import AddoreditContratoPolizaComponent from './addoredit-contrato-poliza.component';
 @Component({
   selector: 'app-contrato-poliza',
   templateUrl: './index-contrato-poliza.component.html',
   standalone: true,
-  imports: [ComponentsModule, TableModule, ToastModule],
+  imports: [ComponentsModule, PrimeNgModule],
   providers: [DialogService, MessageService, ToastService],
 })
 export default class IndexContratoPolizaComponent implements OnInit, OnDestroy {

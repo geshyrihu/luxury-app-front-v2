@@ -3,8 +3,6 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
 import { Observable, Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { CustomerIdService } from 'src/app/services/customer-id.service';
@@ -14,6 +12,7 @@ import { FiltroCalendarService } from 'src/app/services/filtro-calendar.service'
 import { SwalService } from 'src/app/services/swal.service';
 import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
+import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import Swal from 'sweetalert2';
 import AddPresentacionJuntaComiteComponent from './add-presentacion-junta-comite/add-presentacion-junta-comite.component';
 import AddoreditPresentacionJuntaComiteComponent from './addoredit-presentacion-junta-comite/addoredit-presentacion-junta-comite.component';
@@ -23,7 +22,7 @@ import EnviarMailEstadosFinancierosComponent from './enviar-mail-estados-financi
   selector: 'app-presentacion-junta-comite',
   templateUrl: './presentacion-junta-comite.component.html',
   standalone: true,
-  imports: [CommonModule, ComponentsModule, TableModule, ToastModule],
+  imports: [CommonModule, ComponentsModule, PrimeNgModule],
   providers: [DialogService, MessageService, ConfirmationService, ToastService],
 })
 export default class PresentacionJuntaComiteComponent

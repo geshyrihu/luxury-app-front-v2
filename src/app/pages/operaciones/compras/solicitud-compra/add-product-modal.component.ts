@@ -7,8 +7,6 @@ import {
   DynamicDialogConfig,
   DynamicDialogRef,
 } from 'primeng/dynamicdialog';
-import { TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
 import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
 import TarjetaProductoComponent from 'src/app/pages/operaciones/mantenimiento/mantenimiento-catalogos/tarjeta-producto/tarjeta-producto.component';
 import { AuthService } from 'src/app/services/auth.service';
@@ -17,19 +15,14 @@ import { SelectItemService } from 'src/app/services/select-item.service';
 import { SwalService } from 'src/app/services/swal.service';
 import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
+import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-add-product-modal',
   templateUrl: './add-product-modal.component.html',
   standalone: true,
-  imports: [
-    ToastModule,
-    TableModule,
-    CommonModule,
-    ComponentsModule,
-    FormsModule,
-  ],
+  imports: [PrimeNgModule, CommonModule, ComponentsModule, FormsModule],
   providers: [DialogService, MessageService, ConfirmationService, ToastService],
 })
 export default class AddProductModalComponent implements OnInit {

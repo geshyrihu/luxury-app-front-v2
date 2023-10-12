@@ -3,8 +3,6 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
 import { Observable, Subscription } from 'rxjs';
 import AddPartidaCedulaComponent from 'src/app/pages/contabilidad/presupuesto/add-partida-cedula.component';
 import EditPartidaCedulaComponent from 'src/app/pages/contabilidad/presupuesto/edit-partida-cedula.component';
@@ -12,19 +10,14 @@ import { CustomerIdService } from 'src/app/services/customer-id.service';
 import { DataService } from 'src/app/services/data.service';
 import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
+import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import AddoreditPeriodoCedulaPresupuestalComponent from './addoredit-periodo-cedula.component';
 import OrdenesCompraCedulaComponent from './ordenes-compra-cedula/ordenes-compra-cedula.component';
 @Component({
   selector: 'app-cedula-cliente',
   templateUrl: './cedula-cliente.component.html',
   standalone: true,
-  imports: [
-    CommonModule,
-    ComponentsModule,
-    FormsModule,
-    TableModule,
-    ToastModule,
-  ],
+  imports: [CommonModule, ComponentsModule, FormsModule, PrimeNgModule],
   providers: [DialogService, MessageService, ToastService],
   styles: [
     `

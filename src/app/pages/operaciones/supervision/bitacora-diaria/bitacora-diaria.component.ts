@@ -3,9 +3,6 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { MultiSelectModule } from 'primeng/multiselect';
-import { TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
 import { Subscription } from 'rxjs';
 import { IFechasFiltro } from 'src/app/interfaces/IFechasFiltro.interface';
 import { AuthService } from 'src/app/services/auth.service';
@@ -16,6 +13,7 @@ import { SelectItemService } from 'src/app/services/select-item.service';
 import { SwalService } from 'src/app/services/swal.service';
 import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
+import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import { environment } from 'src/environments/environment';
 import AddOrEditBitacoraDiariaComponent from './add-or-edit-bitacora-diaria.component';
 const base_url = environment.base_urlImg + 'Administration/accounts/';
@@ -23,14 +21,7 @@ const base_url = environment.base_urlImg + 'Administration/accounts/';
   selector: 'app-bitacora-diaria',
   templateUrl: './bitacora-diaria.component.html',
   standalone: true,
-  imports: [
-    CommonModule,
-    ComponentsModule,
-    FormsModule,
-    TableModule,
-    ToastModule,
-    MultiSelectModule,
-  ],
+  imports: [CommonModule, ComponentsModule, FormsModule, PrimeNgModule],
   providers: [DialogService, MessageService, ToastService],
 })
 export default class BitacoraDiariaComponent implements OnInit, OnDestroy {

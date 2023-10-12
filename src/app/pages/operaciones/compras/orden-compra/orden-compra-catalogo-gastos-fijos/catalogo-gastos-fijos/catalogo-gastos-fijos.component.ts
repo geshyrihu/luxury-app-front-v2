@@ -3,8 +3,6 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
 import { Observable, Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { CatalogoGastosFijosService } from 'src/app/services/catalogo-gastos-fijos.service';
@@ -15,6 +13,7 @@ import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule, {
   flatpickrFactory,
 } from 'src/app/shared/components.module';
+import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import ModalOrdenCompraGrastosFijosComponent from '../modal-orden-compra-gastos-fijos/modal-orden-compra-grastos-fijos.component';
 
 const date = new Date();
@@ -23,13 +22,7 @@ const date = new Date();
   selector: 'app-catalogo-gastos-fijos',
   templateUrl: './catalogo-gastos-fijos.component.html',
   standalone: true,
-  imports: [
-    ComponentsModule,
-    CommonModule,
-    FormsModule,
-    TableModule,
-    ToastModule,
-  ],
+  imports: [ComponentsModule, CommonModule, FormsModule, PrimeNgModule],
   providers: [DialogService, MessageService, ToastService],
 })
 export default class CatalogoGastosFijosComponent implements OnInit, OnDestroy {

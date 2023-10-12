@@ -3,8 +3,6 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
 import { Observable, Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { DataService } from 'src/app/services/data.service';
@@ -14,6 +12,7 @@ import { SistemasReporteService } from 'src/app/services/sistemas-reporte.servic
 import { SwalService } from 'src/app/services/swal.service';
 import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
+import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import { environment } from 'src/environments/environment';
 import CardEmployeeComponent from '../../directorios/empleados/card-employee/card-employee.component';
 import AddoreditSistemasReporteComponent from '../addoredit-sistemas-reporte/addoredit-sistemas-reporte.component';
@@ -22,13 +21,7 @@ import AddoreditSistemasReporteComponent from '../addoredit-sistemas-reporte/add
   selector: 'app-sistemas-reporte',
   templateUrl: './sistemas-reporte.component.html',
   standalone: true,
-  imports: [
-    ComponentsModule,
-    CommonModule,
-    RouterModule,
-    TableModule,
-    ToastModule,
-  ],
+  imports: [ComponentsModule, CommonModule, RouterModule, PrimeNgModule],
   providers: [DialogService, MessageService, ConfirmationService, ToastService],
 })
 export default class SistemasReporteComponent implements OnInit, OnDestroy {

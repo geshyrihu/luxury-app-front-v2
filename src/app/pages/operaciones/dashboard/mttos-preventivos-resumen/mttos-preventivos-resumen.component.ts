@@ -5,8 +5,6 @@ import {
   DynamicDialogConfig,
   DynamicDialogRef,
 } from 'primeng/dynamicdialog';
-import { TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
 import { Subscription } from 'rxjs';
 import { EInventoryCategory } from 'src/app/enums/categoria-inventario.enum';
 import { EInventoryCategoryPipe } from 'src/app/pipes/inventoryCategory.pipe';
@@ -17,11 +15,12 @@ import { DateService } from 'src/app/services/date.service';
 import { PeriodoMonthService } from 'src/app/services/periodo-month.service';
 import { SwalService } from 'src/app/services/swal.service';
 import { ToastService } from 'src/app/services/toast.service';
+import PrimeNgModule from 'src/app/shared/prime-ng.module';
 @Component({
   selector: 'app-mttos-preventivos-resumen',
   templateUrl: './mttos-preventivos-resumen.component.html',
   standalone: true,
-  imports: [TableModule, EInventoryCategoryPipe, SanitizeHtmlPipe, ToastModule],
+  imports: [PrimeNgModule, EInventoryCategoryPipe, SanitizeHtmlPipe],
   providers: [DialogService, MessageService, ToastService],
 })
 export default class MantenimientosPreventivosResumenComponent

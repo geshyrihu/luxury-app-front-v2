@@ -3,8 +3,6 @@ import { Component, OnDestroy, inject } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ImageModule } from 'primeng/image';
-import { TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
 import { Observable, Subscription } from 'rxjs';
 import { IRadioComunicacionDto } from 'src/app/interfaces/IRadioComunicacionDto.interface';
 import { AuthService } from 'src/app/services/auth.service';
@@ -13,19 +11,14 @@ import { DataService } from 'src/app/services/data.service';
 import { SwalService } from 'src/app/services/swal.service';
 import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
+import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import { environment } from 'src/environments/environment';
 import AddOrEditRadioComunicacionComponent from './add-or-edit-radio-comunicacion.component';
 @Component({
   selector: 'app-radio-comunicacion',
   templateUrl: './radio-comunicacion.component.html',
   standalone: true,
-  imports: [
-    ComponentsModule,
-    CommonModule,
-    TableModule,
-    ToastModule,
-    ImageModule,
-  ],
+  imports: [ComponentsModule, CommonModule, PrimeNgModule, ImageModule],
   providers: [DialogService, MessageService, ToastService],
 })
 export default class RadioComunicacionComponent implements OnDestroy {

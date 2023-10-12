@@ -4,20 +4,19 @@ import {
   DynamicDialogConfig,
   DynamicDialogRef,
 } from 'primeng/dynamicdialog';
-import { TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
 import { Subscription } from 'rxjs';
 import { DataService } from 'src/app/services/data.service';
 import { SwalService } from 'src/app/services/swal.service';
 import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
+import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import ServiceOrderAddOrEditComponent from '../../../mantenimiento-ordenes-servicio/addoredit-service-order.component';
 
 @Component({
   selector: 'app-service-history-machinery',
   templateUrl: './service-history-machinery.component.html',
   standalone: true,
-  imports: [TableModule, ToastModule, ComponentsModule],
+  imports: [PrimeNgModule, ComponentsModule],
   providers: [ToastService],
 })
 export default class ServiceHistoryMachineryComponent

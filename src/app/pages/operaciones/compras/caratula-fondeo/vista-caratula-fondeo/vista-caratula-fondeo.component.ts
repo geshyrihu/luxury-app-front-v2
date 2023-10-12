@@ -12,8 +12,6 @@ import {
 import { ITable } from 'pdfmake-wrapper/lib/interfaces';
 import { MenuItem } from 'primeng/api';
 import { ContextMenuModule } from 'primeng/contextmenu';
-import { TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
 import { Subscription } from 'rxjs';
 import { IFondeoCaratulaDto } from 'src/app/interfaces/IFondeoCaratulaDto.interface';
 import {
@@ -26,6 +24,7 @@ import { DataService } from 'src/app/services/data.service';
 import { DateService } from 'src/app/services/date.service';
 import { SwalService } from 'src/app/services/swal.service';
 import { ToastService } from 'src/app/services/toast.service';
+import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import { environment } from 'src/environments/environment';
 const date = new Date();
 
@@ -36,13 +35,7 @@ subRef$: Subscription;
   selector: 'app-vista-caratula-fondeo',
   templateUrl: './vista-caratula-fondeo.component.html',
   standalone: true,
-  imports: [
-    CommonModule,
-    TableModule,
-    ToastModule,
-    ContextMenuModule,
-    CurrencyMexicoPipe,
-  ],
+  imports: [CommonModule, PrimeNgModule, ContextMenuModule, CurrencyMexicoPipe],
   providers: [ToastService],
 })
 export default class VistaCaratulaFondeoComponent implements OnInit, OnDestroy {

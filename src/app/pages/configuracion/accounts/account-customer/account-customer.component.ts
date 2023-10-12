@@ -3,8 +3,6 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
 import { Observable, Subscription } from 'rxjs';
 import { IAccountDto } from 'src/app/interfaces/account-dto.interface';
 import CardEmployeeComponent from 'src/app/pages/operaciones/directorios/empleados/card-employee/card-employee.component';
@@ -15,6 +13,7 @@ import { SwalService } from 'src/app/services/swal.service';
 import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
 import DropdownRouteComponent from 'src/app/shared/ngb-dropdown-menu/dropdown-route.component';
+import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import TableHeaderComponent from 'src/app/shared/table-header/table-header.component';
 import { environment } from 'src/environments/environment';
 import MdEditAccountComponent from '../modal-edit-account/md-edit-account.component';
@@ -27,8 +26,7 @@ import MdEditAccountComponent from '../modal-edit-account/md-edit-account.compon
     DropdownRouteComponent,
     PhoneFormatPipe,
     TableHeaderComponent,
-    TableModule,
-    ToastModule,
+    PrimeNgModule,
     NgbDropdownModule,
     ComponentsModule,
   ],

@@ -1,8 +1,6 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
 import { Observable, Subscription } from 'rxjs';
 import { InventarioLlaveDto } from 'src/app/interfaces/inventario-llave-dto.interface';
 import { AuthService } from 'src/app/services/auth.service';
@@ -11,13 +9,14 @@ import { DataService } from 'src/app/services/data.service';
 import { SwalService } from 'src/app/services/swal.service';
 import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
+import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import FormInventarioLlaveComponent from './form-inventario-llave.component';
 
 @Component({
   selector: 'app-llaves',
   templateUrl: './list-llaves.component.html',
   standalone: true,
-  imports: [ComponentsModule, TableModule, ToastModule],
+  imports: [ComponentsModule, PrimeNgModule],
   providers: [DialogService, MessageService, ConfirmationService, ToastService],
 })
 export default class ListLlavesComponent implements OnInit, OnDestroy {

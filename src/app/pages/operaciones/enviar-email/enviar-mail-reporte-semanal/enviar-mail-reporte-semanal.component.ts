@@ -13,8 +13,6 @@ import {
   DynamicDialogConfig,
   DynamicDialogRef,
 } from 'primeng/dynamicdialog';
-import { TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
 import { Subscription } from 'rxjs';
 import { IDestinatariosMailReporte } from 'src/app/interfaces/IDestinatariosMailReporte.interface';
 import { EHabitantPipe } from 'src/app/pipes/habitant.pipe';
@@ -24,6 +22,7 @@ import { SelectItemService } from 'src/app/services/select-item.service';
 import { SwalService } from 'src/app/services/swal.service';
 import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
+import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import Swal from 'sweetalert2';
 @Component({
   selector: 'app-enviar-mail-reporte-semanal',
@@ -34,8 +33,7 @@ import Swal from 'sweetalert2';
     ReactiveFormsModule,
     ComponentsModule,
     FormsModule,
-    TableModule,
-    ToastModule,
+    PrimeNgModule,
     EHabitantPipe,
   ],
   providers: [MessageService, ToastService],

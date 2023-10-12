@@ -5,8 +5,6 @@ import { ActivatedRoute } from '@angular/router';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
 import { Subscription } from 'rxjs';
 import { PositionRequestAgendaDto } from 'src/app/interfaces/PositionRequestAgendaDto';
 import { AuthService } from 'src/app/services/auth.service';
@@ -14,6 +12,7 @@ import { DataService } from 'src/app/services/data.service';
 import { SwalService } from 'src/app/services/swal.service';
 import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
+import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import { environment } from 'src/environments/environment';
 import AddOrEditVacanteCandidatoComponent from './addoredit-vacante-candidato.component';
 @Component({
@@ -25,8 +24,7 @@ import AddOrEditVacanteCandidatoComponent from './addoredit-vacante-candidato.co
     NgbTooltip,
     CommonModule,
     FormsModule,
-    TableModule,
-    ToastModule,
+    PrimeNgModule,
   ],
   providers: [DialogService, MessageService, ToastService],
 })

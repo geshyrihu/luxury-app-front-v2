@@ -2,20 +2,19 @@ import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
 import { Subscription } from 'rxjs';
 import { DataService } from 'src/app/services/data.service';
 import { SwalService } from 'src/app/services/swal.service';
 import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
+import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import AddOrEditAreaResponsableComponent from './addoredit-area-responsable.component';
 
 @Component({
   selector: 'app-list-area-responsable',
   templateUrl: './list-area-responsable.component.html',
   standalone: true,
-  imports: [CommonModule, ComponentsModule, TableModule, ToastModule],
+  imports: [CommonModule, ComponentsModule, PrimeNgModule],
   providers: [DialogService, MessageService, ToastService],
 })
 export default class ListAreaResponsableComponent implements OnInit, OnDestroy {

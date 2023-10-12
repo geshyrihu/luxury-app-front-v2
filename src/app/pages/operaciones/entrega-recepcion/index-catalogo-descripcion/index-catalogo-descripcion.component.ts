@@ -2,20 +2,19 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
 import { Subscription } from 'rxjs';
 import { DataService } from 'src/app/services/data.service';
 import { SwalService } from 'src/app/services/swal.service';
 import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
+import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import CrudCatalogoDescripcionComponent from '../crud-catalogo-descripcion/crud-catalogo-descripcion.component';
 
 @Component({
   selector: 'app-index-catalogo-descripcion',
   templateUrl: './index-catalogo-descripcion.component.html',
   standalone: true,
-  imports: [ReactiveFormsModule, ComponentsModule, TableModule, ToastModule],
+  imports: [ReactiveFormsModule, ComponentsModule, PrimeNgModule],
   providers: [DialogService, MessageService, ToastService],
 })
 export default class IndexCatalogoDescripcionComponent

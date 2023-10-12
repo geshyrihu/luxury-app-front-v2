@@ -3,8 +3,6 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
 import { Subscription } from 'rxjs';
 import { BusquedaProveedor } from 'src/app/interfaces/IBusquedaProveedor.interface';
 import { AuthService } from 'src/app/services/auth.service';
@@ -13,19 +11,14 @@ import { SwalService } from 'src/app/services/swal.service';
 import { ToastService } from 'src/app/services/toast.service';
 // import { ViewPdfService } from 'src/app/services/view-pdf.service';
 import ComponentsModule from 'src/app/shared/components.module';
+import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import AddoreditProveedorComponent from '../addoredit-proveedor/addoredit-proveedor.component';
 import TarjetaProveedorComponent from '../tarjeta-proveedor/tarjeta-proveedor.component';
 @Component({
   selector: 'app-list-provider',
   templateUrl: './list-provider.component.html',
   standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    ComponentsModule,
-    TableModule,
-    ToastModule,
-  ],
+  imports: [CommonModule, FormsModule, ComponentsModule, PrimeNgModule],
   providers: [DialogService, MessageService, ConfirmationService, ToastService],
 })
 export default class ListProviderComponent implements OnInit, OnDestroy {

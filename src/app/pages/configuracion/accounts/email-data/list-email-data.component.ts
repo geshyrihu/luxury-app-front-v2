@@ -2,21 +2,20 @@ import { Component, inject } from '@angular/core';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { DataService } from 'src/app/services/data.service';
 import { SwalService } from 'src/app/services/swal.service';
 import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
+import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import AddOrEditEmailDataComponent from './add-or-edit-email-data.component';
 
 @Component({
   selector: 'app-list-email-data',
   templateUrl: './list-email-data.component.html',
   standalone: true,
-  imports: [ComponentsModule, NgbTooltipModule, TableModule, ToastModule],
+  imports: [ComponentsModule, NgbTooltipModule, PrimeNgModule],
   providers: [DialogService, MessageService, ToastService],
 })
 export default class ListEmailDataComponent {
