@@ -13,10 +13,12 @@ import {
 } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import { CedulaPresupuestalDetalleAddOrEdit } from 'src/app/interfaces/ICedulaPresupuestalDetalleAddOrEdit.interface';
-import { AuthService } from 'src/app/services/auth.service';
-import { DataService } from 'src/app/services/data.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  AuthService,
+  CustomSwalService,
+  CustomToastService,
+  DataService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
 
@@ -25,18 +27,18 @@ import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.mod
   templateUrl: './edit-partida-cedula.component.html',
   standalone: true,
   imports: [ComponentsModule, ReactiveFormsModule, CustomInputModule],
-  providers: [DialogService, MessageService, ToastService],
+  providers: [DialogService, MessageService, CustomToastService],
 })
 export default class EditPartidaCedulaComponent implements OnInit, OnDestroy {
   private formBuilder = inject(FormBuilder);
-  public toastService = inject(ToastService);
+  public customToastService = inject(CustomToastService);
   private dataService = inject(DataService);
   public authService = inject(AuthService);
   public config = inject(DynamicDialogConfig);
   public dialogService = inject(DialogService);
   public messageService = inject(MessageService);
   public ref = inject(DynamicDialogRef);
-  private swalService = inject(SwalService);
+  private customSwalService = inject(CustomSwalService);
 
   submitting: boolean = false;
   subRef$: Subscription;
@@ -62,21 +64,21 @@ export default class EditPartidaCedulaComponent implements OnInit, OnDestroy {
 
     // Deshabilitar el botón al iniciar el envío del formulario
     this.submitting = true;
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     if (this.id === 0) {
       this.subRef$ = this.dataService
         .post(`CedulaPresupuestalDetalles`, budgetCardDTO)
         .subscribe({
           next: () => {
-            this.swalService.onClose();
+            this.customSwalService.onClose();
             this.ref.close(true);
           },
           error: (err) => {
             console.log(err.error);
-            this.toastService.onShowError();
+            this.customToastService.onShowError();
             // Habilitar el botón nuevamente al finalizar el envío del formulario
             this.submitting = false;
-            this.swalService.onClose();
+            this.customSwalService.onClose();
           },
         });
     } else {
@@ -84,15 +86,15 @@ export default class EditPartidaCedulaComponent implements OnInit, OnDestroy {
         .put(`CedulaPresupuestalDetalles/${this.id}`, budgetCardDTO)
         .subscribe({
           next: () => {
-            this.swalService.onClose();
+            this.customSwalService.onClose();
             this.ref.close(true);
           },
           error: (err) => {
             console.log(err.error);
-            this.toastService.onShowError();
+            this.customToastService.onShowError();
             // Habilitar el botón nuevamente al finalizar el envío del formulario
             this.submitting = false;
-            this.swalService.onClose();
+            this.customSwalService.onClose();
           },
         });
     }
@@ -117,7 +119,7 @@ export default class EditPartidaCedulaComponent implements OnInit, OnDestroy {
           });
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });

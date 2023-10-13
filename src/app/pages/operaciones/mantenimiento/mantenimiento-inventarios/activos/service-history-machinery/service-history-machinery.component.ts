@@ -5,9 +5,11 @@ import {
   DynamicDialogRef,
 } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { DataService } from 'src/app/services/data.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  CustomSwalService,
+  CustomToastService,
+  DataService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import ServiceOrderAddOrEditComponent from '../../../mantenimiento-ordenes-servicio/addoredit-service-order.component';
@@ -17,15 +19,15 @@ import ServiceOrderAddOrEditComponent from '../../../mantenimiento-ordenes-servi
   templateUrl: './service-history-machinery.component.html',
   standalone: true,
   imports: [PrimeNgModule, ComponentsModule],
-  providers: [ToastService],
+  providers: [CustomToastService],
 })
 export default class ServiceHistoryMachineryComponent
   implements OnInit, OnDestroy
 {
   private dataService = inject(DataService);
   public config = inject(DynamicDialogConfig);
-  private swalService = inject(SwalService);
-  private toastService = inject(ToastService);
+  private customSwalService = inject(CustomSwalService);
+  private customToastService = inject(CustomToastService);
   public dialogService = inject(DialogService);
 
   id: number = this.config.data.id;
@@ -39,17 +41,17 @@ export default class ServiceHistoryMachineryComponent
   }
 
   onLoadData() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get(`Machineries/ServiceHistory/${this.config.data.id}`)
       .subscribe({
         next: (resp: any) => {
-          this.swalService.onClose();
+          this.customSwalService.onClose();
           this.data = resp.body;
         },
         error: (err) => {
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });
@@ -69,7 +71,7 @@ export default class ServiceHistoryMachineryComponent
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });

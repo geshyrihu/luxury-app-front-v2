@@ -4,12 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { AuthService } from 'src/app/services/auth.service';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
-import { DataService } from 'src/app/services/data.service';
-import { OrdenCompraService } from 'src/app/services/orden-compra.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  AuthService,
+  CustomSwalService,
+  CustomToastService,
+  CustomerIdService,
+  DataService,
+  OrdenCompraService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 
@@ -20,13 +22,13 @@ const fechaActual = new Date();
   templateUrl: './orden-compra-presupuesto.component.html',
   standalone: true,
   imports: [ComponentsModule, FormsModule, CommonModule, PrimeNgModule],
-  providers: [MessageService, ToastService],
+  providers: [MessageService, CustomToastService],
 })
 export default class OrdenCompraPresupuestoComponent
   implements OnInit, OnDestroy
 {
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
   public dataService = inject(DataService);
   public authService = inject(AuthService);
   public ordenCompraService = inject(OrdenCompraService);
@@ -50,7 +52,7 @@ export default class OrdenCompraPresupuestoComponent
     this.ordenCompraId = this.config.data.ordenCompraId;
   }
   onLoadData() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get(
         `OrdenCompraPresupuesto/GetAll/${this.customerIdService.customerId}/${this.cedulaId}/${this.ordenCompraId}`
@@ -64,17 +66,17 @@ export default class OrdenCompraPresupuestoComponent
               (x.ordenCompraId = this.ordenCompraId)
             )
           );
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
   }
   onSubmit(partidaPresupuestal: any) {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .post(`OrdenCompraPresupuesto`, partidaPresupuestal)
       .subscribe({
@@ -85,9 +87,9 @@ export default class OrdenCompraPresupuestoComponent
           this.ref.close(true);
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
   }
@@ -113,7 +115,7 @@ export default class OrdenCompraPresupuestoComponent
           this.cb_cedulas = resp.body;
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });

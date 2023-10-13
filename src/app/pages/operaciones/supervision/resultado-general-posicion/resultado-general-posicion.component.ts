@@ -5,11 +5,11 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { TableModule } from 'primeng/table';
 import { Subscription } from 'rxjs';
 import { IFechasFiltro } from 'src/app/interfaces/IFechasFiltro.interface';
+import { CustomSwalService } from 'src/app/services/custom-swal.service';
+import { CustomToastService } from 'src/app/services/custom-toast.service';
 import { DataService } from 'src/app/services/data.service';
 import { DateService } from 'src/app/services/date.service';
 import { FiltroCalendarService } from 'src/app/services/filtro-calendar.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
 
 @Component({
@@ -17,15 +17,15 @@ import ComponentsModule from 'src/app/shared/components.module';
   templateUrl: './resultado-general-posicion.component.html',
   standalone: true,
   imports: [ComponentsModule, CommonModule, TableModule],
-  providers: [MessageService, ToastService],
+  providers: [MessageService, CustomToastService],
 })
 export default class ResultadoGeneralPosicionComponent
   implements OnInit, OnDestroy
 {
   public dataService = inject(DataService);
   public dateService = inject(DateService);
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
   public dialogService = inject(DialogService);
   public messageService = inject(MessageService);
   public rangoCalendarioService = inject(FiltroCalendarService);
@@ -49,18 +49,18 @@ export default class ResultadoGeneralPosicionComponent
   }
 
   onLoadData(fechaInicio: string, fechaFinal: string) {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get(`ResumenGeneral/Posicion/${fechaInicio}/${fechaFinal}`)
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }

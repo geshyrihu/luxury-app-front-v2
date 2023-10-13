@@ -4,7 +4,7 @@ import Swal from 'sweetalert2';
 @Injectable({
   providedIn: 'root',
 })
-export class SwalService {
+export class CustomSwalService {
   /**
    * Muestra una ventana emergente de carga.
    */

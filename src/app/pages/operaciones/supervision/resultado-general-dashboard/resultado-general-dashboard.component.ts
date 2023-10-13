@@ -7,12 +7,12 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { TableModule } from 'primeng/table';
 import { Subscription } from 'rxjs';
+import { CustomSwalService } from 'src/app/services/custom-swal.service';
+import { CustomToastService } from 'src/app/services/custom-toast.service';
 import { DataService } from 'src/app/services/data.service';
 import { DateService } from 'src/app/services/date.service';
 import { PeriodoMonthService } from 'src/app/services/periodo-month.service';
 import { SelectItemService } from 'src/app/services/select-item.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
 
 @Component({
@@ -27,7 +27,7 @@ import ComponentsModule from 'src/app/shared/components.module';
     TableModule,
     MultiSelectModule,
   ],
-  providers: [DialogService, MessageService, ToastService],
+  providers: [DialogService, MessageService, CustomToastService],
 })
 export default class ResultadoGeneralDashboardComponent
   implements OnInit, OnDestroy
@@ -38,8 +38,8 @@ export default class ResultadoGeneralDashboardComponent
   public messageService = inject(MessageService);
   public periodoMonthService = inject(PeriodoMonthService);
   public selectItemService = inject(SelectItemService);
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
 
   reporteFiltro: string = 'MINUTAS GENERAL';
   subRef$: Subscription;
@@ -75,7 +75,7 @@ export default class ResultadoGeneralDashboardComponent
 
   onLoadDataMinutas() {
     this.reporteFiltro = 'MINUTAS GENERAL';
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get(
         `ResumenGeneral/ReporteResumenMinutas/${this.dateService.getDateFormat(
@@ -87,17 +87,17 @@ export default class ResultadoGeneralDashboardComponent
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }
   onLoadDataMinutaFiltro(EAreaMinutasDetalles: number, reporteFiltro: string) {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get(
         `ResumenGeneral/ReporteResumenMinutasFiltro/${this.dateService.getDateFormat(
@@ -111,17 +111,17 @@ export default class ResultadoGeneralDashboardComponent
           this.data = resp.body;
           this.reporteFiltro = reporteFiltro;
 
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
   }
   onLoadDataPreventivos() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get(
         `ResumenGeneral/ReporteResumenPreventivos/${this.dateService.getDateFormat(
@@ -135,17 +135,17 @@ export default class ResultadoGeneralDashboardComponent
           this.data = resp.body;
           this.reporteFiltro = 'MANTENIMIENTOS PREVENTIVOS';
 
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
   }
   onLoadDataTickets() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get(
         `ResumenGeneral/ReporteResumenTicket/${this.dateService.getDateFormat(
@@ -158,12 +158,12 @@ export default class ResultadoGeneralDashboardComponent
         next: (resp: any) => {
           this.data = resp.body;
           this.reporteFiltro = 'TICKETS';
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
   }

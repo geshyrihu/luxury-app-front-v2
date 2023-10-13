@@ -5,10 +5,12 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { TableModule } from 'primeng/table';
 import { Subscription } from 'rxjs';
 import { CedulaPresupuestalDetalleAddOrEdit } from 'src/app/interfaces/ICedulaPresupuestalDetalleAddOrEdit.interface';
-import { AuthService } from 'src/app/services/auth.service';
-import { DataService } from 'src/app/services/data.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  AuthService,
+  CustomSwalService,
+  CustomToastService,
+  DataService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 
 @Component({
@@ -16,15 +18,15 @@ import ComponentsModule from 'src/app/shared/components.module';
   templateUrl: './add-partida-cedula.component.html',
   standalone: true,
   imports: [ComponentsModule, FormsModule, CommonModule, TableModule],
-  providers: [ToastService],
+  providers: [CustomToastService],
 })
 export default class AddPartidaCedulaComponent implements OnInit, OnDestroy {
   private dataService = inject(DataService);
   public config = inject(DynamicDialogConfig);
   public authService = inject(AuthService);
   public ref = inject(DynamicDialogRef);
-  private swalService = inject(SwalService);
-  private toastService = inject(ToastService);
+  private customSwalService = inject(CustomSwalService);
+  private customToastService = inject(CustomToastService);
 
   data: any[] = [];
   cedulaPresupuestalId: number = 0;
@@ -39,7 +41,7 @@ export default class AddPartidaCedulaComponent implements OnInit, OnDestroy {
     this.onLoadData();
   }
   onLoadData() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get(
         `SelectItem/AddCuentaCedulaPresupuestal/${this.config.data.idBudgetCard}`
@@ -54,11 +56,11 @@ export default class AddPartidaCedulaComponent implements OnInit, OnDestroy {
               presupuestoMensual: 0,
             };
           });
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });
@@ -75,21 +77,21 @@ export default class AddPartidaCedulaComponent implements OnInit, OnDestroy {
 
     // Deshabilitar el botón al iniciar el envío del formulario
     this.submitting = true;
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
 
     this.subRef$ = this.dataService
       .post(`CedulaPresupuestalDetalles`, model)
       .subscribe({
         next: () => {
-          this.toastService.onShowSuccess();
+          this.customToastService.onShowSuccess();
           this.onLoadData();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
           // Habilitar el botón nuevamente al finalizar el envío del formulario
           this.submitting = false;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
   }

@@ -4,7 +4,7 @@ export default [
   {
     path: 'productos-servicios',
     loadComponent: () =>
-      import('src/app/pages/configuracion/productos/index-productos.component'),
+      import('src/app/pages/configuracion/productos/list-productos.component'),
   },
   {
     path: 'extintores',

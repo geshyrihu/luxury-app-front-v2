@@ -7,10 +7,10 @@ import {
   DynamicDialogRef,
 } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
+import { CustomSwalService } from 'src/app/services/custom-swal.service';
+import { CustomToastService } from 'src/app/services/custom-toast.service';
 import { DataService } from 'src/app/services/data.service';
 import { OrdenCompraService } from 'src/app/services/orden-compra.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import OrdenCompraComponent from '../../orden-compra/orden-compra/orden-compra.component';
@@ -20,11 +20,11 @@ import OrdenCompraComponent from '../../orden-compra/orden-compra/orden-compra.c
   templateUrl: './ordenes-compra-cedula.component.html',
   standalone: true,
   imports: [ComponentsModule, CommonModule, PrimeNgModule, NgbTooltip],
-  providers: [ToastService],
+  providers: [CustomToastService],
 })
 export default class OrdenesCompraCedulaComponent implements OnInit, OnDestroy {
-  private swalService = inject(SwalService);
-  private toastService = inject(ToastService);
+  private customSwalService = inject(CustomSwalService);
+  private customToastService = inject(CustomToastService);
   private dataService = inject(DataService);
   public config = inject(DynamicDialogConfig);
   public dialogService = inject(DialogService);
@@ -42,7 +42,7 @@ export default class OrdenesCompraCedulaComponent implements OnInit, OnDestroy {
   }
 
   onLoadData() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get(
         `OrdenCompra/compraspresupuesto/${this.partidaPresupuestalId}/${this.cedulaPresupuestalId}`
@@ -50,12 +50,12 @@ export default class OrdenesCompraCedulaComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }

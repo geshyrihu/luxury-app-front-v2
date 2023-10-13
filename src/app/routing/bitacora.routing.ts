@@ -15,7 +15,7 @@ export default [
     path: 'recorrido',
     loadComponent: () =>
       import(
-        'src/app/pages/operaciones/mantenimiento/mantenimiento-recorrido/index-recorrido.component'
+        'src/app/pages/operaciones/mantenimiento/mantenimiento-recorrido/list-recorrido.component'
       ),
     title: 'Recorrido',
   },
@@ -55,7 +55,7 @@ export default [
     path: 'lista-medidar-lectura/:id',
     loadComponent: () =>
       import(
-        'src/app/pages/operaciones/mantenimiento/mantenimiento-bitacoras/medidores/medidores-lectura/index-medidor-lectura/index-medidor-lectura.component'
+        'src/app/pages/operaciones/mantenimiento/mantenimiento-bitacoras/medidores/medidores-lectura/list-medidor-lectura/list-medidor-lectura.component'
       ),
   },
   {

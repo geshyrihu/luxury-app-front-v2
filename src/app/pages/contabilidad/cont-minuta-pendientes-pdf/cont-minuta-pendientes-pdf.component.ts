@@ -3,9 +3,11 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { SanitizeHtmlPipe } from 'src/app/pipes/sanitize-html.pipe';
-import { DataService } from 'src/app/services/data.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  CustomSwalService,
+  CustomToastService,
+  DataService,
+} from 'src/app/services/common-services';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 
 @Component({
@@ -13,13 +15,13 @@ import PrimeNgModule from 'src/app/shared/prime-ng.module';
   templateUrl: './cont-minuta-pendientes-pdf.component.html',
   standalone: true,
   imports: [CommonModule, PrimeNgModule, SanitizeHtmlPipe],
-  providers: [MessageService, ToastService],
+  providers: [MessageService, CustomToastService],
 })
 export default class ConMinutaPendientesPdfComponent
   implements OnInit, OnDestroy
 {
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
   private dataService = inject(DataService);
   public messageService = inject(MessageService);
 
@@ -31,18 +33,18 @@ export default class ConMinutaPendientesPdfComponent
   }
 
   onLoadData() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get('ContabilidadMinuta/Pendientes/0')
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }

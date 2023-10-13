@@ -12,9 +12,11 @@ import { Subscription } from 'rxjs';
 import AddoreditMaintenancePreventiveComponent from 'src/app/pages/operaciones/calendarios/mantenimiento-preventivo/addoredit-maintenance-preventive.component';
 import { EMonthPipe } from 'src/app/pipes/month.pipe';
 import { ERecurrencePipe } from 'src/app/pipes/recurrence.pipe';
-import { AuthService } from 'src/app/services/auth.service';
-import { DataService } from 'src/app/services/data.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  AuthService,
+  CustomToastService,
+  DataService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 //TODO: VALIDAR SU AUN ESTA ACTIVO ESTE MODULO
 @Component({
@@ -29,10 +31,10 @@ import ComponentsModule from 'src/app/shared/components.module';
     ERecurrencePipe,
     EMonthPipe,
   ],
-  providers: [MessageService, ToastService],
+  providers: [MessageService, CustomToastService],
 })
 export default class OrderServiceComponent implements OnInit, OnDestroy {
-  public toastService = inject(ToastService);
+  public customToastService = inject(CustomToastService);
   public dataService = inject(DataService);
   public messageService = inject(MessageService);
   public dialogService = inject(DialogService);
@@ -61,7 +63,7 @@ export default class OrderServiceComponent implements OnInit, OnDestroy {
           this.maintenanceCalendars = resp.body;
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });
@@ -78,11 +80,11 @@ export default class OrderServiceComponent implements OnInit, OnDestroy {
           .delete(`MaintenanceCalendars/${id}`)
           .subscribe({
             next: () => {
-              this.toastService.onShowSuccess();
+              this.customToastService.onShowSuccess();
               this.onLoadData();
             },
             error: (err) => {
-              this.toastService.onShowError();
+              this.customToastService.onShowError();
               console.log(err.error);
             },
           });
@@ -108,7 +110,7 @@ export default class OrderServiceComponent implements OnInit, OnDestroy {
     );
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });
@@ -118,11 +120,11 @@ export default class OrderServiceComponent implements OnInit, OnDestroy {
       .delete(`MaintenanceCalendars/${data.id}`)
       .subscribe({
         next: () => {
-          this.toastService.onShowSuccess();
+          this.customToastService.onShowSuccess();
           this.onLoadData();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });

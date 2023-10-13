@@ -8,11 +8,11 @@ import { Subscription } from 'rxjs';
 import { EAreaMinutasDetalles } from 'src/app/enums/area-minutas-detalles.enum';
 import { EStatusTask } from 'src/app/enums/estatus.enum';
 import { IFechasFiltro } from 'src/app/interfaces/IFechasFiltro.interface';
+import { CustomSwalService } from 'src/app/services/custom-swal.service';
+import { CustomToastService } from 'src/app/services/custom-toast.service';
 import { DataService } from 'src/app/services/data.service';
 import { DateService } from 'src/app/services/date.service';
 import { FiltroCalendarService } from 'src/app/services/filtro-calendar.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
 import ResultadoGeneralEvaluacionAreasDetalleComponent from './resultado-general-evaluacion-areas-detalle/resultado-general-evaluacion-areas-detalle.component';
 
@@ -21,7 +21,7 @@ import ResultadoGeneralEvaluacionAreasDetalleComponent from './resultado-general
   templateUrl: './resultado-general-evaluacion-areas.component.html',
   standalone: true,
   imports: [ComponentsModule, FormsModule, CommonModule, TableModule],
-  providers: [DialogService, MessageService, ToastService],
+  providers: [DialogService, MessageService, CustomToastService],
 })
 export default class EvaluacionAreasComponent implements OnInit, OnDestroy {
   public dataService = inject(DataService);
@@ -29,8 +29,8 @@ export default class EvaluacionAreasComponent implements OnInit, OnDestroy {
   public dialogService = inject(DialogService);
   public messageService = inject(MessageService);
   public rangoCalendarioService = inject(FiltroCalendarService);
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
 
   fechaInicial: string = '';
   fechaFinal: string = '';
@@ -53,18 +53,18 @@ export default class EvaluacionAreasComponent implements OnInit, OnDestroy {
     );
   }
   onLoadData(fechaInicio: string, fechaFinal: string) {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get(`ResumenGeneral/EvaluacionAreas/${fechaInicio}/${fechaFinal}`)
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.toastService.onShowError();
-          this.swalService.onClose();
+          this.customToastService.onShowError();
+          this.customSwalService.onClose();
         },
       });
   }

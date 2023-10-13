@@ -4,26 +4,33 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable, Subscription } from 'rxjs';
 import { IWorkPositionDto } from 'src/app/interfaces/IEmpresaOrganigramaDto.interface';
-import { AuthService } from 'src/app/services/auth.service';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
-import { DataService } from 'src/app/services/data.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  AuthService,
+  CustomSwalService,
+  CustomToastService,
+  CustomerIdService,
+  DataService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
+import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import { environment } from 'src/environments/environment';
-import Swal from 'sweetalert2';
 import AddoreditPlantillaComponent from './addoredit-plantilla.component';
 
 @Component({
   selector: 'app-list-persons',
   templateUrl: './list-persons.component.html',
   standalone: true,
-  imports: [TableModule, ToastModule, ComponentsModule, CommonModule],
-  providers: [ConfirmationService, DialogService, MessageService, ToastService],
+  imports: [PrimeNgModule, ComponentsModule, CommonModule],
+  providers: [
+    ConfirmationService,
+    DialogService,
+    MessageService,
+    CustomToastService,
+  ],
 })
 export default class ListPersonComponent implements OnInit, OnDestroy {
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
   public authService = inject(AuthService);
   public dataService = inject(DataService);
   public dialogService = inject(DialogService);
@@ -51,47 +58,34 @@ export default class ListPersonComponent implements OnInit, OnDestroy {
   }
 
   onLoadData() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get<IWorkPositionDto[]>('WorkPosition/GetAllGeneral')
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }
   onDelete(id: number) {
-    Swal.fire({
-      title: '¿Confirmar?',
-      text: 'Se va a eliminar el registro',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#34c38f',
-      cancelButtonColor: '#f46a6a',
-      confirmButtonText: 'Sí, eliminar',
-      cancelButtonText: 'Cancelar',
-    }).then((result) => {
-      if (result.value) {
-        this.swalService.onLoading();
-        this.subRef$ = this.dataService.delete(`WorkPosition/${id}`).subscribe({
-          next: () => {
-            this.toastService.onShowSuccess();
-            this.swalService.onClose();
-            this.onLoadData();
-          },
-          error: (err) => {
-            this.toastService.onShowError();
-            this.swalService.onClose();
-            console.log(err.error);
-          },
-        });
-      }
+    this.customSwalService.onLoading();
+    this.subRef$ = this.dataService.delete(`WorkPosition/${id}`).subscribe({
+      next: () => {
+        this.customToastService.onShowSuccess();
+        this.customSwalService.onClose();
+        this.onLoadData();
+      },
+      error: (err) => {
+        this.customToastService.onShowError();
+        this.customSwalService.onClose();
+        console.log(err.error);
+      },
     });
   }
 
@@ -107,7 +101,7 @@ export default class ListPersonComponent implements OnInit, OnDestroy {
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });

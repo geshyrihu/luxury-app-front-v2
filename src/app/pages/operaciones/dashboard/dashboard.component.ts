@@ -4,8 +4,10 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import BitacoraMantenimientoComponent from 'src/app/pages/operaciones/mantenimiento/mantenimiento-bitacoras/recorridos/bitacora-mantenimiento.component';
-import { AuthService } from 'src/app/services/auth.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  AuthService,
+  CustomToastService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import DashboardMinutasComponent from './dashboard-minutas/dashboard-minutas.component';
 import DashboardTicketsComponent from './dashboard-tickets/dashboard-tickets.component';
@@ -23,11 +25,11 @@ import MantenimientosPreventivosComponent from './mttos-preventivos/mttos-preven
     DashboardTicketsComponent,
     ComponentsModule,
   ],
-  providers: [DialogService, MessageService, ToastService],
+  providers: [DialogService, MessageService, CustomToastService],
 })
 export default class DashboardComponent {
   private modalService = inject(NgbModal);
-  public toastService = inject(ToastService);
+  public customToastService = inject(CustomToastService);
   public authService = inject(AuthService);
 
   ref: DynamicDialogRef;

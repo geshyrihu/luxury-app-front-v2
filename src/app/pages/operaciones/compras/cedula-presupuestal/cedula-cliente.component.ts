@@ -6,9 +6,9 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable, Subscription } from 'rxjs';
 import AddPartidaCedulaComponent from 'src/app/pages/contabilidad/presupuesto/add-partida-cedula.component';
 import EditPartidaCedulaComponent from 'src/app/pages/contabilidad/presupuesto/edit-partida-cedula.component';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
+import { CustomerIdService } from 'src/app/services/common-services';
+import { CustomToastService } from 'src/app/services/custom-toast.service';
 import { DataService } from 'src/app/services/data.service';
-import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import AddoreditPeriodoCedulaPresupuestalComponent from './addoredit-periodo-cedula.component';
@@ -18,7 +18,7 @@ import OrdenesCompraCedulaComponent from './ordenes-compra-cedula/ordenes-compra
   templateUrl: './cedula-cliente.component.html',
   standalone: true,
   imports: [CommonModule, ComponentsModule, FormsModule, PrimeNgModule],
-  providers: [DialogService, MessageService, ToastService],
+  providers: [DialogService, MessageService, CustomToastService],
   styles: [
     `
       .glass-dialog {
@@ -32,7 +32,7 @@ export default class CedulaClienteComponent implements OnInit, OnDestroy {
   public dataService = inject(DataService);
   public dialogService = inject(DialogService);
   public messageService = inject(MessageService);
-  public toastService = inject(ToastService);
+  public customToastService = inject(CustomToastService);
 
   subRef$: Subscription;
 
@@ -103,7 +103,7 @@ export default class CedulaClienteComponent implements OnInit, OnDestroy {
           this.cb_cedulas = resp.body;
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });
@@ -123,7 +123,7 @@ export default class CedulaClienteComponent implements OnInit, OnDestroy {
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
         this.onLoadData();
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
       }
     });
   }
@@ -140,7 +140,7 @@ export default class CedulaClienteComponent implements OnInit, OnDestroy {
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });
@@ -159,7 +159,7 @@ export default class CedulaClienteComponent implements OnInit, OnDestroy {
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });
@@ -170,11 +170,11 @@ export default class CedulaClienteComponent implements OnInit, OnDestroy {
       .delete(`CedulaPresupuestal/CedulaPresupuestalDetalle/${data.id}`)
       .subscribe({
         next: () => {
-          this.toastService.onShowSuccess();
+          this.customToastService.onShowSuccess();
           this.onLoadData();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });
@@ -196,7 +196,7 @@ export default class CedulaClienteComponent implements OnInit, OnDestroy {
     );
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadCedulasCustomer(this.customerIdService.customerId);
       }
     });

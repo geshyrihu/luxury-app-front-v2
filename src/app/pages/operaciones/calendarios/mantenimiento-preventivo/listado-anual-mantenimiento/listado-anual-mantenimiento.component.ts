@@ -12,11 +12,13 @@ import { CurrencyMexicoPipe } from 'src/app/pipes/currencyMexico.pipe';
 import { EInventoryCategoryPipe } from 'src/app/pipes/inventoryCategory.pipe';
 import { ERecurrencePipe } from 'src/app/pipes/recurrence.pipe';
 import { SanitizeHtmlPipe } from 'src/app/pipes/sanitize-html.pipe';
-import { AuthService } from 'src/app/services/auth.service';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
-import { DataService } from 'src/app/services/data.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  AuthService,
+  CustomSwalService,
+  CustomToastService,
+  CustomerIdService,
+  DataService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import AddoreditMaintenancePreventiveComponent from '../addoredit-maintenance-preventive.component';
 const date = new Date();
@@ -35,13 +37,13 @@ const date = new Date();
     CurrencyMexicoPipe,
     SanitizeHtmlPipe,
   ],
-  providers: [DialogService, MessageService, ToastService],
+  providers: [DialogService, MessageService, CustomToastService],
 })
 export default class ListadoAnualMantenimientoComponent
   implements OnInit, OnDestroy
 {
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
   public authService = inject(AuthService);
   public dataService = inject(DataService);
   public customerIdService = inject(CustomerIdService);
@@ -62,7 +64,7 @@ export default class ListadoAnualMantenimientoComponent
     });
   }
   onLoadData() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get(
         `MaintenanceCalendars/${this.customerIdService.getcustomerId()}/${
@@ -72,12 +74,12 @@ export default class ListadoAnualMantenimientoComponent
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }
@@ -95,19 +97,19 @@ export default class ListadoAnualMantenimientoComponent
     return total;
   }
   onDelete(data: any) {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .delete(`MaintenanceCalendars/${data.id}`)
       .subscribe({
         next: () => {
           this.onLoadData();
-          this.swalService.onClose();
-          this.toastService.onShowSuccess();
+          this.customSwalService.onClose();
+          this.customToastService.onShowSuccess();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }
@@ -128,7 +130,7 @@ export default class ListadoAnualMantenimientoComponent
     );
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });

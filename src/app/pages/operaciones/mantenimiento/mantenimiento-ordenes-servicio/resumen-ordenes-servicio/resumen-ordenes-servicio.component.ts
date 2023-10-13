@@ -3,12 +3,12 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { Subscription } from 'rxjs';
 import { EStatusPipe } from 'src/app/pipes/status.pipe';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
+import { CustomerIdService } from 'src/app/services/common-services';
+import { CustomSwalService } from 'src/app/services/custom-swal.service';
+import { CustomToastService } from 'src/app/services/custom-toast.service';
 import { DataService } from 'src/app/services/data.service';
 import { DateService } from 'src/app/services/date.service';
 import { ReporteOrdenesServicioService } from 'src/app/services/reporte-ordenes-servicio.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
 import ResumenOrdenesServicioGraficoComponent from '../resumen-ordenes-servicio-grafico/resumen-ordenes-servicio-grafico.component';
 @Component({
@@ -22,7 +22,7 @@ import ResumenOrdenesServicioGraficoComponent from '../resumen-ordenes-servicio-
     TableModule,
     EStatusPipe,
   ],
-  providers: [ToastService],
+  providers: [CustomToastService],
 })
 export default class ResumenOrdenesServicioComponent
   implements OnInit, OnDestroy
@@ -31,8 +31,8 @@ export default class ResumenOrdenesServicioComponent
   public dataService = inject(DataService);
   public dateService = inject(DateService);
   public reporteOrdenesServicioService = inject(ReporteOrdenesServicioService);
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
   data: any[] = [];
   dataGraficos: any[] = [];
   terminados = 0;
@@ -50,7 +50,7 @@ export default class ResumenOrdenesServicioComponent
   }
 
   onLoadData() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get(
         'MeetingDertailsSeguimiento/ResumenPreventivosPresentacion/' +
@@ -63,12 +63,12 @@ export default class ResumenOrdenesServicioComponent
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
     this.subRef$ = this.dataService
@@ -84,12 +84,12 @@ export default class ResumenOrdenesServicioComponent
         next: (resp: any) => {
           this.dataGraficos = resp.body;
           this.reporteOrdenesServicioService.setDateGrafico(this.dataGraficos);
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
   }

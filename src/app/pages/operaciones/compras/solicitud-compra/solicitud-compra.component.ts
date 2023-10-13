@@ -15,12 +15,14 @@ import { ToastModule } from 'primeng/toast';
 import { Subscription } from 'rxjs';
 import { EStatusOrdenCompra } from 'src/app/enums/estatus-orden-compra.enum';
 import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
-import { AuthService } from 'src/app/services/auth.service';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
-import { DataService } from 'src/app/services/data.service';
-import { DateService } from 'src/app/services/date.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  AuthService,
+  CustomSwalService,
+  CustomToastService,
+  CustomerIdService,
+  DataService,
+  DateService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import CreateOrdenCompraComponent from '../orden-compra/orden-compra/create-orden-compra/create-orden-compra.component';
 import AddProductModalComponent from './add-product-modal.component';
@@ -42,11 +44,16 @@ import SolicitudCompraDetalleComponent from './solicitud-compra-detalle/solicitu
     ToastModule,
     RouterModule,
   ],
-  providers: [DialogService, MessageService, ConfirmationService, ToastService],
+  providers: [
+    DialogService,
+    MessageService,
+    ConfirmationService,
+    CustomToastService,
+  ],
 })
 export default class SolicitudCompraComponent implements OnInit, OnDestroy {
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
   public authService = inject(AuthService);
   public dataService = inject(DataService);
   public dateService = inject(DateService);
@@ -115,7 +122,7 @@ export default class SolicitudCompraComponent implements OnInit, OnDestroy {
           this.cotizacionesRelacionadas = resp.body;
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });
@@ -147,13 +154,13 @@ export default class SolicitudCompraComponent implements OnInit, OnDestroy {
           this.SolicitudCompraDetalle =
             this.solicitudCompra.solicitudCompraDetalle;
 
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
           // Habilitar el botón nuevamente al finalizar el envío del formulario
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
   }
@@ -167,7 +174,7 @@ export default class SolicitudCompraComponent implements OnInit, OnDestroy {
     }
     // Deshabilitar el botón al iniciar el envío del formulario
     this.submitting = true;
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
 
     if (Number(this.id) === 0) {
       this.subRef$ = this.dataService
@@ -177,14 +184,14 @@ export default class SolicitudCompraComponent implements OnInit, OnDestroy {
             this.id = Number(resp.body.id);
             this.onLoadData();
             this.submitting = false;
-            this.swalService.onClose();
-            this.toastService.onShowSuccess();
+            this.customSwalService.onClose();
+            this.customToastService.onShowSuccess();
           },
           error: (err) => {
             console.log(err.error);
             this.submitting = false;
-            this.swalService.onClose();
-            this.toastService.onShowError();
+            this.customSwalService.onClose();
+            this.customToastService.onShowError();
           },
         });
     } else {
@@ -194,14 +201,14 @@ export default class SolicitudCompraComponent implements OnInit, OnDestroy {
           next: () => {
             this.submitting = false;
             this.onLoadData();
-            this.toastService.onShowSuccess();
-            this.swalService.onClose();
+            this.customToastService.onShowSuccess();
+            this.customSwalService.onClose();
           },
           error: (err) => {
             this.submitting = false;
-            this.toastService.onShowError();
+            this.customToastService.onShowError();
             console.log(err.error);
-            this.swalService.onClose();
+            this.customSwalService.onClose();
           },
         });
     }
@@ -219,7 +226,7 @@ export default class SolicitudCompraComponent implements OnInit, OnDestroy {
       baseZIndex: 10000,
     });
     this.ref.onClose.subscribe(() => {
-      this.toastService.onShowSuccess();
+      this.customToastService.onShowSuccess();
       this.onLoadData();
     });
   }
@@ -236,7 +243,7 @@ export default class SolicitudCompraComponent implements OnInit, OnDestroy {
       baseZIndex: 10000,
     });
     this.ref.onClose.subscribe(() => {
-      this.toastService.onShowSuccess();
+      this.customToastService.onShowSuccess();
       this.onLoadData();
     });
   }

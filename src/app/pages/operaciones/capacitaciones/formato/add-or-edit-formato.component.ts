@@ -9,10 +9,10 @@ import {
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
+import { CustomSwalService } from 'src/app/services/custom-swal.service';
+import { CustomToastService } from 'src/app/services/custom-toast.service';
 import { DataService } from 'src/app/services/data.service';
 import { SelectItemService } from 'src/app/services/select-item.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
 
@@ -26,7 +26,7 @@ import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.mod
     ComponentsModule,
     CustomInputModule,
   ],
-  providers: [ToastService],
+  providers: [CustomToastService],
 })
 export default class AddOrEditFormatoComponent implements OnDestroy {
   private formBuilder = inject(FormBuilder);
@@ -34,8 +34,8 @@ export default class AddOrEditFormatoComponent implements OnDestroy {
   public ref = inject(DynamicDialogRef);
   public config = inject(DynamicDialogConfig);
   public selectItemService = inject(SelectItemService);
-  private swalService = inject(SwalService);
-  private toastService = inject(ToastService);
+  private customSwalService = inject(CustomSwalService);
+  private customToastService = inject(CustomToastService);
 
   submitting: boolean = false;
   id: number = 0;
@@ -62,7 +62,7 @@ export default class AddOrEditFormatoComponent implements OnDestroy {
         this.form.patchValue(resp.body);
       },
       error: (err) => {
-        this.toastService.onShowError();
+        this.customToastService.onShowError();
         console.log(err.error);
       },
     });
@@ -88,19 +88,19 @@ export default class AddOrEditFormatoComponent implements OnDestroy {
     this.id = this.config.data.id;
     // Deshabilitar el botón al iniciar el envío del formulario
     this.submitting = true;
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     if (this.id === 0) {
       this.subRef$ = this.dataService.post(`Formato`, model).subscribe({
         next: () => {
           this.ref.close(true);
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           // Habilitar el botón nuevamente al finalizar el envío del formulario
           this.submitting = false;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
     } else {
@@ -108,15 +108,15 @@ export default class AddOrEditFormatoComponent implements OnDestroy {
         .put(`Formato/${this.id}`, model)
         .subscribe({
           next: () => {
-            this.swalService.onClose();
+            this.customSwalService.onClose();
             this.ref.close(true);
           },
           error: (err) => {
             console.log(err.error);
-            this.toastService.onShowError();
+            this.customToastService.onShowError();
             // Habilitar el botón nuevamente al finalizar el envío del formulario
             this.submitting = false;
-            this.swalService.onClose();
+            this.customSwalService.onClose();
           },
         });
     }

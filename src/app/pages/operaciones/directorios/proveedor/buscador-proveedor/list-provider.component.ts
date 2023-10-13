@@ -5,10 +5,12 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import { BusquedaProveedor } from 'src/app/interfaces/IBusquedaProveedor.interface';
-import { AuthService } from 'src/app/services/auth.service';
-import { DataService } from 'src/app/services/data.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  AuthService,
+  CustomSwalService,
+  CustomToastService,
+  DataService,
+} from 'src/app/services/common-services';
 // import { ViewPdfService } from 'src/app/services/view-pdf.service';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
@@ -19,11 +21,16 @@ import TarjetaProveedorComponent from '../tarjeta-proveedor/tarjeta-proveedor.co
   templateUrl: './list-provider.component.html',
   standalone: true,
   imports: [CommonModule, FormsModule, ComponentsModule, PrimeNgModule],
-  providers: [DialogService, MessageService, ConfirmationService, ToastService],
+  providers: [
+    DialogService,
+    MessageService,
+    ConfirmationService,
+    CustomToastService,
+  ],
 })
 export default class ListProviderComponent implements OnInit, OnDestroy {
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
   public dataService = inject(DataService);
   public messageService = inject(MessageService);
   public dialogService = inject(DialogService);
@@ -41,51 +48,51 @@ export default class ListProviderComponent implements OnInit, OnDestroy {
     return this.authService.onValidateRoles(value);
   }
   onLoadData() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get<BusquedaProveedor[]>(`Proveedor/ListadoProveedores`)
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }
 
   onDelete(id: number) {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService.delete(`Providers/${id}`).subscribe({
       next: () => {
-        this.toastService.onShowSuccess();
-        this.swalService.onClose();
+        this.customToastService.onShowSuccess();
+        this.customSwalService.onClose();
         this.onLoadData();
       },
       error: (err) => {
-        this.toastService.onShowError();
-        this.swalService.onClose();
+        this.customToastService.onShowError();
+        this.customSwalService.onClose();
         console.log(err.error);
       },
     });
   }
 
   onAutorizarProvider(providerId: number) {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get<BusquedaProveedor[]>(`Proveedor/Autorizar/${providerId}`)
       .subscribe({
         next: () => {
           this.onLoadData();
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
   }
@@ -115,7 +122,7 @@ export default class ListProviderComponent implements OnInit, OnDestroy {
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });
@@ -129,7 +136,7 @@ export default class ListProviderComponent implements OnInit, OnDestroy {
           this.onLoadData();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });

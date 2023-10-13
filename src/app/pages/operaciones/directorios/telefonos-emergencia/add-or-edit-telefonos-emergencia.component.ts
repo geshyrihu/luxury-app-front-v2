@@ -8,9 +8,11 @@ import {
 } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { DataService } from 'src/app/services/data.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  CustomSwalService,
+  CustomToastService,
+  DataService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
 import { environment } from 'src/environments/environment';
@@ -25,15 +27,15 @@ import { environment } from 'src/environments/environment';
     CommonModule,
     CustomInputModule,
   ],
-  providers: [ToastService],
+  providers: [CustomToastService],
 })
 export default class AddOrEditTelefonosEmergenciaComponent {
   private formBuilder = inject(FormBuilder);
   public config = inject(DynamicDialogConfig);
   public ref = inject(DynamicDialogRef);
   public dataService = inject(DataService);
-  private swalService = inject(SwalService);
-  private toastService = inject(ToastService);
+  private customSwalService = inject(CustomSwalService);
+  private customToastService = inject(CustomToastService);
 
   submitting: boolean = false;
   subRef$: Subscription;
@@ -83,22 +85,22 @@ export default class AddOrEditTelefonosEmergenciaComponent {
     const formData = this.createFormData(this.form.value);
     // Deshabilitar el botón al iniciar el envío del formulario
     this.submitting = true;
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
 
     if (this.id === 0) {
       this.subRef$ = this.dataService
         .post('TelefonosEmergencia', formData)
         .subscribe({
           next: () => {
-            this.swalService.onClose();
+            this.customSwalService.onClose();
             this.ref.close(true);
           },
           error: (err) => {
             console.log(err.error);
-            this.toastService.onShowError();
+            this.customToastService.onShowError();
             // Habilitar el botón nuevamente al finalizar el envío del formulario
             this.submitting = false;
-            this.swalService.onClose();
+            this.customSwalService.onClose();
           },
         });
     } else {
@@ -106,15 +108,15 @@ export default class AddOrEditTelefonosEmergenciaComponent {
         .put(`TelefonosEmergencia/${this.id}`, formData)
         .subscribe({
           next: () => {
-            this.swalService.onClose();
+            this.customSwalService.onClose();
             this.ref.close(true);
           },
           error: (err) => {
             console.log(err.error);
-            this.toastService.onShowError();
+            this.customToastService.onShowError();
             // Habilitar el botón nuevamente al finalizar el envío del formulario
             this.submitting = false;
-            this.swalService.onClose();
+            this.customSwalService.onClose();
           },
         });
     }

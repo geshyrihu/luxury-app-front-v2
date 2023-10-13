@@ -4,13 +4,15 @@ import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Observable, Subscription } from 'rxjs';
 import { IFilterTicket } from 'src/app/interfaces/IFilterTicket.interface';
-import { AuthService } from 'src/app/services/auth.service';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
-import { DataService } from 'src/app/services/data.service';
-import { ReportService } from 'src/app/services/report.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { TicketFilterService } from 'src/app/services/ticket-filter.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  AuthService,
+  CustomSwalService,
+  CustomToastService,
+  CustomerIdService,
+  DataService,
+  ReportService,
+  TicketFilterService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import { environment } from 'src/environments/environment';
 @Component({
@@ -18,7 +20,7 @@ import { environment } from 'src/environments/environment';
   templateUrl: './pending-report.component.html',
   standalone: true,
   imports: [CommonModule, ComponentsModule],
-  providers: [ToastService, MessageService],
+  providers: [CustomToastService, MessageService],
 })
 export default class PendingReportComponent implements OnInit, OnDestroy {
   public authService = inject(AuthService);
@@ -27,8 +29,8 @@ export default class PendingReportComponent implements OnInit, OnDestroy {
   public filterReportOperationService = inject(TicketFilterService);
   public reportService = inject(ReportService);
   public router = inject(Router);
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
   urlImg = '';
   data: any[] = [];
   customerId: number;
@@ -49,7 +51,7 @@ export default class PendingReportComponent implements OnInit, OnDestroy {
     });
   }
   onLoadData() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.customerId = this.reportService.getCustomerId();
     this.urlImg = `${
       environment.base_urlImg
@@ -62,12 +64,12 @@ export default class PendingReportComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }

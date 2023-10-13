@@ -4,10 +4,12 @@ import { RouterModule } from '@angular/router';
 import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable, Subscription } from 'rxjs';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
-import { DataService } from 'src/app/services/data.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  CustomSwalService,
+  CustomToastService,
+  CustomerIdService,
+  DataService,
+} from 'src/app/services/common-services';
 import DashboardTicketsResumenComponent from '../dashboard-tickets-resumen/dashboard-tickets-resumen.component';
 
 @Component({
@@ -15,14 +17,14 @@ import DashboardTicketsResumenComponent from '../dashboard-tickets-resumen/dashb
   standalone: true,
   imports: [RouterModule, NgbAlertModule, CommonModule],
   templateUrl: './dashboard-tickets.component.html',
-  providers: [DialogService, ToastService],
+  providers: [DialogService, CustomToastService],
 })
 export default class DashboardTicketsComponent implements OnInit, OnDestroy {
   public dataServide = inject(DataService);
   public customerIdService = inject(CustomerIdService);
   public dialogService = inject(DialogService);
-  public toastService = inject(ToastService);
-  public swalService = inject(SwalService);
+  public customToastService = inject(CustomToastService);
+  public customSwalService = inject(CustomSwalService);
 
   data: any[] = [];
   customerId$: Observable<number> = this.customerIdService.getCustomerId$();
@@ -37,7 +39,7 @@ export default class DashboardTicketsComponent implements OnInit, OnDestroy {
     });
   }
   onLoadData() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataServide
       .get(
         'Dashboard/TicketPendientes/' + this.customerIdService.getcustomerId()
@@ -45,12 +47,12 @@ export default class DashboardTicketsComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }

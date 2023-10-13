@@ -6,11 +6,13 @@ import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { TableModule } from 'primeng/table';
 import { Observable, Subscription } from 'rxjs';
+import {
+  CustomSwalService,
+  CustomToastService,
+  CustomerIdService,
+  DataService,
+} from 'src/app/services/common-services';
 import { CronogramaMantenimientoService } from 'src/app/services/cronograma-mantenimiento.service';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
-import { DataService } from 'src/app/services/data.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
 import AddoreditMaintenancePreventiveComponent from './addoredit-maintenance-preventive.component';
 
@@ -19,13 +21,13 @@ import AddoreditMaintenancePreventiveComponent from './addoredit-maintenance-pre
   templateUrl: './cronograma-anual-mantenimiento.component.html',
   standalone: true,
   imports: [CommonModule, NgbTooltipModule, TableModule, ComponentsModule],
-  providers: [DialogService, MessageService, ToastService],
+  providers: [DialogService, MessageService, CustomToastService],
 })
 export default class CronogramaAnualMantenimientoComponent
   implements OnInit, OnDestroy
 {
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
   public dataService = inject(DataService);
   public customerIdService = inject(CustomerIdService);
   public dialogService = inject(DialogService);
@@ -69,7 +71,7 @@ export default class CronogramaAnualMantenimientoComponent
   }
 
   onLoadData(filtro?: any) {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     if (this.filtroId == 10) {
       this.subRef$ = this.dataService
         .get(
@@ -79,13 +81,13 @@ export default class CronogramaAnualMantenimientoComponent
           next: (resp: any) => {
             this.cronogramaAnual = resp.body;
             if (!this.cronogramaAnual) {
-              this.swalService.onClose();
+              this.customSwalService.onClose();
             }
           },
           error: (err) => {
-            this.toastService.onShowError();
+            this.customToastService.onShowError();
             console.log(err.error);
-            this.swalService.onClose();
+            this.customSwalService.onClose();
           },
         });
     } else {
@@ -97,17 +99,17 @@ export default class CronogramaAnualMantenimientoComponent
           next: (resp: any) => {
             this.cronogramaAnual = resp.body;
             if (!this.cronogramaAnual) {
-              this.swalService.onClose();
+              this.customSwalService.onClose();
             }
           },
           error: (err) => {
-            this.toastService.onShowError();
+            this.customToastService.onShowError();
             console.log(err.error);
-            this.swalService.onClose();
+            this.customSwalService.onClose();
           },
         });
     }
-    this.swalService.onClose();
+    this.customSwalService.onClose();
   }
 
   exportExcel() {
@@ -133,7 +135,7 @@ export default class CronogramaAnualMantenimientoComponent
           });
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });
@@ -169,7 +171,7 @@ export default class CronogramaAnualMantenimientoComponent
     );
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });

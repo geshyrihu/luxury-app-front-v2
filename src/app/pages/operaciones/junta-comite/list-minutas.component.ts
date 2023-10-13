@@ -10,12 +10,14 @@ import { ETypeMeeting } from 'src/app/enums/tipo-reunion.enum';
 import { IMeetingIndexDto } from 'src/app/interfaces/IMeetingIndexDto.interface';
 import { SanitizeHtmlPipe } from 'src/app/pipes/sanitize-html.pipe';
 import { ETypeMeetingPipe } from 'src/app/pipes/typeMeeting.pipe';
-import { AuthService } from 'src/app/services/auth.service';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
-import { DataService } from 'src/app/services/data.service';
-import { ReportService } from 'src/app/services/report.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  AuthService,
+  CustomSwalService,
+  CustomToastService,
+  CustomerIdService,
+  DataService,
+  ReportService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import AddOrEditMeetingDetailComponent from './addoredit-meeting-detail.component';
@@ -36,7 +38,12 @@ import AddorEditMeetingSeguimientoComponent from './addoredit-seguimiento/addor-
     SanitizeHtmlPipe,
     NgbTooltip,
   ],
-  providers: [DialogService, MessageService, ConfirmationService, ToastService],
+  providers: [
+    DialogService,
+    MessageService,
+    ConfirmationService,
+    CustomToastService,
+  ],
 })
 export default class ListMinutasComponent implements OnInit, OnDestroy {
   public authService = inject(AuthService);
@@ -47,8 +54,8 @@ export default class ListMinutasComponent implements OnInit, OnDestroy {
   public messageService = inject(MessageService);
   public reportService = inject(ReportService);
   public route = inject(Router);
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
 
   public EnumTypeMeeting = ETypeMeeting;
   data: IMeetingIndexDto[] = [];
@@ -68,7 +75,7 @@ export default class ListMinutasComponent implements OnInit, OnDestroy {
   }
   onLoadData(tipoJunta: number) {
     this.tipoJunta = tipoJunta;
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get<IMeetingIndexDto[]>(
         `Meetings/GetAll/${this.customerIdService.customerId}/${this.tipoJunta}`
@@ -76,12 +83,12 @@ export default class ListMinutasComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }
@@ -100,42 +107,42 @@ export default class ListMinutasComponent implements OnInit, OnDestroy {
           saveAs(blob, 'Pendientes Minuta');
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });
   }
   onDelete(data: any) {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService.delete('Meetings/' + data.id).subscribe({
       next: () => {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData(this.tipoJunta);
-        this.swalService.onClose();
+        this.customSwalService.onClose();
       },
       error: (err) => {
-        this.toastService.onShowError();
-        this.swalService.onClose();
+        this.customToastService.onShowError();
+        this.customSwalService.onClose();
         console.log(err.error);
       },
     });
   }
 
   onSendEmailMeeting(meetingId: number) {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get<IMeetingIndexDto[]>(
         `SendEmail/Meeting/${meetingId}/${this.authService.infoUserAuthDto.applicationUserId}`
       )
       .subscribe({
         next: () => {
-          this.toastService.onShowSuccess();
-          this.swalService.onClose();
+          this.customToastService.onShowSuccess();
+          this.customSwalService.onClose();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
   }
@@ -154,7 +161,7 @@ export default class ListMinutasComponent implements OnInit, OnDestroy {
       closeOnEscape: true,
     });
     this.ref.onClose.subscribe(() => {
-      this.toastService.onShowSuccess();
+      this.customToastService.onShowSuccess();
       this.onLoadData(this.tipoJunta);
     });
   }
@@ -203,7 +210,7 @@ export default class ListMinutasComponent implements OnInit, OnDestroy {
     this.route.navigate(['operaciones/junta-comite/resumen-minuta/' + id]);
   }
   onSendEmailResponsible(id: number, eAreaMinutasDetalles: number) {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get(
         `Meetings/SendEmailResponsible/${id}/${this.customerIdService.getcustomerId()}/${eAreaMinutasDetalles}/${
@@ -212,12 +219,12 @@ export default class ListMinutasComponent implements OnInit, OnDestroy {
       )
       .subscribe({
         next: (resp: any) => {
-          this.swalService.onClose();
-          this.toastService.onShowSuccess();
+          this.customSwalService.onClose();
+          this.customToastService.onShowSuccess();
         },
         error: (err) => {
-          this.toastService.onShowError();
-          this.swalService.onClose();
+          this.customToastService.onShowError();
+          this.customSwalService.onClose();
           console.log(err.error);
         },
       });
@@ -243,41 +250,41 @@ export default class ListMinutasComponent implements OnInit, OnDestroy {
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData(this.tipoJunta);
       }
     });
   }
 
   onDeleteSeguimiento(id: number) {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .delete(`MeetingDertailsSeguimiento/${id}`)
       .subscribe({
         next: () => {
-          this.toastService.onShowSuccess();
+          this.customToastService.onShowSuccess();
           this.onLoadData(this.tipoJunta);
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
   }
 
   onDeleteMeetingDetail(id: number) {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService.delete(`MeetingsDetails/${id}`).subscribe({
       next: () => {
-        this.toastService.onShowSuccess();
-        this.swalService.onClose();
+        this.customToastService.onShowSuccess();
+        this.customSwalService.onClose();
         this.onLoadData(this.tipoJunta);
       },
       error: (err) => {
-        this.toastService.onShowError();
-        this.swalService.onClose();
+        this.customToastService.onShowError();
+        this.customSwalService.onClose();
         console.log(err.error);
       },
     });

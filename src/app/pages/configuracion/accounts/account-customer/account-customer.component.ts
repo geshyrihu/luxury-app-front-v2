@@ -7,10 +7,12 @@ import { Observable, Subscription } from 'rxjs';
 import { IAccountDto } from 'src/app/interfaces/account-dto.interface';
 import CardEmployeeComponent from 'src/app/pages/operaciones/directorios/empleados/card-employee/card-employee.component';
 import PhoneFormatPipe from 'src/app/pipes/phone-format.pipe';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
-import { DataService } from 'src/app/services/data.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  CustomSwalService,
+  CustomToastService,
+  CustomerIdService,
+  DataService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import DropdownRouteComponent from 'src/app/shared/ngb-dropdown-menu/dropdown-route.component';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
@@ -30,15 +32,15 @@ import MdEditAccountComponent from '../modal-edit-account/md-edit-account.compon
     NgbDropdownModule,
     ComponentsModule,
   ],
-  providers: [DialogService, MessageService, ToastService],
+  providers: [DialogService, MessageService, CustomToastService],
 })
 export default class AccountCustomerComponent implements OnInit, OnDestroy {
   private dataService = inject(DataService);
   public customerIdService = inject(CustomerIdService);
   public dialogService = inject(DialogService);
   public messageService = inject(MessageService);
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
 
   data: any[] = [];
   ref: DynamicDialogRef;
@@ -54,7 +56,7 @@ export default class AccountCustomerComponent implements OnInit, OnDestroy {
   }
 
   onLoadData(): void {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get<IAccountDto[]>(
         `Accounts/GetAll/${this.customerIdService.getcustomerId()}`
@@ -62,11 +64,11 @@ export default class AccountCustomerComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
-          this.toastService.onShowError();
-          this.swalService.onClose();
+          this.customToastService.onShowError();
+          this.customSwalService.onClose();
           console.log(err.error);
         },
       });
@@ -87,7 +89,7 @@ export default class AccountCustomerComponent implements OnInit, OnDestroy {
       closeOnEscape: true,
     });
     this.ref.onClose.subscribe((resp: boolean) => {
-      this.toastService.onShowSuccess();
+      this.customToastService.onShowSuccess();
       this.onLoadData();
     });
   }
@@ -122,10 +124,10 @@ export default class AccountCustomerComponent implements OnInit, OnDestroy {
               applicationUserId
             );
           }
-          this.toastService.onShowSuccess();
+          this.customToastService.onShowSuccess();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });
@@ -152,10 +154,10 @@ export default class AccountCustomerComponent implements OnInit, OnDestroy {
               applicationUserId
             );
           }
-          this.toastService.onShowSuccess();
+          this.customToastService.onShowSuccess();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });

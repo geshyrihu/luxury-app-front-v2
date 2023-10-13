@@ -5,11 +5,13 @@ import { MessageService } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
-import { AuthService } from 'src/app/services/auth.service';
-import { DataService } from 'src/app/services/data.service';
-import { SelectItemService } from 'src/app/services/select-item.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  AuthService,
+  CustomSwalService,
+  CustomToastService,
+  DataService,
+  SelectItemService,
+} from 'src/app/services/common-services';
 import AccessCustomerComponent from './customer-account/access-customer.component';
 import UpdateAccountComponent from './update-account/update-account.component';
 import UpdatePasswordAccountComponent from './update-password/update-password-account.component';
@@ -27,16 +29,16 @@ import UpdateRoleComponent from './update-roles/update-role.component';
     UpdatePasswordAccountComponent,
     UpdateAccountComponent,
   ],
-  providers: [MessageService, ToastService],
+  providers: [MessageService, CustomToastService],
 })
 export default class MdEditAccountComponent implements OnInit, OnDestroy {
   private dataService = inject(DataService);
   private selectItemService = inject(SelectItemService);
-  private swalService = inject(SwalService);
+  private customSwalService = inject(CustomSwalService);
   public config = inject(DynamicDialogConfig);
   public messageService = inject(MessageService);
   public ref = inject(DynamicDialogRef);
-  public toastService = inject(ToastService);
+  public customToastService = inject(CustomToastService);
   public authService = inject(AuthService);
 
   cb_emplyee: ISelectItemDto[] = [];
@@ -59,18 +61,18 @@ export default class MdEditAccountComponent implements OnInit, OnDestroy {
       });
   }
   onLoadData() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get('Accounts/EditarCuenta/' + this.applicationUserId)
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }

@@ -1,10 +1,11 @@
 import { Injectable, inject } from '@angular/core';
 import { MessageService } from 'primeng/api';
+import Swal from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ToastService {
+export class CustomToastService {
   public messageService = inject(MessageService);
 
   /**
@@ -50,6 +51,46 @@ export class ToastService {
       severity: 'error',
       summary: 'Error',
       detail: 'No se pudo completar la tarea',
+    });
+  }
+
+  /**
+   * Muestra una ventana emergente de carga.
+   */
+  onLoading() {
+    Swal.fire({
+      allowOutsideClick: false,
+      icon: 'info',
+      text: 'Espere por favor...',
+    });
+    Swal.showLoading(null);
+  }
+
+  /**
+   * Cierra la ventana emergente actual.
+   */
+  onClose() {
+    Swal.close();
+  }
+  onCloseToSuccess() {
+    this.onShowSuccess();
+    Swal.close();
+  }
+  onCloseToError() {
+    this.onShowError();
+    Swal.close();
+  }
+
+  /**
+   * Muestra una ventana emergente de error con un mensaje personalizado.
+   * @param mensaje Mensaje de error a mostrar.
+   */
+  onLoadingError(mensaje: string) {
+    Swal.fire({
+      allowOutsideClick: false,
+      icon: 'error',
+      title: 'Error',
+      text: mensaje,
     });
   }
 }

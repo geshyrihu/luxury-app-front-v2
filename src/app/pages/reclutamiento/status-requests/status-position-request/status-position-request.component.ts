@@ -6,12 +6,14 @@ import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { AuthService } from 'src/app/services/auth.service';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
-import { DataService } from 'src/app/services/data.service';
-import { StatusSolicitudVacanteService } from 'src/app/services/status-solicitud-vacante.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  AuthService,
+  CustomSwalService,
+  CustomToastService,
+  CustomerIdService,
+  DataService,
+  StatusSolicitudVacanteService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
@@ -32,7 +34,7 @@ import SolicitudAltaComponent from '../../solicitudes/solicitud-alta/solicitud-a
     CustomInputModule,
     NgbAlertModule,
   ],
-  providers: [DialogService, MessageService, ToastService],
+  providers: [DialogService, MessageService, CustomToastService],
 })
 export default class statuspositionrequestcomponent
   implements OnInit, OnDestroy
@@ -41,8 +43,8 @@ export default class statuspositionrequestcomponent
   public customerIdService = inject(CustomerIdService);
   public dataService = inject(DataService);
   public dialogService = inject(DialogService);
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
   public router = inject(Router);
   public authService = inject(AuthService);
 
@@ -63,18 +65,18 @@ export default class statuspositionrequestcomponent
   }
 
   onLoadData() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get('RequestPositionCandidate/Candidatos/' + this.positionRequestId)
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }
@@ -98,7 +100,7 @@ export default class statuspositionrequestcomponent
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });
@@ -116,22 +118,22 @@ export default class statuspositionrequestcomponent
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });
   }
   onDeletePositionRequest(id: number) {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService.delete(`RequestPosition/${id}`).subscribe({
       next: () => {
-        this.toastService.onShowSuccess();
-        this.swalService.onClose();
+        this.customToastService.onShowSuccess();
+        this.customSwalService.onClose();
         this.onLoadData();
       },
       error: (err) => {
-        this.toastService.onShowError();
-        this.swalService.onClose();
+        this.customToastService.onShowError();
+        this.customSwalService.onClose();
         console.log(err.error);
       },
     });
@@ -144,7 +146,7 @@ export default class statuspositionrequestcomponent
       }
     });
     // Deshabilitar el botón al iniciar el envío del formulario
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.submitting = true;
     this.dataService
       .post(
@@ -154,14 +156,14 @@ export default class statuspositionrequestcomponent
       .subscribe({
         next: () => {
           this.onLoadData();
-          this.swalService.onClose();
-          this.toastService.onShowSuccess();
+          this.customSwalService.onClose();
+          this.customToastService.onShowSuccess();
         },
         error: (err) => {
           console.log(err.error);
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           // Habilitar el botón nuevamente al finalizar el envío del formulario
-          this.swalService.onClose();
+          this.customSwalService.onClose();
           this.submitting = false;
         },
       });
@@ -182,7 +184,7 @@ export default class statuspositionrequestcomponent
       this.onLoadData();
       if (resp) {
         this.onLoadData();
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
       }
     });
   }

@@ -7,10 +7,12 @@ import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import { PositionRequestAgendaDto } from 'src/app/interfaces/PositionRequestAgendaDto';
-import { AuthService } from 'src/app/services/auth.service';
-import { DataService } from 'src/app/services/data.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  AuthService,
+  CustomSwalService,
+  CustomToastService,
+  DataService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import { environment } from 'src/environments/environment';
@@ -26,14 +28,14 @@ import AddOrEditVacanteCandidatoComponent from './addoredit-vacante-candidato.co
     FormsModule,
     PrimeNgModule,
   ],
-  providers: [DialogService, MessageService, ToastService],
+  providers: [DialogService, MessageService, CustomToastService],
 })
 export default class LisVacanteCandidatosComponent implements OnInit {
   private dataService = inject(DataService);
   public authService = inject(AuthService);
   public messageService = inject(MessageService);
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
   public activatedRoute = inject(ActivatedRoute);
   public dialogService = inject(DialogService);
 
@@ -52,7 +54,7 @@ export default class LisVacanteCandidatosComponent implements OnInit {
   }
 
   onLoadData() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get<PositionRequestAgendaDto>(
         'PositionRequestAgenda/Candidatos/' + this.positionRequestId
@@ -60,29 +62,29 @@ export default class LisVacanteCandidatosComponent implements OnInit {
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }
   onDelete(data: any) {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .delete(`PositionRequestAgenda/${data.id}`)
       .subscribe({
         next: () => {
           this.onLoadData();
-          this.swalService.onClose();
-          this.toastService.onShowSuccess();
+          this.customSwalService.onClose();
+          this.customToastService.onShowSuccess();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }
@@ -102,13 +104,13 @@ export default class LisVacanteCandidatosComponent implements OnInit {
       this.onLoadData();
       if (resp) {
         this.onLoadData();
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
       }
     });
   }
 
   onSendEmailConfirm() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     let dataSend: number[] = [];
     this.data.candidates.forEach((item) => {
       if (item.sendCandidate == true) {
@@ -122,15 +124,15 @@ export default class LisVacanteCandidatosComponent implements OnInit {
       )
       .subscribe({
         next: () => {
-          this.toastService.onShowSuccess();
+          this.customToastService.onShowSuccess();
           this.onLoadData();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
           // Habilitar el botón nuevamente al finalizar el envío del formulario
           this.submitting = false;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
   }

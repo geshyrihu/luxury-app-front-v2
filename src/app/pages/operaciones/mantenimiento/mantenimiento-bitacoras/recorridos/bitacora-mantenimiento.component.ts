@@ -3,33 +3,35 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { LocaleSettings } from 'primeng/calendar';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { TableModule } from 'primeng/table';
 import { Observable, Subscription } from 'rxjs';
 import { IFechasFiltro } from 'src/app/interfaces/IFechasFiltro.interface';
 import CardEmployeeComponent from 'src/app/pages/operaciones/directorios/empleados/card-employee/card-employee.component';
-import { AuthService } from 'src/app/services/auth.service';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
-import { DataService } from 'src/app/services/data.service';
-import { DateService } from 'src/app/services/date.service';
-import { FiltroCalendarService } from 'src/app/services/filtro-calendar.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  AuthService,
+  CustomSwalService,
+  CustomToastService,
+  CustomerIdService,
+  DataService,
+  DateService,
+  FiltroCalendarService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
+import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import FormBitacoraMantenimientoComponent from './form-bitacora-mantenimiento.component';
 
 @Component({
   selector: 'app-bitacora-mantenimiento',
   templateUrl: './bitacora-mantenimiento.component.html',
   standalone: true,
-  imports: [ComponentsModule, CommonModule, TableModule],
-  providers: [DialogService, MessageService, ToastService],
+  imports: [ComponentsModule, CommonModule, PrimeNgModule],
+  providers: [DialogService, MessageService, CustomToastService],
 })
 export default class BitacoraMantenimientoComponent
   implements OnInit, OnDestroy
 {
   public dateService = inject(DateService);
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
   public dialogService = inject(DialogService);
   public dataService = inject(DataService);
   public authServide = inject(AuthService);
@@ -72,11 +74,11 @@ export default class BitacoraMantenimientoComponent
       .delete(`BitacoraMantenimiento/${item.id}`)
       .subscribe({
         next: () => {
-          this.toastService.onShowSuccess();
+          this.customToastService.onShowSuccess();
           this.onLoadData();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });
@@ -94,7 +96,7 @@ export default class BitacoraMantenimientoComponent
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });
@@ -113,7 +115,7 @@ export default class BitacoraMantenimientoComponent
   }
 
   onLoadData() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get(
         `BitacoraMantenimiento/GetAll/${this.customerIdService.customerId}/${this.fechaInicial}/${this.fechaFinal}`
@@ -121,12 +123,12 @@ export default class BitacoraMantenimientoComponent
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }

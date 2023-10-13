@@ -7,11 +7,13 @@ import ContMinutaSeguimientosComponent from 'src/app/pages/contabilidad/contabil
 import AddoreditMinutaDetalleComponent from 'src/app/pages/operaciones/junta-comite/addoredit-minuta-detalle/addoredit-minuta-detalle.component';
 import AddorEditMeetingSeguimientoComponent from 'src/app/pages/operaciones/junta-comite/addoredit-seguimiento/addor-edit-meeting-seguimiento.component';
 import { SanitizeHtmlPipe } from 'src/app/pipes/sanitize-html.pipe';
-import { AuthService } from 'src/app/services/auth.service';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
-import { DataService } from 'src/app/services/data.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  AuthService,
+  CustomerIdService,
+  CustomSwalService,
+  CustomToastService,
+  DataService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 @Component({
@@ -19,15 +21,15 @@ import PrimeNgModule from 'src/app/shared/prime-ng.module';
   templateUrl: './seguimiento-minutas.component.html',
   standalone: true,
   imports: [ComponentsModule, CommonModule, PrimeNgModule, SanitizeHtmlPipe],
-  providers: [DialogService, MessageService, ToastService],
+  providers: [DialogService, MessageService, CustomToastService],
 })
 export default class SeguimientoMinutaComponent implements OnInit, OnDestroy {
   private dataService = inject(DataService);
   public dialogService = inject(DialogService);
   public messageService = inject(MessageService);
   public authService = inject(AuthService);
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
   public customerIdService = inject(CustomerIdService);
 
   data: any[] = [];
@@ -45,7 +47,7 @@ export default class SeguimientoMinutaComponent implements OnInit, OnDestroy {
   }
 
   onLoadData(filtro: number) {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get(
         `Meetings/SeguimientoMinutas/${this.customerIdService.customerId}/${filtro}`
@@ -54,12 +56,12 @@ export default class SeguimientoMinutaComponent implements OnInit, OnDestroy {
         next: (resp: any) => {
           this.data = resp.body;
 
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
   }
@@ -80,7 +82,7 @@ export default class SeguimientoMinutaComponent implements OnInit, OnDestroy {
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData(this.statusFiltro);
       }
     });
@@ -99,26 +101,26 @@ export default class SeguimientoMinutaComponent implements OnInit, OnDestroy {
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData(this.statusFiltro);
       }
     });
   }
 
   onDeleteSeguimiento(id: number) {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .delete(`MeetingDertailsSeguimiento/${id}`)
       .subscribe({
         next: () => {
-          this.toastService.onShowSuccess();
-          this.swalService.onClose();
+          this.customToastService.onShowSuccess();
+          this.customSwalService.onClose();
           this.onLoadData(this.statusFiltro);
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
   }

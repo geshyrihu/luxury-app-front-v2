@@ -13,13 +13,15 @@ import {
   DynamicDialogRef,
 } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { AuthService } from 'src/app/services/auth.service';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
-import { DataService } from 'src/app/services/data.service';
-import { DateService } from 'src/app/services/date.service';
-import { SelectItemService } from 'src/app/services/select-item.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  AuthService,
+  CustomSwalService,
+  CustomToastService,
+  CustomerIdService,
+  DataService,
+  DateService,
+  SelectItemService,
+} from 'src/app/services/common-services';
 import ComponentsModule, {
   flatpickrFactory,
 } from 'src/app/shared/components.module';
@@ -36,18 +38,18 @@ import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.mod
     ComponentsModule,
     CustomInputModule,
   ],
-  providers: [DialogService, MessageService, ToastService],
+  providers: [DialogService, MessageService, CustomToastService],
 })
 export default class AddOrEditEntradasComponent implements OnInit, OnDestroy {
   private formBuilder = inject(FormBuilder);
-  public toastService = inject(ToastService);
+  public customToastService = inject(CustomToastService);
   private customerIdService = inject(CustomerIdService);
   private dataService = inject(DataService);
   private dateService = inject(DateService);
   private selectItemService = inject(SelectItemService);
   public authService = inject(AuthService);
   public config = inject(DynamicDialogConfig);
-  private swalService = inject(SwalService);
+  private customSwalService = inject(CustomSwalService);
   public ref = inject(DynamicDialogRef);
 
   submitting: boolean = false;
@@ -136,21 +138,21 @@ export default class AddOrEditEntradasComponent implements OnInit, OnDestroy {
 
     // Deshabilitar el botón al iniciar el envío del formulario
     this.submitting = true;
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     if (this.id === 0) {
       this.subRef$ = this.dataService
         .post('EntradaProducto', this.form.value)
         .subscribe({
           next: () => {
-            this.swalService.onClose();
+            this.customSwalService.onClose();
             this.ref.close(true);
           },
           error: (err) => {
             console.log(err.error);
-            this.toastService.onShowError();
+            this.customToastService.onShowError();
             // Habilitar el botón nuevamente al finalizar el envío del formulario
             this.submitting = false;
-            this.swalService.onClose();
+            this.customSwalService.onClose();
           },
         });
     } else {
@@ -161,15 +163,15 @@ export default class AddOrEditEntradasComponent implements OnInit, OnDestroy {
         )
         .subscribe({
           next: () => {
-            this.swalService.onClose();
+            this.customSwalService.onClose();
             this.ref.close(true);
           },
           error: (err) => {
             console.log(err.error);
-            this.toastService.onShowError();
+            this.customToastService.onShowError();
             // Habilitar el botón nuevamente al finalizar el envío del formulario
             this.submitting = false;
-            this.swalService.onClose();
+            this.customSwalService.onClose();
           },
         });
     }

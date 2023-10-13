@@ -7,12 +7,14 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import CardEmployeeComponent from 'src/app/pages/operaciones/directorios/empleados/card-employee/card-employee.component';
 import PhoneFormatPipe from 'src/app/pipes/phone-format.pipe';
-import { AuthService } from 'src/app/services/auth.service';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
-import { DataService } from 'src/app/services/data.service';
-import { StatusSolicitudVacanteService } from 'src/app/services/status-solicitud-vacante.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  AuthService,
+  CustomSwalService,
+  CustomToastService,
+  CustomerIdService,
+  DataService,
+  StatusSolicitudVacanteService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
@@ -32,7 +34,7 @@ import AddOrEditStatusRequestSalaryModificationComponent from './add-or-edit-sta
     PhoneFormatPipe,
     PrimeNgModule,
   ],
-  providers: [DialogService, MessageService, ToastService],
+  providers: [DialogService, MessageService, CustomToastService],
 })
 export default class StatusRequestSalaryModificationComponent
   implements OnInit, OnDestroy
@@ -41,8 +43,8 @@ export default class StatusRequestSalaryModificationComponent
   public customerIdService = inject(CustomerIdService);
   public dataService = inject(DataService);
   public dialogService = inject(DialogService);
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
   public router = inject(Router);
   public authService = inject(AuthService);
 
@@ -63,7 +65,7 @@ export default class StatusRequestSalaryModificationComponent
   }
 
   onLoadData() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get(
         `RequestSalaryModification/${this.workPositionId}/${this.employeeId}`
@@ -71,12 +73,12 @@ export default class StatusRequestSalaryModificationComponent
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }
@@ -110,26 +112,26 @@ export default class StatusRequestSalaryModificationComponent
     );
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });
   }
   //Eliminar solicitud de baja
   onDelete(id: number) {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .delete(`RequestSalaryModification/${id}`)
       .subscribe({
         next: () => {
           this.onLoadData();
-          this.swalService.onClose();
-          this.toastService.onShowSuccess();
+          this.customSwalService.onClose();
+          this.customToastService.onShowSuccess();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }

@@ -3,20 +3,20 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import { AutosizeDirective } from 'src/app/directives/autosize-text-area.diective';
+import { CustomToastService } from 'src/app/services/custom-toast.service';
 import { DataService } from 'src/app/services/data.service';
-import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-descripcion-puesto',
   templateUrl: './descripcion-puesto.component.html',
   standalone: true,
   imports: [CommonModule, AutosizeDirective],
-  providers: [ToastService],
+  providers: [CustomToastService],
 })
 export default class DescripcionPuestoComponent implements OnInit, OnDestroy {
   public dataService = inject(DataService);
   public config = inject(DynamicDialogConfig);
-  public toastService = inject(ToastService);
+  public customToastService = inject(CustomToastService);
   profesion: any;
   subRef$: Subscription;
 
@@ -32,7 +32,7 @@ export default class DescripcionPuestoComponent implements OnInit, OnDestroy {
           this.profesion = resp.body;
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });

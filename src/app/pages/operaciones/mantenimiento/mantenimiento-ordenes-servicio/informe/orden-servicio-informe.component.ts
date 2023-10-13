@@ -4,8 +4,8 @@
 // import { Subscription } from 'rxjs';
 // import { DataService } from 'src/app/services/data.service';
 // import { DateService } from 'src/app/services/date.service';
-// import { SwalService } from 'src/app/services/swal.service';
-// import { ToastService } from 'src/app/services/toast.service';
+// import { CustomSwalService } from 'src/app/services/swal.service';
+// import { CustomToastService } from 'src/app/services/toast.service';
 // import { environment } from 'src/environments/environment';
 
 // @Component({
@@ -13,14 +13,14 @@
 //   templateUrl: './orden-servicio-informe.component.html',
 // standalone: true,
 // imports: [CommonModule, ReactiveFormsModule, ComponentsModule],
-//   providers: [MessageService, ToastService],
+//   providers: [MessageService, CustomToastService],
 // })
 // // TODO: VALIDAR SI ESTA PAGE SE USA
 // export default class OrdenServicioInformeComponent implements OnInit, OnDestroy {
 //   public dataService = inject(DataService);
 //   public dateService = inject(DateService);
-//   public swalService = inject(SwalService);
-//   public toastService = inject(ToastService);
+//   public customSwalService = inject(CustomSwalService);
+//   public customToastService = inject(CustomToastService);
 //   public messageService = inject(MessageService);
 //   public rutaActiva = inject(ActivatedRoute);
 
@@ -39,7 +39,7 @@
 //   }
 
 //   onLoadData() {
-//     this.swalService.onLoading();
+//     this.customSwalService.onLoading();
 //     this.subRef$ = this.dataService
 //       .get(
 //         `ServiceOrder/Informe/${this.customerId}/${this.monthId}/${this.yearId}`
@@ -55,12 +55,12 @@
 //             this.urlImg = `${environment.base_urlImg}customers/${this.customerId}/ordenServicio/${this.nameCarpetaFecha}/`;
 //           }
 
-//           this.swalService.onClose();
+//           this.customSwalService.onClose();
 //         },
 //         (err) => {
-//           this.toastService.onShowError();
+//           this.customToastService.onShowError();
 //           console.log(err.error);
-//           this.swalService.onClose();
+//           this.customSwalService.onClose();
 //         }
 //       );
 //   }

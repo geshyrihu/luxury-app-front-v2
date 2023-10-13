@@ -10,10 +10,12 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ToastModule } from 'primeng/toast';
 import { Subscription } from 'rxjs';
-import { AuthService } from 'src/app/services/auth.service';
-import { DataService } from 'src/app/services/data.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  AuthService,
+  CustomSwalService,
+  CustomToastService,
+  DataService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import { environment } from 'src/environments/environment';
 import AddoreditProveedorComponent from '../addoredit-proveedor/addoredit-proveedor.component';
@@ -33,11 +35,16 @@ import TarjetaProveedorComponent from '../tarjeta-proveedor/tarjeta-proveedor.co
     NgbAlert,
     ToastModule,
   ],
-  providers: [DialogService, MessageService, ConfirmationService, ToastService],
+  providers: [
+    DialogService,
+    MessageService,
+    ConfirmationService,
+    CustomToastService,
+  ],
 })
 export default class BuscadorProvedorComponent implements OnInit, OnDestroy {
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
   public dataService = inject(DataService);
   public messageService = inject(MessageService);
   public dialogService = inject(DialogService);
@@ -59,16 +66,16 @@ export default class BuscadorProvedorComponent implements OnInit, OnDestroy {
     this.buscar();
   }
   onDelete(data: any) {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService.delete(`Providers/${data.id}`).subscribe({
       next: () => {
-        this.toastService.onShowSuccess();
-        this.swalService.onClose();
+        this.customToastService.onShowSuccess();
+        this.customSwalService.onClose();
         this.buscar();
       },
       error: (err) => {
-        this.toastService.onShowError();
-        this.swalService.onClose();
+        this.customToastService.onShowError();
+        this.customSwalService.onClose();
         console.log(err.error);
       },
     });
@@ -98,7 +105,7 @@ export default class BuscadorProvedorComponent implements OnInit, OnDestroy {
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.buscar();
       }
     });
@@ -117,7 +124,7 @@ export default class BuscadorProvedorComponent implements OnInit, OnDestroy {
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.buscar();
       }
     });
@@ -141,7 +148,7 @@ export default class BuscadorProvedorComponent implements OnInit, OnDestroy {
           // this.onLoadData(this.stateProvider);
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });
@@ -162,7 +169,7 @@ export default class BuscadorProvedorComponent implements OnInit, OnDestroy {
           this.loading = false;
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });

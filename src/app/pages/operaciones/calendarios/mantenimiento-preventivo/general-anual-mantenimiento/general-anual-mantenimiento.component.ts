@@ -7,11 +7,12 @@ import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
 import { EMonthPipe } from 'src/app/pipes/month.pipe';
 import { ERecurrencePipe } from 'src/app/pipes/recurrence.pipe';
 import { SanitizeHtmlPipe } from 'src/app/pipes/sanitize-html.pipe';
-
-import { CustomerIdService } from 'src/app/services/customer-id.service';
-import { DataService } from 'src/app/services/data.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  CustomSwalService,
+  CustomToastService,
+  CustomerIdService,
+  DataService,
+} from 'src/app/services/common-services';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -26,15 +27,15 @@ import { environment } from 'src/environments/environment';
     SanitizeHtmlPipe,
     EMonthPipe,
   ],
-  providers: [ToastService],
+  providers: [CustomToastService],
 })
 export default class GeneralAnualMantenimientoComponent
   implements OnInit, OnDestroy
 {
-  public swalService = inject(SwalService);
+  public customSwalService = inject(CustomSwalService);
   public dataService = inject(DataService);
   public customerIdService = inject(CustomerIdService);
-  public toastService = inject(ToastService);
+  public customToastService = inject(CustomToastService);
 
   data: any[] = [];
   subRef$: Subscription;
@@ -63,14 +64,14 @@ export default class GeneralAnualMantenimientoComponent
           this.cb_providers = resp.body;
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });
   }
   onLoadData() {
     this.data = [];
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get(
         `MaintenanceCalendars/GeneralMantenimiento/${this.customerIdService.customerId}/${this.providerId}`
@@ -78,11 +79,11 @@ export default class GeneralAnualMantenimientoComponent
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
   }

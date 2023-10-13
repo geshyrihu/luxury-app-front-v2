@@ -10,10 +10,12 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ToastModule } from 'primeng/toast';
 import { Subscription } from 'rxjs';
 import { EMonthPipe } from 'src/app/pipes/month.pipe';
-import { AuthService } from 'src/app/services/auth.service';
-import { DataService } from 'src/app/services/data.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  AuthService,
+  CustomSwalService,
+  CustomToastService,
+  DataService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import AddOrEditCalendarioMaestroComponent from './add-or-edit-calendario-maestro.component';
 import ModalDatosServicioComponent from './modal-datos-servicio/modal-datos-servicio.component';
@@ -31,11 +33,11 @@ import ModalDatosServicioComponent from './modal-datos-servicio/modal-datos-serv
     NgbTooltipModule,
     NgbDropdownModule,
   ],
-  providers: [DialogService, MessageService, ToastService],
+  providers: [DialogService, MessageService, CustomToastService],
 })
 export default class CalendarioMaestroComponent implements OnInit, OnDestroy {
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
   private dataService = inject(DataService);
   public dialogService = inject(DialogService);
   public messageService = inject(MessageService);
@@ -49,17 +51,17 @@ export default class CalendarioMaestroComponent implements OnInit, OnDestroy {
   }
 
   onLoadData() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
 
     this.subRef$ = this.dataService.get('CalendarioMaestro/GetAll').subscribe({
       next: (resp: any) => {
         this.data = resp.body;
-        this.swalService.onClose();
+        this.customSwalService.onClose();
       },
       error: (err) => {
         console.log(err.error);
-        this.swalService.onClose();
-        this.toastService.onShowError();
+        this.customSwalService.onClose();
+        this.customToastService.onShowError();
       },
     });
   }
@@ -83,13 +85,13 @@ export default class CalendarioMaestroComponent implements OnInit, OnDestroy {
       .subscribe({
         next: () => {
           this.onLoadData();
-          this.swalService.onClose();
-          this.toastService.onShowSuccess();
+          this.customSwalService.onClose();
+          this.customToastService.onShowSuccess();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }
@@ -108,7 +110,7 @@ export default class CalendarioMaestroComponent implements OnInit, OnDestroy {
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });

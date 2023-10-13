@@ -12,21 +12,21 @@ export default [
     path: 'condominos',
     loadComponent: () =>
       import(
-        'src/app/pages/operaciones/directorios/condominos/index-condominos.component'
+        'src/app/pages/operaciones/directorios/condominos/list-condominos.component'
       ),
   },
   {
     path: 'propiedades',
     loadComponent: () =>
       import(
-        'src/app/pages/operaciones/directorios/propiedades/index-propiedades.component'
+        'src/app/pages/operaciones/directorios/propiedades/list-propiedades.component'
       ),
   },
   {
     path: 'comite-vigilancia',
     loadComponent: () =>
       import(
-        'src/app/pages/operaciones/directorios/comite-vigilancia/index-comite-vigilancia.component'
+        'src/app/pages/operaciones/directorios/comite-vigilancia/list-comite-vigilancia.component'
       ),
   },
   {

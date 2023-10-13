@@ -10,10 +10,10 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import { IProfessionAddOrEditDto } from 'src/app/interfaces/IProfessionAddOrEditDto.interface';
 import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
+import { CustomSwalService } from 'src/app/services/custom-swal.service';
+import { CustomToastService } from 'src/app/services/custom-toast.service';
 import { DataService } from 'src/app/services/data.service';
 import { SelectItemService } from 'src/app/services/select-item.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
 
@@ -27,7 +27,7 @@ import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.mod
     ComponentsModule,
     CustomInputModule,
   ],
-  providers: [ToastService],
+  providers: [CustomToastService],
 })
 export default class AddOrEditProfessionsComponent
   implements OnInit, OnDestroy
@@ -37,8 +37,8 @@ export default class AddOrEditProfessionsComponent
   private formBuilder = inject(FormBuilder);
   public selectItemService = inject(SelectItemService);
   public ref = inject(DynamicDialogRef);
-  private swalService = inject(SwalService);
-  private toastService = inject(ToastService);
+  private customSwalService = inject(CustomSwalService);
+  private customToastService = inject(CustomToastService);
 
   submitting: boolean = false;
   subRef$: Subscription;
@@ -92,7 +92,7 @@ export default class AddOrEditProfessionsComponent
     this.id = this.config.data.id;
     // Deshabilitar el botón al iniciar el envío del formulario
     this.submitting = true;
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
 
     if (this.id === 0) {
       // ...Creación de registro
@@ -100,15 +100,15 @@ export default class AddOrEditProfessionsComponent
         .post(`Professions`, this.form.value)
         .subscribe({
           next: () => {
-            this.swalService.onClose();
+            this.customSwalService.onClose();
             this.ref.close(true);
           },
           error: (err) => {
             console.log(err.error);
-            this.toastService.onShowError();
+            this.customToastService.onShowError();
             // Habilitar el botón nuevamente al finalizar el envío del formulario
             this.submitting = false;
-            this.swalService.onClose();
+            this.customSwalService.onClose();
           },
         });
     } else {
@@ -117,15 +117,15 @@ export default class AddOrEditProfessionsComponent
         .put(`Professions/${this.id}`, this.form.value)
         .subscribe({
           next: () => {
-            this.swalService.onClose();
+            this.customSwalService.onClose();
             this.ref.close(true);
           },
           error: (err) => {
             console.log(err.error);
-            this.toastService.onShowError();
+            this.customToastService.onShowError();
             // Habilitar el botón nuevamente al finalizar el envío del formulario
             this.submitting = false;
-            this.swalService.onClose();
+            this.customSwalService.onClose();
           },
         });
     }

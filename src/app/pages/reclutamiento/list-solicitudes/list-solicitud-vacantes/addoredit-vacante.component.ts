@@ -11,9 +11,11 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import { EStatus } from 'src/app/enums/estatus.enum';
 import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
-import { DataService } from 'src/app/services/data.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  CustomSwalService,
+  CustomToastService,
+  DataService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
 
@@ -28,15 +30,15 @@ import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.mod
     CommonModule,
     CustomInputModule,
   ],
-  providers: [ToastService],
+  providers: [CustomToastService],
 })
 export default class AddOrEditVacanteComponent implements OnInit, OnDestroy {
   private formBuilder = inject(FormBuilder);
   private dataService = inject(DataService);
   public ref = inject(DynamicDialogRef);
   public config = inject(DynamicDialogConfig);
-  private swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  private customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
 
   submitting: boolean = false;
 
@@ -65,7 +67,7 @@ export default class AddOrEditVacanteComponent implements OnInit, OnDestroy {
           this.form.patchValue(resp.body);
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });
@@ -87,15 +89,15 @@ export default class AddOrEditVacanteComponent implements OnInit, OnDestroy {
         .post(`RequestPosition`, this.form.value)
         .subscribe({
           next: () => {
-            this.swalService.onClose();
+            this.customSwalService.onClose();
             this.ref.close(true);
           },
           error: (err) => {
             console.log(err.error);
-            this.toastService.onShowError();
+            this.customToastService.onShowError();
             // Habilitar el botón nuevamente al finalizar el envío del formulario
             this.submitting = false;
-            this.swalService.onClose();
+            this.customSwalService.onClose();
           },
         });
     } else {
@@ -103,15 +105,15 @@ export default class AddOrEditVacanteComponent implements OnInit, OnDestroy {
         .put(`RequestPosition/${this.id}`, this.form.value)
         .subscribe({
           next: () => {
-            this.swalService.onClose();
+            this.customSwalService.onClose();
             this.ref.close(true);
           },
           error: (err) => {
             console.log(err.error);
-            this.toastService.onShowError();
+            this.customToastService.onShowError();
             // Habilitar el botón nuevamente al finalizar el envío del formulario
             this.submitting = false;
-            this.swalService.onClose();
+            this.customSwalService.onClose();
           },
         });
     }

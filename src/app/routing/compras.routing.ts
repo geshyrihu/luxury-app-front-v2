@@ -75,7 +75,7 @@ export default [
     path: 'ordenes-compra-fijos',
     loadComponent: () =>
       import(
-        'src/app/pages/operaciones/compras/orden-compra/orden-compra-catalogo-gastos-fijos/index-orden-compra-fijos/index-orden-compra-fijos.component'
+        'src/app/pages/operaciones/compras/orden-compra/orden-compra-catalogo-gastos-fijos/list-orden-compra-fijos/list-orden-compra-fijos.component'
       ),
   },
   {

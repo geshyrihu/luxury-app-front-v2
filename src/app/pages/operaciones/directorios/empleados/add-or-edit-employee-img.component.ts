@@ -3,9 +3,11 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { DataService } from 'src/app/services/data.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  CustomSwalService,
+  CustomToastService,
+  DataService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import { environment } from 'src/environments/environment';
 const baseUrlImg = environment.base_urlImg;
@@ -14,7 +16,7 @@ const baseUrlImg = environment.base_urlImg;
   templateUrl: './add-or-edit-employee-img.component.html',
   standalone: true,
   imports: [CommonModule, ComponentsModule],
-  providers: [MessageService, ToastService],
+  providers: [MessageService, CustomToastService],
 })
 export default class AddOrEditEmployeeOnlyImgComponent
   implements OnInit, OnDestroy
@@ -22,8 +24,8 @@ export default class AddOrEditEmployeeOnlyImgComponent
   public config = inject(DynamicDialogConfig);
   public dataService = inject(DataService);
   public ref = inject(DynamicDialogRef);
-  public toastService = inject(ToastService);
-  private swalService = inject(SwalService);
+  public customToastService = inject(CustomToastService);
+  private customSwalService = inject(CustomSwalService);
 
   is_role: boolean = false;
   submitting: boolean = false;
@@ -46,7 +48,7 @@ export default class AddOrEditEmployeeOnlyImgComponent
           this.photoPath = `${baseUrlImg}Administration/accounts/${resp.body.photoPath}`;
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });
@@ -76,7 +78,7 @@ export default class AddOrEditEmployeeOnlyImgComponent
 
     // Deshabilitar el botón al iniciar el envío del formulario
     this.submitting = true;
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
 
     this.subRef$ = this.dataService
       .put('Employees/updateImg/' + this.id, formData)
@@ -88,14 +90,14 @@ export default class AddOrEditEmployeeOnlyImgComponent
           } else {
             return false;
           }
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
           // Habilitar el botón nuevamente al finalizar el envío del formulario
           this.submitting = false;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
   }

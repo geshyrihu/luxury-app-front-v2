@@ -3,21 +3,21 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { OrgChartModule } from 'angular13-organization-chart';
 import { Observable, Subscription } from 'rxjs';
 import { ITreeNode } from 'src/app/interfaces/ITreeNode.interface';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
+import { CustomerIdService } from 'src/app/services/common-services';
+import { CustomToastService } from 'src/app/services/custom-toast.service';
 import { DataService } from 'src/app/services/data.service';
-import { ToastService } from 'src/app/services/toast.service';
 import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-organigrama-interno',
   templateUrl: './organigrama-interno.component.html',
   standalone: true,
   imports: [OrgChartModule, CommonModule],
-  providers: [ToastService],
+  providers: [CustomToastService],
 })
 export default class OrganigramaInternoComponent implements OnInit, OnDestroy {
   public dataService = inject(DataService);
   public customerIdService = inject(CustomerIdService);
-  public toastService = inject(ToastService);
+  public customToastService = inject(CustomToastService);
 
   baseUrlImg = environment.base_urlImg;
   customerId$: Observable<number> = this.customerIdService.getCustomerId$();
@@ -32,7 +32,7 @@ export default class OrganigramaInternoComponent implements OnInit, OnDestroy {
           this.tree = resp.body;
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });

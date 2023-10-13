@@ -3,26 +3,28 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable, Subscription } from 'rxjs';
-import { AuthService } from 'src/app/services/auth.service';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
-import { DataService } from 'src/app/services/data.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  AuthService,
+  CustomSwalService,
+  CustomToastService,
+  CustomerIdService,
+  DataService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
-import EditSalidasComponent from './edit-salidas/edit-salidas.component';
+import AddOrEditEntradasComponent from './addoredit-entradas.component';
 
 @Component({
-  selector: 'app-index-salidas',
-  templateUrl: './index-salidas.component.html',
+  selector: 'app-list-entradas',
+  templateUrl: './list-entradas.component.html',
   standalone: true,
   imports: [ComponentsModule, CommonModule, PrimeNgModule],
-  providers: [DialogService, MessageService, ToastService],
+  providers: [DialogService, MessageService, CustomToastService],
 })
-export default class IndexSalidasComponent implements OnInit, OnDestroy {
+export default class ListEntradasComponent implements OnInit, OnDestroy {
   public authService = inject(AuthService);
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
   private customerIdService = inject(CustomerIdService);
   private dataService = inject(DataService);
   public dialogService = inject(DialogService);
@@ -41,57 +43,56 @@ export default class IndexSalidasComponent implements OnInit, OnDestroy {
   }
 
   onLoadData() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get<any[]>(
-        `SalidaProductos/GetSalidaProductos/${this.customerIdService.customerId}`
+        `EntradaProducto/GetEntradaProductos/${this.customerIdService.customerId}`
       )
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }
   onDelete(data: any) {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
-      .delete(`SalidaProductos/${data.id}`)
+      .delete(`EntradaProducto/${data.id}`)
       .subscribe({
         next: () => {
           this.onLoadData();
-          this.swalService.onClose();
-          this.toastService.onShowSuccess();
+          this.customSwalService.onClose();
+          this.customToastService.onShowSuccess();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }
 
-  onEditSalida(data: any) {
-    this.ref = this.dialogService.open(EditSalidasComponent, {
+  onAddEntrada(data: any) {
+    this.ref = this.dialogService.open(AddOrEditEntradasComponent, {
       data: {
         id: data.id,
         idProducto: data.idProducto,
         nombreProducto: data.nombreProducto,
-        idInventarioProducto: data.idInventarioProducto,
       },
-      header: 'Salida de Productos',
+      header: 'Entrada de Productos',
       styleClass: 'modal-md',
       closeOnEscape: true,
       baseZIndex: 10000,
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });

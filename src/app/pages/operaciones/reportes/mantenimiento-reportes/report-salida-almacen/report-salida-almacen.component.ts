@@ -4,12 +4,12 @@ import { MessageService } from 'primeng/api';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { TableModule } from 'primeng/table';
 import { Observable, Subscription } from 'rxjs';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
+import { CustomerIdService } from 'src/app/services/common-services';
+import { CustomSwalService } from 'src/app/services/custom-swal.service';
+import { CustomToastService } from 'src/app/services/custom-toast.service';
 import { DataService } from 'src/app/services/data.service';
 import { DateService } from 'src/app/services/date.service';
 import { PeriodoMonthService } from 'src/app/services/periodo-month.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
 import PagetitleReportComponent from 'src/app/shared/cabeceras/pagetitlereport/pagetitlereport.component';
 
 @Component({
@@ -17,13 +17,13 @@ import PagetitleReportComponent from 'src/app/shared/cabeceras/pagetitlereport/p
   templateUrl: './report-salida-almacen.component.html',
   standalone: true,
   imports: [TableModule, CommonModule, PagetitleReportComponent],
-  providers: [ToastService, MessageService],
+  providers: [CustomToastService, MessageService],
 })
 export default class ReportSalidaAlmacenComponent implements OnInit {
   private dataService = inject(DataService);
   public customerIdService = inject(CustomerIdService);
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
   public dateService = inject(DateService);
   public periodoMonthService = inject(PeriodoMonthService);
 
@@ -46,7 +46,7 @@ export default class ReportSalidaAlmacenComponent implements OnInit {
     });
   }
   onLoadData() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get(
         `MaintenanceReport/salidaproducto/${
@@ -58,12 +58,12 @@ export default class ReportSalidaAlmacenComponent implements OnInit {
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }

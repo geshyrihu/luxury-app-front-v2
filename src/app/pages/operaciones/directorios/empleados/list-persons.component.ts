@@ -4,9 +4,11 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import { IEmployeeDto } from 'src/app/interfaces/IEmployeeDto.interface';
-import { DataService } from 'src/app/services/data.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  CustomSwalService,
+  CustomToastService,
+  DataService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import { environment } from 'src/environments/environment';
@@ -16,12 +18,17 @@ import AddOrEditEmplopyeeComponent from './addoredit-employee.component';
   templateUrl: './list-persons.component.html',
   standalone: true,
   imports: [CommonModule, ComponentsModule, PrimeNgModule],
-  providers: [DialogService, MessageService, ConfirmationService, ToastService],
+  providers: [
+    DialogService,
+    MessageService,
+    ConfirmationService,
+    CustomToastService,
+  ],
 })
 export default class ListPersonComponent implements OnInit, OnDestroy {
   public dataService = inject(DataService);
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
   public dialogService = inject(DialogService);
   public messageService = inject(MessageService);
 
@@ -41,35 +48,35 @@ export default class ListPersonComponent implements OnInit, OnDestroy {
     this.onLoadData();
   }
   onLoadData() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get<any[]>(`Person/General/${this.activo}`)
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }
 
   onDelete(data: any) {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService.delete(`Person/${data.id}`).subscribe({
       next: () => {
-        this.toastService.onShowSuccess();
-        this.swalService.onClose();
+        this.customToastService.onShowSuccess();
+        this.customSwalService.onClose();
         // this.onLoadData();
         // Elimina el elemento del arreglo de datos local
         this.data = this.data.filter((item) => item.id !== data.id);
       },
       error: (err) => {
-        this.toastService.onShowError();
-        this.swalService.onClose();
+        this.customToastService.onShowError();
+        this.customSwalService.onClose();
         console.log(err.error);
       },
     });
@@ -86,7 +93,7 @@ export default class ListPersonComponent implements OnInit, OnDestroy {
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });

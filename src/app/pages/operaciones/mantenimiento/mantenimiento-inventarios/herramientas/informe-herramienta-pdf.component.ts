@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { SanitizeHtmlPipe } from 'src/app/pipes/sanitize-html.pipe';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
+import { CustomerIdService } from 'src/app/services/common-services';
 import { ReporteHerramientasPdfService } from 'src/app/services/reporte-herramientas-pdf.service';
 import { environment } from 'src/environments/environment';
 

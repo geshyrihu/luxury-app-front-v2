@@ -2,10 +2,12 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { MessageService, TreeNode } from 'primeng/api';
 import { TableModule } from 'primeng/table';
 import { Observable, Subscription } from 'rxjs';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
-import { DataService } from 'src/app/services/data.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  CustomSwalService,
+  CustomToastService,
+  CustomerIdService,
+  DataService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import { environment } from 'src/environments/environment';
 
@@ -14,11 +16,11 @@ import { environment } from 'src/environments/environment';
   templateUrl: './organigrama.component.html',
   standalone: true,
   imports: [ComponentsModule, TableModule],
-  providers: [MessageService, ToastService],
+  providers: [MessageService, CustomToastService],
 })
 export default class OrganigramaComponent implements OnInit, OnDestroy {
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
   public dataService = inject(DataService);
   public customerIdService = inject(CustomerIdService);
   public messageService = inject(MessageService);
@@ -35,18 +37,18 @@ export default class OrganigramaComponent implements OnInit, OnDestroy {
     });
   }
   onLoadData() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get('EntregaRecepcion/Organigrama/' + this.customerIdService.customerId)
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }

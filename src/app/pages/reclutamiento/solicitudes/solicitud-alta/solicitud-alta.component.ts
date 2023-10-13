@@ -9,10 +9,12 @@ import {
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
-import { AuthService } from 'src/app/services/auth.service';
-import { DataService } from 'src/app/services/data.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  AuthService,
+  CustomSwalService,
+  CustomToastService,
+  DataService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
 
@@ -33,8 +35,8 @@ export default class SolicitudAltaComponent implements OnInit, OnDestroy {
   public ref = inject(DynamicDialogRef);
   public config = inject(DynamicDialogConfig);
   public authService = inject(AuthService);
-  private swalService = inject(SwalService);
-  private toastService = inject(ToastService);
+  private customSwalService = inject(CustomSwalService);
+  private customToastService = inject(CustomToastService);
 
   requestPositionCandidateId: number = 0;
   data: any;
@@ -79,7 +81,7 @@ export default class SolicitudAltaComponent implements OnInit, OnDestroy {
         },
 
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });
@@ -94,7 +96,7 @@ export default class SolicitudAltaComponent implements OnInit, OnDestroy {
 
     // Deshabilitar el botón al iniciar el envío del formulario
     this.submitting = true;
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
 
     this.subRef$ = this.dataService
       .post(
@@ -104,14 +106,14 @@ export default class SolicitudAltaComponent implements OnInit, OnDestroy {
       .subscribe({
         next: () => {
           this.ref.close(true);
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
           // Habilitar el botón nuevamente al finalizar el envío del formulario
           this.submitting = false;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
   }

@@ -4,11 +4,13 @@ import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable, Subscription } from 'rxjs';
-import { AuthService } from 'src/app/services/auth.service';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
-import { DataService } from 'src/app/services/data.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  AuthService,
+  CustomSwalService,
+  CustomToastService,
+  CustomerIdService,
+  DataService,
+} from 'src/app/services/common-services';
 import { ViewPdfService } from 'src/app/services/view-pdf.service';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
@@ -19,19 +21,19 @@ import CrudEntregaRecepcionClienteComponent from '../crud-entrega-recepcion-clie
   templateUrl: './entrega-recepcion-cliente.component.html',
   standalone: true,
   imports: [CommonModule, ComponentsModule, PrimeNgModule],
-  providers: [DialogService, MessageService, ToastService],
+  providers: [DialogService, MessageService, CustomToastService],
 })
 export default class EntregaRecepcionClienteComponent
   implements OnInit, OnDestroy
 {
-  public toastService = inject(ToastService);
+  public customToastService = inject(CustomToastService);
   public authService = inject(AuthService);
   public dataService = inject(DataService);
   public customerIdService = inject(CustomerIdService);
   public messageService = inject(MessageService);
   public dialogService = inject(DialogService);
   public viewPdfService = inject(ViewPdfService);
-  public swalService = inject(SwalService);
+  public customSwalService = inject(CustomSwalService);
   public route = inject(Router);
 
   customerId$: Observable<number> = this.customerIdService.getCustomerId$();
@@ -67,14 +69,14 @@ export default class EntregaRecepcionClienteComponent
     this.onLoadData();
   }
   onLoadData() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     // * Peticion para generar los items de entrega recepcion
     this.subRef$ = this.dataService
       .get('EntregaRecepcionCliente/GenerateData')
       .subscribe({
         next: (resp: any) => {},
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });
@@ -89,12 +91,12 @@ export default class EntregaRecepcionClienteComponent
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }
@@ -111,7 +113,7 @@ export default class EntregaRecepcionClienteComponent
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });
@@ -135,10 +137,10 @@ export default class EntregaRecepcionClienteComponent
       .subscribe({
         next: () => {
           this.onLoadData();
-          this.toastService.onShowSuccess();
+          this.customToastService.onShowSuccess();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });
@@ -149,10 +151,10 @@ export default class EntregaRecepcionClienteComponent
       .subscribe({
         next: () => {
           this.onLoadData();
-          this.toastService.onShowSuccess();
+          this.customToastService.onShowSuccess();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });
@@ -163,11 +165,11 @@ export default class EntregaRecepcionClienteComponent
       .delete(`EntregaRecepcionCliente/DeleteFile/${id}`)
       .subscribe({
         next: () => {
-          this.toastService.onShowSuccess();
+          this.customToastService.onShowSuccess();
           this.onLoadData();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });

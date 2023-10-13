@@ -3,23 +3,23 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
+import { CustomSwalService } from 'src/app/services/custom-swal.service';
+import { CustomToastService } from 'src/app/services/custom-toast.service';
 import { DataService } from 'src/app/services/data.service';
 import { SelectItemService } from 'src/app/services/select-item.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
 @Component({
   selector: 'app-onden-compra-pdf-solicitud-pago',
   templateUrl: './onden-compra-pdf-solicitud-pago.component.html',
   standalone: true,
   imports: [ComponentsModule, CommonModule, ComponentsModule],
-  providers: [MessageService, ToastService],
+  providers: [MessageService, CustomToastService],
 })
 export default class OndenCompraPdfSolicitudPagoComponent
   implements OnInit, OnDestroy
 {
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
   public dataService = inject(DataService);
   public routeActive = inject(ActivatedRoute);
   public selectItemService = inject(SelectItemService);
@@ -52,7 +52,7 @@ export default class OndenCompraPdfSolicitudPagoComponent
   }
 
   onLoadData() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get(`OrdenCompra/SolicitudPago/${this.ordenCompraId}`)
       .subscribe({
@@ -66,12 +66,12 @@ export default class OndenCompraPdfSolicitudPagoComponent
           }
           this.ordenCompraPresupuesto =
             this.model.ordenCompraPresupuestoUtilizado;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
   }

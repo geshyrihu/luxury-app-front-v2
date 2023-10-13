@@ -7,11 +7,13 @@ import { MessageService } from 'primeng/api';
 import { DialogModule } from 'primeng/dialog';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { InfoEmployeeAuthDto } from 'src/app/interfaces/auth/user-token.interface';
-import { AuthService } from 'src/app/services/auth.service';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
+import {
+  AuthService,
+  CustomToastService,
+  CustomerIdService,
+  SelectItemService,
+} from 'src/app/services/common-services';
 import { ProfielServiceService } from 'src/app/services/profiel-service.service';
-import { SelectItemService } from 'src/app/services/select-item.service';
-import { ToastService } from 'src/app/services/toast.service';
 import { environment } from 'src/environments/environment';
 import ModalSearchComponent from '../modal-search/modal-search.component';
 
@@ -27,7 +29,7 @@ import ModalSearchComponent from '../modal-search/modal-search.component';
     NgbTooltip,
     DialogModule,
   ],
-  providers: [DialogService, MessageService, ToastService],
+  providers: [DialogService, MessageService, CustomToastService],
 })
 export class TopbarComponent implements OnInit {
   private customerIdService = inject(CustomerIdService);
@@ -36,7 +38,7 @@ export class TopbarComponent implements OnInit {
   public authService = inject(AuthService);
   public dialogService = inject(DialogService);
   public profielServiceService = inject(ProfielServiceService);
-  public toastService = inject(ToastService);
+  public customToastService = inject(CustomToastService);
   private location = inject(Location);
 
   //TODO REVISAR FUNCIONAKLIDAD QUE SE OCULTE MENU EN VERSION MOBIL

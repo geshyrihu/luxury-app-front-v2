@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit, inject } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
+import { CustomerIdService } from 'src/app/services/common-services';
 import { DataService } from 'src/app/services/data.service';
 import { TicketFilterService } from 'src/app/services/ticket-filter.service';
 import { environment } from 'src/environments/environment';

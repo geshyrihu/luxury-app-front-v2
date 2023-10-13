@@ -9,11 +9,13 @@ import {
 } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import AddProductosAlmacenComponent from 'src/app/pages/operaciones/mantenimiento/mantenimiento-almacen/inventario-productos/add-productos-almacen.component';
-import { AuthService } from 'src/app/services/auth.service';
-import { DataService } from 'src/app/services/data.service';
-import { SelectItemService } from 'src/app/services/select-item.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  AuthService,
+  CustomSwalService,
+  CustomToastService,
+  DataService,
+  SelectItemService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import { environment } from 'src/environments/environment';
@@ -23,12 +25,12 @@ import { environment } from 'src/environments/environment';
   templateUrl: './orden-compra-detalle-add-producto.component.html',
   standalone: true,
   imports: [ComponentsModule, FormsModule, CommonModule, PrimeNgModule],
-  providers: [ToastService],
+  providers: [CustomToastService],
 })
 export default class OrdenCompraDetalleAddProductoComponent
   implements OnInit, OnDestroy
 {
-  public toastService = inject(ToastService);
+  public customToastService = inject(CustomToastService);
   public dataService = inject(DataService);
   public config = inject(DynamicDialogConfig);
   public ref = inject(DynamicDialogRef);
@@ -36,7 +38,7 @@ export default class OrdenCompraDetalleAddProductoComponent
   public authService = inject(AuthService);
   public messageService = inject(MessageService);
   public dialogService = inject(DialogService);
-  public swalService = inject(SwalService);
+  public customSwalService = inject(CustomSwalService);
 
   subRef$: Subscription;
 
@@ -59,18 +61,18 @@ export default class OrdenCompraDetalleAddProductoComponent
   }
 
   onLoadProduct() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get(`OrdenCompraDetalle/AddProductoToOrder/${this.ordenCompraId}`)
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }
@@ -87,13 +89,13 @@ export default class OrdenCompraDetalleAddProductoComponent
       .post<any>(`OrdenCompraDetalle/`, item)
       .subscribe({
         next: () => {
-          this.toastService.onShowSuccess();
+          this.customToastService.onShowSuccess();
           this.mensajeError = false;
           this.onLoadProduct();
           this.ref.close(true);
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });

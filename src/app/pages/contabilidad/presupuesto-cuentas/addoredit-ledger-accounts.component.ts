@@ -10,10 +10,12 @@ import { Subscription } from 'rxjs';
 import { EState } from 'src/app/enums/state.enum';
 import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
 import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
-import { AuthService } from 'src/app/services/auth.service';
-import { DataService } from 'src/app/services/data.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  AuthService,
+  CustomSwalService,
+  CustomToastService,
+  DataService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
 
@@ -22,7 +24,7 @@ import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.mod
   templateUrl: './addoredit-ledger-accounts.component.html',
   standalone: true,
   imports: [ReactiveFormsModule, ComponentsModule, CustomInputModule],
-  providers: [ToastService],
+  providers: [CustomToastService],
 })
 export default class AddoreditLedgerAccountsComponent
   implements OnInit, OnDestroy
@@ -32,8 +34,8 @@ export default class AddoreditLedgerAccountsComponent
   private dataService = inject(DataService);
   public config = inject(DynamicDialogConfig);
   public ref = inject(DynamicDialogRef);
-  private swalService = inject(SwalService);
-  private toastService = inject(ToastService);
+  private customSwalService = inject(CustomSwalService);
+  private customToastService = inject(CustomToastService);
 
   submitting: boolean = false;
 
@@ -68,22 +70,22 @@ export default class AddoreditLedgerAccountsComponent
     }
     // Deshabilitar el botón al iniciar el envío del formulario
     this.submitting = true;
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
 
     if (this.id === 0) {
       this.subRef$ = this.dataService
         .post(`Cuentas/`, this.form.value)
         .subscribe({
           next: () => {
-            this.swalService.onClose();
+            this.customSwalService.onClose();
             this.ref.close(true);
           },
           error: (err) => {
-            this.toastService.onShowError();
+            this.customToastService.onShowError();
             console.log(err.error);
             // Habilitar el botón nuevamente al finalizar el envío del formulario
             this.submitting = false;
-            this.swalService.onClose();
+            this.customSwalService.onClose();
           },
         });
     } else {
@@ -91,29 +93,29 @@ export default class AddoreditLedgerAccountsComponent
         .put(`Cuentas/${this.id}`, this.form.value)
         .subscribe({
           next: () => {
-            this.swalService.onClose();
+            this.customSwalService.onClose();
             this.ref.close(true);
           },
           error: (err) => {
             console.log(err.error);
-            this.toastService.onShowError();
+            this.customToastService.onShowError();
             // Habilitar el botón nuevamente al finalizar el envío del formulario
             this.submitting = false;
-            this.swalService.onClose();
+            this.customSwalService.onClose();
           },
         });
     }
   }
   onLoadData() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService.get(`Cuentas/${this.id}`).subscribe({
       next: (resp) => {
         this.form.patchValue(resp.body);
-        this.swalService.onClose();
+        this.customSwalService.onClose();
       },
       error: (err) => {
         console.log(err.error);
-        this.swalService.onClose();
+        this.customSwalService.onClose();
       },
     });
   }

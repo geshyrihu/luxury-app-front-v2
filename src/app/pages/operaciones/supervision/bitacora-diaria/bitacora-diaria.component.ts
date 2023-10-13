@@ -5,13 +5,15 @@ import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import { IFechasFiltro } from 'src/app/interfaces/IFechasFiltro.interface';
-import { AuthService } from 'src/app/services/auth.service';
-import { DataService } from 'src/app/services/data.service';
-import { DateService } from 'src/app/services/date.service';
-import { FiltroCalendarService } from 'src/app/services/filtro-calendar.service';
-import { SelectItemService } from 'src/app/services/select-item.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  AuthService,
+  CustomSwalService,
+  CustomToastService,
+  DataService,
+  DateService,
+  FiltroCalendarService,
+  SelectItemService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import { environment } from 'src/environments/environment';
@@ -22,17 +24,17 @@ const base_url = environment.base_urlImg + 'Administration/accounts/';
   templateUrl: './bitacora-diaria.component.html',
   standalone: true,
   imports: [CommonModule, ComponentsModule, FormsModule, PrimeNgModule],
-  providers: [DialogService, MessageService, ToastService],
+  providers: [DialogService, MessageService, CustomToastService],
 })
 export default class BitacoraDiariaComponent implements OnInit, OnDestroy {
-  private swalService = inject(SwalService);
+  private customSwalService = inject(CustomSwalService);
   private dateService = inject(DateService);
   public authService = inject(AuthService);
   private dataService = inject(DataService);
   private dialogService = inject(DialogService);
   private selectItemService = inject(SelectItemService);
   private rangoCalendarioService = inject(FiltroCalendarService);
-  private toastService = inject(ToastService);
+  private customToastService = inject(CustomToastService);
 
   loading: boolean = true;
   base_url = base_url;
@@ -73,18 +75,18 @@ export default class BitacoraDiariaComponent implements OnInit, OnDestroy {
   }
 
   onLoadData() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get(`AgendaSupervision/GetAll/${this.fechaInicial}/${this.fechaFinal}`)
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }
@@ -97,7 +99,7 @@ export default class BitacoraDiariaComponent implements OnInit, OnDestroy {
           this.cb_user = resp.body;
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });
@@ -115,25 +117,25 @@ export default class BitacoraDiariaComponent implements OnInit, OnDestroy {
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });
   }
 
   onDelete(data: any) {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .delete('AgendaSupervision/' + data.id)
       .subscribe({
         next: () => {
-          this.swalService.onClose();
-          this.toastService.onShowSuccess();
+          this.customSwalService.onClose();
+          this.customToastService.onShowSuccess();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }

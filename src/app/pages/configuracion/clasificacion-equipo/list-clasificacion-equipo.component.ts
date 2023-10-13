@@ -3,9 +3,11 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { DataService } from 'src/app/services/data.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  CustomSwalService,
+  CustomToastService,
+  DataService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import AddoreditClasificacionEquipoComponent from './addoredit-clasificacion-equipo.component';
@@ -15,16 +17,16 @@ import AddoreditClasificacionEquipoComponent from './addoredit-clasificacion-equ
   templateUrl: './list-clasificacion-equipo.component.html',
   standalone: true,
   imports: [CommonModule, ComponentsModule, PrimeNgModule],
-  providers: [DialogService, MessageService, ToastService],
+  providers: [DialogService, MessageService, CustomToastService],
 })
 export default class ListClasificacionEquipoComponent
   implements OnInit, OnDestroy
 {
   private dataService = inject(DataService);
   public dialogService = inject(DialogService);
-  public swalService = inject(SwalService);
+  public customSwalService = inject(CustomSwalService);
   public messageService = inject(MessageService);
-  public toastService = inject(ToastService);
+  public customToastService = inject(CustomToastService);
 
   data: any[] = [];
   ref: DynamicDialogRef;
@@ -34,35 +36,35 @@ export default class ListClasificacionEquipoComponent
     this.onLoadData();
   }
   onLoadData() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get<any[]>('EquipoClasificacion')
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }
   onDelete(data: any) {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .delete(`EquipoClasificacion/${data.id}`)
       .subscribe({
         next: () => {
           this.onLoadData();
-          this.swalService.onClose();
-          this.toastService.onShowSuccess();
+          this.customSwalService.onClose();
+          this.customToastService.onShowSuccess();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }
@@ -79,7 +81,7 @@ export default class ListClasificacionEquipoComponent
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });

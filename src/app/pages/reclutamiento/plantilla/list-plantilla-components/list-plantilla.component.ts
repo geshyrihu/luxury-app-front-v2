@@ -11,16 +11,17 @@ import { Observable, Subscription } from 'rxjs';
 import { IWorkPositionDto } from 'src/app/interfaces/IEmpresaOrganigramaDto.interface';
 import CardEmployeeComponent from 'src/app/pages/operaciones/directorios/empleados/card-employee/card-employee.component';
 import { ETurnoTrabajoPipe } from 'src/app/pipes/turno-trabajo.pipe';
-import { AuthService } from 'src/app/services/auth.service';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
-import { DataService } from 'src/app/services/data.service';
-import { StatusSolicitudVacanteService } from 'src/app/services/status-solicitud-vacante.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  AuthService,
+  CustomSwalService,
+  CustomToastService,
+  CustomerIdService,
+  DataService,
+  StatusSolicitudVacanteService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import { environment } from 'src/environments/environment';
-import Swal from 'sweetalert2';
 import DescripcionPuestoComponent from '../../professions/descripcion-puesto.component';
 import SolicitudBajaComponent from '../../solicitudes/solicitud-baja/solicitud-baja.component';
 import SolicitudModificacionSalarioComponent from '../../solicitudes/solicitud-modificacion-salario/solicitud-modificacion-salario.component';
@@ -42,7 +43,12 @@ import HoursWorkPositionComponent from '../hours-work-position.component';
     RouterModule,
     PrimeNgModule,
   ],
-  providers: [ConfirmationService, DialogService, MessageService, ToastService],
+  providers: [
+    ConfirmationService,
+    DialogService,
+    MessageService,
+    CustomToastService,
+  ],
 })
 export default class ListWorkPlantillaComponent implements OnInit, OnDestroy {
   private router = inject(Router);
@@ -53,8 +59,8 @@ export default class ListWorkPlantillaComponent implements OnInit, OnDestroy {
   public dialogService = inject(DialogService);
   public messageService = inject(MessageService);
   public statusSolicitudVacanteService = inject(StatusSolicitudVacanteService);
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
 
   customerId$: Observable<number> = this.customerIdService.getCustomerId$();
   data: any[] = [];
@@ -71,7 +77,7 @@ export default class ListWorkPlantillaComponent implements OnInit, OnDestroy {
   }
 
   onLoadData() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get<IWorkPositionDto[]>(
         'WorkPosition/GetAll/' +
@@ -82,12 +88,12 @@ export default class ListWorkPlantillaComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }
@@ -105,7 +111,7 @@ export default class ListWorkPlantillaComponent implements OnInit, OnDestroy {
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });
@@ -125,7 +131,7 @@ export default class ListWorkPlantillaComponent implements OnInit, OnDestroy {
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });
@@ -145,7 +151,7 @@ export default class ListWorkPlantillaComponent implements OnInit, OnDestroy {
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });
@@ -165,7 +171,7 @@ export default class ListWorkPlantillaComponent implements OnInit, OnDestroy {
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });
@@ -185,7 +191,7 @@ export default class ListWorkPlantillaComponent implements OnInit, OnDestroy {
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });
@@ -206,7 +212,7 @@ export default class ListWorkPlantillaComponent implements OnInit, OnDestroy {
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });
@@ -269,52 +275,39 @@ export default class ListWorkPlantillaComponent implements OnInit, OnDestroy {
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });
   }
   //Eliminar vacante workPosition
   onDelete(id: number) {
-    Swal.fire({
-      title: '¿Confirmar?',
-      text: 'Se va a eliminar el registro',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#34c38f',
-      cancelButtonColor: '#f46a6a',
-      confirmButtonText: 'Sí, eliminar',
-      cancelButtonText: 'Cancelar',
-    }).then((result) => {
-      if (result.value) {
-        this.swalService.onLoading();
-        this.subRef$ = this.dataService.delete(`WorkPosition/${id}`).subscribe({
-          next: () => {
-            this.toastService.onShowSuccess();
-            this.swalService.onClose();
-            this.onLoadData();
-          },
-          error: (err) => {
-            this.toastService.onShowError();
-            this.swalService.onClose();
-            console.log(err.error);
-          },
-        });
-      }
+    this.customSwalService.onLoading();
+    this.subRef$ = this.dataService.delete(`WorkPosition/${id}`).subscribe({
+      next: () => {
+        this.customToastService.onShowSuccess();
+        this.customSwalService.onClose();
+        this.onLoadData();
+      },
+      error: (err) => {
+        this.customToastService.onShowError();
+        this.customSwalService.onClose();
+        console.log(err.error);
+      },
     });
   }
   SendMailTest() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get('SolicitudesReclutamiento/SendMailTest')
       .subscribe({
         next: (_) => {
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }

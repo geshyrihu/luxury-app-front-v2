@@ -3,7 +3,6 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { ImageModule } from 'primeng/image';
 import { Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { EInventoryCategory } from 'src/app/enums/categoria-inventario.enum';
@@ -12,11 +11,13 @@ import { CurrencyMexicoPipe } from 'src/app/pipes/currencyMexico.pipe';
 import { EMonthPipe } from 'src/app/pipes/month.pipe';
 import { ERecurrencePipe } from 'src/app/pipes/recurrence.pipe';
 import { SanitizeHtmlPipe } from 'src/app/pipes/sanitize-html.pipe';
-import { AuthService } from 'src/app/services/auth.service';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
-import { DataService } from 'src/app/services/data.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  AuthService,
+  CustomSwalService,
+  CustomToastService,
+  CustomerIdService,
+  DataService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import { environment } from 'src/environments/environment';
@@ -28,24 +29,28 @@ import FichaTecnicaActivoComponent from './ficha-tecnica-activo/ficha-tecnica-ac
 import ServiceHistoryMachineryComponent from './service-history-machinery/service-history-machinery.component';
 
 @Component({
-  selector: 'app-index-equipos',
-  templateUrl: './index-equipos.component.html',
+  selector: 'app-list-equipos',
+  templateUrl: './list-equipos.component.html',
   standalone: true,
   imports: [
     ComponentsModule,
     CommonModule,
     PrimeNgModule,
-    ImageModule,
     ERecurrencePipe,
     EMonthPipe,
     CurrencyMexicoPipe,
     SanitizeHtmlPipe,
   ],
-  providers: [DialogService, MessageService, ConfirmationService, ToastService],
+  providers: [
+    DialogService,
+    MessageService,
+    ConfirmationService,
+    CustomToastService,
+  ],
 })
-export default class IndexEquiposComponent implements OnInit, OnDestroy {
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+export default class ListEquiposComponent implements OnInit, OnDestroy {
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
   public customerIdService = inject(CustomerIdService);
   public dataService = inject(DataService);
   public authService = inject(AuthService);
@@ -99,7 +104,7 @@ export default class IndexEquiposComponent implements OnInit, OnDestroy {
     if (!this.state) this.subTitle = ' Activos';
     // this.onPath();
     this.base_urlImg = this.urlImg(this.customerId);
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get(
         `Machineries/GetAll/${this.customerIdService.customerId}/${this.inventoryCategoryId}/${this.state}`
@@ -108,12 +113,12 @@ export default class IndexEquiposComponent implements OnInit, OnDestroy {
         next: (resp: any) => {
           this.data = resp.body;
           this.OnChageTitle();
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
   }
@@ -122,16 +127,16 @@ export default class IndexEquiposComponent implements OnInit, OnDestroy {
     this.onLoadData();
   }
   onDelete(data: any) {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService.delete('Machineries/' + data.id).subscribe({
       next: () => {
-        this.toastService.onShowSuccess();
-        this.swalService.onClose();
+        this.customToastService.onShowSuccess();
+        this.customSwalService.onClose();
         this.onLoadData();
       },
       error: (err) => {
-        this.toastService.onShowError();
-        this.swalService.onClose();
+        this.customToastService.onShowError();
+        this.customSwalService.onClose();
         console.log(err.error);
       },
     });
@@ -149,7 +154,7 @@ export default class IndexEquiposComponent implements OnInit, OnDestroy {
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });
@@ -167,7 +172,7 @@ export default class IndexEquiposComponent implements OnInit, OnDestroy {
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });
@@ -188,7 +193,7 @@ export default class IndexEquiposComponent implements OnInit, OnDestroy {
     );
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });
@@ -217,7 +222,7 @@ export default class IndexEquiposComponent implements OnInit, OnDestroy {
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });
@@ -239,7 +244,7 @@ export default class IndexEquiposComponent implements OnInit, OnDestroy {
     );
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });
@@ -291,19 +296,19 @@ export default class IndexEquiposComponent implements OnInit, OnDestroy {
   }
 
   onDeleteOrder(data: any) {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subscriber = this.dataService
       .delete(`MaintenanceCalendars/${data.id}`)
       .subscribe({
         next: () => {
           this.onLoadData();
-          this.swalService.onClose();
-          this.toastService.onShowSuccess();
+          this.customSwalService.onClose();
+          this.customToastService.onShowSuccess();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }

@@ -4,20 +4,22 @@ import { FormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { DataService } from 'src/app/services/data.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  CustomSwalService,
+  CustomToastService,
+  DataService,
+} from 'src/app/services/common-services';
 
 @Component({
   selector: 'app-addoredit-invited',
   templateUrl: './addoredit-invited.component.html',
   standalone: true,
   imports: [FormsModule, CommonModule],
-  providers: [MessageService, ToastService],
+  providers: [MessageService, CustomToastService],
 })
 export default class AddOrEditInvitedComponent implements OnInit, OnDestroy {
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
   public dataService = inject(DataService);
   public config = inject(DynamicDialogConfig);
   public messageService = inject(MessageService);
@@ -43,30 +45,30 @@ export default class AddOrEditInvitedComponent implements OnInit, OnDestroy {
       )
       .subscribe({
         next: () => {
-          this.toastService.onShowSuccess();
+          this.customToastService.onShowSuccess();
           this.onLoadData();
           console.log('Seagrego invitado...');
         },
         error: (err) => {
           console.log(err.error);
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
         },
       });
   }
   onDelete(idParticipant: number): void {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .delete(`MeetingInvitado/${idParticipant}`)
       .subscribe({
         next: () => {
-          this.toastService.onShowSuccess();
-          this.swalService.onClose();
+          this.customToastService.onShowSuccess();
+          this.customSwalService.onClose();
           this.onLoadData();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }
@@ -80,7 +82,7 @@ export default class AddOrEditInvitedComponent implements OnInit, OnDestroy {
           this.invitado = '';
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });

@@ -7,13 +7,15 @@ import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable, Subscription } from 'rxjs';
 import { ETypeMaintancePipe } from 'src/app/pipes/typeMaintance.pipe';
-import { AuthService } from 'src/app/services/auth.service';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
-import { DataService } from 'src/app/services/data.service';
-import { DateService } from 'src/app/services/date.service';
-import { ReporteOrdenesServicioService } from 'src/app/services/reporte-ordenes-servicio.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  AuthService,
+  CustomSwalService,
+  CustomToastService,
+  CustomerIdService,
+  DataService,
+  DateService,
+  ReporteOrdenesServicioService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import SubirPdfComponent from 'src/app/shared/subir-pdf/subir-pdf.component';
@@ -37,7 +39,7 @@ const date = new Date();
     PrimeNgModule,
     ETypeMaintancePipe,
   ],
-  providers: [DialogService, MessageService, ToastService],
+  providers: [DialogService, MessageService, CustomToastService],
 })
 export default class OrdenesServicioComponentComponent
   implements OnInit, OnDestroy, OnChanges
@@ -49,8 +51,8 @@ export default class OrdenesServicioComponentComponent
   public dialogService = inject(DialogService);
   public dataService = inject(DataService);
   public dateService = inject(DateService);
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
 
   mm = date.getMonth() + 1;
   fecha = [date.getFullYear(), (this.mm > 9 ? '' : '0') + this.mm].join('-');
@@ -109,7 +111,7 @@ export default class OrdenesServicioComponentComponent
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });
@@ -127,7 +129,7 @@ export default class OrdenesServicioComponentComponent
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });
@@ -144,7 +146,7 @@ export default class OrdenesServicioComponentComponent
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });
@@ -164,7 +166,7 @@ export default class OrdenesServicioComponentComponent
     );
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });
@@ -173,7 +175,7 @@ export default class OrdenesServicioComponentComponent
   onLoadPintura() {
     let converToDate = new Date(this.fecha + '-' + 1);
     this.reporteOrdenesServicioService.setDate(converToDate);
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
 
     this.subRef$ = this.dataService
       .get(
@@ -192,19 +194,19 @@ export default class OrdenesServicioComponentComponent
             );
             this.urlImg = `${environment.base_urlImg}customers/${this.customerIdService.customerId}/ordenServicio/${this.nameCarpetaFecha}/`;
           }
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
   }
   onLoadData() {
     let converToDate = new Date(this.fecha + '-' + 1);
     this.reporteOrdenesServicioService.setDate(converToDate);
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
 
     this.subRef$ = this.dataService
       .get(
@@ -223,15 +225,15 @@ export default class OrdenesServicioComponentComponent
             );
             this.urlImg = `${environment.base_urlImg}customers/${this.customerIdService.customerId}/ordenServicio/${this.nameCarpetaFecha}/`;
           }
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
-    this.swalService.onClose();
+    this.customSwalService.onClose();
   }
 
   onEdit(data: any) {
@@ -248,26 +250,26 @@ export default class OrdenesServicioComponentComponent
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });
   }
 
   onDelete(data: any) {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .delete(`ServiceOrders/${data.id}`)
       .subscribe({
         next: () => {
           this.onLoadData();
-          this.swalService.onClose();
-          this.toastService.onShowSuccess();
+          this.customSwalService.onClose();
+          this.customToastService.onShowSuccess();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }

@@ -4,13 +4,15 @@ import { Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable, Subscription } from 'rxjs';
-import { AuthService } from 'src/app/services/auth.service';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
-import { DataService } from 'src/app/services/data.service';
-import { DateService } from 'src/app/services/date.service';
-import { FiltroCalendarService } from 'src/app/services/filtro-calendar.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  AuthService,
+  CustomSwalService,
+  CustomToastService,
+  CustomerIdService,
+  DataService,
+  DateService,
+  FiltroCalendarService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import Swal from 'sweetalert2';
@@ -23,7 +25,12 @@ import EnviarMailEstadosFinancierosComponent from './enviar-mail-estados-financi
   templateUrl: './presentacion-junta-comite.component.html',
   standalone: true,
   imports: [CommonModule, ComponentsModule, PrimeNgModule],
-  providers: [DialogService, MessageService, ConfirmationService, ToastService],
+  providers: [
+    DialogService,
+    MessageService,
+    ConfirmationService,
+    CustomToastService,
+  ],
 })
 export default class PresentacionJuntaComiteComponent
   implements OnInit, OnDestroy
@@ -36,8 +43,8 @@ export default class PresentacionJuntaComiteComponent
   public dateService = inject(DateService);
   public messageService = inject(MessageService);
   public route = inject(Router);
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
   public dialogService = inject(DialogService);
 
   enviarEstadosFinancierosCondominos(id: any) {
@@ -54,7 +61,7 @@ export default class PresentacionJuntaComiteComponent
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });
@@ -119,7 +126,7 @@ export default class PresentacionJuntaComiteComponent
     }
   }
   onLoadData(): void {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get(
         `PresentacionJuntaComite/GetAll/${this.customerIdService.getcustomerId()}`
@@ -127,11 +134,11 @@ export default class PresentacionJuntaComiteComponent
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
   }
@@ -152,7 +159,7 @@ export default class PresentacionJuntaComiteComponent
     );
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });
@@ -169,7 +176,7 @@ export default class PresentacionJuntaComiteComponent
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });
@@ -182,10 +189,10 @@ export default class PresentacionJuntaComiteComponent
       .subscribe({
         next: () => {
           this.onLoadData();
-          this.toastService.onShowSuccess();
+          this.customToastService.onShowSuccess();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });
@@ -197,10 +204,10 @@ export default class PresentacionJuntaComiteComponent
       .subscribe({
         next: () => {
           this.onLoadData();
-          this.toastService.onShowSuccess();
+          this.customToastService.onShowSuccess();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });
@@ -217,11 +224,11 @@ export default class PresentacionJuntaComiteComponent
       .subscribe({
         next: () => {
           this.onLoadData();
-          this.toastService.onShowSuccess();
+          this.customToastService.onShowSuccess();
         },
         error: (err) => {
           console.log(err.error);
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
         },
       });
   }
@@ -249,11 +256,11 @@ export default class PresentacionJuntaComiteComponent
       .subscribe({
         next: () => {
           this.onLoadData();
-          this.toastService.onShowSuccess();
+          this.customToastService.onShowSuccess();
         },
         error: (err) => {
           console.log(err.error);
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
         },
       });
   }
@@ -283,7 +290,7 @@ export default class PresentacionJuntaComiteComponent
             },
             (err) => {
               console.log(err.error);
-              this.toastService.onShowError();
+              this.customToastService.onShowError();
             }
           );
       }
@@ -320,7 +327,7 @@ export default class PresentacionJuntaComiteComponent
             },
             (err) => {
               console.log(err.error);
-              this.toastService.onShowError();
+              this.customToastService.onShowError();
             }
           );
       }
@@ -352,7 +359,7 @@ export default class PresentacionJuntaComiteComponent
             },
             (err) => {
               console.log(err.error);
-              this.toastService.onShowError();
+              this.customToastService.onShowError();
             }
           );
       }
@@ -371,34 +378,34 @@ export default class PresentacionJuntaComiteComponent
     }
   }
   enviarMailTesorero(idJunta: number) {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get('SendEmail/EnviarEstadosFinancierosTesorero/' + idJunta)
       .subscribe({
         next: () => {
-          this.toastService.onShowSuccess();
+          this.customToastService.onShowSuccess();
           this.onLoadData();
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });
   }
 
   enviarMailPresentacionComite(idJunta: number) {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get('SendEmail/PresentacionFinalComite/' + idJunta)
       .subscribe({
         next: () => {
-          this.toastService.onShowSuccess();
+          this.customToastService.onShowSuccess();
           this.onLoadData();
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });

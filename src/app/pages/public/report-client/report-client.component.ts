@@ -3,22 +3,22 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
+import { CustomerIdService } from 'src/app/services/common-services';
+import { CustomToastService } from 'src/app/services/custom-toast.service';
 import { DataService } from 'src/app/services/data.service';
-import { ToastService } from 'src/app/services/toast.service';
 import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-report-client',
   templateUrl: './report-client.component.html',
   standalone: true,
   imports: [CommonModule],
-  providers: [ToastService, MessageService],
+  providers: [CustomToastService, MessageService],
 })
 export default class ReportClientComponent implements OnInit, OnDestroy {
   public dataService = inject(DataService);
   public rutaActiva = inject(ActivatedRoute);
   public customerIdService = inject(CustomerIdService);
-  public toastService = inject(ToastService);
+  public customToastService = inject(CustomToastService);
 
   subRef$: Subscription;
   data: any = [];
@@ -47,7 +47,7 @@ export default class ReportClientComponent implements OnInit, OnDestroy {
         this.data = resp.body;
       },
       error: (err) => {
-        this.toastService.onShowError();
+        this.customToastService.onShowError();
         console.log(err.error);
       },
     });

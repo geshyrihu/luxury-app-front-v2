@@ -14,9 +14,11 @@ import {
 } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
-import { DataService } from 'src/app/services/data.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  CustomSwalService,
+  CustomToastService,
+  DataService,
+} from 'src/app/services/common-services';
 import ComponentsModule, {
   flatpickrFactory,
 } from 'src/app/shared/components.module';
@@ -32,7 +34,7 @@ import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.mod
     ComponentsModule,
     CustomInputModule,
   ],
-  providers: [DialogService, MessageService, ToastService],
+  providers: [DialogService, MessageService, CustomToastService],
 })
 export default class ModalAddProveedorComponent implements OnInit, OnDestroy {
   private formBuilder = inject(FormBuilder);
@@ -40,8 +42,8 @@ export default class ModalAddProveedorComponent implements OnInit, OnDestroy {
   public config = inject(DynamicDialogConfig);
   public dataService = inject(DataService);
   public dialogService = inject(DialogService);
-  public toastService = inject(ToastService);
-  private swalService = inject(SwalService);
+  public customToastService = inject(CustomToastService);
+  private customSwalService = inject(CustomSwalService);
 
   submitting: boolean = false;
   subRef$: Subscription;
@@ -86,20 +88,20 @@ export default class ModalAddProveedorComponent implements OnInit, OnDestroy {
   onSubmit() {
     // Deshabilitar el botón al iniciar el envío del formulario
     this.submitting = true;
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .post('CotizacionProveedor', this.form.value)
       .subscribe({
         next: () => {
           this.ref.close(true);
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
           // Habilitar el botón nuevamente al finalizar el envío del formulario
           this.submitting = false;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
   }

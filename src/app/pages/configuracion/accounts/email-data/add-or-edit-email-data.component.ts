@@ -10,10 +10,12 @@ import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import { EmailDataAddOrEditDto } from 'src/app/interfaces/email-data-add-or-edit.interface';
-import { AuthService } from 'src/app/services/auth.service';
-import { DataService } from 'src/app/services/data.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  AuthService,
+  CustomSwalService,
+  CustomToastService,
+  DataService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
 
@@ -28,7 +30,7 @@ import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.mod
     CustomInputModule,
     NgbAlertModule,
   ],
-  providers: [ToastService],
+  providers: [CustomToastService],
 })
 export default class AddOrEditEmailDataComponent implements OnInit, OnDestroy {
   private formBuilder = inject(FormBuilder);
@@ -36,8 +38,8 @@ export default class AddOrEditEmailDataComponent implements OnInit, OnDestroy {
   public config = inject(DynamicDialogConfig);
   public ref = inject(DynamicDialogRef);
   public authService = inject(AuthService);
-  public swalService = inject(SwalService);
-  private toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  private customToastService = inject(CustomToastService);
 
   id: number = 0;
   applicationUserId: number = 0;
@@ -67,21 +69,21 @@ export default class AddOrEditEmailDataComponent implements OnInit, OnDestroy {
 
     // Deshabilitar el botón al iniciar el envío del formulario
     this.submitting = true;
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     if (this.id === 0) {
       this.subRef$ = this.dataService
         .post(`EmailData`, this.form.value)
         .subscribe({
           next: () => {
-            this.swalService.onClose();
+            this.customSwalService.onClose();
             this.ref.close(true);
           },
           error: (err) => {
             console.log(err.error);
-            this.toastService.onShowError();
+            this.customToastService.onShowError();
             // Habilitar el botón nuevamente al finalizar el envío del formulario
             this.submitting = false;
-            this.swalService.onClose();
+            this.customSwalService.onClose();
           },
         });
     } else {
@@ -89,15 +91,15 @@ export default class AddOrEditEmailDataComponent implements OnInit, OnDestroy {
         .put(`EmailData/${this.id}`, this.form.value)
         .subscribe({
           next: () => {
-            this.swalService.onClose();
+            this.customSwalService.onClose();
             this.ref.close(true);
           },
           error: (err) => {
             console.log(err.error);
-            this.toastService.onShowError();
+            this.customToastService.onShowError();
             // Habilitar el botón nuevamente al finalizar el envío del formulario
             this.submitting = false;
-            this.swalService.onClose();
+            this.customSwalService.onClose();
           },
         });
     }
@@ -105,23 +107,23 @@ export default class AddOrEditEmailDataComponent implements OnInit, OnDestroy {
   TestEmail(): void {
     // Deshabilitar el botón al iniciar el envío del formulario
     this.submitting = true;
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
 
     this.subRef$ = this.dataService
       .get(`SendEmail/TestEmail/${this.applicationUserId}`)
       .subscribe({
         next: (resp: any) => {
           this.testEmailMessage = resp.body.message;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
           // Habilitar el botón nuevamente al finalizar el envío del formulario
           this.submitting = false;
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
           // Habilitar el botón nuevamente al finalizar el envío del formulario
           this.submitting = false;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
   }
@@ -144,7 +146,7 @@ export default class AddOrEditEmailDataComponent implements OnInit, OnDestroy {
           }
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });

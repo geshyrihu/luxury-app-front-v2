@@ -4,12 +4,12 @@ import { MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { TableModule } from 'primeng/table';
 import { Observable, Subscription } from 'rxjs';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
+import { CustomerIdService } from 'src/app/services/common-services';
+import { CustomSwalService } from 'src/app/services/custom-swal.service';
+import { CustomToastService } from 'src/app/services/custom-toast.service';
 import { DataService } from 'src/app/services/data.service';
 import { DateService } from 'src/app/services/date.service';
 import { PeriodoMonthService } from 'src/app/services/periodo-month.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
 import { environment } from 'src/environments/environment';
 const base_urlImg = environment.base_urlImg + 'Administration/accounts/';
@@ -24,7 +24,7 @@ const base_urlImg = environment.base_urlImg + 'Administration/accounts/';
     TableModule,
     ReporteTicketsComponent,
   ],
-  providers: [DialogService, MessageService, ToastService],
+  providers: [DialogService, MessageService, CustomToastService],
 })
 export default class ReporteTicketsComponent implements OnInit, OnDestroy {
   private customerIdService = inject(CustomerIdService);
@@ -33,8 +33,8 @@ export default class ReporteTicketsComponent implements OnInit, OnDestroy {
   public dialogService = inject(DialogService);
   public messageService = inject(MessageService);
   public periodoMonthService = inject(PeriodoMonthService);
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
   base_urlImg = '';
   data: any[] = [];
   customerId$: Observable<number> = this.customerIdService.getCustomerId$();
@@ -58,7 +58,7 @@ export default class ReporteTicketsComponent implements OnInit, OnDestroy {
   }
 
   onLoadData() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get(
         `ResumenGeneral/ReporteResumenTicket/${
@@ -73,12 +73,12 @@ export default class ReporteTicketsComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }

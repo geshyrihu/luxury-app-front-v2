@@ -4,12 +4,12 @@ import { NgbAlert } from '@ng-bootstrap/ng-bootstrap';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable, Subscription } from 'rxjs';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
+import { CustomerIdService } from 'src/app/services/common-services';
+import { CustomSwalService } from 'src/app/services/custom-swal.service';
+import { CustomToastService } from 'src/app/services/custom-toast.service';
 import { DataService } from 'src/app/services/data.service';
 import { DateService } from 'src/app/services/date.service';
 import { PeriodoMonthService } from 'src/app/services/periodo-month.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
 import MantenimientosPreventivosResumenComponent from '../mttos-preventivos-resumen/mttos-preventivos-resumen.component';
 
@@ -18,14 +18,14 @@ import MantenimientosPreventivosResumenComponent from '../mttos-preventivos-resu
   templateUrl: './mttos-preventivos.component.html',
   standalone: true,
   imports: [NgbAlert, ComponentsModule, CommonModule],
-  providers: [DialogService, MessageService, ToastService],
+  providers: [DialogService, MessageService, CustomToastService],
 })
 export default class MantenimientosPreventivosComponent
   implements OnInit, OnDestroy
 {
   public dateService = inject(DateService);
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
   public dataService = inject(DataService);
   public dialogService = inject(DialogService);
   public messageService = inject(MessageService);
@@ -62,7 +62,7 @@ export default class MantenimientosPreventivosComponent
   }
 
   onLoadOrdenServicio(fehcaInicio: string, getPeriodoFin: string) {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get(
         `Dashboard/OrdenesServicio/${this.customerIdService.getcustomerId()}/${fehcaInicio}/${getPeriodoFin}`
@@ -70,11 +70,11 @@ export default class MantenimientosPreventivosComponent
       .subscribe({
         next: (resp: any) => {
           this.ordenesServicio = resp.body;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
   }

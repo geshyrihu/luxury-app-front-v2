@@ -13,12 +13,12 @@ import { Subscription } from 'rxjs';
 import { EStatusTask } from 'src/app/enums/estatus.enum';
 import { ETypeMaintance } from 'src/app/enums/tipo-mantenimiento.enum';
 import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
+import { CustomerIdService } from 'src/app/services/common-services';
+import { CustomSwalService } from 'src/app/services/custom-swal.service';
+import { CustomToastService } from 'src/app/services/custom-toast.service';
 import { DataService } from 'src/app/services/data.service';
 import { DateService } from 'src/app/services/date.service';
 import { SelectItemService } from 'src/app/services/select-item.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule, {
   flatpickrFactory,
 } from 'src/app/shared/components.module';
@@ -34,7 +34,7 @@ import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.mod
     EditorModule,
     CustomInputModule,
   ],
-  providers: [ToastService],
+  providers: [CustomToastService],
 })
 export default class ServiceOrderAddOrEditComponent
   implements OnInit, OnDestroy
@@ -46,8 +46,8 @@ export default class ServiceOrderAddOrEditComponent
   private formBuilder = inject(FormBuilder);
   public selectItemService = inject(SelectItemService);
   public ref = inject(DynamicDialogRef);
-  private swalService = inject(SwalService);
-  private toastService = inject(ToastService);
+  private customSwalService = inject(CustomSwalService);
+  private customToastService = inject(CustomToastService);
 
   submitting: boolean = false;
   subRef$: Subscription;
@@ -163,22 +163,22 @@ export default class ServiceOrderAddOrEditComponent
     this.id = this.config.data.id;
     // Deshabilitar el botón al iniciar el envío del formulario
     this.submitting = true;
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
 
     if (this.id === 0) {
       this.subRef$ = this.dataService
         .post(`ServiceOrders`, this.form.value)
         .subscribe({
           next: () => {
-            this.swalService.onClose();
+            this.customSwalService.onClose();
             this.ref.close(true);
           },
           error: (err) => {
             console.log(err.error);
-            this.toastService.onShowError();
+            this.customToastService.onShowError();
             // Habilitar el botón nuevamente al finalizar el envío del formulario
             this.submitting = false;
-            this.swalService.onClose();
+            this.customSwalService.onClose();
           },
         });
     } else {
@@ -186,15 +186,15 @@ export default class ServiceOrderAddOrEditComponent
         .put(`ServiceOrders/${this.id}`, this.form.value)
         .subscribe({
           next: () => {
-            this.swalService.onClose();
+            this.customSwalService.onClose();
             this.ref.close(true);
           },
           error: (err) => {
             console.log(err.error);
-            this.toastService.onShowError();
+            this.customToastService.onShowError();
             // Habilitar el botón nuevamente al finalizar el envío del formulario
             this.submitting = false;
-            this.swalService.onClose();
+            this.customSwalService.onClose();
           },
         });
     }

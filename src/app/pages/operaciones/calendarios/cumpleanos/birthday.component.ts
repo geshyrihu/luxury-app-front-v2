@@ -7,10 +7,12 @@ import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable, Subscription } from 'rxjs';
 import CardEmployeeComponent from 'src/app/pages/operaciones/directorios/empleados/card-employee/card-employee.component';
-import { AuthService } from 'src/app/services/auth.service';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
-import { DataService } from 'src/app/services/data.service';
-import { SwalService } from 'src/app/services/swal.service';
+import {
+  AuthService,
+  CustomSwalService,
+  CustomerIdService,
+  DataService,
+} from 'src/app/services/common-services';
 
 @Component({
   selector: 'app-birthday',
@@ -23,7 +25,7 @@ export default class BirthdayComponent implements OnInit, OnDestroy {
   public authService = inject(AuthService);
   public customerIdService = inject(CustomerIdService);
   public dataService = inject(DataService);
-  public swalService = inject(SwalService);
+  public customSwalService = inject(CustomSwalService);
   public dialogService = inject(DialogService);
 
   subRef$: Subscription;
@@ -50,7 +52,7 @@ export default class BirthdayComponent implements OnInit, OnDestroy {
   onLoadData() {
     // this.onLoadData();
     this.customerId$ = this.customerIdService.getCustomerId$();
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get('Employees/AllCumpleanos/' + this.customerIdService.customerId)
       .subscribe({
@@ -69,10 +71,10 @@ export default class BirthdayComponent implements OnInit, OnDestroy {
             events: resp.body,
             eventClick: this.tarjetaUsuario.bind(this),
           };
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
-          this.swalService.onClose();
+          this.customSwalService.onClose();
           console.log(err.error);
         },
       });

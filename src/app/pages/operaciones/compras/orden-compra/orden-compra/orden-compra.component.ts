@@ -8,12 +8,14 @@ import { ContextMenuModule } from 'primeng/contextmenu';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import { EStatusOrdenCompraPipe } from 'src/app/pipes/status-orden-compra.pipe';
-import { AuthService } from 'src/app/services/auth.service';
-import { DataService } from 'src/app/services/data.service';
-import { OrdenCompraService } from 'src/app/services/orden-compra.service';
-import { SelectItemService } from 'src/app/services/select-item.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  AuthService,
+  CustomSwalService,
+  CustomToastService,
+  DataService,
+  OrdenCompraService,
+  SelectItemService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import OrdenCompraDatosPagoParcialComponent from '../components/orden-compra-datos-pago-parcial/orden-compra-datos-pago-parcial.component';
@@ -44,11 +46,16 @@ import OrdenCompraEditPresupustoUtilizadoComponent from './orden-compra-edit-pre
     ConfirmDialogModule,
     EStatusOrdenCompraPipe,
   ],
-  providers: [DialogService, MessageService, ConfirmationService, ToastService],
+  providers: [
+    DialogService,
+    MessageService,
+    ConfirmationService,
+    CustomToastService,
+  ],
 })
 export default class OrdenCompraComponent implements OnInit, OnDestroy {
-  public toastService = inject(ToastService);
-  public swalService = inject(SwalService);
+  public customToastService = inject(CustomToastService);
+  public customSwalService = inject(CustomSwalService);
   public authService = inject(AuthService);
   public dataService = inject(DataService);
   public routeActive = inject(ActivatedRoute);
@@ -193,7 +200,7 @@ export default class OrdenCompraComponent implements OnInit, OnDestroy {
 
   onLoadData() {
     this.esGastoFijo = false;
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get(`OrdenCompra/${this.ordenCompraId}`)
       .subscribe({
@@ -258,11 +265,11 @@ export default class OrdenCompraComponent implements OnInit, OnDestroy {
           }
           // Fin Buscar Ordenes de compra relacionadas
 
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
-          this.toastService.onShowError();
-          this.swalService.onClose();
+          this.customToastService.onShowError();
+          this.customSwalService.onClose();
           console.log(err.error);
         },
       });
@@ -279,7 +286,7 @@ export default class OrdenCompraComponent implements OnInit, OnDestroy {
           this.onLoadData();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });
@@ -296,7 +303,7 @@ export default class OrdenCompraComponent implements OnInit, OnDestroy {
           this.onLoadData();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });
@@ -319,7 +326,7 @@ export default class OrdenCompraComponent implements OnInit, OnDestroy {
     );
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });
@@ -336,7 +343,7 @@ export default class OrdenCompraComponent implements OnInit, OnDestroy {
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });
@@ -354,7 +361,7 @@ export default class OrdenCompraComponent implements OnInit, OnDestroy {
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });
@@ -371,7 +378,7 @@ export default class OrdenCompraComponent implements OnInit, OnDestroy {
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });
@@ -388,7 +395,7 @@ export default class OrdenCompraComponent implements OnInit, OnDestroy {
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });
@@ -405,7 +412,7 @@ export default class OrdenCompraComponent implements OnInit, OnDestroy {
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });
@@ -422,7 +429,7 @@ export default class OrdenCompraComponent implements OnInit, OnDestroy {
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });
@@ -440,7 +447,7 @@ export default class OrdenCompraComponent implements OnInit, OnDestroy {
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });
@@ -456,46 +463,46 @@ export default class OrdenCompraComponent implements OnInit, OnDestroy {
       .subscribe({
         next: () => {
           this.onLoadData();
-          this.toastService.onShowSuccess();
+          this.customToastService.onShowSuccess();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });
   }
   onDeleteOrdenCompraPresupuesto(id: number): void {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .delete(`OrdenCompraPresupuesto/${id}`)
       .subscribe({
         next: () => {
           this.onLoadData();
-          this.swalService.onClose();
-          this.toastService.onShowSuccess();
+          this.customSwalService.onClose();
+          this.customToastService.onShowSuccess();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }
 
   onDeleteProduct(data: any) {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .delete(`OrdenCompraDetalle/${data.id}`)
       .subscribe({
         next: () => {
           this.onLoadData();
-          this.swalService.onClose();
-          this.toastService.onShowSuccess();
+          this.customSwalService.onClose();
+          this.customToastService.onShowSuccess();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }
@@ -520,7 +527,7 @@ export default class OrdenCompraComponent implements OnInit, OnDestroy {
           this.onLoadData();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });

@@ -8,9 +8,11 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { DataService } from 'src/app/services/data.service';
-import { SecurityService } from 'src/app/services/security.service';
-import { SwalService } from 'src/app/services/swal.service';
+import {
+  CustomSwalService,
+  DataService,
+  SecurityService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
 @Component({
@@ -30,7 +32,7 @@ export default class LoginComponent implements OnInit, OnDestroy {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private securityService = inject(SecurityService);
-  private swalService = inject(SwalService);
+  private customSwalService = inject(CustomSwalService);
 
   fieldTextType!: boolean;
   form: FormGroup;
@@ -50,7 +52,7 @@ export default class LoginComponent implements OnInit, OnDestroy {
         return;
       });
     }
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .post('Auth/login', this.form.value)
       .subscribe({
@@ -58,12 +60,12 @@ export default class LoginComponent implements OnInit, OnDestroy {
           this.onRemember(this.form.get('remember').value);
           this.router.navigateByUrl(localStorage.getItem('currentUrl'));
           this.securityService.setAuthData(resp.body.token);
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error.errors);
-          this.swalService.onClose();
-          this.swalService.onLoadingError(err.error['description']);
+          this.customSwalService.onClose();
+          this.customSwalService.onLoadingError(err.error['description']);
         },
       });
   }

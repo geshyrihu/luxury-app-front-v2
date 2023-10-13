@@ -25,8 +25,7 @@ export default class CustomButtonConfirmationComponent {
   @Input()
   placementPosition: string = 'left';
   @Input()
-  classButton: string =
-    'btn btn-outline-light btn-sm me-1 pointer waves-effect waves-light';
+  classButton: string = '';
   @Input()
   confirmButtonText: string = 'Sí, enviar!';
   @Input()

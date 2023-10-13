@@ -9,9 +9,11 @@ import {
 import { TableModule } from 'primeng/table';
 import { Subscription } from 'rxjs';
 import AddorEditMeetingSeguimientoComponent from 'src/app/pages/operaciones/junta-comite/addoredit-seguimiento/addor-edit-meeting-seguimiento.component';
-import { DataService } from 'src/app/services/data.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  CustomSwalService,
+  CustomToastService,
+  DataService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 
 @Component({
@@ -19,7 +21,7 @@ import ComponentsModule from 'src/app/shared/components.module';
   templateUrl: './cont-minuta-seguimientos.component.html',
   standalone: true,
   imports: [ComponentsModule, CommonModule, TableModule],
-  providers: [DialogService, MessageService, ToastService],
+  providers: [DialogService, MessageService, CustomToastService],
 })
 export default class ContMinutaSeguimientosComponent
   implements OnInit, OnDestroy
@@ -27,8 +29,8 @@ export default class ContMinutaSeguimientosComponent
   public config = inject(DynamicDialogConfig);
   public dataService = inject(DataService);
   public dialogService = inject(DialogService);
-  public toastService = inject(ToastService);
-  public swalService = inject(SwalService);
+  public customToastService = inject(CustomToastService);
+  public customSwalService = inject(CustomSwalService);
 
   data: any[] = [];
   id = this.config.data.idItem;
@@ -39,18 +41,18 @@ export default class ContMinutaSeguimientosComponent
     this.onLoadData();
   }
   onLoadData() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get(`ContabilidadMinuta/ListaSeguimientos/${this.id}`)
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }
@@ -60,11 +62,11 @@ export default class ContMinutaSeguimientosComponent
       .delete(`MeetingDertailsSeguimiento/${id}`)
       .subscribe({
         next: () => {
-          this.toastService.onShowSuccess();
+          this.customToastService.onShowSuccess();
           this.onLoadData();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });
@@ -81,7 +83,7 @@ export default class ContMinutaSeguimientosComponent
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });

@@ -4,7 +4,7 @@ import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { MessageService } from 'primeng/api';
 import { TableModule } from 'primeng/table';
 import { Observable } from 'rxjs';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
+import { CustomerIdService } from 'src/app/services/common-services';
 import { DataService } from 'src/app/services/data.service';
 import { DateService } from 'src/app/services/date.service';
 import { PeriodoMonthService } from 'src/app/services/periodo-month.service';

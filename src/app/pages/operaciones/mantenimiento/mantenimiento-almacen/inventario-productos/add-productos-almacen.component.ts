@@ -5,12 +5,14 @@ import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import { IProductoListAddDto } from 'src/app/interfaces/IProductoListAddDto.interface.interface';
-import { AuthService } from 'src/app/services/auth.service';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
-import { DataService } from 'src/app/services/data.service';
-import { SelectItemService } from 'src/app/services/select-item.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  AuthService,
+  CustomSwalService,
+  CustomToastService,
+  CustomerIdService,
+  DataService,
+  SelectItemService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import TarjetaProductoComponent from '../../mantenimiento-catalogos/tarjeta-producto/tarjeta-producto.component';
@@ -20,12 +22,12 @@ import TarjetaProductoComponent from '../../mantenimiento-catalogos/tarjeta-prod
   templateUrl: './add-productos-almacen.component.html',
   standalone: true,
   imports: [ComponentsModule, FormsModule, CommonModule, PrimeNgModule],
-  providers: [DialogService, MessageService, ToastService],
+  providers: [DialogService, MessageService, CustomToastService],
 })
 export default class AddProductosAlmacenComponent implements OnInit, OnDestroy {
   private dataService = inject(DataService);
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
   private selectItemService = inject(SelectItemService);
   public authService = inject(AuthService);
   public customerIdService = inject(CustomerIdService);
@@ -62,14 +64,14 @@ export default class AddProductosAlmacenComponent implements OnInit, OnDestroy {
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });
   }
 
   onLoadData() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get(
         `InventarioProducto/GetProductoDropdownDto/${this.customerIdService.customerId}`
@@ -77,12 +79,12 @@ export default class AddProductosAlmacenComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }
@@ -100,19 +102,19 @@ export default class AddProductosAlmacenComponent implements OnInit, OnDestroy {
         'Completa todos los campos :Existencia, Unidad, Stok Max,   Stok Min';
       return;
     }
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
 
     this.subRef$ = this.dataService
       .post(`InventarioProducto/`, item)
       .subscribe({
         next: () => {
           this.mensajeError = '';
-          this.swalService.onClose();
+          this.customSwalService.onClose();
           this.onLoadData();
         },
         error: (err) => {
-          this.toastService.onShowError();
-          this.swalService.onClose();
+          this.customToastService.onShowError();
+          this.customSwalService.onClose();
           console.log(err.error);
         },
       });

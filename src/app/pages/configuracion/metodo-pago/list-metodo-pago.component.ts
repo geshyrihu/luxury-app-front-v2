@@ -2,30 +2,31 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { AuthService } from 'src/app/services/auth.service';
-import { DataService } from 'src/app/services/data.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  AuthService,
+  CustomSwalService,
+  CustomToastService,
+  DataService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
-import { IUseCFDIDto } from '../../../interfaces/IUseCfdi.interface';
-import AddoreditUsoCFDIComponent from './addoredit-uso-cfdi.component';
+import AddoreditMetodoPagoComponent from './addoredit-metodo-pago.component';
 
 @Component({
-  selector: 'app-uso-cfdi',
-  templateUrl: './index-uso-cfdi.component.html',
+  selector: 'app-list-metodo-pago',
+  templateUrl: './list-metodo-pago.component.html',
   standalone: true,
   imports: [ComponentsModule, PrimeNgModule],
-  providers: [DialogService, MessageService, ToastService],
+  providers: [DialogService, MessageService, CustomToastService],
 })
-export default class IndexUsoCfdiComponent implements OnInit, OnDestroy {
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+export default class ListMetodoPagoComponent implements OnInit, OnDestroy {
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
   public authService = inject(AuthService);
   private dataService = inject(DataService);
   public messageService = inject(MessageService);
   public dialogService = inject(DialogService);
-  data: IUseCFDIDto[] = [];
+  data: any[] = [];
 
   ref: DynamicDialogRef;
   subRef$: Subscription;
@@ -34,38 +35,38 @@ export default class IndexUsoCfdiComponent implements OnInit, OnDestroy {
     this.onLoadData();
   }
   onLoadData() {
-    this.swalService.onLoading();
-    this.subRef$ = this.dataService.get<IUseCFDIDto[]>('UsoCfdi').subscribe({
+    this.customSwalService.onLoading();
+    this.subRef$ = this.dataService.get('MetodoPago').subscribe({
       next: (resp: any) => {
         this.data = resp.body;
-        this.swalService.onClose();
+        this.customSwalService.onClose();
       },
       error: (err) => {
         console.log(err.error);
-        this.swalService.onClose();
-        this.toastService.onShowError();
+        this.customSwalService.onClose();
+        this.customToastService.onShowError();
       },
     });
   }
 
-  onDelete(dto: IUseCFDIDto) {
-    this.swalService.onLoading();
-    this.subRef$ = this.dataService.delete(`UsoCfdi/${dto.id}`).subscribe({
+  onDelete(dto: any) {
+    this.customSwalService.onLoading();
+    this.subRef$ = this.dataService.delete(`MetodoPago/${dto.id}`).subscribe({
       next: () => {
-        this.toastService.onShowSuccess();
-        this.swalService.onClose();
+        this.customToastService.onShowSuccess();
+        this.customSwalService.onClose();
         this.onLoadData();
       },
       error: (err) => {
-        this.toastService.onShowError();
-        this.swalService.onClose();
+        this.customToastService.onShowError();
+        this.customSwalService.onClose();
         console.log(err.error);
       },
     });
   }
 
   showModalAddOrEdit(data: any) {
-    this.ref = this.dialogService.open(AddoreditUsoCFDIComponent, {
+    this.ref = this.dialogService.open(AddoreditMetodoPagoComponent, {
       data: {
         id: data.id,
       },
@@ -76,7 +77,7 @@ export default class IndexUsoCfdiComponent implements OnInit, OnDestroy {
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });

@@ -4,10 +4,12 @@ import { MessageService } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { TableModule } from 'primeng/table';
 import { Subscription } from 'rxjs';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
-import { DataService } from 'src/app/services/data.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  CustomSwalService,
+  CustomToastService,
+  CustomerIdService,
+  DataService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import { environment } from 'src/environments/environment';
 
@@ -16,7 +18,7 @@ import { environment } from 'src/environments/environment';
   templateUrl: './ordenes-servicio-reporte-proveedor.component.html',
   standalone: true,
   imports: [NgbTooltipModule, ComponentsModule, TableModule],
-  providers: [MessageService, ToastService],
+  providers: [MessageService, CustomToastService],
 })
 export default class OrdenesServicioReporteProveedorComponent
   implements OnInit, OnDestroy
@@ -26,8 +28,8 @@ export default class OrdenesServicioReporteProveedorComponent
   public messageService = inject(MessageService);
   public dataService = inject(DataService);
   public ref = inject(DynamicDialogRef);
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
 
   id: number = 0;
   subRef$: Subscription;
@@ -49,26 +51,26 @@ export default class OrdenesServicioReporteProveedorComponent
           this.urlImg = `${environment.base_urlImg}customers/${this.customerIdService.customerId}/ordenServicio/${this.nameCarpetaFecha}/`;
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });
   }
 
   deleteDoc(id: number): void {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .delete(`ServiceOrders/DeleteDocument/${id}`)
       .subscribe({
         next: () => {
           this.onLoadData();
-          this.swalService.onClose();
-          this.toastService.onShowSuccess();
+          this.customSwalService.onClose();
+          this.customToastService.onShowSuccess();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }

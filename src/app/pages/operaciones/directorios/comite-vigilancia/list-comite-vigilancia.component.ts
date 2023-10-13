@@ -4,31 +4,33 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable, Subscription } from 'rxjs';
 import { IComiteVigilanciaDto } from 'src/app/interfaces/IComiteVigilanciaDto.interface';
 import { EPosicionComitePipe } from 'src/app/pipes/posicionComite.pipe';
-import { AuthService } from 'src/app/services/auth.service';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
-import { DataService } from 'src/app/services/data.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  AuthService,
+  CustomSwalService,
+  CustomToastService,
+  CustomerIdService,
+  DataService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import AddOrEditComiteVigilanciaComponent from './addoredit-comite-vigilancia.component';
 
 @Component({
-  selector: 'app-index-comite-vigilancia',
-  templateUrl: './index-comite-vigilancia.component.html',
+  selector: 'app-list-comite-vigilancia',
+  templateUrl: './list-comite-vigilancia.component.html',
   standalone: true,
   imports: [ComponentsModule, PrimeNgModule, EPosicionComitePipe],
-  providers: [DialogService, MessageService, ToastService],
+  providers: [DialogService, MessageService, CustomToastService],
 })
-export default class IndexComiteVigilanciaComponent
+export default class ListComiteVigilanciaComponent
   implements OnInit, OnDestroy
 {
   public authService = inject(AuthService);
   public customerIdService = inject(CustomerIdService);
   public dataService = inject(DataService);
   public messageService = inject(MessageService);
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
   public dialogService = inject(DialogService);
   data: IComiteVigilanciaDto[] = [];
 
@@ -45,7 +47,7 @@ export default class IndexComiteVigilanciaComponent
   }
 
   onLoadData() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get<IComiteVigilanciaDto[]>(
         'ComiteVigilancia/GetAll/' + this.customerIdService.getcustomerId()
@@ -53,29 +55,29 @@ export default class IndexComiteVigilanciaComponent
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }
   onDelete(data: any) {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .delete(`ComiteVigilancia/${data.id}`)
       .subscribe({
         next: () => {
           this.onLoadData();
-          this.swalService.onClose();
-          this.toastService.onShowSuccess();
+          this.customSwalService.onClose();
+          this.customToastService.onShowSuccess();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }
@@ -93,7 +95,7 @@ export default class IndexComiteVigilanciaComponent
     this.ref.onClose.subscribe((resp: any) => {
       if (resp !== undefined) {
         this.onLoadData();
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
       }
     });
   }

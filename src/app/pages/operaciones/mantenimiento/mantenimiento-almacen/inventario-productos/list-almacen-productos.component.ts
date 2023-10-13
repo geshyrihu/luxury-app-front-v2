@@ -3,11 +3,13 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable, Subscription } from 'rxjs';
-import { AuthService } from 'src/app/services/auth.service';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
-import { DataService } from 'src/app/services/data.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  AuthService,
+  CustomSwalService,
+  CustomToastService,
+  CustomerIdService,
+  DataService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import { environment } from 'src/environments/environment';
@@ -20,13 +22,18 @@ import EditProductosAlmacenComponent from './edit-productos-almacen.component';
 const urlImgBase = environment.base_urlImg;
 
 @Component({
-  selector: 'app-index-almacen-productos',
-  templateUrl: './index-almacen-productos.component.html',
+  selector: 'app-list-almacen-productos',
+  templateUrl: './list-almacen-productos.component.html',
   standalone: true,
   imports: [ComponentsModule, CommonModule, PrimeNgModule],
-  providers: [DialogService, MessageService, ConfirmationService, ToastService],
+  providers: [
+    DialogService,
+    MessageService,
+    ConfirmationService,
+    CustomToastService,
+  ],
 })
-export default class IndexAlmacenProductosComponent
+export default class ListAlmacenProductosComponent
   implements OnInit, OnDestroy
 {
   private customerIdService = inject(CustomerIdService);
@@ -34,8 +41,8 @@ export default class IndexAlmacenProductosComponent
   public authService = inject(AuthService);
   public dialogService = inject(DialogService);
   public messageService = inject(MessageService);
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
 
   data: any[] = [];
   ref: DynamicDialogRef;
@@ -77,7 +84,7 @@ export default class IndexAlmacenProductosComponent
   }
 
   onLoadData() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get(
         'InventarioProducto/GetAsyncAll/' + this.customerIdService.customerId
@@ -85,31 +92,31 @@ export default class IndexAlmacenProductosComponent
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
           this.updateRowGroupMetaData();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
   }
 
   onDelete(data: any) {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .delete(`InventarioProducto/${data.id}`)
       .subscribe({
         next: () => {
           this.onLoadData();
-          this.swalService.onClose();
-          this.toastService.onShowSuccess();
+          this.customSwalService.onClose();
+          this.customToastService.onShowSuccess();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }
@@ -127,7 +134,7 @@ export default class IndexAlmacenProductosComponent
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });
@@ -145,7 +152,7 @@ export default class IndexAlmacenProductosComponent
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });
@@ -165,7 +172,7 @@ export default class IndexAlmacenProductosComponent
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });
@@ -185,7 +192,7 @@ export default class IndexAlmacenProductosComponent
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });

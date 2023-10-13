@@ -9,18 +9,18 @@ import { Observable, Subscription } from 'rxjs';
 import { IChartType } from 'src/app/interfaces/IChartType.interface';
 import { IDataSet } from 'src/app/interfaces/IDataSet.interface';
 import { IFechasFiltro } from 'src/app/interfaces/IFechasFiltro.interface';
+import { CustomSwalService } from 'src/app/services/custom-swal.service';
+import { CustomToastService } from 'src/app/services/custom-toast.service';
 import { DataService } from 'src/app/services/data.service';
 import { DateService } from 'src/app/services/date.service';
 import { FiltroCalendarService } from 'src/app/services/filtro-calendar.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
 @Component({
   selector: 'app-chart-lectura',
   templateUrl: './chart-lectura.component.html',
   standalone: true,
   imports: [NgbModule, ComponentsModule, NgChartsModule, CommonModule],
-  providers: [DialogService, MessageService, ToastService],
+  providers: [DialogService, MessageService, CustomToastService],
 })
 export default class ChartLecturaComponent implements OnInit, OnDestroy {
   private dataService = inject(DataService);
@@ -28,8 +28,8 @@ export default class ChartLecturaComponent implements OnInit, OnDestroy {
   public dateService = inject(DateService);
   public dialogService = inject(DialogService);
   public filtroCalendarService = inject(FiltroCalendarService);
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
 
   subRef$: Subscription;
 
@@ -85,7 +85,7 @@ export default class ChartLecturaComponent implements OnInit, OnDestroy {
   }
 
   onDataGraficoDiaria() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
 
     this.subRef$ = this.dataService
       .get(
@@ -101,17 +101,17 @@ export default class ChartLecturaComponent implements OnInit, OnDestroy {
             this.data.labels,
             this.data.data
           );
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
   }
 
   onDataGraficoMensual(fechaInicial: string, fechaFinal: string) {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
 
     this.subRef$ = this.dataService
       .get(
@@ -127,11 +127,11 @@ export default class ChartLecturaComponent implements OnInit, OnDestroy {
             this.data.labels,
             this.data.data
           );
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
   }

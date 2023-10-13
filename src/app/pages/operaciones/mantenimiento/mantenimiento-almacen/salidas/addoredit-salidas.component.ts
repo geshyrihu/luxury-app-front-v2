@@ -8,13 +8,15 @@ import {
 } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { AuthService } from 'src/app/services/auth.service';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
-import { DataService } from 'src/app/services/data.service';
-import { DateService } from 'src/app/services/date.service';
-import { SelectItemService } from 'src/app/services/select-item.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  AuthService,
+  CustomSwalService,
+  CustomToastService,
+  CustomerIdService,
+  DataService,
+  DateService,
+  SelectItemService,
+} from 'src/app/services/common-services';
 import ComponentsModule, {
   flatpickrFactory,
 } from 'src/app/shared/components.module';
@@ -30,7 +32,7 @@ import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.mod
     ComponentsModule,
     CustomInputModule,
   ],
-  providers: [ToastService],
+  providers: [CustomToastService],
 })
 export default class CrudSalidasComponent implements OnInit, OnDestroy {
   private customerIdService = inject(CustomerIdService);
@@ -38,8 +40,8 @@ export default class CrudSalidasComponent implements OnInit, OnDestroy {
   private dateService = inject(DateService);
   private formBuilder = inject(FormBuilder);
   private selectItemService = inject(SelectItemService);
-  private swalService = inject(SwalService);
-  private toastService = inject(ToastService);
+  private customSwalService = inject(CustomSwalService);
+  private customToastService = inject(CustomToastService);
   public authService = inject(AuthService);
   public config = inject(DynamicDialogConfig);
   public ref = inject(DynamicDialogRef);
@@ -78,7 +80,7 @@ export default class CrudSalidasComponent implements OnInit, OnDestroy {
           }
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });
@@ -127,7 +129,7 @@ export default class CrudSalidasComponent implements OnInit, OnDestroy {
           this.form.patchValue(resp.body);
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });
@@ -137,22 +139,22 @@ export default class CrudSalidasComponent implements OnInit, OnDestroy {
     this.id = this.config.data.id;
     // Deshabilitar el botón al iniciar el envío del formulario
     this.submitting = true;
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
 
     if (this.id === 0) {
       this.subRef$ = this.dataService
         .post('SalidaProductos', this.form.value)
         .subscribe({
           next: () => {
-            this.swalService.onClose();
+            this.customSwalService.onClose();
             this.ref.close(true);
           },
           error: (err) => {
             console.log(err.error);
-            this.toastService.onShowError();
+            this.customToastService.onShowError();
             // Habilitar el botón nuevamente al finalizar el envío del formulario
             this.submitting = false;
-            this.swalService.onClose();
+            this.customSwalService.onClose();
           },
         });
     } else {
@@ -163,15 +165,15 @@ export default class CrudSalidasComponent implements OnInit, OnDestroy {
         )
         .subscribe({
           next: () => {
-            this.swalService.onClose();
+            this.customSwalService.onClose();
             this.ref.close(true);
           },
           error: (err) => {
             console.log(err.error);
-            this.toastService.onShowError();
+            this.customToastService.onShowError();
             // Habilitar el botón nuevamente al finalizar el envío del formulario
             this.submitting = false;
-            this.swalService.onClose();
+            this.customSwalService.onClose();
           },
         });
     }

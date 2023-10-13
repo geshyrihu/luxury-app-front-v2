@@ -13,9 +13,11 @@ import { cb_ESiNo } from 'src/app/enums/si-no.enum';
 import { ETypeOfDeparture } from 'src/app/enums/type-departure.enum';
 import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
 import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
-import { DataService } from 'src/app/services/data.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  CustomSwalService,
+  CustomToastService,
+  DataService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
 
@@ -29,7 +31,7 @@ import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.mod
     CommonModule,
     CustomInputModule,
   ],
-  providers: [ToastService],
+  providers: [CustomToastService],
 })
 export default class AddOrEditStatusRequestDismissalComponent
   implements OnInit, OnDestroy
@@ -38,8 +40,8 @@ export default class AddOrEditStatusRequestDismissalComponent
   private dataService = inject(DataService);
   public ref = inject(DynamicDialogRef);
   public config = inject(DynamicDialogConfig);
-  private swalService = inject(SwalService);
-  private toastService = inject(ToastService);
+  private customSwalService = inject(CustomSwalService);
+  private customToastService = inject(CustomToastService);
 
   submitting: boolean = false;
 
@@ -78,7 +80,7 @@ export default class AddOrEditStatusRequestDismissalComponent
           this.form.patchValue(resp.body);
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });
@@ -93,22 +95,22 @@ export default class AddOrEditStatusRequestDismissalComponent
     this.id = this.config.data.id;
     // Deshabilitar el botón al iniciar el envío del formulario
     this.submitting = true;
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
 
     if (this.id === 0) {
       this.subRef$ = this.dataService
         .post(`RequestDismissal`, this.form.value)
         .subscribe({
           next: () => {
-            this.swalService.onClose();
+            this.customSwalService.onClose();
             this.ref.close(true);
           },
           error: (err) => {
             console.log(err.error);
-            this.toastService.onShowError();
+            this.customToastService.onShowError();
             // Habilitar el botón nuevamente al finalizar el envío del formulario
             this.submitting = false;
-            this.swalService.onClose();
+            this.customSwalService.onClose();
           },
         });
     } else {
@@ -116,15 +118,15 @@ export default class AddOrEditStatusRequestDismissalComponent
         .put(`RequestDismissal/${this.id}`, this.form.value)
         .subscribe({
           next: () => {
-            this.swalService.onClose();
+            this.customSwalService.onClose();
             this.ref.close(true);
           },
           error: (err) => {
             console.log(err.error);
-            this.toastService.onShowError();
+            this.customToastService.onShowError();
             // Habilitar el botón nuevamente al finalizar el envío del formulario
             this.submitting = false;
-            this.swalService.onClose();
+            this.customSwalService.onClose();
           },
         });
     }

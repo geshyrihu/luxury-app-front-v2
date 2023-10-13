@@ -1,7 +1,9 @@
 import { Component, OnDestroy, inject } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { DataService } from 'src/app/services/data.service';
-import { SwalService } from 'src/app/services/swal.service';
+import {
+  CustomSwalService,
+  DataService,
+} from 'src/app/services/common-services';
 import CustomButtonComponent from 'src/app/shared/custom-buttons/custom-button/custom-button.component';
 
 @Component({
@@ -12,742 +14,742 @@ import CustomButtonComponent from 'src/app/shared/custom-buttons/custom-button/c
 })
 export default class DepuracionComponent implements OnDestroy {
   private dataService = inject(DataService);
-  private swalService = inject(SwalService);
+  private customSwalService = inject(CustomSwalService);
 
   // onDepuracionCotizacionProveedor() {
-  //   this.swalService.onLoading();
+  //   this.customSwalService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('Depuracion/CotizacionProveedor')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //       },
   //       error: (err) => {
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //         console.log(err.error);
   //       },
   //     });
   // }
   // SolicitudCompra() {
-  //   this.swalService.onLoading();
+  //   this.customSwalService.onLoading();
   //   this.subRef$ = this.dataService.get('Depuracion/SolicitudCompra').subscribe(
   //     (resp: any) => {
-  //       this.swalService.onClose();
+  //       this.customSwalService.onClose();
   //     },
   //     (err) => {
-  //       this.swalService.onClose();
+  //       this.customSwalService.onClose();
   //       console.log(err.error);
   //     }
   //   );
   // }
   // ReporteSemanal() {
-  //   this.swalService.onLoading();
+  //   this.customSwalService.onLoading();
   //   this.subRef$ = this.dataService.get('Depuracion/ReporteSemanal').subscribe(
   //     (resp: any) => {
-  //       this.swalService.onClose();
+  //       this.customSwalService.onClose();
   //     },
   //     (err) => {
-  //       this.swalService.onClose();
+  //       this.customSwalService.onClose();
   //       console.log(err.error);
   //     }
   //   );
   // }
   // PrestamoHerramienta() {
-  //   this.swalService.onLoading();
+  //   this.customSwalService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('Depuracion/PrestamoHerramienta')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //       },
   //       error: (err) => {
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //         console.log(err.error);
   //       },
   //     });
   // }
   // OrdenCompra() {
-  //   this.swalService.onLoading();
+  //   this.customSwalService.onLoading();
   //   this.subRef$ = this.dataService.get('Depuracion/OrdenCompra').subscribe(
   //     (resp: any) => {
-  //       this.swalService.onClose();
+  //       this.customSwalService.onClose();
   //     },
   //     (err) => {
-  //       this.swalService.onClose();
+  //       this.customSwalService.onClose();
   //       console.log(err.error);
   //     }
   //   );
   // }
   // OrdenesServicio() {
-  //   this.swalService.onLoading();
+  //   this.customSwalService.onLoading();
   //   this.subRef$ = this.dataService.get('Depuracion/OrdenesServicio').subscribe(
   //     (resp: any) => {
-  //       this.swalService.onClose();
+  //       this.customSwalService.onClose();
   //     },
   //     (err) => {
-  //       this.swalService.onClose();
+  //       this.customSwalService.onClose();
   //       console.log(err.error);
   //     }
   //   );
   // }
   // CalendarioMantenimiento() {
-  //   this.swalService.onLoading();
+  //   this.customSwalService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('Depuracion/CalendarioMantenimiento')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //       },
   //       error: (err) => {
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //         console.log(err.error);
   //       },
   //     });
   // }
   // Equipos() {
-  //   this.swalService.onLoading();
+  //   this.customSwalService.onLoading();
   //   this.subRef$ = this.dataService.get('Depuracion/Equipos').subscribe(
   //     (resp: any) => {
-  //       this.swalService.onClose();
+  //       this.customSwalService.onClose();
   //     },
   //     (err) => {
-  //       this.swalService.onClose();
+  //       this.customSwalService.onClose();
   //       console.log(err.error);
   //     }
   //   );
   // }
   // Recorrido() {
-  //   this.swalService.onLoading();
+  //   this.customSwalService.onLoading();
   //   this.subRef$ = this.dataService.get('Depuracion/Recorrido').subscribe(
   //     (resp: any) => {
-  //       this.swalService.onClose();
+  //       this.customSwalService.onClose();
   //     },
   //     (err) => {
-  //       this.swalService.onClose();
+  //       this.customSwalService.onClose();
   //       console.log(err.error);
   //     }
   //   );
   // }
   // BitacoraMantenimiento() {
-  //   this.swalService.onLoading();
+  //   this.customSwalService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('Depuracion/BitacoraMantenimiento')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //       },
   //       error: (err) => {
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //         console.log(err.error);
   //       },
   //     });
   // }
   // InventarioPintura() {
-  //   this.swalService.onLoading();
+  //   this.customSwalService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('Depuracion/InventarioPintura')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //       },
   //       error: (err) => {
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //         console.log(err.error);
   //       },
   //     });
   // }
   // InventarioIluminacion() {
-  //   this.swalService.onLoading();
+  //   this.customSwalService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('Depuracion/InventarioIluminacion')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //       },
   //       error: (err) => {
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //         console.log(err.error);
   //       },
   //     });
   // }
   // MachineryDocument() {
-  //   this.swalService.onLoading();
+  //   this.customSwalService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('Depuracion/MachineryDocument')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //       },
   //       error: (err) => {
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //         console.log(err.error);
   //       },
   //     });
   // }
   // CotizacionProveedorPendiente() {
-  //   this.swalService.onLoading();
+  //   this.customSwalService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('Depuracion/CotizacionProveedorPendiente')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //       },
   //       error: (err) => {
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //         console.log(err.error);
   //       },
   //     });
   // }
   // SolicitudCompraPendiente() {
-  //   this.swalService.onLoading();
+  //   this.customSwalService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('Depuracion/SolicitudCompraPendiente')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //       },
   //       error: (err) => {
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //         console.log(err.error);
   //       },
   //     });
   // }
   // OrdenCompraPendiente() {
-  //   this.swalService.onLoading();
+  //   this.customSwalService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('Depuracion/OrdenCompraPendiente')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //       },
   //       error: (err) => {
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //         console.log(err.error);
   //       },
   //     });
   // }
   // DeleteProveedor() {
-  //   this.swalService.onLoading();
+  //   this.customSwalService.onLoading();
   //   this.subRef$ = this.dataService.get('Depuracion/DeleteProveedor').subscribe(
   //     (resp: any) => {
-  //       this.swalService.onClose();
+  //       this.customSwalService.onClose();
   //     },
   //     (err) => {
-  //       this.swalService.onClose();
+  //       this.customSwalService.onClose();
   //       console.log(err.error);
   //     }
   //   );
   // }
 
   // Presentaciones() {
-  //   this.swalService.onLoading();
+  //   this.customSwalService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('ActualizarCuentas/Presentaciones')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //       },
   //       error: (err) => {
   //         console.log(err.error);
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //       },
   //     });
   // }
   // Reporte() {
-  //   this.swalService.onLoading();
+  //   this.customSwalService.onLoading();
   //   this.subRef$ = this.dataService.get('ActualizarCuentas/Reporte').subscribe(
   //     (resp: any) => {
-  //       this.swalService.onClose();
+  //       this.customSwalService.onClose();
   //     },
   //     (err) => {
   //       console.log(err.error);
-  //       this.swalService.onClose();
+  //       this.customSwalService.onClose();
   //     }
   //   );
   // }
   // ActualizarDatos() {
-  //   this.swalService.onLoading();
+  //   this.customSwalService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('ActualizarCuentas/ActualizarDatos')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //       },
   //       error: (err) => {
   //         console.log(err.error);
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //       },
   //     });
   // }
   // ActualizarDatosEmpleado() {
-  //   this.swalService.onLoading();
+  //   this.customSwalService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('ActualizarCuentas/ActualizarDatosEmpleado')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //       },
   //       error: (err) => {
   //         console.log(err.error);
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //       },
   //     });
   // }
   // HistorialAcceso() {
-  //   this.swalService.onLoading();
+  //   this.customSwalService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('ActualizarCuentas/HistorialAcceso')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //       },
   //       error: (err) => {
   //         console.log(err.error);
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //       },
   //     });
   // }
   // MinutasParticipantesAdmin() {
-  //   this.swalService.onLoading();
+  //   this.customSwalService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('ActualizarCuentas/MinutasParticipantesAdmin')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //       },
   //       error: (err) => {
   //         console.log(err.error);
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //       },
   //     });
   // }
   // MinutasDetails() {
-  //   this.swalService.onLoading();
+  //   this.customSwalService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('ActualizarCuentas/MinutasDetails')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //       },
   //       error: (err) => {
   //         console.log(err.error);
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //       },
   //     });
   // }
   // MeetingDertailsSeguimientos() {
-  //   this.swalService.onLoading();
+  //   this.customSwalService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('ActualizarCuentas/MeetingDertailsSeguimientos')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //       },
   //       error: (err) => {
   //         console.log(err.error);
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //       },
   //     });
   // }
   // OrdenCompraUpdate() {
-  //   this.swalService.onLoading();
+  //   this.customSwalService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('ActualizarCuentas/OrdenCompra')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //       },
   //       error: (err) => {
   //         console.log(err.error);
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //       },
   //     });
   // }
   // MetodoDePagos() {
-  //   this.swalService.onLoading();
+  //   this.customSwalService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('ActualizarCuentas/MetodoDePagos')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //       },
   //       error: (err) => {
   //         console.log(err.error);
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //       },
   //     });
   // }
   // OrdenCompraAuth() {
-  //   this.swalService.onLoading();
+  //   this.customSwalService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('ActualizarCuentas/OrdenCompraAuth')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //       },
   //       error: (err) => {
   //         console.log(err.error);
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //       },
   //     });
   // }
   // Productos() {
-  //   this.swalService.onLoading();
+  //   this.customSwalService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('ActualizarCuentas/Productos')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //       },
   //       error: (err) => {
   //         console.log(err.error);
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //       },
   //     });
   // }
   // Providers() {
-  //   this.swalService.onLoading();
+  //   this.customSwalService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('ActualizarCuentas/Providers')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //       },
   //       error: (err) => {
   //         console.log(err.error);
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //       },
   //     });
   // }
   // SalidaProducto() {
-  //   this.swalService.onLoading();
+  //   this.customSwalService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('ActualizarCuentas/SalidaProducto')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //       },
   //       error: (err) => {
   //         console.log(err.error);
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //       },
   //     });
   // }
   // ServiceOrders() {
-  //   this.swalService.onLoading();
+  //   this.customSwalService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('ActualizarCuentas/ServiceOrders')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //       },
   //       error: (err) => {
   //         console.log(err.error);
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //       },
   //     });
   // }
   // SolicitudCompras() {
-  //   this.swalService.onLoading();
+  //   this.customSwalService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('ActualizarCuentas/SolicitudCompras')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //       },
   //       error: (err) => {
   //         console.log(err.error);
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //       },
   //     });
   // }
   // SolicitudCompraDetalles() {
-  //   this.swalService.onLoading();
+  //   this.customSwalService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('ActualizarCuentas/SolicitudCompraDetalles')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //       },
   //       error: (err) => {
   //         console.log(err.error);
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //       },
   //     });
   // }
   // Tool() {
-  //   this.swalService.onLoading();
+  //   this.customSwalService.onLoading();
   //   this.subRef$ = this.dataService.get('ActualizarCuentas/Tool').subscribe(
   //     (resp: any) => {
-  //       this.swalService.onClose();
+  //       this.customSwalService.onClose();
   //     },
   //     (err) => {
   //       console.log(err.error);
-  //       this.swalService.onClose();
+  //       this.customSwalService.onClose();
   //     }
   //   );
   // }
 
   // UsoCFDI() {
-  //   this.swalService.onLoading();
+  //   this.customSwalService.onLoading();
   //   this.subRef$ = this.dataService.get('ActualizarCuentas/UsoCFDI').subscribe(
   //     (resp: any) => {
-  //       this.swalService.onClose();
+  //       this.customSwalService.onClose();
   //     },
   //     (err) => {
   //       console.log(err.error);
-  //       this.swalService.onClose();
+  //       this.customSwalService.onClose();
   //     }
   //   );
   // }
   // AgendasSupervision() {
-  //   this.swalService.onLoading();
+  //   this.customSwalService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('ActualizarCuentas/AgendasSupervision')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //       },
   //       error: (err) => {
   //         console.log(err.error);
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //       },
   //     });
   // }
   // InventarioExtintor() {
-  //   this.swalService.onLoading();
+  //   this.customSwalService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('ActualizarCuentas/InventarioExtintor')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //       },
   //       error: (err) => {
   //         console.log(err.error);
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //       },
   //     });
   // }
   // InventarioIluminacions() {
-  //   this.swalService.onLoading();
+  //   this.customSwalService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('ActualizarCuentas/InventarioIluminacions')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //       },
   //       error: (err) => {
   //         console.log(err.error);
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //       },
   //     });
   // }
   // Machinerys() {
-  //   this.swalService.onLoading();
+  //   this.customSwalService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('ActualizarCuentas/Machinerys')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //       },
   //       error: (err) => {
   //         console.log(err.error);
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //       },
   //     });
   // }
   // InventarioLlaves() {
-  //   this.swalService.onLoading();
+  //   this.customSwalService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('ActualizarCuentas/InventarioLlaves')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //       },
   //       error: (err) => {
   //         console.log(err.error);
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //       },
   //     });
   // }
   // BitacoraMantenimientoUpdate() {
-  //   this.swalService.onLoading();
+  //   this.customSwalService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('ActualizarCuentas/BitacoraMantenimiento')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //       },
   //       error: (err) => {
   //         console.log(err.error);
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //       },
   //     });
   // }
   // Medidor() {
-  //   this.swalService.onLoading();
+  //   this.customSwalService.onLoading();
   //   this.subRef$ = this.dataService.get('ActualizarCuentas/Medidor').subscribe(
   //     (resp: any) => {
-  //       this.swalService.onClose();
+  //       this.customSwalService.onClose();
   //     },
   //     (err) => {
   //       console.log(err.error);
-  //       this.swalService.onClose();
+  //       this.customSwalService.onClose();
   //     }
   //   );
   // }
   // ControlPrestamoHerramienta() {
-  //   this.swalService.onLoading();
+  //   this.customSwalService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('ActualizarCuentas/ControlPrestamoHerramienta')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //       },
   //       error: (err) => {
   //         console.log(err.error);
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //       },
   //     });
   // }
   // UpdateCalendarId() {
-  //   this.swalService.onLoading();
+  //   this.customSwalService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('ServiceOrders/UpdateCalendarId')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //       },
   //       error: (err) => {
   //         console.log(err.error);
-  //         this.swalService.onClose();
+  //         this.customSwalService.onClose();
   //       },
   //     });
   // }
   onEmployeeUpdate() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get('UpdateDataBase/UpdateEmployee')
       .subscribe({
         next: (_) => {
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
   }
   // }
   UpdateSalary() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get('UpdateDataBase/UpdateSalary')
       .subscribe({
         next: (_) => {
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
   }
   UpdateDocumentCustomer() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get('UpdateDataBase/UpdateDocumentCustomer')
       .subscribe({
         next: (_) => {
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
   }
   CreateAccounsFaltantes() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get('UpdateDataBase/CreateAccounsFaltantes')
       .subscribe({
         next: (_) => {
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
   }
   UpdateEmployeeToAccountUser() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get('UpdateDataBase/UpdateEmployeeToAccountUser')
       .subscribe({
         next: (_) => {
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
   }
   UpdatePerson() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get('UpdateDataBase/UpdatePerson')
       .subscribe({
         next: (_) => {
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
   }
   UpdateProfession() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get('UpdateDataBase/UpdateProfession')
       .subscribe({
         next: (_) => {
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
   }
   WorkPosition() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get('UpdateDataBase/WorkPosition')
       .subscribe({
         next: (_) => {
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
   }
   RemovePerson() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get('UpdateDataBase/RemovePerson')
       .subscribe({
         next: (_) => {
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
   }

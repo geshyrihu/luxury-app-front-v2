@@ -5,11 +5,13 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ToastModule } from 'primeng/toast';
 import { Observable, Subscription } from 'rxjs';
-import { AuthService } from 'src/app/services/auth.service';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
-import { DataService } from 'src/app/services/data.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  AuthService,
+  CustomSwalService,
+  CustomToastService,
+  CustomerIdService,
+  DataService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import { environment } from 'src/environments/environment';
 import AddoreditTicketComponent from '../addoredit-ticket/addoredit-ticket.component';
@@ -19,13 +21,18 @@ import AddoreditTicketComponent from '../addoredit-ticket/addoredit-ticket.compo
   templateUrl: './line-time-operation-report.component.html',
   standalone: true,
   imports: [NgbAlertModule, CommonModule, ComponentsModule, ToastModule],
-  providers: [DialogService, MessageService, ConfirmationService, ToastService],
+  providers: [
+    DialogService,
+    MessageService,
+    ConfirmationService,
+    CustomToastService,
+  ],
 })
 export default class LineTimeOperationReportComponent
   implements OnInit, OnDestroy
 {
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
   public dataService = inject(DataService);
   public customerIdService = inject(CustomerIdService);
   public messageService = inject(MessageService);
@@ -52,7 +59,7 @@ export default class LineTimeOperationReportComponent
     this.subRef$ = this.dataService.get('Depuracion/ReporteSemanal').subscribe({
       // (resp: any) => {},
       error: (err) => {
-        this.toastService.onShowError();
+        this.customToastService.onShowError();
         console.log(err.error);
       },
     });
@@ -61,18 +68,18 @@ export default class LineTimeOperationReportComponent
   onLoadData() {
     this.base_urlImg = `${environment.base_urlImg}customers/${this.customerIdService.customerId}/report/`;
     this.data = [];
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get(`Ticket/LineTime/${this.customerIdService.customerId}`)
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }
@@ -90,7 +97,7 @@ export default class LineTimeOperationReportComponent
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });
@@ -114,19 +121,19 @@ export default class LineTimeOperationReportComponent
     return false;
   }
   onDelete(id: number) {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .delete(`Ticket/DeleteFinal/${id}`)
       .subscribe({
         next: () => {
           this.onLoadData();
-          this.swalService.onClose();
-          this.toastService.onShowSuccess();
+          this.customSwalService.onClose();
+          this.customToastService.onShowSuccess();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }

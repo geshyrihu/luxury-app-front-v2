@@ -5,15 +5,16 @@ import { RouterModule } from '@angular/router';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { ImageModule } from 'primeng/image';
-import { ToastModule } from 'primeng/toast';
 import { Observable, Subscription } from 'rxjs';
-import { AuthService } from 'src/app/services/auth.service';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
-import { DataService } from 'src/app/services/data.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  AuthService,
+  CustomSwalService,
+  CustomToastService,
+  CustomerIdService,
+  DataService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
+import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import { environment } from 'src/environments/environment';
 import AddBitacoraComponent from '../mantenimiento-bitacoras/recorridos/add-bitacora.component';
 import BitacoraIndividualComponent from '../mantenimiento-bitacoras/recorridos/bitacora-individual.component';
@@ -21,23 +22,27 @@ import RecorridoTaskAddOrEditComponent from './addoredit-recorrido-task.componen
 import RecorridoAddOrEditComponent from './addoreedit-recorrido.component';
 
 @Component({
-  selector: 'app-index-recorrido',
-  templateUrl: './index-recorrido.component.html',
+  selector: 'app-list-recorrido',
+  templateUrl: './list-recorrido.component.html',
   standalone: true,
   imports: [
     FormsModule,
     ComponentsModule,
     CommonModule,
-    ToastModule,
-    ImageModule,
+    PrimeNgModule,
     RouterModule,
     NgbDropdownModule,
   ],
-  providers: [ConfirmationService, DialogService, MessageService, ToastService],
+  providers: [
+    ConfirmationService,
+    DialogService,
+    MessageService,
+    CustomToastService,
+  ],
 })
-export default class IndexRecorridoComponent implements OnInit, OnDestroy {
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+export default class ListRecorridoComponent implements OnInit, OnDestroy {
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
   public authService = inject(AuthService);
   public confirmationService = inject(ConfirmationService);
   public customerIdService = inject(CustomerIdService);
@@ -77,7 +82,7 @@ export default class IndexRecorridoComponent implements OnInit, OnDestroy {
 
   onLoadData(value: number) {
     if (this.filterValue === ' ') {
-      this.swalService.onLoading();
+      this.customSwalService.onLoading();
     }
 
     this.subRef$ = this.dataService
@@ -89,43 +94,43 @@ export default class IndexRecorridoComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }
 
   onDelete(id: number) {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService.delete(`Routes/${id}`).subscribe({
       next: () => {
-        this.toastService.onShowSuccess();
-        this.swalService.onClose();
+        this.customToastService.onShowSuccess();
+        this.customSwalService.onClose();
         this.onLoadData(this.value);
       },
       error: (err) => {
-        this.toastService.onShowError();
-        this.swalService.onClose();
+        this.customToastService.onShowError();
+        this.customSwalService.onClose();
         console.log(err.error);
       },
     });
   }
 
   onDeleteTask(taskId: number) {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService.delete(`RouteTask/${taskId}`).subscribe({
       next: () => {
-        this.toastService.onShowSuccess();
-        this.swalService.onClose();
+        this.customToastService.onShowSuccess();
+        this.customSwalService.onClose();
         this.onLoadData(this.value);
       },
       error: (err) => {
-        this.toastService.onShowError();
-        this.swalService.onClose();
+        this.customToastService.onShowError();
+        this.customSwalService.onClose();
         console.log(err.error);
       },
     });
@@ -143,7 +148,7 @@ export default class IndexRecorridoComponent implements OnInit, OnDestroy {
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData(this.value);
       }
     });
@@ -161,23 +166,23 @@ export default class IndexRecorridoComponent implements OnInit, OnDestroy {
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData(this.value);
       }
     });
   }
 
   eliminarRecorrido(id: number) {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService.delete('Routes/' + id).subscribe({
       next: () => {
-        this.toastService.onShowSuccess();
-        this.swalService.onClose();
+        this.customToastService.onShowSuccess();
+        this.customSwalService.onClose();
         this.onLoadData(this.value);
       },
       error: (err) => {
-        this.toastService.onShowError();
-        this.swalService.onClose();
+        this.customToastService.onShowError();
+        this.customSwalService.onClose();
         console.log(err.error);
       },
     });
@@ -206,7 +211,7 @@ export default class IndexRecorridoComponent implements OnInit, OnDestroy {
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData(this.value);
       }
     });

@@ -10,9 +10,11 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import { ICategoryAddOrEditDto } from 'src/app/interfaces/ICategoryAddOrEditDto.interface';
-import { DataService } from 'src/app/services/data.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  CustomSwalService,
+  CustomToastService,
+  DataService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
 
@@ -26,15 +28,15 @@ import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.mod
     ComponentsModule,
     CustomInputModule,
   ],
-  providers: [MessageService, ConfirmationService, ToastService],
+  providers: [MessageService, ConfirmationService, CustomToastService],
 })
 export default class AddOrEditCategoryComponent implements OnInit, OnDestroy {
   private formBuilder = inject(FormBuilder);
   private dataService = inject(DataService);
   public config = inject(DynamicDialogConfig);
   public ref = inject(DynamicDialogRef);
-  public toastService = inject(ToastService);
-  private swalService = inject(SwalService);
+  public customToastService = inject(CustomToastService);
+  private customSwalService = inject(CustomSwalService);
 
   submitting: boolean = false;
 
@@ -69,7 +71,7 @@ export default class AddOrEditCategoryComponent implements OnInit, OnDestroy {
           this.form.patchValue(resp.body);
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });
@@ -85,21 +87,21 @@ export default class AddOrEditCategoryComponent implements OnInit, OnDestroy {
 
     // Deshabilitar el botón al iniciar el envío del formulario
     this.submitting = true;
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     if (this.id === 0) {
       this.subRef$ = this.dataService
         .post<ICategoryAddOrEditDto>(`Categories/`, this.form.value)
         .subscribe({
           next: () => {
-            this.swalService.onClose();
+            this.customSwalService.onClose();
             this.ref.close(true);
           },
           error: (err) => {
             console.log(err.error);
-            this.toastService.onShowError();
+            this.customToastService.onShowError();
             // Habilitar el botón nuevamente al finalizar el envío del formulario
             this.submitting = false;
-            this.swalService.onClose();
+            this.customSwalService.onClose();
           },
         });
     } else {
@@ -107,15 +109,15 @@ export default class AddOrEditCategoryComponent implements OnInit, OnDestroy {
         .put<ICategoryAddOrEditDto>(`Categories/${this.id}`, this.form.value)
         .subscribe({
           next: () => {
-            this.swalService.onClose();
+            this.customSwalService.onClose();
             this.ref.close(true);
           },
           error: (err) => {
             console.log(err.error);
-            this.toastService.onShowError();
+            this.customToastService.onShowError();
             // Habilitar el botón nuevamente al finalizar el envío del formulario
             this.submitting = false;
-            this.swalService.onClose();
+            this.customSwalService.onClose();
           },
         });
     }

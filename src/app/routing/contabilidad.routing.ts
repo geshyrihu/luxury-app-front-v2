@@ -26,7 +26,7 @@ export default [
   {
     path: 'bancos',
     loadComponent: () =>
-      import('src/app/pages/configuracion/bancos/index-banco.component'),
+      import('src/app/pages/configuracion/bancos/list-banco.component'),
   },
   {
     path: 'catalogo-cuentas',
@@ -39,20 +39,20 @@ export default [
     path: 'forma-pago',
     loadComponent: () =>
       import(
-        'src/app/pages/configuracion/forma-pago/index-forma-pago.component'
+        'src/app/pages/configuracion/forma-pago/list-forma-pago.component'
       ),
   },
   {
     path: 'metodo-pago',
     loadComponent: () =>
       import(
-        'src/app/pages/configuracion/metodo-pago/index-metodo-pago.component'
+        'src/app/pages/configuracion/metodo-pago/list-metodo-pago.component'
       ),
   },
   {
     path: 'uso-cfdi',
     loadComponent: () =>
-      import('src/app/pages/configuracion/uso-cfdi/index-uso-cfdi.component'),
+      import('src/app/pages/configuracion/uso-cfdi/list-uso-cfdi.component'),
   },
   {
     path: 'cedulas-presupuestales',

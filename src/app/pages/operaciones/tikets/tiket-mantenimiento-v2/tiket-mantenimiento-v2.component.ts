@@ -9,15 +9,17 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { Observable, Subscription } from 'rxjs';
 import { ISelectItemCheckDto } from 'src/app/interfaces/ISelectItemDto.interface';
-import { AuthService } from 'src/app/services/auth.service';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
-import { DataService } from 'src/app/services/data.service';
-import { DateService } from 'src/app/services/date.service';
-import { ReportService } from 'src/app/services/report.service';
-import { SelectItemService } from 'src/app/services/select-item.service';
-import { SwalService } from 'src/app/services/swal.service';
+import {
+  AuthService,
+  CustomSwalService,
+  CustomToastService,
+  CustomerIdService,
+  DataService,
+  DateService,
+  ReportService,
+  SelectItemService,
+} from 'src/app/services/common-services';
 import { TicketFilterService } from 'src/app/services/ticket-filter.service';
-import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import { environment } from 'src/environments/environment';
@@ -34,7 +36,12 @@ import { environment } from 'src/environments/environment';
     NgbDropdownModule,
     MultiSelectModule,
   ],
-  providers: [DialogService, MessageService, ConfirmationService, ToastService],
+  providers: [
+    DialogService,
+    MessageService,
+    ConfirmationService,
+    CustomToastService,
+  ],
 })
 export default class TiketMantenimientoV2Component implements OnInit {
   public authService = inject(AuthService);
@@ -46,8 +53,8 @@ export default class TiketMantenimientoV2Component implements OnInit {
   public ticketFilterService = inject(TicketFilterService);
   public reportService = inject(ReportService);
   public router = inject(Router);
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
   public selectItemService = inject(SelectItemService);
 
   base_urlImg = '';
@@ -98,18 +105,18 @@ export default class TiketMantenimientoV2Component implements OnInit {
       params = params.append('status', stat.toString());
     });
 
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get(`TicketV2/${this.customerIdService.customerId}`, params)
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
   }

@@ -6,7 +6,7 @@ export default [
     path: 'calendario-anual',
     loadComponent: () =>
       import(
-        'src/app/pages/operaciones/calendarios/mantenimiento-preventivo/index-calendario-mtto.component'
+        'src/app/pages/operaciones/calendarios/mantenimiento-preventivo/list-calendario-mtto.component'
       ),
     canActivate: [AuthGuard],
   },

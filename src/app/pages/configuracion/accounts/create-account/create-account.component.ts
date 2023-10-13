@@ -9,9 +9,9 @@ import {
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
+import { CustomSwalService } from 'src/app/services/custom-swal.service';
 import { DataService } from 'src/app/services/data.service';
 import { SelectItemService } from 'src/app/services/select-item.service';
-import { SwalService } from 'src/app/services/swal.service';
 import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
 
@@ -32,7 +32,7 @@ export default class CreateAccountComponent implements OnInit, OnDestroy {
   private selectItemService = inject(SelectItemService);
   public config = inject(DynamicDialogConfig);
   public ref = inject(DynamicDialogRef);
-  public swalService = inject(SwalService);
+  public customSwalService = inject(CustomSwalService);
 
   submitting: boolean = false;
 
@@ -70,24 +70,26 @@ export default class CreateAccountComponent implements OnInit, OnDestroy {
       });
       return;
     }
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     // Deshabilitar el botón al iniciar el envío del formulario
     this.submitting = true;
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
 
     this.subRef$ = this.dataService
       .post('Auth/CreateAccount', this.form.value)
       .subscribe({
         next: () => {
           this.ref.close(true);
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onLoadingError('No se pudo procesar la solicitud');
+          this.customSwalService.onLoadingError(
+            'No se pudo procesar la solicitud'
+          );
           // Habilitar el botón nuevamente al finalizar el envío del formulario
           this.submitting = false;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
   }

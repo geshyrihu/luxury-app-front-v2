@@ -4,13 +4,15 @@ import { RouterModule } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable, Subscription } from 'rxjs';
-import { AuthService } from 'src/app/services/auth.service';
-import { DataService } from 'src/app/services/data.service';
-import { DateService } from 'src/app/services/date.service';
-import { FiltroCalendarService } from 'src/app/services/filtro-calendar.service';
+import {
+  AuthService,
+  CustomSwalService,
+  CustomToastService,
+  DataService,
+  DateService,
+  FiltroCalendarService,
+} from 'src/app/services/common-services';
 import { SistemasReporteService } from 'src/app/services/sistemas-reporte.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import { environment } from 'src/environments/environment';
@@ -22,13 +24,18 @@ import AddoreditSistemasReporteComponent from '../addoredit-sistemas-reporte/add
   templateUrl: './sistemas-reporte.component.html',
   standalone: true,
   imports: [ComponentsModule, CommonModule, RouterModule, PrimeNgModule],
-  providers: [DialogService, MessageService, ConfirmationService, ToastService],
+  providers: [
+    DialogService,
+    MessageService,
+    ConfirmationService,
+    CustomToastService,
+  ],
 })
 export default class SistemasReporteComponent implements OnInit, OnDestroy {
   public dataService = inject(DataService);
   public dateService = inject(DateService);
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
   public authService = inject(AuthService);
   public dialogService = inject(DialogService);
   public messageService = inject(MessageService);
@@ -76,7 +83,7 @@ export default class SistemasReporteComponent implements OnInit, OnDestroy {
   }
 
   onLoadData(fechaInicio: string, fechaFinal: string): void {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get(
         `Ticket/SolicitudesSistemas/${fechaInicio}/${fechaFinal}/${this.pendiente}/${this.terminado}/${this.employeeId}`
@@ -90,11 +97,11 @@ export default class SistemasReporteComponent implements OnInit, OnDestroy {
             this.terminados = this.onFilterItems(resp.body, 1);
           }
           this.sistemasReporteService.setData(this.data);
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
   }
@@ -134,7 +141,7 @@ export default class SistemasReporteComponent implements OnInit, OnDestroy {
           ),
           this.dateService.getDateFormat(this.filtroCalendarService.fechaFinal)
         );
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
       }
     });
   }
@@ -152,10 +159,10 @@ export default class SistemasReporteComponent implements OnInit, OnDestroy {
               this.filtroCalendarService.fechaFinal
             )
           );
-          this.toastService.onShowSuccess();
+          this.customToastService.onShowSuccess();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });

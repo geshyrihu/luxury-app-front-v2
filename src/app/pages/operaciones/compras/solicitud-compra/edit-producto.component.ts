@@ -9,11 +9,13 @@ import {
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
-import { AuthService } from 'src/app/services/auth.service';
-import { DataService } from 'src/app/services/data.service';
-import { SelectItemService } from 'src/app/services/select-item.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  AuthService,
+  CustomSwalService,
+  CustomToastService,
+  DataService,
+  SelectItemService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
 
@@ -26,7 +28,7 @@ import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.mod
     CommonModule,
     CustomInputModule,
   ],
-  providers: [ToastService],
+  providers: [CustomToastService],
 })
 export default class EditProductoComponent implements OnInit, OnDestroy {
   private formBuilder = inject(FormBuilder);
@@ -35,8 +37,8 @@ export default class EditProductoComponent implements OnInit, OnDestroy {
   public ref = inject(DynamicDialogRef);
   public selectItemService = inject(SelectItemService);
   public authService = inject(AuthService);
-  private swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  private customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
 
   submitting: boolean = false;
 
@@ -106,21 +108,21 @@ export default class EditProductoComponent implements OnInit, OnDestroy {
     this.data.solicitudCompraId = this.form.get('solicitudCompraId').value;
     // Deshabilitar el botón al iniciar el envío del formulario
     this.submitting = true;
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
 
     this.subRef$ = this.dataService
       .put<any>(`SolicitudCompraDetalle/${this.id}`, this.data)
       .subscribe({
         next: () => {
           this.ref.close(true);
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
           // Habilitar el botón nuevamente al finalizar el envío del formulario
           this.submitting = false;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
   }

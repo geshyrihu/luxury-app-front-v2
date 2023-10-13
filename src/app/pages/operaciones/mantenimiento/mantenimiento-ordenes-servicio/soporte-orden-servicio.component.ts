@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 import { ERecurrencePipe } from 'src/app/pipes/recurrence.pipe';
 import { SanitizeHtmlPipe } from 'src/app/pipes/sanitize-html.pipe';
 import { ETypeMaintancePipe } from 'src/app/pipes/typeMaintance.pipe';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
+import { CustomerIdService } from 'src/app/services/common-services';
 import { DataService } from 'src/app/services/data.service';
 import { DateService } from 'src/app/services/date.service';
 import { environment } from 'src/environments/environment';

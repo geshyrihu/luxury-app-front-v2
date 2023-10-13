@@ -9,12 +9,12 @@
 // import { Subscription } from 'rxjs';
 // import { PresupuestoTomado } from 'src/app/interfaces/PresupuestoTomado';
 // import { PipesModule } from 'src/app/pipes/pipes.module';
-// import { AuthService } from 'src/app/services/auth.service';
+//
 // import { DataService } from 'src/app/services/data.service';
 // import { OrdenCompraService } from 'src/app/services/orden-compra.service';
 // import { SelectItemService } from 'src/app/services/select-item.service';
-// import { SwalService } from 'src/app/services/swal.service';
-// import { ToastService } from 'src/app/services/toast.service';
+// import { CustomSwalService } from 'src/app/services/swal.service';
+// import { CustomToastService } from 'src/app/services/toast.service';
 // import ComponentsModule from 'src/app/shared/components.module';
 // import OrdenCompraDatosPagoComponent from '../../orden-compra-datos-pago/orden-compra-datos-pago.component';
 // import OrdenCompraDenegadaComponent from '../../orden-compra-denegada/orden-compra-denegada.component';
@@ -36,13 +36,13 @@
 //     RouterModule,
 //     DropdownModule,
 //   ],
-//   providers: [DialogService, MessageService, ConfirmationService, ToastService],
+//   providers: [DialogService, MessageService, ConfirmationService, CustomToastService],
 // })
 // export default class EditOrdenCompraFijosComponent
 //   implements OnInit, OnDestroy
 // {
-//   public swalService = inject(SwalService);
-//   public toastService = inject(ToastService);
+//   public customSwalService = inject(CustomSwalService);
+//   public customToastService = inject(CustomToastService);
 //   public authService = inject(AuthService);
 //   public dataService = inject(DataService);
 //   public routeActive = inject(ActivatedRoute);
@@ -104,7 +104,7 @@
 //   onLoadData() {
 //     this.esGastoFijo = false;
 
-//     this.swalService.onLoading();
+//     this.customSwalService.onLoading();
 //     this.subRef$ = this.dataService
 //       .get<any>(`OrdenCompra/${this.ordenCompraId}`)
 //       .subscribe(
@@ -166,11 +166,11 @@
 //           }
 //           // Fin Buscar Ordenes de compra relacionadas
 
-//           this.swalService.onClose();
+//           this.customSwalService.onClose();
 //         },
 //         (err) => {
-//           this.toastService.onShowError();
-//           this.swalService.onClose();
+//           this.customToastService.onShowError();
+//           this.customSwalService.onClose();
 //           console.log(err.error);
 //         }
 //       );
@@ -222,7 +222,7 @@
 //     this.ref.onClose.subscribe((resp: any) => {
 //       if (resp !== undefined) {
 //         this.onLoadData();
-//         this.toastService.onShowSuccess();
+//         this.customToastService.onShowSuccess();
 //       }
 //     });
 //   }
@@ -238,7 +238,7 @@
 //     });
 //     this.ref.onClose.subscribe((resp: boolean) => {
 //       if (resp) {
-//         this.toastService.onShowSuccess();
+//         this.customToastService.onShowSuccess();
 //         this.onLoadData();
 //       }
 //     });
@@ -255,7 +255,7 @@
 //     });
 //     this.ref.onClose.subscribe((resp: boolean) => {
 //       if (resp) {
-//         this.toastService.onShowSuccess();
+//         this.customToastService.onShowSuccess();
 //         this.onLoadData();
 //       }
 //     });
@@ -272,7 +272,7 @@
 //     });
 //     this.ref.onClose.subscribe((resp: boolean) => {
 //       if (resp) {
-//         this.toastService.onShowSuccess();
+//         this.customToastService.onShowSuccess();
 //         this.onLoadData();
 //       }
 //     });
@@ -290,7 +290,7 @@
 //     });
 //     this.ref.onClose.subscribe((resp: boolean) => {
 //       if (resp) {
-//         this.toastService.onShowSuccess();
+//         this.customToastService.onShowSuccess();
 //         this.onLoadData();
 //       }
 //     });
@@ -308,7 +308,7 @@
 //     });
 //     this.ref.onClose.subscribe((resp: boolean) => {
 //       if (resp) {
-//         this.toastService.onShowSuccess();
+//         this.customToastService.onShowSuccess();
 //         this.onLoadData();
 //       }
 //     });
@@ -324,7 +324,7 @@
 //       .subscribe(
 //         (resp: any) => {
 //           this.onLoadData();
-//           this.toastService.onShowSuccess();
+//           this.customToastService.onShowSuccess();
 //         },
 //         (err) => {
 //           console.log(err.error);
@@ -332,36 +332,36 @@
 //       );
 //   }
 //   onDeleteOrdenCompraPresupuesto(id: number): void {
-//     this.swalService.onLoading();
+//     this.customSwalService.onLoading();
 //     this.subRef$ = this.dataService
 //       .delete(`OrdenCompraPresupuesto/${id}`)
 //       .subscribe(
 //         (resp: any) => {
-//           this.toastService.onShowSuccess();
+//           this.customToastService.onShowSuccess();
 //           this.onLoadData();
-//           this.swalService.onClose();
+//           this.customSwalService.onClose();
 //         },
 //         (err) => {
-//           this.toastService.onShowError();
-//           this.swalService.onClose();
+//           this.customToastService.onShowError();
+//           this.customSwalService.onClose();
 //           console.log(err.error);
 //         }
 //       );
 //   }
 
 //   onDeleteProduct(data: any) {
-//     this.swalService.onLoading();
+//     this.customSwalService.onLoading();
 //     this.subRef$ = this.dataService
 //       .delete(`OrdenCompraDetalle/${data.id}`)
 //       .subscribe(
 //         (resp: any) => {
-//           this.toastService.onShowSuccess();
+//           this.customToastService.onShowSuccess();
 //           this.onLoadData();
-//           this.swalService.onClose();
+//           this.customSwalService.onClose();
 //         },
 //         (err) => {
-//           this.toastService.onShowError();
-//           this.swalService.onClose();
+//           this.customToastService.onShowError();
+//           this.customSwalService.onClose();
 //           console.log(err.error);
 //         }
 //       );

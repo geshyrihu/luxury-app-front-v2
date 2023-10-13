@@ -4,8 +4,8 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import { IUserCardDto } from 'src/app/interfaces/IUserCardDto.interface';
 import PhoneFormatPipe from 'src/app/pipes/phone-format.pipe';
+import { CustomToastService } from 'src/app/services/custom-toast.service';
 import { DataService } from 'src/app/services/data.service';
-import { ToastService } from 'src/app/services/toast.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -13,13 +13,13 @@ import { environment } from 'src/environments/environment';
   templateUrl: './card-employee.component.html',
   standalone: true,
   imports: [CommonModule, PhoneFormatPipe],
-  providers: [ToastService],
+  providers: [CustomToastService],
 })
 export default class CardEmployeeComponent implements OnInit, OnDestroy {
   private dataService = inject(DataService);
   public ref = inject(DynamicDialogRef);
   public config = inject(DynamicDialogConfig);
-  public toastService = inject(ToastService);
+  public customToastService = inject(CustomToastService);
 
   subRef$: Subscription;
   urlImage: string = '';
@@ -42,7 +42,7 @@ export default class CardEmployeeComponent implements OnInit, OnDestroy {
           this.urlImage = `${environment.base_urlImg}Administration/accounts/${this.user.photoPath}`;
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });

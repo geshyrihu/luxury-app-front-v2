@@ -6,10 +6,12 @@ import { Subscription } from 'rxjs';
 import AddoreditMinutaDetalleComponent from 'src/app/pages/operaciones/junta-comite/addoredit-minuta-detalle/addoredit-minuta-detalle.component';
 import AddorEditMeetingSeguimientoComponent from 'src/app/pages/operaciones/junta-comite/addoredit-seguimiento/addor-edit-meeting-seguimiento.component';
 import { SanitizeHtmlPipe } from 'src/app/pipes/sanitize-html.pipe';
-import { AuthService } from 'src/app/services/auth.service';
-import { DataService } from 'src/app/services/data.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  AuthService,
+  CustomSwalService,
+  CustomToastService,
+  DataService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import ContMinutaSeguimientosComponent from '../../contabilidad/contabilidad-pendientes-minuta/cont-minuta-seguimientos.component';
@@ -18,7 +20,7 @@ import ContMinutaSeguimientosComponent from '../../contabilidad/contabilidad-pen
   templateUrl: './legal-pendientes-minuta.component.html',
   standalone: true,
   imports: [CommonModule, ComponentsModule, SanitizeHtmlPipe, PrimeNgModule],
-  providers: [DialogService, MessageService, ToastService],
+  providers: [DialogService, MessageService, CustomToastService],
 })
 export default class LegalPendientesMinutaComponent
   implements OnInit, OnDestroy
@@ -27,8 +29,8 @@ export default class LegalPendientesMinutaComponent
   public authService = inject(AuthService);
   public dialogService = inject(DialogService);
   public messageService = inject(MessageService);
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
 
   data: any[] = [];
 
@@ -41,7 +43,7 @@ export default class LegalPendientesMinutaComponent
   }
 
   onLoadData() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get(
         `ContabilidadMinuta/ListaMinutaLegal/${this.authService.userTokenDto.infoUserAuthDto.applicationUserId}/${this.statusFiltro}`
@@ -49,12 +51,12 @@ export default class LegalPendientesMinutaComponent
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }
@@ -75,7 +77,7 @@ export default class LegalPendientesMinutaComponent
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });
@@ -94,26 +96,26 @@ export default class LegalPendientesMinutaComponent
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });
   }
 
   onDeleteSeguimiento(id: number) {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .delete(`MeetingDertailsSeguimiento/${id}`)
       .subscribe({
         next: () => {
           this.onLoadData();
-          this.swalService.onClose();
-          this.toastService.onShowSuccess();
+          this.customSwalService.onClose();
+          this.customToastService.onShowSuccess();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }

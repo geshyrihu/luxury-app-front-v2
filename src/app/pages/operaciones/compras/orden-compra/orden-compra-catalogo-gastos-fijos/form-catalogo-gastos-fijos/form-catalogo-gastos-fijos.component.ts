@@ -9,17 +9,19 @@ import {
 } from '@angular/forms';
 import { MessageService, SelectItem } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { ToastModule } from 'primeng/toast';
 import { Subscription } from 'rxjs';
-import { AuthService } from 'src/app/services/auth.service';
-import { CatalogoGastosFijosService } from 'src/app/services/catalogo-gastos-fijos.service';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
-import { DataService } from 'src/app/services/data.service';
-import { SelectItemService } from 'src/app/services/select-item.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  AuthService,
+  CatalogoGastosFijosService,
+  CustomSwalService,
+  CustomToastService,
+  CustomerIdService,
+  DataService,
+  SelectItemService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
+import PrimeNgModule from 'src/app/shared/prime-ng.module';
 @Component({
   selector: 'app-form-catalogo-gastos-fijos',
   templateUrl: './form-catalogo-gastos-fijos.component.html',
@@ -31,16 +33,16 @@ import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.mod
     FormsModule,
     ComponentsModule,
     CommonModule,
-    ToastModule,
+    PrimeNgModule,
     CustomInputModule,
   ],
-  providers: [MessageService, ToastService],
+  providers: [MessageService, CustomToastService],
 })
 export default class FormCatalogoGastosFijosComponent
   implements OnInit, OnDestroy
 {
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
   public authService = inject(AuthService);
   private formBuilder = inject(FormBuilder);
   public dataService = inject(DataService);
@@ -107,7 +109,7 @@ export default class FormCatalogoGastosFijosComponent
   }
 
   onLoadData() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
 
     this.subRef$ = this.dataService
       .get<any>(`CatalogoGastosFijos/${this.id}`)
@@ -121,12 +123,12 @@ export default class FormCatalogoGastosFijosComponent
           this.form.patchValue({
             providerName: resp.body.provider,
           });
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
   }
@@ -140,23 +142,23 @@ export default class FormCatalogoGastosFijosComponent
     }
     // Deshabilitar el botón al iniciar el envío del formulario
     this.submitting = true;
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     if (this.id === 0) {
       this.subRef$ = this.dataService
         .post(`CatalogoGastosFijos`, this.form.value)
         .subscribe({
           next: (resp: any) => {
-            this.toastService.onShowSuccess();
+            this.customToastService.onShowSuccess();
             this.id = resp.body.id;
             this.onLoadData();
-            this.swalService.onClose();
+            this.customSwalService.onClose();
           },
           error: (err) => {
-            this.toastService.onShowError();
+            this.customToastService.onShowError();
             console.log(err.error);
             // Habilitar el botón nuevamente al finalizar el envío del formulario
             this.submitting = false;
-            this.swalService.onClose();
+            this.customSwalService.onClose();
           },
         });
     } else {
@@ -165,15 +167,15 @@ export default class FormCatalogoGastosFijosComponent
         .subscribe({
           next: () => {
             this.onLoadData();
-            this.swalService.onClose();
-            this.toastService.onShowSuccess();
+            this.customSwalService.onClose();
+            this.customToastService.onShowSuccess();
           },
           error: (err) => {
-            this.toastService.onShowError();
+            this.customToastService.onShowError();
             console.log(err.error);
             // Habilitar el botón nuevamente al finalizar el envío del formulario
             this.submitting = false;
-            this.swalService.onClose();
+            this.customSwalService.onClose();
           },
         });
     }

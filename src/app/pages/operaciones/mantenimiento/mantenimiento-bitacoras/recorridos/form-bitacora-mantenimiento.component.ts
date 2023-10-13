@@ -9,11 +9,13 @@ import {
 } from '@angular/forms';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { AuthService } from 'src/app/services/auth.service';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
-import { DataService } from 'src/app/services/data.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  AuthService,
+  CustomSwalService,
+  CustomToastService,
+  CustomerIdService,
+  DataService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
 
@@ -27,7 +29,7 @@ import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.mod
     ComponentsModule,
     CustomInputModule,
   ],
-  providers: [ToastService],
+  providers: [CustomToastService],
 })
 export default class FormBitacoraMantenimientoComponent
   implements OnInit, OnDestroy
@@ -37,8 +39,8 @@ export default class FormBitacoraMantenimientoComponent
   public customerIdService = inject(CustomerIdService);
   public dataService = inject(DataService);
   public ref = inject(DynamicDialogRef);
-  private swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  private customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
 
   submitting: boolean = false;
   subRef$: Subscription;
@@ -91,21 +93,21 @@ export default class FormBitacoraMantenimientoComponent
     }
     // Deshabilitar el botón al iniciar el envío del formulario
     this.submitting = true;
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
 
     this.subRef$ = this.dataService
       .post(`BitacoraMantenimiento`, this.form.value)
       .subscribe({
         next: () => {
           this.ref.close(true);
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
           // Habilitar el botón nuevamente al finalizar el envío del formulario
           this.submitting = false;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
     this.submitting = true;
@@ -119,14 +121,14 @@ export default class FormBitacoraMantenimientoComponent
       .subscribe({
         next: (resp: any) => {
           this.maquinarias = resp.body;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
           // Habilitar el botón nuevamente al finalizar el envío del formulario
           this.submitting = false;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
   }

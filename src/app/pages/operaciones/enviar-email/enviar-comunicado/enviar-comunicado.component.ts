@@ -18,10 +18,12 @@ import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import { IDestinatariosMailReporte } from 'src/app/interfaces/IDestinatariosMailReporte.interface';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
-import { DataService } from 'src/app/services/data.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  CustomSwalService,
+  CustomToastService,
+  CustomerIdService,
+  DataService,
+} from 'src/app/services/common-services';
 import AgregarCorreoElectronicoComponent from 'src/app/shared/agregar-correo-electronico/agregar-correo-electronico.component';
 import ListadoCondominosComponent from 'src/app/shared/listado-condominos/listado-condominos.component';
 @Component({
@@ -35,15 +37,15 @@ import ListadoCondominosComponent from 'src/app/shared/listado-condominos/listad
     FormsModule,
     CKEditorModule,
   ],
-  providers: [DialogService, MessageService, ToastService],
+  providers: [DialogService, MessageService, CustomToastService],
 })
 export default class EnviarComunicadoComponent {
-  public toastService = inject(ToastService);
+  public customToastService = inject(CustomToastService);
   private formBuilder = inject(FormBuilder);
   public dialogService = inject(DialogService);
   public dataService = inject(DataService);
   public customerIdService = inject(CustomerIdService);
-  private swalService = inject(SwalService);
+  private customSwalService = inject(CustomSwalService);
 
   public animation: boolean = false;
 
@@ -132,17 +134,17 @@ export default class EnviarComunicadoComponent {
     let model = this.onCreateFormData();
     // Deshabilitar el botón al iniciar el envío del formulario
     this.submitting = true;
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
 
     this.subRef$ = this.dataService
       .post('SendEmail/SendComunicado', model)
       .subscribe({
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
           // Habilitar el botón nuevamente al finalizar el envío del formulario
           this.submitting = false;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
   }

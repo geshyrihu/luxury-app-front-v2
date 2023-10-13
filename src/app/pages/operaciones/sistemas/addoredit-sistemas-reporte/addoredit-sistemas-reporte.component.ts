@@ -11,12 +11,14 @@ import { Subscription } from 'rxjs';
 import { EStatusTask } from 'src/app/enums/estatus.enum';
 import { EPriority } from 'src/app/enums/prioridad.enum';
 import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
-import { AuthService } from 'src/app/services/auth.service';
-import { DataService } from 'src/app/services/data.service';
-import { DateService } from 'src/app/services/date.service';
-import { SelectItemService } from 'src/app/services/select-item.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  AuthService,
+  CustomSwalService,
+  CustomToastService,
+  DataService,
+  DateService,
+  SelectItemService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
 import { environment } from 'src/environments/environment';
@@ -30,7 +32,7 @@ import { environment } from 'src/environments/environment';
     ComponentsModule,
     CustomInputModule,
   ],
-  providers: [ToastService],
+  providers: [CustomToastService],
 })
 export default class AddoreditSistemasReporteComponent
   implements OnInit, OnDestroy
@@ -42,8 +44,8 @@ export default class AddoreditSistemasReporteComponent
   public config = inject(DynamicDialogConfig);
   public ref = inject(DynamicDialogRef);
   private dateService = inject(DateService);
-  public swalService = inject(SwalService);
-  private toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  private customToastService = inject(CustomToastService);
 
   submitting: boolean = false;
 
@@ -141,21 +143,21 @@ export default class AddoreditSistemasReporteComponent
     const model = this.createFormData(this.form.value);
     // Deshabilitar el botón al iniciar el envío del formulario
     this.submitting = true;
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     if (this.id === 0) {
       this.subRef$ = this.dataService
         .post(`Ticket/CreateFromSistemas`, model)
         .subscribe({
           next: () => {
-            this.swalService.onClose();
+            this.customSwalService.onClose();
             this.ref.close(true);
           },
           error: (err) => {
             console.log(err.error);
-            this.toastService.onShowError();
+            this.customToastService.onShowError();
             // Habilitar el botón nuevamente al finalizar el envío del formulario
             this.submitting = false;
-            this.swalService.onClose();
+            this.customSwalService.onClose();
           },
         });
     } else {
@@ -168,7 +170,7 @@ export default class AddoreditSistemasReporteComponent
           error: (err) => {
             console.log(err.error);
             // Habilitar el botón nuevamente al finalizar el envío del formulario
-            this.swalService.onClose();
+            this.customSwalService.onClose();
             this.submitting = false;
           },
         });
@@ -220,7 +222,7 @@ export default class AddoreditSistemasReporteComponent
           this.cb_user = resp.body;
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });

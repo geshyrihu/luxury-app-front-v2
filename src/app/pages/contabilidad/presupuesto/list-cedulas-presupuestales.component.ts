@@ -5,11 +5,13 @@ import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
-import { AuthService } from 'src/app/services/auth.service';
-import { DataService } from 'src/app/services/data.service';
-import { SelectItemService } from 'src/app/services/select-item.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  AuthService,
+  CustomSwalService,
+  CustomToastService,
+  DataService,
+  SelectItemService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 
@@ -20,18 +22,18 @@ const date = new Date();
   templateUrl: './list-cedulas-presupuestales.component.html',
   standalone: true,
   imports: [ComponentsModule, RouterModule, CommonModule, PrimeNgModule],
-  providers: [DialogService, MessageService, ToastService],
+  providers: [DialogService, MessageService, CustomToastService],
 })
 export default class ListCedulasPresupuestalesComponent
   implements OnInit, OnDestroy
 {
-  public toastService = inject(ToastService);
+  public customToastService = inject(CustomToastService);
   private dataService = inject(DataService);
   public authService = inject(AuthService);
   private selectItemService = inject(SelectItemService);
   public messageService = inject(MessageService);
   public dialogService = inject(DialogService);
-  public swalService = inject(SwalService);
+  public customSwalService = inject(CustomSwalService);
 
   subRef$: Subscription;
 
@@ -63,18 +65,18 @@ export default class ListCedulasPresupuestalesComponent
     this.onLoadData();
   }
   onLoadData() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get(`CedulaPresupuestal/GetAllAsync/`)
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }
@@ -84,11 +86,11 @@ export default class ListCedulasPresupuestalesComponent
       .delete(`CedulaPresupuestal/${data.id}`)
       .subscribe({
         next: () => {
-          this.toastService.onShowSuccess();
+          this.customToastService.onShowSuccess();
           this.onLoadData();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });

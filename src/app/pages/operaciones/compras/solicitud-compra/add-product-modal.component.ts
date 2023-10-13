@@ -9,11 +9,13 @@ import {
 } from 'primeng/dynamicdialog';
 import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
 import TarjetaProductoComponent from 'src/app/pages/operaciones/mantenimiento/mantenimiento-catalogos/tarjeta-producto/tarjeta-producto.component';
-import { AuthService } from 'src/app/services/auth.service';
-import { DataService } from 'src/app/services/data.service';
-import { SelectItemService } from 'src/app/services/select-item.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  AuthService,
+  CustomSwalService,
+  CustomToastService,
+  DataService,
+  SelectItemService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import { environment } from 'src/environments/environment';
@@ -23,11 +25,16 @@ import { environment } from 'src/environments/environment';
   templateUrl: './add-product-modal.component.html',
   standalone: true,
   imports: [PrimeNgModule, CommonModule, ComponentsModule, FormsModule],
-  providers: [DialogService, MessageService, ConfirmationService, ToastService],
+  providers: [
+    DialogService,
+    MessageService,
+    ConfirmationService,
+    CustomToastService,
+  ],
 })
 export default class AddProductModalComponent implements OnInit {
-  public toastService = inject(ToastService);
-  public swalService = inject(SwalService);
+  public customToastService = inject(CustomToastService);
+  public customSwalService = inject(CustomSwalService);
 
   isInRole: boolean;
   id: any = 0;
@@ -61,7 +68,7 @@ export default class AddProductModalComponent implements OnInit {
   }
 
   onLoadProduct() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.dataService
       .get(
         `SolicitudCompraDetalle/AddProductoToSolicitudDto/${this.solicitudCompraId}`
@@ -69,12 +76,12 @@ export default class AddProductModalComponent implements OnInit {
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }
@@ -92,12 +99,12 @@ export default class AddProductModalComponent implements OnInit {
     item.EmployeeId = this.authService.infoEmployeeDto.employeeId;
     this.dataService.post<any>(`SolicitudCompraDetalle/`, item).subscribe({
       next: () => {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.mensajeError = false;
         this.onLoadProduct();
       },
       error: (err) => {
-        this.toastService.onShowError();
+        this.customToastService.onShowError();
         console.log(err.error);
       },
     });

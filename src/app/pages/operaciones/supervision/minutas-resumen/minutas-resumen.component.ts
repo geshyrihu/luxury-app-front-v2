@@ -5,11 +5,11 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { TableModule } from 'primeng/table';
 import { Subscription } from 'rxjs';
+import { CustomSwalService } from 'src/app/services/custom-swal.service';
 import { DataService } from 'src/app/services/data.service';
 import { DateService } from 'src/app/services/date.service';
 import { PeriodoMonthService } from 'src/app/services/periodo-month.service';
 import { SelectItemService } from 'src/app/services/select-item.service';
-import { SwalService } from 'src/app/services/swal.service';
 import ComponentsModule from 'src/app/shared/components.module';
 import FiltroMinutasAreaComponent from '../filtro-minutas-area/filtro-minutas-area.component';
 @Component({
@@ -27,7 +27,7 @@ import FiltroMinutasAreaComponent from '../filtro-minutas-area/filtro-minutas-ar
 })
 export default class MinutasResumenComponent implements OnInit, OnDestroy {
   public dateService = inject(DateService);
-  public swalService = inject(SwalService);
+  public customSwalService = inject(CustomSwalService);
   public dataService = inject(DataService);
   public dialogService = inject(DialogService);
   public selectItemService = inject(SelectItemService);
@@ -65,7 +65,7 @@ export default class MinutasResumenComponent implements OnInit, OnDestroy {
   }
 
   onLoadData(fehcaInicio: string, fechaFinal: string) {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get(
         `ResumenGeneral/ResumenMinutasGeneralLista/${fehcaInicio}/${fechaFinal}`
@@ -73,12 +73,12 @@ export default class MinutasResumenComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (resp: any) => {
           this.generalMinutas = resp.body;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
 
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
     this.subRef$ = this.dataService
@@ -88,11 +88,11 @@ export default class MinutasResumenComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (resp: any) => {
           this.generalMinutasGrupo = resp.body;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
   }

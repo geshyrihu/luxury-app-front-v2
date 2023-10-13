@@ -7,10 +7,12 @@ import { Observable, Subscription } from 'rxjs';
 import AddoreditMaintenancePreventiveComponent from 'src/app/pages/operaciones/calendarios/mantenimiento-preventivo/addoredit-maintenance-preventive.component';
 import { EMonthPipe } from 'src/app/pipes/month.pipe';
 import { ERecurrencePipe } from 'src/app/pipes/recurrence.pipe';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
-import { DataService } from 'src/app/services/data.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  CustomSwalService,
+  CustomToastService,
+  CustomerIdService,
+  DataService,
+} from 'src/app/services/common-services';
 // import AddoreditMaintenanceCalendarsComponent from './addoredit.component';
 
 @Component({
@@ -18,11 +20,11 @@ import { ToastService } from 'src/app/services/toast.service';
   templateUrl: './gastos-mantenimiento.component.html',
   standalone: true,
   imports: [CommonModule, ToastModule, ERecurrencePipe, EMonthPipe],
-  providers: [MessageService, DialogService, ToastService],
+  providers: [MessageService, DialogService, CustomToastService],
 })
 export default class GastosMantenimientoComponent implements OnInit, OnDestroy {
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
   public dataService = inject(DataService);
   public customerIdService = inject(CustomerIdService);
   public messageService = inject(MessageService);
@@ -42,7 +44,7 @@ export default class GastosMantenimientoComponent implements OnInit, OnDestroy {
     });
   }
   onLoadData() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get(
         `MaintenanceCalendars/SummaryOfExpenses/${this.customerIdService.getcustomerId()}`
@@ -51,12 +53,12 @@ export default class GastosMantenimientoComponent implements OnInit, OnDestroy {
         next: (resp: any) => {
           this.data = resp.body.items;
           this.totalGasto = resp.body.totalGastos;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
     this.subRef$ = this.dataService
@@ -66,12 +68,12 @@ export default class GastosMantenimientoComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (resp: any) => {
           this.resumenGastos = resp.body;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
   }
@@ -91,7 +93,7 @@ export default class GastosMantenimientoComponent implements OnInit, OnDestroy {
     );
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });

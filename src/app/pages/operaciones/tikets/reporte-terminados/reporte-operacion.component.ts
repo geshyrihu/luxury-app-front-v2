@@ -4,13 +4,15 @@ import { RouterModule } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Observable, Subscription } from 'rxjs';
 import { IFilterTicket } from 'src/app/interfaces/IFilterTicket.interface';
-import { AuthService } from 'src/app/services/auth.service';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
-import { DataService } from 'src/app/services/data.service';
-import { ReportService } from 'src/app/services/report.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { TicketFilterService } from 'src/app/services/ticket-filter.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  AuthService,
+  CustomSwalService,
+  CustomToastService,
+  CustomerIdService,
+  DataService,
+  ReportService,
+  TicketFilterService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import { environment } from 'src/environments/environment';
 
@@ -19,11 +21,11 @@ import { environment } from 'src/environments/environment';
   templateUrl: './reporte-operacion.component.html',
   standalone: true,
   imports: [RouterModule, ComponentsModule, CommonModule],
-  providers: [ToastService, MessageService],
+  providers: [CustomToastService, MessageService],
 })
 export default class ReporteOperacionComponent implements OnInit, OnDestroy {
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
   public authService = inject(AuthService);
   public reportService = inject(ReportService);
   public ticketFilterService = inject(TicketFilterService);
@@ -53,7 +55,7 @@ export default class ReporteOperacionComponent implements OnInit, OnDestroy {
     });
   }
   onLoadData() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.urlImg = `${environment.base_urlImg}customers/${this.ticketFilterService.filterTicket.customer}/report/`;
 
     this.subRef$ = this.dataService
@@ -64,12 +66,12 @@ export default class ReporteOperacionComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }

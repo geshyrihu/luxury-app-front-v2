@@ -5,10 +5,10 @@ import { Router, RouterModule } from '@angular/router';
 import * as saveAs from 'file-saver';
 import { Subscription } from 'rxjs';
 import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
+import { CustomSwalService } from 'src/app/services/custom-swal.service';
+import { CustomToastService } from 'src/app/services/custom-toast.service';
 import { DataService } from 'src/app/services/data.service';
 import { FilterRequestsService } from 'src/app/services/filter-requests.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
 import CustomButtonModule from 'src/app/shared/custom-buttons/custom-button.module';
 
 @Component({
@@ -16,15 +16,15 @@ import CustomButtonModule from 'src/app/shared/custom-buttons/custom-button.modu
   templateUrl: './filter-requests.component.html',
   standalone: true,
   imports: [RouterModule, CommonModule, FormsModule, CustomButtonModule],
-  providers: [ToastService],
+  providers: [CustomToastService],
 })
 export default class FilterRequestsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {}
   private dataService = inject(DataService);
   private router = inject(Router);
   private filterRequestsService = inject(FilterRequestsService);
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
   menu = [
     { label: 'Vacantes', path: 'vacantes' },
     { label: 'Altas', path: 'altas' },
@@ -62,24 +62,24 @@ export default class FilterRequestsComponent implements OnInit, OnDestroy {
           saveAs(blob, this.nameFile);
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });
   }
   onSendReportVacants() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get(`SolicitudesReclutamiento/SendReportVacants`)
       .subscribe({
         next: (_) => {
-          this.toastService.onShowSuccess();
-          this.swalService.onClose();
+          this.customToastService.onShowSuccess();
+          this.customSwalService.onClose();
           this.onLoadData();
         },
         error: (err) => {
-          this.toastService.onShowError();
-          this.swalService.onClose();
+          this.customToastService.onShowError();
+          this.customSwalService.onClose();
           console.log(err.error);
         },
       });

@@ -3,10 +3,10 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
+import { CustomSwalService } from 'src/app/services/custom-swal.service';
+import { CustomToastService } from 'src/app/services/custom-toast.service';
 import { DataService } from 'src/app/services/data.service';
 import { SelectItemService } from 'src/app/services/select-item.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -14,11 +14,11 @@ import { environment } from 'src/environments/environment';
   templateUrl: './orden-compra-pdf.component.html',
   standalone: true,
   imports: [CommonModule],
-  providers: [MessageService, ToastService],
+  providers: [MessageService, CustomToastService],
 })
 export default class OrdenCompraPdfComponent implements OnInit, OnDestroy {
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
   public dataService = inject(DataService);
   public routeActive = inject(ActivatedRoute);
   public selectItemService = inject(SelectItemService);
@@ -46,7 +46,7 @@ export default class OrdenCompraPdfComponent implements OnInit, OnDestroy {
   }
 
   onLoadData() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get(`ordencompra/Pdf/${this.ordenCompraId}`)
       .subscribe({
@@ -79,11 +79,11 @@ export default class OrdenCompraPdfComponent implements OnInit, OnDestroy {
           this.subtotal = subTotal;
 
           this.total = this.subtotal + this.iva - this.retencionIva;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
-          this.toastService.onShowError();
-          this.swalService.onClose();
+          this.customToastService.onShowError();
+          this.customSwalService.onClose();
           console.log(err.error);
         },
       });
@@ -99,7 +99,7 @@ export default class OrdenCompraPdfComponent implements OnInit, OnDestroy {
           this.ordenCompraPresupuesto = resp.body;
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });
@@ -113,12 +113,12 @@ export default class OrdenCompraPdfComponent implements OnInit, OnDestroy {
           for (let n of this.ordenCompraDetalle) {
             this.total += n.total;
           }
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
   }

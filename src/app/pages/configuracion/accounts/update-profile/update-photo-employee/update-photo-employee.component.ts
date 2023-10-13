@@ -5,11 +5,13 @@ import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { Subscription } from 'rxjs';
 import { InfoEmployeeAuthDto } from 'src/app/interfaces/auth/user-token.interface';
-import { AuthService } from 'src/app/services/auth.service';
-import { DataService } from 'src/app/services/data.service';
+import {
+  AuthService,
+  CustomSwalService,
+  CustomToastService,
+  DataService,
+} from 'src/app/services/common-services';
 import { ProfielServiceService } from 'src/app/services/profiel-service.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -17,13 +19,13 @@ import { environment } from 'src/environments/environment';
   templateUrl: './update-photo-employee.component.html',
   standalone: true,
   imports: [CommonModule, NgbModule, ToastModule],
-  providers: [MessageService, ToastService],
+  providers: [MessageService, CustomToastService],
 })
 export default class UpdatePhotoEmployeeComponent implements OnInit, OnDestroy {
   public authService = inject(AuthService);
   private dataService = inject(DataService);
-  private swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  private customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
   public profielServiceService = inject(ProfielServiceService);
 
   base_urlImg = environment.base_urlImg + 'Administration/accounts/';
@@ -59,7 +61,7 @@ export default class UpdatePhotoEmployeeComponent implements OnInit, OnDestroy {
     this.uploadImg();
   }
   uploadImg() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     const formData = new FormData();
     formData.append('file', this.imgUpload);
     this.subRef$ = this.dataService
@@ -71,13 +73,13 @@ export default class UpdatePhotoEmployeeComponent implements OnInit, OnDestroy {
           this.profielServiceService.actualizarImagenPerfil(
             this.infoEmployeeDto.photoPath
           );
-          this.swalService.onClose();
-          this.toastService.onShowSuccess();
+          this.customSwalService.onClose();
+          this.customToastService.onShowSuccess();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }

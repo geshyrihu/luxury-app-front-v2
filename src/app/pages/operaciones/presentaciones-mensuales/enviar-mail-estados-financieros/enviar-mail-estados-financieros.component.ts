@@ -15,11 +15,11 @@ import {
 import { ToastModule } from 'primeng/toast';
 import { Subscription } from 'rxjs';
 import { IDestinatariosMailReporte } from 'src/app/interfaces/IDestinatariosMailReporte.interface';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
+import { CustomerIdService } from 'src/app/services/common-services';
+import { CustomSwalService } from 'src/app/services/custom-swal.service';
+import { CustomToastService } from 'src/app/services/custom-toast.service';
 import { DataService } from 'src/app/services/data.service';
 import { SelectItemService } from 'src/app/services/select-item.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
 
 @Component({
@@ -27,12 +27,12 @@ import ComponentsModule from 'src/app/shared/components.module';
   templateUrl: './enviar-mail-estados-financieros.component.html',
   standalone: true,
   imports: [ComponentsModule, CommonModule, ReactiveFormsModule, ToastModule],
-  providers: [MessageService, ToastService],
+  providers: [MessageService, CustomToastService],
 })
 export default class EnviarMailEstadosFinancierosComponent {
-  public swalService = inject(SwalService);
+  public customSwalService = inject(CustomSwalService);
   public customerIdService = inject(CustomerIdService);
-  public toastService = inject(ToastService);
+  public customToastService = inject(CustomToastService);
   private formBuilder = inject(FormBuilder);
   public dataService = inject(DataService);
   public ref = inject(DynamicDialogRef);
@@ -81,7 +81,7 @@ export default class EnviarMailEstadosFinancierosComponent {
   }
 
   onEnviarEmail() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .post(
         `SendEmail/EstadosFinancierosCondominos/${this.id}`,
@@ -89,13 +89,13 @@ export default class EnviarMailEstadosFinancierosComponent {
       )
       .subscribe({
         next: () => {
-          this.toastService.onShowSuccess();
-          this.swalService.onClose();
+          this.customToastService.onShowSuccess();
+          this.customSwalService.onClose();
         },
         error: (err: any) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
   }

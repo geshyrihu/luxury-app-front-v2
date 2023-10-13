@@ -35,12 +35,19 @@
       >
         Agregar CCO
       </button>
-      <button
-        class="col-auto btn btn-outline-success me-1"
-        (click)="onEnviarEmail()"
-      >
-        Enviar Reporte
-      </button>
+
+      <div class="col-auto">
+        <custom-button-confirmation
+          title="Confirmar"
+          text="Enviar Reporte"
+          classButton="btn-outline-primary "
+          label="Enviar Reporte"
+          icon=""
+          tooltipText="Enviar Reporte"
+          confirmButtonText="Sí, enviar"
+          (OnConfirm)="onEnviarEmail()"
+        ></custom-button-confirmation>
+      </div>
     </div>
     <form
       *ngIf="mostrarPara || mostrarCo || mostrarCco"

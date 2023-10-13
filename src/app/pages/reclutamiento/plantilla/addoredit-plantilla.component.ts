@@ -13,12 +13,14 @@ import { ETurnoTrabajo } from 'src/app/enums/turno-trabajo.enum';
 import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
 import { IWorkPositionAddOrEditDto } from 'src/app/interfaces/IEmpresaOrganigramaAddOrEditDto.interface';
 import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
-import { AuthService } from 'src/app/services/auth.service';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
-import { DataService } from 'src/app/services/data.service';
-import { SelectItemService } from 'src/app/services/select-item.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  AuthService,
+  CustomSwalService,
+  CustomToastService,
+  CustomerIdService,
+  DataService,
+  SelectItemService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
 @Component({
@@ -31,7 +33,7 @@ import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.mod
     ComponentsModule,
     CustomInputModule,
   ],
-  providers: [ToastService],
+  providers: [CustomToastService],
 })
 export default class AddoreditPlantillaComponent implements OnInit, OnDestroy {
   private formBuilder = inject(FormBuilder);
@@ -41,8 +43,8 @@ export default class AddoreditPlantillaComponent implements OnInit, OnDestroy {
   public customerIdService = inject(CustomerIdService);
   public selectItemService = inject(SelectItemService);
   public authService = inject(AuthService);
-  private swalService = inject(SwalService);
-  private toastService = inject(ToastService);
+  private customSwalService = inject(CustomSwalService);
+  private customToastService = inject(CustomToastService);
 
   submitting: boolean = false;
 
@@ -106,7 +108,7 @@ export default class AddoreditPlantillaComponent implements OnInit, OnDestroy {
           console.log('onLoadData()', this.form.value);
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });
@@ -130,21 +132,21 @@ export default class AddoreditPlantillaComponent implements OnInit, OnDestroy {
     });
     // Deshabilitar el botón al iniciar el envío del formulario
     this.submitting = true;
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     if (this.id === 0) {
       this.subRef$ = this.dataService
         .post(`WorkPosition`, this.form.value)
         .subscribe({
           next: () => {
-            this.swalService.onClose();
+            this.customSwalService.onClose();
             this.ref.close(true);
           },
           error: (err) => {
             console.log(err.error);
-            this.toastService.onShowError();
+            this.customToastService.onShowError();
             // Habilitar el botón nuevamente al finalizar el envío del formulario
             this.submitting = false;
-            this.swalService.onClose();
+            this.customSwalService.onClose();
           },
         });
     } else {
@@ -152,15 +154,15 @@ export default class AddoreditPlantillaComponent implements OnInit, OnDestroy {
         .put(`WorkPosition/${this.id}`, this.form.value)
         .subscribe({
           next: () => {
-            this.swalService.onClose();
+            this.customSwalService.onClose();
             this.ref.close(true);
           },
           error: (err) => {
             console.log(err.error);
-            this.toastService.onShowError();
+            this.customToastService.onShowError();
             // Habilitar el botón nuevamente al finalizar el envío del formulario
             this.submitting = false;
-            this.swalService.onClose();
+            this.customSwalService.onClose();
           },
         });
     }

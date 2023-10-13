@@ -6,10 +6,12 @@ import { TableModule } from 'primeng/table';
 import { Subscription } from 'rxjs';
 import { SanitizeHtmlPipe } from 'src/app/pipes/sanitize-html.pipe';
 import { ETypeMeetingPipe } from 'src/app/pipes/typeMeeting.pipe';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
-import { DataService } from 'src/app/services/data.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  CustomSwalService,
+  CustomToastService,
+  CustomerIdService,
+  DataService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import { environment } from 'src/environments/environment';
 
@@ -24,14 +26,14 @@ import { environment } from 'src/environments/environment';
     SanitizeHtmlPipe,
     ETypeMeetingPipe,
   ],
-  providers: [ToastService, MessageService],
+  providers: [CustomToastService, MessageService],
 })
 export default class ReportMeetingComponent implements OnInit, OnDestroy {
   public dataService = inject(DataService);
   public rutaActiva = inject(ActivatedRoute);
   public customerIdService = inject(CustomerIdService);
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
 
   data: any = [];
   detalles: any = [];
@@ -43,7 +45,7 @@ export default class ReportMeetingComponent implements OnInit, OnDestroy {
   imgBase = environment.base_urlImg + 'Administration/customer/';
   ngOnInit(): void {
     this.data = [];
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
 
     this.customer = this.rutaActiva.snapshot.params.customer;
     this.meetingId = this.rutaActiva.snapshot.params.id;
@@ -56,10 +58,10 @@ export default class ReportMeetingComponent implements OnInit, OnDestroy {
 
           this.detalles = resp.body.asuntos;
           this.onLoadCustomer();
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });

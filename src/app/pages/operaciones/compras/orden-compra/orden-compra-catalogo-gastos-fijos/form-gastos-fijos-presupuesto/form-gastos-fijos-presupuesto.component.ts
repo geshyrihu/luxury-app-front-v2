@@ -4,12 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { AuthService } from 'src/app/services/auth.service';
 import { CatalogoGastosFijosService } from 'src/app/services/catalogo-gastos-fijos.service';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
-import { DataService } from 'src/app/services/data.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  AuthService,
+  CustomSwalService,
+  CustomToastService,
+  CustomerIdService,
+  DataService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 
@@ -18,13 +20,13 @@ import PrimeNgModule from 'src/app/shared/prime-ng.module';
   templateUrl: './form-gastos-fijos-presupuesto.component.html',
   standalone: true,
   imports: [ComponentsModule, CommonModule, FormsModule, PrimeNgModule],
-  providers: [MessageService, ToastService],
+  providers: [MessageService, CustomToastService],
 })
 export default class FormGastosFijosPresupuestoComponent
   implements OnInit, OnDestroy
 {
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
   public dataService = inject(DataService);
   public authService = inject(AuthService);
   public ref = inject(DynamicDialogRef);
@@ -50,7 +52,7 @@ export default class FormGastosFijosPresupuestoComponent
   }
 
   onLoadPresupuesto() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get(
         `OrdenCompraPresupuesto/GetAllForGastosFijos/${this.customerIdService.customerId}/${this.cedulaId}/${this.catalogoGastosFijosId}`
@@ -60,12 +62,12 @@ export default class FormGastosFijosPresupuestoComponent
           this.data = resp.body;
 
           this.onLoadPresupuestoAgregados();
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
   }
@@ -77,19 +79,19 @@ export default class FormGastosFijosPresupuestoComponent
       dineroUsado: partidaPresupuestal.dineroUsado,
       catalogoGastosFijosId: this.catalogoGastosFijosId,
     };
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .post(`CatalogoGastosFijosPresupuesto`, model)
       .subscribe({
         next: () => {
           this.onLoadPresupuestoAgregados();
           this.onLoadPresupuesto();
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }
@@ -104,27 +106,27 @@ export default class FormGastosFijosPresupuestoComponent
           this.presupuestoAgregados = resp.body;
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });
   }
 
   deletePresupuestoAgregado(id: number) {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .delete(`CatalogoGastosFijosPresupuesto/${id}`)
       .subscribe({
         next: () => {
-          this.toastService.onShowSuccess();
+          this.customToastService.onShowSuccess();
           this.onLoadPresupuesto();
           this.onLoadPresupuestoAgregados();
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
   }
@@ -134,11 +136,11 @@ export default class FormGastosFijosPresupuestoComponent
       .put(`CatalogoGastosFijosPresupuesto/${item.id}`, item)
       .subscribe({
         next: (resp: any) => {
-          this.toastService.onShowSuccess();
+          this.customToastService.onShowSuccess();
           this.onLoadPresupuestoAgregados();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });
@@ -157,7 +159,7 @@ export default class FormGastosFijosPresupuestoComponent
           this.cb_cedulas = resp.body;
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });

@@ -19,12 +19,14 @@ import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
 import { IEmployeeAddOrEditDto } from 'src/app/interfaces/IEmployeeAddOrEditDto.interface';
 import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
 import { phonePrefixes } from 'src/app/interfaces/phone-number-prefix';
-import { AuthService } from 'src/app/services/auth.service';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
-import { DataService } from 'src/app/services/data.service';
-import { SelectItemService } from 'src/app/services/select-item.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  AuthService,
+  CustomSwalService,
+  CustomToastService,
+  CustomerIdService,
+  DataService,
+  SelectItemService,
+} from 'src/app/services/common-services';
 import ComponentsModule, {
   flatpickrFactory,
 } from 'src/app/shared/components.module';
@@ -40,7 +42,7 @@ import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.mod
     CommonModule,
     CustomInputModule,
   ],
-  providers: [DatePipe, ToastService],
+  providers: [DatePipe, CustomToastService],
 })
 export default class AddOrEditEmplopyeeComponent implements OnInit, OnDestroy {
   public dataService = inject(DataService);
@@ -51,8 +53,8 @@ export default class AddOrEditEmplopyeeComponent implements OnInit, OnDestroy {
   public ref = inject(DynamicDialogRef);
   public datepipe = inject(DatePipe);
   public customerIdService = inject(CustomerIdService);
-  private swalService = inject(SwalService);
-  private toastService = inject(ToastService);
+  private customSwalService = inject(CustomSwalService);
+  private customToastService = inject(CustomToastService);
 
   submitting: boolean = false;
   subRef$: Subscription;
@@ -126,21 +128,21 @@ export default class AddOrEditEmplopyeeComponent implements OnInit, OnDestroy {
       return;
     }
     this.submitting = true;
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .put(`Employees/${this.id}`, this.form.value)
       .subscribe({
         next: () => {
-          this.swalService.onClose();
+          this.customSwalService.onClose();
           this.submitting = false;
           this.ref.close();
         },
         error: (err) => {
           console.log(err.error);
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           // Habilitar el botón nuevamente al finalizar el envío del formulario
           this.submitting = false;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
   }

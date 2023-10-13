@@ -6,7 +6,7 @@ import ListadoAnualMantenimientoComponent from './listado-anual-mantenimiento/li
 
 @Component({
   selector: 'app-index',
-  templateUrl: './index-calendario-mtto.component.html',
+  templateUrl: './list-calendario-mtto.component.html',
   standalone: true,
   imports: [
     ListadoAnualMantenimientoComponent,
@@ -15,4 +15,4 @@ import ListadoAnualMantenimientoComponent from './listado-anual-mantenimiento/li
     NgbNavModule,
   ],
 })
-export default class IndexCalendarioMttoComponent {}
+export default class ListCalendarioMttoComponent {}

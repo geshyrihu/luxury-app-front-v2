@@ -1,20 +1,22 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { DataService } from 'src/app/services/data.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  CustomSwalService,
+  CustomToastService,
+  DataService,
+} from 'src/app/services/common-services';
 
 @Component({
   selector: 'app-list-roles',
   templateUrl: './list-roles.component.html',
   standalone: true,
   imports: [CommonModule],
-  providers: [ToastService],
+  providers: [CustomToastService],
 })
 export default class ListRolesComponent implements OnInit, OnDestroy {
-  private swalService = inject(SwalService);
-  private toastService = inject(ToastService);
+  private customSwalService = inject(CustomSwalService);
+  private customToastService = inject(CustomToastService);
   private dataService = inject(DataService);
   data: any[] = [];
 
@@ -23,16 +25,16 @@ export default class ListRolesComponent implements OnInit, OnDestroy {
   }
 
   onLoadData() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService.get('Roles').subscribe({
       next: (resp: any) => {
         this.data = resp.body;
-        this.swalService.onClose();
+        this.customSwalService.onClose();
       },
       error: (err) => {
         console.log(err.error);
-        this.swalService.onClose();
-        this.toastService.onShowError();
+        this.customSwalService.onClose();
+        this.customToastService.onShowError();
       },
     });
   }

@@ -3,12 +3,14 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
-import { AuthService } from 'src/app/services/auth.service';
-import { CatalogoGastosFijosService } from 'src/app/services/catalogo-gastos-fijos.service';
-import { DataService } from 'src/app/services/data.service';
-import { SelectItemService } from 'src/app/services/select-item.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  AuthService,
+  CatalogoGastosFijosService,
+  CustomSwalService,
+  CustomToastService,
+  DataService,
+  SelectItemService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import { environment } from 'src/environments/environment';
@@ -18,13 +20,13 @@ import { environment } from 'src/environments/environment';
   templateUrl: './form-gastos-fijos-servicios.component.html',
   standalone: true,
   imports: [ComponentsModule, FormsModule, CommonModule, PrimeNgModule],
-  providers: [MessageService, ToastService],
+  providers: [MessageService, CustomToastService],
 })
 export default class FormGastosFijosServiciosComponent
   implements OnInit, OnDestroy
 {
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
   public dataService = inject(DataService);
   public selectItemService = inject(SelectItemService);
   public authService = inject(AuthService);
@@ -63,26 +65,26 @@ export default class FormGastosFijosServiciosComponent
           this.productosAgregados = resp.body;
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });
   }
 
   deleteProductoAgregado(id: number) {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .delete(`CatalogoGastosFijosDetalles/${id}`)
       .subscribe({
         next: () => {
-          this.toastService.onShowSuccess();
+          this.customToastService.onShowSuccess();
           this.onLoadProductsAgregados();
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
   }
@@ -97,7 +99,7 @@ export default class FormGastosFijosServiciosComponent
           this.productos = resp.body;
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });
@@ -114,13 +116,13 @@ export default class FormGastosFijosServiciosComponent
       .post<any>(`CatalogoGastosFijosDetalles/`, item)
       .subscribe({
         next: (resp: any) => {
-          this.toastService.onShowSuccess();
+          this.customToastService.onShowSuccess();
           this.mensajeError = false;
           this.onLoadProducts();
           this.onLoadProductsAgregados();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });
@@ -131,13 +133,13 @@ export default class FormGastosFijosServiciosComponent
       .put(`CatalogoGastosFijosDetalles/${item.id}`, item)
       .subscribe({
         next: (resp: any) => {
-          this.toastService.onShowSuccess();
+          this.customToastService.onShowSuccess();
           this.mensajeError = false;
           this.onLoadProducts();
           this.onLoadProductsAgregados();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });

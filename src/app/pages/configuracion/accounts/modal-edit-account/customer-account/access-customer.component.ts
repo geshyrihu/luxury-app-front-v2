@@ -6,9 +6,11 @@ import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { Subscription } from 'rxjs';
 import { IAddCustomerPermisoToUserDto } from 'src/app/interfaces/IAddCustomerPermisoToUserDto.interface';
-import { DataService } from 'src/app/services/data.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  CustomSwalService,
+  CustomToastService,
+  DataService,
+} from 'src/app/services/common-services';
 @Component({
   selector: 'app-access-customer',
   templateUrl: './access-customer.component.html',
@@ -20,12 +22,12 @@ import { ToastService } from 'src/app/services/toast.service';
     NgbModule,
     ToastModule,
   ],
-  providers: [MessageService, ToastService],
+  providers: [MessageService, CustomToastService],
 })
 export default class AccessCustomerComponent implements OnInit, OnDestroy {
   private dataService = inject(DataService);
-  public toastService = inject(ToastService);
-  public swalService = inject(SwalService);
+  public customToastService = inject(CustomToastService);
+  public customSwalService = inject(CustomSwalService);
 
   clientes: IAddCustomerPermisoToUserDto[] = [];
   ActualizarClientes: IAddCustomerPermisoToUserDto[] = [];
@@ -48,16 +50,16 @@ export default class AccessCustomerComponent implements OnInit, OnDestroy {
   }
 
   onUpdateAcceso(roles: any) {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     const url = `AccesoCustomers/AddCustomerAccesoToUser/${this.applicationUserId}`;
     this.subRef$ = this.dataService.post(url, roles).subscribe({
       next: () => {
-        this.toastService.onShowSuccess();
-        this.swalService.onClose();
+        this.customToastService.onShowSuccess();
+        this.customSwalService.onClose();
       },
       error: (err) => {
-        this.toastService.onShowError();
-        this.swalService.onClose();
+        this.customToastService.onShowError();
+        this.customSwalService.onClose();
         console.log(err.error);
       },
     });

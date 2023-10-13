@@ -6,21 +6,23 @@ import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { Subscription } from 'rxjs';
 import { IRolesDto } from 'src/app/interfaces/IRolesDto.interface';
-import { DataService } from 'src/app/services/data.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  CustomSwalService,
+  CustomToastService,
+  DataService,
+} from 'src/app/services/common-services';
 
 @Component({
   selector: 'app-update-role',
   templateUrl: './update-role.component.html',
   standalone: true,
   imports: [CommonModule, FormsModule, NgbModule, ToastModule],
-  providers: [MessageService, ToastService],
+  providers: [MessageService, CustomToastService],
 })
 export default class UpdateRoleComponent implements OnInit, OnDestroy {
   private dataService = inject(DataService);
-  private toastService = inject(ToastService);
-  public swalService = inject(SwalService);
+  private customToastService = inject(CustomToastService);
+  public customSwalService = inject(CustomSwalService);
 
   roles: IRolesDto[] = [];
   rolesUpdate: IRolesDto[] = [];
@@ -43,17 +45,17 @@ export default class UpdateRoleComponent implements OnInit, OnDestroy {
   }
 
   updateRole(roles: any) {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
 
     const url = `Accounts/AddRoleToUser/${this.applicationUserId}`;
     this.subRef$ = this.dataService.post(url, roles).subscribe({
       next: () => {
-        this.toastService.onShowSuccess();
-        this.swalService.onClose();
+        this.customToastService.onShowSuccess();
+        this.customSwalService.onClose();
       },
       error: (err) => {
-        this.toastService.onShowError();
-        this.swalService.onClose();
+        this.customToastService.onShowError();
+        this.customSwalService.onClose();
         console.log(err.error);
       },
     });

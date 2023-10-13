@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
-
 import { ChartModule } from 'primeng/chart';
 @Component({
   selector: 'app-custom-bar-chart',

@@ -10,11 +10,11 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import { imageToBase64 } from 'src/app/helpers/enumeration';
 import { UserInfoDto } from 'src/app/interfaces/auth/user-info.interface';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
+import { CustomerIdService } from 'src/app/services/common-services';
+import { CustomSwalService } from 'src/app/services/custom-swal.service';
 import { DataService } from 'src/app/services/data.service';
 import { DateService } from 'src/app/services/date.service';
 import { SelectItemService } from 'src/app/services/select-item.service';
-import { SwalService } from 'src/app/services/swal.service';
 import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
 import { environment } from 'src/environments/environment';
@@ -37,7 +37,7 @@ export default class AddAccountCustomerComponent implements OnInit, OnDestroy {
   public dateService = inject(DateService);
   private formBuilder = inject(FormBuilder);
   public selectItemService = inject(SelectItemService);
-  public swalService = inject(SwalService);
+  public customSwalService = inject(CustomSwalService);
   public ref = inject(DynamicDialogRef);
 
   submitting: boolean = false;
@@ -69,24 +69,24 @@ export default class AddAccountCustomerComponent implements OnInit, OnDestroy {
     const formData = this.createFormData(this.form.value);
     // Deshabilitar el botón al iniciar el envío del formulario
     this.submitting = true;
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
 
     this.subRef$ = this.dataService
       .post('Employees/CreateEmployee', formData)
       .subscribe({
         next: () => {
           this.ref.close(true);
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
           err.error.forEach((x) => {
             this.dataError = this.dataError + x['description'] + ' ';
           });
-          this.swalService.onLoadingError(this.dataError);
+          this.customSwalService.onLoadingError(this.dataError);
           // Habilitar el botón nuevamente al finalizar el envío del formulario
           this.submitting = false;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
   }
@@ -144,7 +144,7 @@ export default class AddAccountCustomerComponent implements OnInit, OnDestroy {
         error: (err) => {
           console.log(err.error);
           // Habilitar el botón nuevamente al finalizar el envío del formulario
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
   }

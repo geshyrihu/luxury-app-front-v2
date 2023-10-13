@@ -3,7 +3,7 @@
 <div class="card">
   <p-table
     #dt
-    [(selection)]="data"
+    [value]="data"
     [autoLayout]="true"
     [globalFilterFields]="['shortName', 'largeName']"
     [paginator]="true"
@@ -11,7 +11,6 @@
     [rows]="50"
     [rowsPerPageOptions]="[50, 75, 100, 200]"
     [showCurrentPageReport]="true"
-    [value]="data"
     currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
     styleClass="custom-table"
   >

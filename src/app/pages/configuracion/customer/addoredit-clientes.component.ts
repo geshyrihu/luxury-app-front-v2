@@ -10,10 +10,12 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import { ICustomerAddOrEditDto } from 'src/app/interfaces/ICustomerAddOrEditDto.interface';
 import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
-import { DataService } from 'src/app/services/data.service';
-import { DateService } from 'src/app/services/date.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  CustomSwalService,
+  CustomToastService,
+  DataService,
+  DateService,
+} from 'src/app/services/common-services';
 import ComponentsModule, {
   flatpickrFactory,
 } from 'src/app/shared/components.module';
@@ -30,7 +32,7 @@ import { environment } from 'src/environments/environment';
     ReactiveFormsModule,
     CustomInputModule,
   ],
-  providers: [ToastService],
+  providers: [CustomToastService],
 })
 export default class AddOrEditClienteComponent implements OnInit, OnDestroy {
   private dataService = inject(DataService);
@@ -38,8 +40,8 @@ export default class AddOrEditClienteComponent implements OnInit, OnDestroy {
   private formBuilder = inject(FormBuilder);
   public config = inject(DynamicDialogConfig);
   public ref = inject(DynamicDialogRef);
-  private swalService = inject(SwalService);
-  private toastService = inject(ToastService);
+  private customSwalService = inject(CustomSwalService);
+  private customToastService = inject(CustomToastService);
 
   submitting: boolean = false;
 
@@ -102,21 +104,21 @@ export default class AddOrEditClienteComponent implements OnInit, OnDestroy {
 
     // Deshabilitar el botón al iniciar el envío del formulario
     this.submitting = true;
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     if (this.id === 0) {
       this.subRef$ = this.dataService
         .post<ICustomerAddOrEditDto>('Customers', formData)
         .subscribe({
           next: () => {
-            this.swalService.onClose();
+            this.customSwalService.onClose();
             this.ref.close(true);
           },
           error: (err) => {
             console.log(err.error);
-            this.toastService.onShowError();
+            this.customToastService.onShowError();
             // Habilitar el botón nuevamente al finalizar el envío del formulario
             this.submitting = false;
-            this.swalService.onClose();
+            this.customSwalService.onClose();
           },
         });
     } else {
@@ -124,15 +126,15 @@ export default class AddOrEditClienteComponent implements OnInit, OnDestroy {
         .put<ICustomerAddOrEditDto>(`Customers/${this.id}`, formData)
         .subscribe({
           next: () => {
-            this.swalService.onClose();
+            this.customSwalService.onClose();
             this.ref.close(true);
           },
           error: (err) => {
             console.log(err.error);
-            this.toastService.onShowError();
+            this.customToastService.onShowError();
             // Habilitar el botón nuevamente al finalizar el envío del formulario
             this.submitting = false;
-            this.swalService.onClose();
+            this.customSwalService.onClose();
           },
         });
     }

@@ -14,13 +14,15 @@ import { EStatusTask } from 'src/app/enums/estatus.enum';
 import { EPriority } from 'src/app/enums/prioridad.enum';
 import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
 import { IFilterTicket } from 'src/app/interfaces/IFilterTicket.interface';
-import { AuthService } from 'src/app/services/auth.service';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
-import { DataService } from 'src/app/services/data.service';
-import { DateService } from 'src/app/services/date.service';
-import { SelectItemService } from 'src/app/services/select-item.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  AuthService,
+  CustomerIdService,
+  CustomSwalService,
+  CustomToastService,
+  DataService,
+  DateService,
+  SelectItemService,
+} from 'src/app/services/common-services';
 import ComponentsModule, {
   flatpickrFactory,
 } from 'src/app/shared/components.module';
@@ -39,7 +41,7 @@ const diaActual = new Date(Date.now());
     ReactiveFormsModule,
     CustomInputModule,
   ],
-  providers: [ToastService],
+  providers: [CustomToastService],
 })
 export default class AddoreditTicketComponent implements OnInit, OnDestroy {
   private customerSelectListService = inject(CustomerIdService);
@@ -47,11 +49,11 @@ export default class AddoreditTicketComponent implements OnInit, OnDestroy {
   private dateService = inject(DateService);
   private formBuilder = inject(FormBuilder);
   private selectItemService = inject(SelectItemService);
-  private toastService = inject(ToastService);
+  private customToastService = inject(CustomToastService);
   public authService = inject(AuthService);
   public config = inject(DynamicDialogConfig);
   public ref = inject(DynamicDialogRef);
-  public swalService = inject(SwalService);
+  public customSwalService = inject(CustomSwalService);
 
   subRef$: Subscription;
 
@@ -171,7 +173,7 @@ export default class AddoreditTicketComponent implements OnInit, OnDestroy {
           this.ref.close(true);
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });
@@ -179,19 +181,19 @@ export default class AddoreditTicketComponent implements OnInit, OnDestroy {
 
   onticketTerminado(status: any, model: any) {
     // Deshabilitar el botón al iniciar el envío del formulario
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .put(`Ticket/${this.id}/${status}`, model)
       .subscribe({
         next: () => {
           this.ref.close(true);
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
           // Habilitar el botón nuevamente al finalizar el envío del formulario
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
   }
@@ -209,20 +211,20 @@ export default class AddoreditTicketComponent implements OnInit, OnDestroy {
     const model = this.createFormData(this.form.value);
     // Deshabilitar el botón al iniciar el envío del formulario
     this.submitting = true;
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
 
     if (this.id === 0) {
       this.subRef$ = this.dataService.post(`Ticket/Create`, model).subscribe({
         next: () => {
           this.ref.close(true);
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           // Habilitar el botón nuevamente al finalizar el envío del formulario
           this.submitting = false;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
     } else {
@@ -230,15 +232,15 @@ export default class AddoreditTicketComponent implements OnInit, OnDestroy {
         .put(`Ticket/UpdateInfo/${this.id}`, model)
         .subscribe({
           next: () => {
-            this.swalService.onClose();
+            this.customSwalService.onClose();
             this.ref.close(true);
           },
           error: (err) => {
             console.log(err.error);
-            this.toastService.onShowError();
+            this.customToastService.onShowError();
             // Habilitar el botón nuevamente al finalizar el envío del formulario
             this.submitting = false;
-            this.swalService.onClose();
+            this.customSwalService.onClose();
           },
         });
     }

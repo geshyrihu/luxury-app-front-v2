@@ -5,20 +5,22 @@ import { MessageService } from 'primeng/api';
 import { DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import { EPositionComitePipe } from 'src/app/pipes/position-comite.pipe';
-import { DataService } from 'src/app/services/data.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  CustomSwalService,
+  CustomToastService,
+  DataService,
+} from 'src/app/services/common-services';
 
 @Component({
   selector: 'app-addoredit-comite',
   templateUrl: './addoredit-comite.component.html',
   standalone: true,
   imports: [FormsModule, CommonModule, EPositionComitePipe],
-  providers: [MessageService, ToastService],
+  providers: [MessageService, CustomToastService],
 })
 export default class AddOrEditComiteComponent implements OnInit, OnDestroy {
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
   public dataService = inject(DataService);
   public config = inject(DynamicDialogConfig);
   public messageService = inject(MessageService);
@@ -52,7 +54,7 @@ export default class AddOrEditComiteComponent implements OnInit, OnDestroy {
           this.cb_ParticipantComite = resp.body;
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });
@@ -65,30 +67,30 @@ export default class AddOrEditComiteComponent implements OnInit, OnDestroy {
       )
       .subscribe({
         next: (resp: any) => {
-          this.toastService.onShowSuccess();
+          this.customToastService.onShowSuccess();
           this.onLoadData();
           this.onLoadCB();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
         },
       });
   }
   onDelete(idParticipant: number): void {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .delete(`MeetingComite/${idParticipant}`)
       .subscribe({
         next: () => {
-          this.toastService.onShowSuccess();
-          this.swalService.onClose();
+          this.customToastService.onShowSuccess();
+          this.customSwalService.onClose();
           this.onLoadData();
           this.onLoadCB();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }

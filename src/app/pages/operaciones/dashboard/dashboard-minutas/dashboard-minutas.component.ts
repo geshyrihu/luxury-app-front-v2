@@ -8,12 +8,14 @@ import { ToastModule } from 'primeng/toast';
 import { Observable, Subscription } from 'rxjs';
 import { EAreaMinutasDetalles } from 'src/app/enums/area-minutas-detalles.enum';
 import { IFechasFiltro } from 'src/app/interfaces/IFechasFiltro.interface';
-import { AuthService } from 'src/app/services/auth.service';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
-import { DataService } from 'src/app/services/data.service';
-import { FiltroCalendarService } from 'src/app/services/filtro-calendar.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  AuthService,
+  CustomSwalService,
+  CustomToastService,
+  CustomerIdService,
+  DataService,
+  FiltroCalendarService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import DashboardMinutasResumenComponent from '../dashboard-minutas-resumen/dashboard-minutas-resumen.component';
 
@@ -28,11 +30,11 @@ import DashboardMinutasResumenComponent from '../dashboard-minutas-resumen/dashb
     NgbAlertModule,
     ToastModule,
   ],
-  providers: [MessageService, ToastService],
+  providers: [MessageService, CustomToastService],
 })
 export default class DashboardMinutasComponent implements OnInit, OnDestroy {
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
   public authService = inject(AuthService);
   private dataService = inject(DataService);
   public dialogService = inject(DialogService);
@@ -61,24 +63,24 @@ export default class DashboardMinutasComponent implements OnInit, OnDestroy {
   }
 
   onSendEmailAllPendingMeeting() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get(`Meetings/SendEmailAllPendingMeeting`)
       .subscribe({
         next: (resp: any) => {
-          this.toastService.onShowSuccess();
-          this.swalService.onClose();
+          this.customToastService.onShowSuccess();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.toastService.onShowError();
-          this.swalService.onClose();
+          this.customToastService.onShowError();
+          this.customSwalService.onClose();
         },
       });
   }
 
   onLoadData() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get(
         `Dashboard/MinutasPendientes/${this.customerIdService.getcustomerId()}`
@@ -86,12 +88,12 @@ export default class DashboardMinutasComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }
@@ -120,7 +122,7 @@ export default class DashboardMinutasComponent implements OnInit, OnDestroy {
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });

@@ -3,10 +3,12 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { Observable, Subscription } from 'rxjs';
 import { SanitizeHtmlPipe } from 'src/app/pipes/sanitize-html.pipe';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
-import { DataService } from 'src/app/services/data.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  CustomSwalService,
+  CustomToastService,
+  CustomerIdService,
+  DataService,
+} from 'src/app/services/common-services';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -14,13 +16,13 @@ import { environment } from 'src/environments/environment';
   templateUrl: './reporte-completo-activos.component.html',
   standalone: true,
   imports: [CommonModule, SanitizeHtmlPipe],
-  providers: [MessageService, ToastService],
+  providers: [MessageService, CustomToastService],
 })
 export default class ReporteCompletoActivosComponent
   implements OnInit, OnDestroy
 {
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
   public customerIdService = inject(CustomerIdService);
   public dataService = inject(DataService);
   public messageService = inject(MessageService); // private reporteActivosPdfService: ReporteActivosPdfService
@@ -44,22 +46,22 @@ export default class ReporteCompletoActivosComponent
 
   onLoadData() {
     this.base_urlImg = this.urlImg(this.customerId);
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
 
     this.subRef$ = this.dataService
       .get('Machineries/InventarioCompleto/' + this.customerId)
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
-    this.swalService.onClose();
+    this.customSwalService.onClose();
   }
 
   urlImg(customerId: any): string {

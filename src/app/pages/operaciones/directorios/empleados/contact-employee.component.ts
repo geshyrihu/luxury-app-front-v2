@@ -14,9 +14,11 @@ import { ToastModule } from 'primeng/toast';
 import { Subscription } from 'rxjs';
 import { ERelationEmployee } from 'src/app/enums/relacion-empleado.enum';
 import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
-import { DataService } from 'src/app/services/data.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  CustomSwalService,
+  CustomToastService,
+  DataService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 
 @Component({
@@ -31,11 +33,11 @@ import ComponentsModule from 'src/app/shared/components.module';
     ToastModule,
     NgxMaskModule,
   ],
-  providers: [MessageService, ConfirmationService, ToastService],
+  providers: [MessageService, ConfirmationService, CustomToastService],
 })
 export default class ContactEmployeeComponent implements OnInit, OnDestroy {
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
   private formBuilder = inject(FormBuilder);
   public config = inject(DynamicDialogConfig);
   public ref = inject(DynamicDialogRef);
@@ -77,12 +79,12 @@ export default class ContactEmployeeComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }
@@ -91,24 +93,24 @@ export default class ContactEmployeeComponent implements OnInit, OnDestroy {
     this.subRef$ = this.dataService
       .put(`ContactEmployees/${item.id}`, item)
       .subscribe((resp: any) => {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.getContactEmployees();
       });
   }
   onDelete(item: any) {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .delete(`ContactEmployees/${item.id}`)
       .subscribe({
         next: () => {
-          this.toastService.onShowSuccess();
+          this.customToastService.onShowSuccess();
           this.getContactEmployees();
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
   }
@@ -122,24 +124,24 @@ export default class ContactEmployeeComponent implements OnInit, OnDestroy {
 
     // Deshabilitar el botón al iniciar el envío del formulario
     this.submitting = true;
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
 
     this.subRef$ = this.dataService
       .post(`ContactEmployees`, this.form.value)
       .subscribe({
         next: () => {
-          this.toastService.onShowSuccess();
+          this.customToastService.onShowSuccess();
           this.showButtonAddOrCancel = false;
           this.getContactEmployees();
           this.onLoadForm();
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
           // Habilitar el botón nuevamente al finalizar el envío del formulario
           this.submitting = false;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
   }

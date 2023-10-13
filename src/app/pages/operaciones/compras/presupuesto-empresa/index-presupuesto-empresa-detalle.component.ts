@@ -8,23 +8,23 @@
 // import { Subscription } from "rxjs";
 // import { CustomerIdService } from "src/app/services/customer-id.service";
 // import { DataService } from "src/app/services/data.service";
-// import { SwalService } from "src/app/services/swal.service";
-// import { ToastService } from "src/app/services/toast.service";
+// import { CustomSwalService } from "src/app/services/swal.service";
+// import { CustomToastService } from "src/app/services/toast.service";
 // import ComponentsModule from "src/app/shared/components.module";
 // import AddOrEditPresupuestoEmpresaDetalleComponent from "./add-or-edit-presupuesto-empresa-detalle.component";
 
 // @Component({
-//   selector: "app-index-presupuesto-empresa-detalle",
-//   templateUrl: "./index-presupuesto-empresa-detalle.component.html",
+//   selector: "app-list-presupuesto-empresa-detalle",
+//   templateUrl: "./list-presupuesto-empresa-detalle.component.html",
 //   standalone: true,
 //   imports: [ComponentsModule, CommonModule],
-//   providers: [DialogService, MessageService, ToastService],
+//   providers: [DialogService, MessageService, CustomToastService],
 // })
-// export default class IndexPresupuestoEmpresaDetalleComponent
+// export default class ListPresupuestoEmpresaDetalleComponent
 //   implements OnInit, OnDestroy
 // {
-//   public swalService = inject(SwalService);
-//   public toastService = inject(ToastService);
+//   public customSwalService = inject(CustomSwalService);
+//   public customToastService = inject(CustomToastService);
 //   public dataService = inject(DataService);
 //   public dialogService = inject(DialogService);
 //   public messageService = inject(MessageService);
@@ -43,7 +43,7 @@
 //   }
 
 //   onLoadData() {
-//     this.swalService.onLoading();
+//     this.customSwalService.onLoading();
 //     this.subRef$ = this.dataService
 //       .get("PresupuestoEmpresaDetalle/GetAll/" + this.presupuestoEmpresaId)
 //       .subscribe(
@@ -52,33 +52,33 @@
 //           this.data = resp.body.items;
 //           this.totales = resp.body.totales;
 
-//           this.swalService.onClose();
+//           this.customSwalService.onClose();
 //         },
 //         (err) => {
-//           this.toastService.onShowError();
+//           this.customToastService.onShowError();
 //           console.log(err.error);
-//           this.swalService.onClose();
+//           this.customSwalService.onClose();
 //         }
 //       );
 //   }
 //   onDelete(data: any) {
-//     this.swalService.onLoading();
+//     this.customSwalService.onLoading();
 //     this.subRef$ = this.dataService
 //       .delete(`PresupuestoEmpresaDetalle/${data.id}`)
 //       .subscribe(
 //         (resp: any) => {
-//           this.swalService.onClose();
-//           this.toastService.onShowSuccess();
-//           this.swalService.onClose();
+//           this.customSwalService.onClose();
+//           this.customToastService.onShowSuccess();
+//           this.customSwalService.onClose();
 //           this.onLoadData();
 //         },
 //         (err) => {
-//           this.toastService.onShowError();
-//           this.swalService.onClose();
+//           this.customToastService.onShowError();
+//           this.customSwalService.onClose();
 //           console.log(err.error);
 //         }
 //       );
-//     this.swalService.onClose();
+//     this.customSwalService.onClose();
 //   }
 
 //   onModalAddOrEditPresupuestoEmpresaDetalle(data: any) {
@@ -97,7 +97,7 @@
 //     );
 //     this.ref.onClose.subscribe((resp: boolean) => {
 //       if (resp) {
-//         this.toastService.onShowSuccess();
+//         this.customToastService.onShowSuccess();
 //         this.onLoadData();
 //       }
 //     });

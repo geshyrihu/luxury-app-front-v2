@@ -11,16 +11,18 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import { ETypeMeeting } from 'src/app/enums/tipo-reunion.enum';
 import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
-import { AuthService } from 'src/app/services/auth.service';
-import { DataService } from 'src/app/services/data.service';
-import { DateService } from 'src/app/services/date.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  AuthService,
+  CustomSwalService,
+  CustomToastService,
+  DataService,
+  DateService,
+} from 'src/app/services/common-services';
 import ComponentsModule, {
   flatpickrFactory,
 } from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import { IMeetingDto } from '../../../interfaces/IMeetingDto.interface';
-import { SwalService } from './../../../services/swal.service';
 import AddOrEditListAdministrationComponent from './addoredit-administration/addoredit-list-administration.component';
 import AddOrEditComiteComponent from './addoredit-comite/addoredit-comite.component';
 import AddOrEditInvitedComponent from './addoredit-invitado/addoredit-invited.component';
@@ -39,7 +41,7 @@ const date = new Date();
     PrimeNgModule,
     ComponentsModule,
   ],
-  providers: [MessageService, ToastService],
+  providers: [MessageService, CustomToastService],
 })
 export default class AddOrEditMeetingComponent implements OnInit, OnDestroy {
   public dateService = inject(DateService);
@@ -49,8 +51,8 @@ export default class AddOrEditMeetingComponent implements OnInit, OnDestroy {
   public dataService = inject(DataService);
   private formBuilder = inject(FormBuilder);
   public messageService = inject(MessageService);
-  public toastService = inject(ToastService);
-  public swalService = inject(SwalService);
+  public customToastService = inject(CustomToastService);
+  public customSwalService = inject(CustomSwalService);
 
   subRef$: Subscription;
 
@@ -91,32 +93,32 @@ export default class AddOrEditMeetingComponent implements OnInit, OnDestroy {
       const model: IMeetingDto = this.form.value;
 
       if (this.id !== 0) {
-        this.swalService.onLoading();
+        this.customSwalService.onLoading();
         this.subRef$ = this.dataService
           .put(`Meetings/${this.id}`, model)
           .subscribe({
             next: () => {
               this.onLoadData();
-              this.swalService.onClose();
+              this.customSwalService.onClose();
             },
             error: (err) => {
               console.log(err.error);
-              this.toastService.onShowError();
-              this.swalService.onClose();
+              this.customToastService.onShowError();
+              this.customSwalService.onClose();
             },
           });
       } else {
-        this.swalService.onLoading();
+        this.customSwalService.onLoading();
         this.subRef$ = this.dataService.post(`Meetings`, model).subscribe({
           next: (resp: any) => {
             this.id = resp.body.id;
             this.onLoadData();
-            this.swalService.onClose();
+            this.customSwalService.onClose();
           },
           error: (err) => {
             console.log(err.error);
-            this.toastService.onShowError();
-            this.swalService.onClose();
+            this.customToastService.onShowError();
+            this.customSwalService.onClose();
           },
         });
       }

@@ -12,10 +12,12 @@ import { ToastModule } from 'primeng/toast';
 import { Subscription } from 'rxjs';
 import { passwordValidation } from 'src/app/directives/validations/password-validation.directive';
 import { ChangePassword } from 'src/app/interfaces/auth/change-password.interface';
-import { AuthService } from 'src/app/services/auth.service';
-import { DataService } from 'src/app/services/data.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  AuthService,
+  CustomSwalService,
+  CustomToastService,
+  DataService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 
 @Component({
@@ -29,14 +31,14 @@ import ComponentsModule from 'src/app/shared/components.module';
     NgbModule,
     ToastModule,
   ],
-  providers: [MessageService, ToastService],
+  providers: [MessageService, CustomToastService],
 })
 export default class UpdatePasswordComponent implements OnInit, OnDestroy {
   public authService = inject(AuthService);
   private dataService = inject(DataService);
   private formBuilder = inject(FormBuilder);
-  public toastService = inject(ToastService);
-  private swalService = inject(SwalService);
+  public customToastService = inject(CustomToastService);
+  private customSwalService = inject(CustomSwalService);
 
   submitting: boolean = false;
   subRef$: Subscription;
@@ -82,21 +84,21 @@ export default class UpdatePasswordComponent implements OnInit, OnDestroy {
 
     // Deshabilitar el botón al iniciar el envío del formulario
     this.submitting = true;
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
 
     this.subRef$ = this.dataService
       .put(`Users/ChangePassword/${id}`, model)
       .subscribe({
         next: () => {
-          this.toastService.onShowSuccess();
-          this.swalService.onClose();
+          this.customToastService.onShowSuccess();
+          this.customSwalService.onClose();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
           // Habilitar el botón nuevamente al finalizar el envío del formulario
           this.submitting = false;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
   }

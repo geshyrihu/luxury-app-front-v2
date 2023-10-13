@@ -9,11 +9,11 @@ import { TableModule } from 'primeng/table';
 import { Subscription } from 'rxjs';
 import { IFechasFiltro } from 'src/app/interfaces/IFechasFiltro.interface';
 import CardEmployeeComponent from 'src/app/pages/operaciones/directorios/empleados/card-employee/card-employee.component';
+import { CustomSwalService } from 'src/app/services/custom-swal.service';
+import { CustomToastService } from 'src/app/services/custom-toast.service';
 import { DataService } from 'src/app/services/data.service';
 import { DateService } from 'src/app/services/date.service';
 import { FiltroCalendarService } from 'src/app/services/filtro-calendar.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
 
 const date = new Date();
@@ -24,7 +24,7 @@ const mesAnterior = new Date(date.getFullYear(), mesActual - 1, 1);
   templateUrl: './bitacora-individual.component.html',
   standalone: true,
   imports: [ComponentsModule, CommonModule, TableModule],
-  providers: [DialogService, ToastService],
+  providers: [DialogService, CustomToastService],
 })
 export default class BitacoraIndividualComponent implements OnInit, OnDestroy {
   public dateService = inject(DateService);
@@ -33,8 +33,8 @@ export default class BitacoraIndividualComponent implements OnInit, OnDestroy {
   public dataService = inject(DataService);
   public ref = inject(DynamicDialogRef);
   public config = inject(DynamicDialogConfig);
-  public toastService = inject(ToastService);
-  public swalService = inject(SwalService);
+  public customToastService = inject(CustomToastService);
+  public customSwalService = inject(CustomSwalService);
 
   subRef$: Subscription;
 
@@ -81,7 +81,7 @@ export default class BitacoraIndividualComponent implements OnInit, OnDestroy {
   }
 
   onLoadData() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get(
         `BitacoraMantenimiento/BitacoraIndividual/${this.machineryId}/${this.fechaInicial}/${this.fechaFinal}`
@@ -89,12 +89,12 @@ export default class BitacoraIndividualComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }

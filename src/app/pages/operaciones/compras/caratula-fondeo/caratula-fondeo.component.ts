@@ -12,7 +12,7 @@ import { Observable } from 'rxjs';
 import { ETipoGasto } from 'src/app/enums/tipo-gasto.enum';
 import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
 import { CaratulaFondeoService } from 'src/app/services/caratula-fondeo.service';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
+import { CustomerIdService } from 'src/app/services/common-services';
 import { DateService } from 'src/app/services/date.service';
 import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';

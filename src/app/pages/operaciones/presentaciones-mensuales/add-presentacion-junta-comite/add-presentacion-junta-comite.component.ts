@@ -9,12 +9,14 @@ import {
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { AuthService } from 'src/app/services/auth.service';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
-import { DataService } from 'src/app/services/data.service';
-import { DateService } from 'src/app/services/date.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  AuthService,
+  CustomSwalService,
+  CustomToastService,
+  CustomerIdService,
+  DataService,
+  DateService,
+} from 'src/app/services/common-services';
 import ComponentsModule, {
   flatpickrFactory,
 } from 'src/app/shared/components.module';
@@ -29,7 +31,7 @@ import ComponentsModule, {
     FlatpickrModule,
     CommonModule,
   ],
-  providers: [ToastService],
+  providers: [CustomToastService],
 })
 export default class AddPresentacionJuntaComiteComponent implements OnDestroy {
   public dateService = inject(DateService);
@@ -39,8 +41,8 @@ export default class AddPresentacionJuntaComiteComponent implements OnDestroy {
   public ref = inject(DynamicDialogRef);
   public config = inject(DynamicDialogConfig);
   public customerIdService = inject(CustomerIdService);
-  private swalService = inject(SwalService);
-  private toastService = inject(ToastService);
+  private customSwalService = inject(CustomSwalService);
+  private customToastService = inject(CustomToastService);
 
   submitting: boolean = false;
   id: number = 0;
@@ -71,7 +73,7 @@ export default class AddPresentacionJuntaComiteComponent implements OnDestroy {
           this.form.patchValue(resp.body);
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });
@@ -92,22 +94,22 @@ export default class AddPresentacionJuntaComiteComponent implements OnDestroy {
     this.id = this.config.data.id;
     // Deshabilitar el botón al iniciar el envío del formulario
     this.submitting = true;
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
 
     if (this.id === 0) {
       this.subRef$ = this.dataService
         .post(`PresentacionJuntaComite/AddFecha`, this.form.value)
         .subscribe({
           next: () => {
-            this.swalService.onClose();
+            this.customSwalService.onClose();
             this.ref.close(true);
           },
           error: (err) => {
             console.log(err.error);
-            this.toastService.onShowError();
+            this.customToastService.onShowError();
             // Habilitar el botón nuevamente al finalizar el envío del formulario
             this.submitting = false;
-            this.swalService.onClose();
+            this.customSwalService.onClose();
           },
         });
     } else {
@@ -115,15 +117,15 @@ export default class AddPresentacionJuntaComiteComponent implements OnDestroy {
         .put(`PresentacionJuntaComite/AddFecha/${this.id}`, this.form.value)
         .subscribe({
           next: () => {
-            this.swalService.onClose();
+            this.customSwalService.onClose();
             this.ref.close(true);
           },
           error: (err) => {
             console.log(err.error);
-            this.toastService.onShowError();
+            this.customToastService.onShowError();
             // Habilitar el botón nuevamente al finalizar el envío del formulario
             this.submitting = false;
-            this.swalService.onClose();
+            this.customSwalService.onClose();
           },
         });
     }

@@ -5,21 +5,21 @@ export default [
     path: 'equipos/:categoria',
     loadComponent: () =>
       import(
-        'src/app/pages/operaciones/mantenimiento/mantenimiento-inventarios/activos/index-equipos.component'
+        'src/app/pages/operaciones/mantenimiento/mantenimiento-inventarios/activos/list-equipos.component'
       ),
   },
   {
     path: 'gimnasio',
     loadComponent: () =>
       import(
-        'src/app/pages/operaciones/mantenimiento/mantenimiento-inventarios/activos/index-equipos.component'
+        'src/app/pages/operaciones/mantenimiento/mantenimiento-inventarios/activos/list-equipos.component'
       ),
   },
   {
     path: 'herramienta',
     loadComponent: () =>
       import(
-        'src/app/pages/operaciones/mantenimiento/mantenimiento-inventarios/herramientas/index-herramientas.component'
+        'src/app/pages/operaciones/mantenimiento/mantenimiento-inventarios/herramientas/list-herramientas.component'
       ),
   },
   {

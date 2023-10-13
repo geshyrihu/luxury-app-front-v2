@@ -7,10 +7,10 @@ import { Subscription } from 'rxjs';
 import { EAreaMinutasDetallesPipe } from 'src/app/pipes/area-minuta-detalles.pipe';
 import { SanitizeHtmlPipe } from 'src/app/pipes/sanitize-html.pipe';
 import { EStatusPipe } from 'src/app/pipes/status.pipe';
+import { CustomSwalService } from 'src/app/services/custom-swal.service';
+import { CustomToastService } from 'src/app/services/custom-toast.service';
 import { DataService } from 'src/app/services/data.service';
 import { DateService } from 'src/app/services/date.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-addoredit-meeting-detail',
@@ -23,13 +23,13 @@ import { ToastService } from 'src/app/services/toast.service';
     SanitizeHtmlPipe,
     EStatusPipe,
   ],
-  providers: [DialogService, MessageService, ToastService],
+  providers: [DialogService, MessageService, CustomToastService],
 })
 export default class AddOrEditMeetingDetailComponent
   implements OnInit, OnDestroy
 {
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
   public config = inject(DynamicDialogConfig);
   public dataService = inject(DataService);
   public dateService = inject(DateService);
@@ -54,18 +54,18 @@ export default class AddOrEditMeetingDetailComponent
     return this.dateService.getDateFormat(item);
   }
   onLoadData() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get(`MeetingsDetails/DetallesFiltro/${this.meetingId}/${this.status}`)
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }

@@ -1,36 +1,41 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable, Subscription } from 'rxjs';
-import { IListCondominoDto } from 'src/app/interfaces/IListCondominoDto.interface';
-import { EHabitantPipe } from 'src/app/pipes/habitant.pipe';
-import { AuthService } from 'src/app/services/auth.service';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
-import { DataService } from 'src/app/services/data.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import { IDirectoryCondominiumDto } from 'src/app/interfaces/IDirectoryCondominiumDto.interface';
+import {
+  AuthService,
+  CustomSwalService,
+  CustomToastService,
+  CustomerIdService,
+  DataService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
-import AddOrEditCondominosComponent from './addoredit-condominos.component';
+import AddOrEditPropiedadesComponent from './addoredit-propiedades.component';
 
 @Component({
-  selector: 'app-index-condominos',
-  templateUrl: './index-condominos.component.html',
+  selector: 'app-list-propiedades',
+  templateUrl: './list-propiedades.component.html',
   standalone: true,
-  imports: [CommonModule, ComponentsModule, PrimeNgModule, EHabitantPipe],
-  providers: [DialogService, MessageService, ToastService],
+  imports: [CommonModule, ComponentsModule, PrimeNgModule],
+  providers: [
+    DialogService,
+    MessageService,
+    ConfirmationService,
+    CustomToastService,
+  ],
 })
-export default class IndexCondominosComponent implements OnInit, OnDestroy {
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+export default class ListPropiedadesComponent implements OnInit, OnDestroy {
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
   public authService = inject(AuthService);
   public dataService = inject(DataService);
   public messageService = inject(MessageService);
   public dialogService = inject(DialogService);
   public customerIdService = inject(CustomerIdService);
-
-  data: IListCondominoDto[] = [];
+  data: IDirectoryCondominiumDto[] = [];
   ref: DynamicDialogRef;
   customerId$: Observable<number> = this.customerIdService.getCustomerId$();
   subRef$: Subscription;
@@ -44,54 +49,54 @@ export default class IndexCondominosComponent implements OnInit, OnDestroy {
   }
 
   onLoadData() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
-      .get<IListCondominoDto[]>(
-        `ListCondomino/GetAllAsync/${this.customerIdService.customerId}`
+      .get<IDirectoryCondominiumDto[]>(
+        `DirectoryCondominium/GetAllAsync/${this.customerIdService.customerId}`
       )
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }
 
   onDelete(data: any) {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
-      .delete(`ListCondomino/${data.id}`)
+      .delete(`DirectoryCondominium/${data.id}`)
       .subscribe({
         next: () => {
           this.onLoadData();
-          this.swalService.onClose();
-          this.toastService.onShowSuccess();
+          this.customSwalService.onClose();
+          this.customToastService.onShowSuccess();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }
-
   showModalAddOrEdit(data: any) {
-    this.ref = this.dialogService.open(AddOrEditCondominosComponent, {
+    this.ref = this.dialogService.open(AddOrEditPropiedadesComponent, {
       data: {
         id: data.id,
       },
       header: data.title,
       styleClass: 'modal-md',
       closeOnEscape: true,
+      autoZIndex: true,
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });

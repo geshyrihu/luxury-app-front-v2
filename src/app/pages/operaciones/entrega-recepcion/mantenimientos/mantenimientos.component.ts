@@ -4,10 +4,12 @@ import { TableModule } from 'primeng/table';
 import { Observable, Subscription } from 'rxjs';
 import { SanitizeHtmlPipe } from 'src/app/pipes/sanitize-html.pipe';
 import { ETypeMaintancePipe } from 'src/app/pipes/typeMaintance.pipe';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
-import { DataService } from 'src/app/services/data.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  CustomSwalService,
+  CustomToastService,
+  CustomerIdService,
+  DataService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import { environment } from 'src/environments/environment';
 
@@ -21,14 +23,14 @@ import { environment } from 'src/environments/environment';
     ETypeMaintancePipe,
     SanitizeHtmlPipe,
   ],
-  providers: [MessageService, ToastService],
+  providers: [MessageService, CustomToastService],
 })
 export default class MantenimientosComponent implements OnInit, OnDestroy {
   public customerIdService = inject(CustomerIdService);
   public dataService = inject(DataService);
   public messageService = inject(MessageService);
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
   data: any[] = [];
   subRef$: Subscription;
   customerId$: Observable<number> = this.customerIdService.getCustomerId$();
@@ -42,7 +44,7 @@ export default class MantenimientosComponent implements OnInit, OnDestroy {
     });
   }
   onLoadData() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get(
         'EntregaRecepcion/InventarioMantenimientos/' +
@@ -51,12 +53,12 @@ export default class MantenimientosComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }

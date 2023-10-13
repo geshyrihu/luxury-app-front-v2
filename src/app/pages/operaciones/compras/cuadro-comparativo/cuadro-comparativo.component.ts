@@ -5,9 +5,11 @@ import { ActivatedRoute } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { DataService } from 'src/app/services/data.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  CustomSwalService,
+  CustomToastService,
+  DataService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import ModalAddProveedorComponent from './modal-add-proveedor/modal-add-proveedor.component';
@@ -18,11 +20,16 @@ import ModalEditCotizacionComponent from './modal-edit-cotizacion/modal-edit-cot
   templateUrl: './cuadro-comparativo.component.html',
   standalone: true,
   imports: [FormsModule, ComponentsModule, CommonModule, PrimeNgModule],
-  providers: [ConfirmationService, DialogService, MessageService, ToastService],
+  providers: [
+    ConfirmationService,
+    DialogService,
+    MessageService,
+    CustomToastService,
+  ],
 })
 export default class CuadroComparativoComponent implements OnInit, OnDestroy {
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
   public dataService = inject(DataService);
   public routeActive = inject(ActivatedRoute);
   public dialogService = inject(DialogService);
@@ -80,7 +87,7 @@ export default class CuadroComparativoComponent implements OnInit, OnDestroy {
     });
   }
   onLoadData() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.onResetProvider();
     this.subRef$ = this.dataService
       .get<any>(`SolicitudCompra/CuadroComparativo/${this.solicitudCompraId}`)
@@ -127,12 +134,12 @@ export default class CuadroComparativoComponent implements OnInit, OnDestroy {
           }
           this.onEvaluationPriceTotal();
           this.ontotalPreciosMenores(this.solicitudCompraDetalle);
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
   }
@@ -149,7 +156,7 @@ export default class CuadroComparativoComponent implements OnInit, OnDestroy {
       baseZIndex: 10000,
     });
     this.ref.onClose.subscribe(() => {
-      this.toastService.onShowSuccess();
+      this.customToastService.onShowSuccess();
       this.onResetTotal();
       this.onLoadData();
     });

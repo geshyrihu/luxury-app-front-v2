@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
+import { CustomerIdService } from 'src/app/services/common-services';
 import { DataService } from 'src/app/services/data.service';
 import { TicketFilterService } from 'src/app/services/ticket-filter.service';
 import { environment } from 'src/environments/environment';
@@ -40,7 +40,7 @@ export default class ReportMaintenanceHeaderComponent
           this.logoCustomer = `${environment.base_urlImg}Administration/customer/${resp.body.photoPath}`;
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });

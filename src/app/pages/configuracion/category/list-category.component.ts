@@ -4,10 +4,12 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import { ICategoryDto } from 'src/app/interfaces/ICategory.interface';
-import { AuthService } from 'src/app/services/auth.service';
-import { DataService } from 'src/app/services/data.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  AuthService,
+  CustomSwalService,
+  CustomToastService,
+  DataService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import AddOrEditCategoryComponent from './addoredit-category.component';
@@ -16,15 +18,20 @@ import AddOrEditCategoryComponent from './addoredit-category.component';
   selector: 'app-list-category',
   templateUrl: './list-category.component.html',
   imports: [CommonModule, ComponentsModule, PrimeNgModule],
-  providers: [DialogService, MessageService, ConfirmationService, ToastService],
+  providers: [
+    DialogService,
+    MessageService,
+    ConfirmationService,
+    CustomToastService,
+  ],
   standalone: true,
 })
 export default class ListCategoryComponent implements OnInit, OnDestroy {
   public authService = inject(AuthService);
   private dataService = inject(DataService);
-  private toastService = inject(ToastService);
+  private customToastService = inject(CustomToastService);
   public dialogService = inject(DialogService);
-  public swalService = inject(SwalService);
+  public customSwalService = inject(CustomSwalService);
 
   data: ICategoryDto[] = [];
   ref: DynamicDialogRef;
@@ -35,31 +42,31 @@ export default class ListCategoryComponent implements OnInit, OnDestroy {
   }
 
   onLoadData() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService.get('Categories').subscribe({
       next: (resp: any) => {
         this.data = resp.body;
-        this.swalService.onClose();
+        this.customSwalService.onClose();
       },
       error: (err) => {
         console.log(err.error);
-        this.swalService.onClose();
-        this.toastService.onShowError();
+        this.customSwalService.onClose();
+        this.customToastService.onShowError();
       },
     });
   }
 
   onDelete(data: ICategoryDto) {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService.delete(`Categories/${data.id}`).subscribe({
       next: () => {
-        this.toastService.onShowSuccess();
-        this.swalService.onClose();
+        this.customToastService.onShowSuccess();
+        this.customSwalService.onClose();
         this.onLoadData();
       },
       error: (err) => {
-        this.toastService.onShowError();
-        this.swalService.onClose();
+        this.customToastService.onShowError();
+        this.customSwalService.onClose();
         console.log(err.error);
       },
     });
@@ -77,7 +84,7 @@ export default class ListCategoryComponent implements OnInit, OnDestroy {
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });

@@ -20,10 +20,10 @@ import {
 } from 'src/app/interfaces/IItemsFondeoCaratulaDto.interface';
 import { CurrencyMexicoPipe } from 'src/app/pipes/currencyMexico.pipe';
 import { CaratulaFondeoService } from 'src/app/services/caratula-fondeo.service';
+import { CustomSwalService } from 'src/app/services/custom-swal.service';
+import { CustomToastService } from 'src/app/services/custom-toast.service';
 import { DataService } from 'src/app/services/data.service';
 import { DateService } from 'src/app/services/date.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import { environment } from 'src/environments/environment';
 const date = new Date();
@@ -36,15 +36,15 @@ subRef$: Subscription;
   templateUrl: './vista-caratula-fondeo.component.html',
   standalone: true,
   imports: [CommonModule, PrimeNgModule, ContextMenuModule, CurrencyMexicoPipe],
-  providers: [ToastService],
+  providers: [CustomToastService],
 })
 export default class VistaCaratulaFondeoComponent implements OnInit, OnDestroy {
   public dateService = inject(DateService);
   public caratulaFondeoService = inject(CaratulaFondeoService);
   public dataService = inject(DataService);
   public router = inject(Router);
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
 
   subRef$: Subscription;
 
@@ -78,7 +78,7 @@ export default class VistaCaratulaFondeoComponent implements OnInit, OnDestroy {
     if (this.caratulaFondeoService.requestFondeoCaratulaDto === undefined) {
       this.router.navigateByUrl('compras/ordenesCompra');
     } else {
-      this.swalService.onLoading();
+      this.customSwalService.onLoading();
 
       this.subRef$ = this.dataService
         .post(
@@ -89,11 +89,11 @@ export default class VistaCaratulaFondeoComponent implements OnInit, OnDestroy {
           next: (resp: any) => {
             this.data = undefined;
             this.data = resp.body;
-            this.swalService.onClose();
+            this.customSwalService.onClose();
           },
           error: (err: any) => {
             console.log(err.error);
-            this.swalService.onClose();
+            this.customSwalService.onClose();
           },
         });
     }
@@ -241,16 +241,16 @@ export default class VistaCaratulaFondeoComponent implements OnInit, OnDestroy {
   }
 
   downloadAsExcel() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
 
     this.subRef$ = this.dataService
       .post('ExportExcel/GetCaratulaFondeo', this.data)
       .subscribe({
-        next: (_) => this.swalService.onClose(),
+        next: (_) => this.customSwalService.onClose(),
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }

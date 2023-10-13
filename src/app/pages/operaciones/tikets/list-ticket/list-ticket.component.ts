@@ -7,14 +7,16 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable, Subscription } from 'rxjs';
 import { IFilterTicket } from 'src/app/interfaces/IFilterTicket.interface';
 import CardEmployeeComponent from 'src/app/pages/operaciones/directorios/empleados/card-employee/card-employee.component';
-import { AuthService } from 'src/app/services/auth.service';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
-import { DataService } from 'src/app/services/data.service';
-import { DateService } from 'src/app/services/date.service';
-import { ReportService } from 'src/app/services/report.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { TicketFilterService } from 'src/app/services/ticket-filter.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  AuthService,
+  CustomerIdService,
+  CustomSwalService,
+  CustomToastService,
+  DataService,
+  DateService,
+  ReportService,
+  TicketFilterService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import { environment } from 'src/environments/environment';
@@ -35,7 +37,12 @@ import FilterTicketComponent from '../ticket-filter/ticket-filter.component';
     FormsModule,
     PrimeNgModule,
   ],
-  providers: [DialogService, MessageService, ConfirmationService, ToastService],
+  providers: [
+    DialogService,
+    MessageService,
+    ConfirmationService,
+    CustomToastService,
+  ],
 })
 export default class ListTicketComponent implements OnInit, OnDestroy {
   public authService = inject(AuthService);
@@ -47,8 +54,8 @@ export default class ListTicketComponent implements OnInit, OnDestroy {
   public ticketFilterService = inject(TicketFilterService);
   public reportService = inject(ReportService);
   public router = inject(Router);
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
 
   base_urlImg = '';
   customerId$: Observable<number> = this.customerIdService.getCustomerId$();
@@ -78,7 +85,7 @@ export default class ListTicketComponent implements OnInit, OnDestroy {
     this.base_urlImg = `${
       environment.base_urlImg
     }customers/${this.ticketFilterService.getIdCustomer()}/report/`;
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .post<IFilterTicket>('Ticket', this.ticketFilterService.getfilterTicket)
       .subscribe({
@@ -86,12 +93,12 @@ export default class ListTicketComponent implements OnInit, OnDestroy {
           this.data = resp.body;
 
           this.dataCompleta = resp.body;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
   }
@@ -110,7 +117,7 @@ export default class ListTicketComponent implements OnInit, OnDestroy {
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });
@@ -127,7 +134,7 @@ export default class ListTicketComponent implements OnInit, OnDestroy {
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });
@@ -152,7 +159,7 @@ export default class ListTicketComponent implements OnInit, OnDestroy {
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });
@@ -171,7 +178,7 @@ export default class ListTicketComponent implements OnInit, OnDestroy {
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });
@@ -196,11 +203,11 @@ export default class ListTicketComponent implements OnInit, OnDestroy {
           .subscribe(
             (resp: any) => {
               this.data = resp.body;
-              this.toastService.onShowSuccess();
+              this.customToastService.onShowSuccess();
             },
             (err) => {
               console.log(err.error);
-              this.toastService.onShowError();
+              this.customToastService.onShowError();
             }
           );
       }
@@ -208,7 +215,7 @@ export default class ListTicketComponent implements OnInit, OnDestroy {
   }
 
   onDelete(item: any) {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .delete(
         `Ticket/onDelete/${item.id}/${this.authService.userTokenDto.infoUserAuthDto.applicationUserId}`
@@ -216,13 +223,13 @@ export default class ListTicketComponent implements OnInit, OnDestroy {
       .subscribe({
         next: () => {
           this.onLoadData();
-          this.swalService.onClose();
-          this.toastService.onShowSuccess();
+          this.customSwalService.onClose();
+          this.customToastService.onShowSuccess();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }
@@ -249,17 +256,17 @@ export default class ListTicketComponent implements OnInit, OnDestroy {
     });
   }
   onUpdateStateTicket(item: any) {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get(
         `Ticket/ActualizarStateEnviarReporte/${item.id}/${item.folioReporte}`
       )
       .subscribe({
         next: () => {
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
-          this.swalService.onClose();
+          this.customSwalService.onClose();
           console.log(err.error);
         },
       });

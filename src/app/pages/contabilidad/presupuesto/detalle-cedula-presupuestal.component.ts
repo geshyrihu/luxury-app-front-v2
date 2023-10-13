@@ -6,10 +6,10 @@
 // import { TableModule } from 'primeng/table';
 // import { ToastModule } from 'primeng/toast';
 // import { Subscription } from 'rxjs';
-// import { AuthService } from 'src/app/services/auth.service';
+//
 // import { DataService } from 'src/app/services/data.service';
-// import { SwalService } from 'src/app/services/swal.service';
-// import { ToastService } from 'src/app/services/toast.service';
+// import { CustomSwalService } from 'src/app/services/swal.service';
+// import { CustomToastService } from 'src/app/services/toast.service';
 // import ComponentsModule from 'src/app/shared/components.module';
 // import AddPartidaCedulaComponent from './add-partida-cedula.component';
 // import EditPartidaCedulaComponent from './edit-partida-cedula.component';
@@ -19,7 +19,7 @@
 //   templateUrl: './detalle-cedula-presupuestal.component.html',
 //   standalone: true,
 //   imports: [ComponentsModule, CommonModule],
-//   providers: [DialogService, MessageService, ToastService],
+//   providers: [DialogService, MessageService, CustomToastService],
 // })
 
 // // TODO: REVISAR SI COMPONENTE AUN SE USA
@@ -27,12 +27,12 @@
 //   implements OnInit, OnDestroy
 // {
 //   private pathActive = inject(ActivatedRoute);
-//   public toastService = inject(ToastService);
+//   public customToastService = inject(CustomToastService);
 //   private dataService = inject(DataService);
 //   public authService = inject(AuthService);
 //   public dialogService = inject(DialogService);
 //   public messageService = inject(MessageService);
-//   public swalService = inject(SwalService);
+//   public customSwalService = inject(CustomSwalService);
 
 //   constructor() {
 //     this.idBudgetCard = this.pathActive.snapshot.params.id;
@@ -49,18 +49,18 @@
 //   }
 
 //   onLoadData() {
-//     this.swalService.onLoading();
+//     this.customSwalService.onLoading();
 //     this.subRef$ = this.dataService
 //       .get(`CedulaPresupuestalDetalles/GetAllAsync/${this.idBudgetCard}`)
 //       .subscribe({
 //         next: (resp: any) => {
 //           this.data = resp.body;
-//           this.swalService.onClose();
+//           this.customSwalService.onClose();
 //         },
 //         error: (err) => {
 //           console.log(err.error);
-//           this.swalService.onClose();
-//           this.toastService.onShowError();
+//           this.customSwalService.onClose();
+//           this.customToastService.onShowError();
 //         },
 //       });
 //   }
@@ -78,7 +78,7 @@
 //     });
 //     this.ref.onClose.subscribe((resp: boolean) => {
 //       if (resp) {
-//         this.toastService.onShowSuccess();
+//         this.customToastService.onShowSuccess();
 //         this.onLoadData();
 //       }
 //     });
@@ -98,7 +98,7 @@
 //     });
 //     this.ref.onClose.subscribe((resp: boolean) => {
 //       if (resp) {
-//         this.toastService.onShowSuccess();
+//         this.customToastService.onShowSuccess();
 //         this.onLoadData();
 //       }
 //     });
@@ -109,11 +109,11 @@
 //       .delete(`CedulaPresupuestalDetalles/${data.id}`)
 //       .subscribe({
 //         next: () => {
-//           this.toastService.onShowSuccess();
+//           this.customToastService.onShowSuccess();
 //           this.onLoadData();
 //         },
 //         error: (err) => {
-//           this.toastService.onShowError();
+//           this.customToastService.onShowError();
 //           console.log(err.error);
 //         },
 //       });

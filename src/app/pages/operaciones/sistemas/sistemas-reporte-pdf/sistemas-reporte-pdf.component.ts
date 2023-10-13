@@ -4,11 +4,13 @@ import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { TableModule } from 'primeng/table';
 import { Subscription } from 'rxjs';
-import { AuthService } from 'src/app/services/auth.service';
-import { DataService } from 'src/app/services/data.service';
-import { FiltroCalendarService } from 'src/app/services/filtro-calendar.service';
-import { SistemasReporteService } from 'src/app/services/sistemas-reporte.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  AuthService,
+  CustomToastService,
+  DataService,
+  FiltroCalendarService,
+  SistemasReporteService,
+} from 'src/app/services/common-services';
 import CardEmployeeComponent from '../../directorios/empleados/card-employee/card-employee.component';
 
 @Component({
@@ -16,10 +18,10 @@ import CardEmployeeComponent from '../../directorios/empleados/card-employee/car
   templateUrl: './sistemas-reporte-pdf.component.html',
   standalone: true,
   imports: [CommonModule, TableModule],
-  providers: [DialogService, MessageService, ToastService],
+  providers: [DialogService, MessageService, CustomToastService],
 })
 export default class SistemasReportePdfComponent implements OnInit, OnDestroy {
-  public toastService = inject(ToastService);
+  public customToastService = inject(CustomToastService);
   public sistemasReporteService = inject(SistemasReporteService);
   public dataService = inject(DataService);
   public authService = inject(AuthService);
@@ -49,7 +51,7 @@ export default class SistemasReportePdfComponent implements OnInit, OnDestroy {
           this.datosUser = resp.body;
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });

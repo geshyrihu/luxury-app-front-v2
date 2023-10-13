@@ -10,10 +10,10 @@ import {
 } from 'primeng/dynamicdialog';
 import { ToastModule } from 'primeng/toast';
 import { Subscription } from 'rxjs';
+import { CustomSwalService } from 'src/app/services/custom-swal.service';
+import { CustomToastService } from 'src/app/services/custom-toast.service';
 import { DataService } from 'src/app/services/data.service';
 import { SelectItemService } from 'src/app/services/select-item.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
 import CreateOrdenCompraComponent from '../../orden-compra/orden-compra/create-orden-compra/create-orden-compra.component';
 
@@ -22,11 +22,11 @@ import CreateOrdenCompraComponent from '../../orden-compra/orden-compra/create-o
   templateUrl: './modal-edit-cotizacion.component.html',
   standalone: true,
   imports: [FormsModule, ComponentsModule, CommonModule, ToastModule],
-  providers: [DialogService, MessageService, ToastService],
+  providers: [DialogService, MessageService, CustomToastService],
 })
 export default class ModalEditCotizacionComponent implements OnInit, OnDestroy {
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
   public ref = inject(DynamicDialogRef);
   public config = inject(DynamicDialogConfig);
   public dataService = inject(DataService);
@@ -73,7 +73,7 @@ export default class ModalEditCotizacionComponent implements OnInit, OnDestroy {
           this.cb_providers = resp.body;
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });
@@ -102,7 +102,7 @@ export default class ModalEditCotizacionComponent implements OnInit, OnDestroy {
           this.solicitudCompraDetalle = resp.body.solicitudCompraDetalle;
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });
@@ -121,10 +121,10 @@ export default class ModalEditCotizacionComponent implements OnInit, OnDestroy {
       )
       .subscribe({
         next: (resp: any) => {
-          this.toastService.onShowSuccess();
+          this.customToastService.onShowSuccess();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });
@@ -162,17 +162,17 @@ export default class ModalEditCotizacionComponent implements OnInit, OnDestroy {
       .subscribe({
         next: () => {
           this.onLoadData();
-          this.toastService.onShowSuccess();
+          this.customToastService.onShowSuccess();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });
   }
 
   onDeleteProvider() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .delete(
         `solicitudCompra/DeleteProvider/${this.solicitudCompraId}/${this.providerId}`
@@ -180,12 +180,12 @@ export default class ModalEditCotizacionComponent implements OnInit, OnDestroy {
       .subscribe({
         next: () => {
           this.ref.close(true);
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
   }
@@ -220,7 +220,7 @@ export default class ModalEditCotizacionComponent implements OnInit, OnDestroy {
           this.cotizacionesRelacionadas = resp.body;
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });

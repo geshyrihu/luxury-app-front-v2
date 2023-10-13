@@ -1,16 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { Observable, Subscription } from 'rxjs';
 import {
   AuthService,
+  CustomSwalService,
+  CustomToastService,
+  CustomerIdService,
   DataService,
-  MessageService,
-  SwalService,
-  ToastService,
+  DateService,
 } from 'src/app/services/common-services';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
-import { DateService } from 'src/app/services/date.service';
 import { FiltroCalendarService } from 'src/app/services/filtro-calendar.service';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
@@ -20,11 +20,11 @@ import { environment } from 'src/environments/environment';
   templateUrl: './access-log.component.html',
   standalone: true,
   imports: [CommonModule, ComponentsModule, ButtonModule, PrimeNgModule],
-  providers: [MessageService, ToastService],
+  providers: [MessageService, CustomToastService],
 })
 export default class AccessLogComponent implements OnInit, OnDestroy {
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
   public authService = inject(AuthService);
   private dataService = inject(DataService);
   public dateService = inject(DateService);
@@ -58,7 +58,7 @@ export default class AccessLogComponent implements OnInit, OnDestroy {
   }
 
   onLoadData(fechaInicial: string, fechaFinal: string): void {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get(
         'HistorialAcceso/Customer/' +
@@ -71,12 +71,12 @@ export default class AccessLogComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }

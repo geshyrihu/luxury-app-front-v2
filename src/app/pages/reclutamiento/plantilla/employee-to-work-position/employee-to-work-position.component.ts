@@ -3,12 +3,12 @@ import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
+import { CustomerIdService } from 'src/app/services/common-services';
+import { CustomSwalService } from 'src/app/services/custom-swal.service';
+import { CustomToastService } from 'src/app/services/custom-toast.service';
 import { DataService } from 'src/app/services/data.service';
 import { DateService } from 'src/app/services/date.service';
 import { SelectItemService } from 'src/app/services/select-item.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -25,8 +25,8 @@ export default class EmployeeToWorkPositionComponent implements OnInit {
   public dateService = inject(DateService);
   public ref = inject(DynamicDialogRef);
   public selectItemService = inject(SelectItemService);
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
 
   submitting: boolean = false;
   subRef$: Subscription;
@@ -46,7 +46,7 @@ export default class EmployeeToWorkPositionComponent implements OnInit {
         error: (err) => {
           console.log(err.error);
           // Habilitar el botón nuevamente al finalizar el envío del formulario
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
   }
@@ -65,18 +65,18 @@ export default class EmployeeToWorkPositionComponent implements OnInit {
       cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.value) {
-        this.swalService.onLoading();
+        this.customSwalService.onLoading();
         this.subRef$ = this.dataService
           .get(`WorkPosition/AssignEmployee/${personId}/${this.workPositionId}`)
           .subscribe({
             next: () => {
-              this.toastService.onShowSuccess();
-              this.swalService.onClose();
+              this.customToastService.onShowSuccess();
+              this.customSwalService.onClose();
             },
             error: (err: any) => {
-              this.toastService.onShowError();
+              this.customToastService.onShowError();
               console.log(err.error);
-              this.swalService.onClose();
+              this.customSwalService.onClose();
             },
           });
       }

@@ -4,10 +4,12 @@ import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable, Subscription } from 'rxjs';
 import { SanitizeHtmlPipe } from 'src/app/pipes/sanitize-html.pipe';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
-import { DataService } from 'src/app/services/data.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  CustomSwalService,
+  CustomToastService,
+  CustomerIdService,
+  DataService,
+} from 'src/app/services/common-services';
 import { environment } from 'src/environments/environment';
 import FormActasEntregaEquiposComponent from '../mantenimiento-inventarios/activos/form-actas-entrega-equipos/form-actas-entrega-equipos.component';
 
@@ -16,11 +18,11 @@ import FormActasEntregaEquiposComponent from '../mantenimiento-inventarios/activ
   templateUrl: './actas-entrega-equipos.component.html',
   standalone: true,
   imports: [CommonModule, SanitizeHtmlPipe],
-  providers: [DialogService, MessageService, ToastService],
+  providers: [DialogService, MessageService, CustomToastService],
 })
 export default class ActasEntregaEquiposComponent implements OnInit, OnDestroy {
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
   public dataService = inject(DataService);
   public customerIdService = inject(CustomerIdService);
   public messageService = inject(MessageService);
@@ -49,19 +51,19 @@ export default class ActasEntregaEquiposComponent implements OnInit, OnDestroy {
 
   onLoadData() {
     this.base_urlImg = this.urlImg(this.customerIdService.getcustomerId());
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
 
     this.subRef$ = this.dataService
       .get(`Machineries/ActasEntrega/${this.customerIdService.customerId}`)
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }

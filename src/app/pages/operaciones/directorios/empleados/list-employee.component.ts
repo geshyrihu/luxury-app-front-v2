@@ -6,11 +6,13 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable, Subscription } from 'rxjs';
 import { IEmployeeDto } from 'src/app/interfaces/IEmployeeDto.interface';
 import UpdatePasswordModalComponent from 'src/app/pages/configuracion/accounts/modal-edit-account/update-password-modal/update-password-modal.component';
-import { AuthService } from 'src/app/services/auth.service';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
-import { DataService } from 'src/app/services/data.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  AuthService,
+  CustomSwalService,
+  CustomToastService,
+  CustomerIdService,
+  DataService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import { environment } from 'src/environments/environment';
@@ -26,7 +28,12 @@ const base_urlImg = environment.base_urlImg + 'Administration/accounts/';
   templateUrl: './list-employee.component.html',
   standalone: true,
   imports: [CommonModule, ComponentsModule, PrimeNgModule],
-  providers: [DialogService, MessageService, ConfirmationService, ToastService],
+  providers: [
+    DialogService,
+    MessageService,
+    ConfirmationService,
+    CustomToastService,
+  ],
 })
 export default class ListEmployeeComponent implements OnInit, OnDestroy {
   public authService = inject(AuthService);
@@ -34,8 +41,8 @@ export default class ListEmployeeComponent implements OnInit, OnDestroy {
   private dataService = inject(DataService);
   private rutaActiva = inject(ActivatedRoute);
   private dialogService = inject(DialogService);
-  private swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  private customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
 
   activo: boolean = true;
   data: IEmployeeDto[] = [];
@@ -70,19 +77,19 @@ export default class ListEmployeeComponent implements OnInit, OnDestroy {
     this.subRef$ = this.dataService.get(`Employees/Bloqueo/${id}`).subscribe({
       next: () => {
         this.onLoadData();
-        this.toastService.onShowSuccess();
-        this.swalService.onClose();
+        this.customToastService.onShowSuccess();
+        this.customSwalService.onClose();
       },
       error: (err) => {
-        this.toastService.onShowError();
+        this.customToastService.onShowError();
         console.log(err.error);
-        this.swalService.onClose();
+        this.customSwalService.onClose();
       },
     });
   }
 
   onLoadData() {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get<IEmployeeDto[]>(
         `Employees/ListaEmpleados/${this.customerIdService.customerId}/${this.activo}/${this.tipoContrato}`
@@ -90,12 +97,12 @@ export default class ListEmployeeComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }
@@ -112,23 +119,23 @@ export default class ListEmployeeComponent implements OnInit, OnDestroy {
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });
   }
 
   onDelete(data: any) {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService.delete(`Employees/${data.id}`).subscribe({
       next: () => {
-        this.toastService.onShowSuccess();
-        this.swalService.onClose();
+        this.customToastService.onShowSuccess();
+        this.customSwalService.onClose();
         this.onLoadData();
       },
       error: (err) => {
-        this.toastService.onShowError();
-        this.swalService.onClose();
+        this.customToastService.onShowError();
+        this.customSwalService.onClose();
         console.log(err.error);
       },
     });
@@ -146,7 +153,7 @@ export default class ListEmployeeComponent implements OnInit, OnDestroy {
       closeOnEscape: true,
     });
     this.ref.onClose.subscribe((resp: boolean) => {
-      this.toastService.onShowSuccess();
+      this.customToastService.onShowSuccess();
       this.onLoadData();
     });
   }
@@ -160,7 +167,7 @@ export default class ListEmployeeComponent implements OnInit, OnDestroy {
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });
@@ -175,7 +182,7 @@ export default class ListEmployeeComponent implements OnInit, OnDestroy {
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });
@@ -192,7 +199,7 @@ export default class ListEmployeeComponent implements OnInit, OnDestroy {
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });
@@ -211,7 +218,7 @@ export default class ListEmployeeComponent implements OnInit, OnDestroy {
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {
-        this.toastService.onShowSuccess();
+        this.customToastService.onShowSuccess();
         this.onLoadData();
       }
     });

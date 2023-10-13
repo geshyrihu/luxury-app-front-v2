@@ -1,18 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, inject } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
+import { CustomerIdService } from 'src/app/services/common-services';
+import { CustomToastService } from 'src/app/services/custom-toast.service';
 import { DataService } from 'src/app/services/data.service';
 import { DateService } from 'src/app/services/date.service';
 import { PeriodoMonthService } from 'src/app/services/periodo-month.service';
-import { ToastService } from 'src/app/services/toast.service';
 import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-pagetitlereport',
   templateUrl: './pagetitlereport.component.html',
   standalone: true,
   imports: [CommonModule],
-  providers: [ToastService],
+  providers: [CustomToastService],
 })
 
 /**
@@ -23,7 +23,7 @@ export default class PagetitleReportComponent {
   public dataService = inject(DataService);
   public periodoMonthService = inject(PeriodoMonthService);
   public dateService = inject(DateService);
-  public toastService = inject(ToastService);
+  public customToastService = inject(CustomToastService);
 
   @Input() title: string | undefined;
   // @Input() titulo: string;
@@ -53,7 +53,7 @@ export default class PagetitleReportComponent {
           this.logoCustomer = `${environment.base_urlImg}Administration/customer/${resp.body.photoPath}`;
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });

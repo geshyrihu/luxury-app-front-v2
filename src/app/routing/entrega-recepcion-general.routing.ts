@@ -5,7 +5,7 @@ export default [
     path: 'descripcion',
     loadComponent: () =>
       import(
-        'src/app/pages/operaciones/entrega-recepcion/index-catalogo-descripcion/index-catalogo-descripcion.component'
+        'src/app/pages/operaciones/entrega-recepcion/list-catalogo-descripcion/list-catalogo-descripcion.component'
       ),
   },
   {

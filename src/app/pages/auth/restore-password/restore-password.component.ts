@@ -10,8 +10,10 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ResetPasswordDto } from 'src/app/interfaces/auth/reset-password.interface';
-import { DataService } from 'src/app/services/data.service';
-import { SwalService } from 'src/app/services/swal.service';
+import {
+  CustomSwalService,
+  DataService,
+} from 'src/app/services/common-services';
 import CustomButtonComponent from 'src/app/shared/custom-buttons/custom-button/custom-button.component';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
 
@@ -31,7 +33,7 @@ export default class RestorePasswordComponent implements OnInit, OnDestroy {
   private formBuilder = inject(FormBuilder);
   private router = inject(Router);
   private dataService = inject(DataService);
-  public swalService = inject(SwalService);
+  public customSwalService = inject(CustomSwalService);
 
   subRef$: Subscription;
   form: FormGroup;
@@ -82,16 +84,18 @@ export default class RestorePasswordComponent implements OnInit, OnDestroy {
       token: this.token,
     };
 
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .post('Auth/ResetPassword', this.data)
       .subscribe({
         next: () => {
-          this.swalService.onClose();
+          this.customSwalService.onClose();
           this.router.navigateByUrl('#/auth/login');
         },
         error: (err: any) => {
-          this.swalService.onLoadingError('Error, ' + err.error.description);
+          this.customSwalService.onLoadingError(
+            'Error, ' + err.error.description
+          );
         },
       });
   }

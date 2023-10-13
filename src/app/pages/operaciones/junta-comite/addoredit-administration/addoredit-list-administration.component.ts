@@ -4,16 +4,18 @@ import { FormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { DataService } from 'src/app/services/data.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  CustomSwalService,
+  CustomToastService,
+  DataService,
+} from 'src/app/services/common-services';
 
 @Component({
   selector: 'app-addoredit-list-administration',
   templateUrl: './addoredit-list-administration.component.html',
   standalone: true,
   imports: [FormsModule, CommonModule],
-  providers: [MessageService, ToastService],
+  providers: [MessageService, CustomToastService],
 })
 export default class AddOrEditListAdministrationComponent
   implements OnInit, OnDestroy
@@ -21,8 +23,8 @@ export default class AddOrEditListAdministrationComponent
   public config = inject(DynamicDialogConfig);
   public dataService = inject(DataService);
   public messageService = inject(MessageService);
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
 
   subRef$: Subscription;
 
@@ -55,7 +57,7 @@ export default class AddOrEditListAdministrationComponent
           this.cb_Administration = resp.body;
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });
@@ -68,29 +70,29 @@ export default class AddOrEditListAdministrationComponent
       )
       .subscribe({
         next: (resp: any) => {
-          this.toastService.onShowSuccess();
+          this.customToastService.onShowSuccess();
           this.onLoadData();
           this.onLoadCB();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
         },
       });
   }
   onDelete(idParticipant: number): void {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .delete(`MeetingAdministracion/${idParticipant}`)
       .subscribe({
         next: () => {
-          this.toastService.onShowSuccess();
-          this.swalService.onClose();
+          this.customToastService.onShowSuccess();
+          this.customSwalService.onClose();
           this.onLoadData();
           this.onLoadCB();
         },
         error: (err) => {
-          this.toastService.onShowError();
-          this.swalService.onClose();
+          this.customToastService.onShowError();
+          this.customSwalService.onClose();
           console.log(err.error);
         },
       });

@@ -4,11 +4,11 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
+import { CustomSwalService } from 'src/app/services/custom-swal.service';
+import { CustomToastService } from 'src/app/services/custom-toast.service';
 import { DataService } from 'src/app/services/data.service';
 import { DateService } from 'src/app/services/date.service';
 import { FiltroCalendarService } from 'src/app/services/filtro-calendar.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
 import { ViewPdfService } from 'src/app/services/view-pdf.service';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
@@ -18,7 +18,7 @@ import PrimeNgModule from 'src/app/shared/prime-ng.module';
   templateUrl: './presentaciones-juntas-comite.component.html',
   standalone: true,
   imports: [ComponentsModule, CommonModule, FormsModule, PrimeNgModule],
-  providers: [MessageService, ToastService],
+  providers: [MessageService, CustomToastService],
 })
 export default class PresentacionesJuntasComiteComponent
   implements OnInit, OnDestroy
@@ -29,8 +29,8 @@ export default class PresentacionesJuntasComiteComponent
   private viewPdfService = inject(ViewPdfService);
   public dateService = inject(DateService);
   public messageService = inject(MessageService);
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
 
   data: any[] = [];
   periodo: string = this.dateService.onParseToInputMonth(
@@ -46,18 +46,18 @@ export default class PresentacionesJuntasComiteComponent
     let inicial = this.dateService.getDateFormat(
       new Date(this.periodo + '-' + 1)
     );
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
       .get(`PresentacionJuntaComite/Generales/${inicial}/`)
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }

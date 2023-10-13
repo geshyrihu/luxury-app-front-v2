@@ -13,10 +13,12 @@ import { AutosizeDirective } from 'src/app/directives/autosize-text-area.diectiv
 import { ETurnoTrabajo } from 'src/app/enums/turno-trabajo.enum';
 import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
 import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
-import { AuthService } from 'src/app/services/auth.service';
-import { DataService } from 'src/app/services/data.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  AuthService,
+  CustomSwalService,
+  CustomToastService,
+  DataService,
+} from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
 
@@ -36,8 +38,8 @@ import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.mod
 export default class SolicitudVacanteComponent implements OnInit, OnDestroy {
   private dataService = inject(DataService);
   private formBuilder = inject(FormBuilder);
-  private swalService = inject(SwalService);
-  private toastService = inject(ToastService);
+  private customSwalService = inject(CustomSwalService);
+  private customToastService = inject(CustomToastService);
   public config = inject(DynamicDialogConfig);
   public ref = inject(DynamicDialogRef);
   public authService = inject(AuthService);
@@ -86,7 +88,7 @@ export default class SolicitudVacanteComponent implements OnInit, OnDestroy {
           this.form.patchValue(resp.body);
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
         },
       });
@@ -100,7 +102,7 @@ export default class SolicitudVacanteComponent implements OnInit, OnDestroy {
     }
     // Deshabilitar el botón al iniciar el envío del formulario
     this.submitting = true;
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
 
     this.subRef$ = this.dataService
       .post(
@@ -110,14 +112,14 @@ export default class SolicitudVacanteComponent implements OnInit, OnDestroy {
       .subscribe({
         next: () => {
           this.ref.close(true);
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
-          this.toastService.onShowError();
+          this.customToastService.onShowError();
           console.log(err.error);
           // Habilitar el botón nuevamente al finalizar el envío del formulario
           this.submitting = false;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
       });
   }

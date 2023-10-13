@@ -4,23 +4,25 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { TableModule } from 'primeng/table';
 import { Subscription } from 'rxjs';
 import { ETurnoTrabajoPipe } from 'src/app/pipes/turno-trabajo.pipe';
-import { DataService } from 'src/app/services/data.service';
-import { SwalService } from 'src/app/services/swal.service';
-import { ToastService } from 'src/app/services/toast.service';
+import {
+  CustomSwalService,
+  CustomToastService,
+  DataService,
+} from 'src/app/services/common-services';
 
 @Component({
   selector: 'app-hours-work-position',
   templateUrl: './hours-work-position.component.html',
   standalone: true,
   imports: [CommonModule, TableModule, ETurnoTrabajoPipe],
-  providers: [ToastService],
+  providers: [CustomToastService],
 })
 export default class HoursWorkPositionComponent implements OnInit, OnDestroy {
   public config = inject(DynamicDialogConfig);
   public dataService = inject(DataService);
   public ref = inject(DynamicDialogRef);
-  public swalService = inject(SwalService);
-  public toastService = inject(ToastService);
+  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
 
   data: any;
   subRef$: Subscription;
@@ -29,19 +31,19 @@ export default class HoursWorkPositionComponent implements OnInit, OnDestroy {
   }
 
   onLoadData(workPositionId: number) {
-    this.swalService.onLoading();
+    this.customSwalService.onLoading();
     this.subRef$ = this.dataService
 
       .get(`WorkPosition/GetHours/${workPositionId}`)
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.swalService.onClose();
+          this.customSwalService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.swalService.onClose();
-          this.toastService.onShowError();
+          this.customSwalService.onClose();
+          this.customToastService.onShowError();
         },
       });
   }
