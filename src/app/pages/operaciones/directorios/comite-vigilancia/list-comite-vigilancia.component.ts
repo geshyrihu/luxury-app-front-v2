@@ -6,7 +6,6 @@ import { IComiteVigilanciaDto } from 'src/app/interfaces/IComiteVigilanciaDto.in
 import { EPosicionComitePipe } from 'src/app/pipes/posicionComite.pipe';
 import {
   AuthService,
-  CustomSwalService,
   CustomToastService,
   CustomerIdService,
   DataService,
@@ -29,7 +28,7 @@ export default class ListComiteVigilanciaComponent
   public customerIdService = inject(CustomerIdService);
   public dataService = inject(DataService);
   public messageService = inject(MessageService);
-  public customSwalService = inject(CustomSwalService);
+
   public customToastService = inject(CustomToastService);
   public dialogService = inject(DialogService);
   data: IComiteVigilanciaDto[] = [];
@@ -47,7 +46,8 @@ export default class ListComiteVigilanciaComponent
   }
 
   onLoadData() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get<IComiteVigilanciaDto[]>(
         'ComiteVigilancia/GetAll/' + this.customerIdService.getcustomerId()
@@ -55,29 +55,29 @@ export default class ListComiteVigilanciaComponent
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
-          this.customToastService.onShowError();
         },
       });
   }
   onDelete(data: any) {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .delete(`ComiteVigilancia/${data.id}`)
       .subscribe({
         next: () => {
           this.onLoadData();
-          this.customSwalService.onClose();
-          this.customToastService.onShowSuccess();
+          this.customToastService.onCloseToSuccess();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
-          this.customToastService.onShowError();
         },
       });
   }

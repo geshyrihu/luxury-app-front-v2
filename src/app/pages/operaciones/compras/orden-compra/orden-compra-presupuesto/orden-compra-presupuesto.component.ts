@@ -6,7 +6,6 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import {
   AuthService,
-  CustomSwalService,
   CustomToastService,
   CustomerIdService,
   DataService,
@@ -27,7 +26,6 @@ const fechaActual = new Date();
 export default class OrdenCompraPresupuestoComponent
   implements OnInit, OnDestroy
 {
-  public customSwalService = inject(CustomSwalService);
   public customToastService = inject(CustomToastService);
   public dataService = inject(DataService);
   public authService = inject(AuthService);
@@ -52,31 +50,38 @@ export default class OrdenCompraPresupuestoComponent
     this.ordenCompraId = this.config.data.ordenCompraId;
   }
   onLoadData() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get(
-        `OrdenCompraPresupuesto/GetAll/${this.customerIdService.customerId}/${this.cedulaId}/${this.ordenCompraId}`
+        // `OrdenCompraPresupuesto/GetAll/${this.customerIdService.customerId}/${this.cedulaId}/${this.ordenCompraId}`
+        `OrdenCompraPresupuesto/GetAll/${this.cedulaId}/${this.ordenCompraId}`
       )
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
+          console.log(
+            '🚀 ~ resp.bodyaca estamos en el presupuesto:',
+            resp.body
+          );
           this.data.forEach(
             (x) => (
               (x.dineroUsado = this.total),
               (x.ordenCompraId = this.ordenCompraId)
             )
           );
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
-          this.customToastService.onShowError();
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
         },
       });
   }
   onSubmit(partidaPresupuestal: any) {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .post(`OrdenCompraPresupuesto`, partidaPresupuestal)
       .subscribe({
@@ -87,9 +92,9 @@ export default class OrdenCompraPresupuestoComponent
           this.ref.close(true);
         },
         error: (err) => {
-          this.customToastService.onShowError();
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
         },
       });
   }

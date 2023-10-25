@@ -22,7 +22,7 @@
 // export default class ListPresupuestoEmpresaComponent
 //   implements OnInit, OnDestroy
 // {
-//   public customSwalService = inject(CustomSwalService);
+//
 //   private _toastService = inject(CustomToastService);
 //   public dataService = inject(DataService);
 //   public dialogService = inject(DialogService);
@@ -43,7 +43,8 @@
 //   }
 
 //   onLoadData() {
-//     this.customSwalService.onLoading();
+//     // Mostrar un mensaje de carga
+this.customToastService.onLoading();
 //     this.subRef$ = this.dataService.get("PresupuestoEmpresa/GetAll").subscribe(
 //       (resp: any) => {
 //         this.data = resp.body;
@@ -57,7 +58,8 @@
 //     );
 //   }
 //   onDelete(data: any) {
-//     this.customSwalService.onLoading();
+//     // Mostrar un mensaje de carga
+this.customToastService.onLoading();
 //     this.subRef$ = this.dataService
 //       .delete(`PresupuestoEmpresa/${data.id}`)
 //       .subscribe(

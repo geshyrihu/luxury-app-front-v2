@@ -9,7 +9,6 @@ import { Subscription } from 'rxjs';
 import { PositionRequestAgendaDto } from 'src/app/interfaces/PositionRequestAgendaDto';
 import {
   AuthService,
-  CustomSwalService,
   CustomToastService,
   DataService,
 } from 'src/app/services/common-services';
@@ -34,7 +33,7 @@ export default class LisVacanteCandidatosComponent implements OnInit {
   private dataService = inject(DataService);
   public authService = inject(AuthService);
   public messageService = inject(MessageService);
-  public customSwalService = inject(CustomSwalService);
+
   public customToastService = inject(CustomToastService);
   public activatedRoute = inject(ActivatedRoute);
   public dialogService = inject(DialogService);
@@ -54,37 +53,40 @@ export default class LisVacanteCandidatosComponent implements OnInit {
   }
 
   onLoadData() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get<PositionRequestAgendaDto>(
         'PositionRequestAgenda/Candidatos/' + this.positionRequestId
       )
       .subscribe({
         next: (resp: any) => {
+          // Cuando se obtienen los datos con éxito, actualizar la variable 'data' y ocultar el mensaje de carga
           this.data = resp.body;
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
-          this.customToastService.onShowError();
         },
       });
   }
   onDelete(data: any) {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .delete(`PositionRequestAgenda/${data.id}`)
       .subscribe({
         next: () => {
           this.onLoadData();
-          this.customSwalService.onClose();
-          this.customToastService.onShowSuccess();
+          // Mostrar un mensaje de éxito y cerrar Loading....
+          this.customToastService.onCloseToSuccess();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
-          this.customToastService.onShowError();
         },
       });
   }
@@ -110,7 +112,8 @@ export default class LisVacanteCandidatosComponent implements OnInit {
   }
 
   onSendEmailConfirm() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     let dataSend: number[] = [];
     this.data.candidates.forEach((item) => {
       if (item.sendCandidate == true) {
@@ -128,11 +131,11 @@ export default class LisVacanteCandidatosComponent implements OnInit {
           this.onLoadData();
         },
         error: (err) => {
-          this.customToastService.onShowError();
-          console.log(err.error);
           // Habilitar el botón nuevamente al finalizar el envío del formulario
           this.submitting = false;
-          this.customSwalService.onClose();
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
+          console.log(err.error);
         },
       });
   }

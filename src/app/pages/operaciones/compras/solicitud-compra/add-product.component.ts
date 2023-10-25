@@ -23,7 +23,6 @@ import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
 import TarjetaProductoComponent from 'src/app/pages/operaciones/mantenimiento/mantenimiento-catalogos/tarjeta-producto/tarjeta-producto.component';
 import {
   AuthService,
-  CustomSwalService,
   CustomToastService,
   DataService,
   SelectItemService,
@@ -46,7 +45,6 @@ import { environment } from 'src/environments/environment';
   providers: [DialogService, MessageService, CustomToastService],
 })
 export default class AddProductComponent implements OnInit, OnDestroy {
-  public customSwalService = inject(CustomSwalService);
   public customToastService = inject(CustomToastService);
   public authService = inject(AuthService);
   private dataService = inject(DataService);

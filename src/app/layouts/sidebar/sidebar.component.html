@@ -60,12 +60,12 @@
                         *ngIf="subSubitem.visible"
                         [attr.data-parent]="subSubitem.parentId"
                         [routerLink]="subSubitem.link"
-                        (click)="onOcultarBarra()"
                         routerLinkActive="active"
                         class="side-nav-link-ref"
                       >
                         {{ subSubitem.label }}
                       </a>
+                      <!-- (click)="onOcultarBarra()" -->
                     </li>
                   </ul>
                 </li>

@@ -5,7 +5,6 @@ import { MessageService } from 'primeng/api';
 import { DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import {
-  CustomSwalService,
   CustomToastService,
   DataService,
 } from 'src/app/services/common-services';
@@ -18,7 +17,6 @@ import {
   providers: [MessageService, CustomToastService],
 })
 export default class AddOrEditInvitedComponent implements OnInit, OnDestroy {
-  public customSwalService = inject(CustomSwalService);
   public customToastService = inject(CustomToastService);
   public dataService = inject(DataService);
   public config = inject(DynamicDialogConfig);
@@ -56,19 +54,19 @@ export default class AddOrEditInvitedComponent implements OnInit, OnDestroy {
       });
   }
   onDelete(idParticipant: number): void {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .delete(`MeetingInvitado/${idParticipant}`)
       .subscribe({
         next: () => {
-          this.customToastService.onShowSuccess();
-          this.customSwalService.onClose();
           this.onLoadData();
+          this.customToastService.onCloseToSuccess();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
-          this.customToastService.onShowError();
         },
       });
   }

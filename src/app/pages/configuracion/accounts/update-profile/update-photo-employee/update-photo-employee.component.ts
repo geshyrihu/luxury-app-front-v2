@@ -7,7 +7,6 @@ import { Subscription } from 'rxjs';
 import { InfoEmployeeAuthDto } from 'src/app/interfaces/auth/user-token.interface';
 import {
   AuthService,
-  CustomSwalService,
   CustomToastService,
   DataService,
 } from 'src/app/services/common-services';
@@ -24,7 +23,7 @@ import { environment } from 'src/environments/environment';
 export default class UpdatePhotoEmployeeComponent implements OnInit, OnDestroy {
   public authService = inject(AuthService);
   private dataService = inject(DataService);
-  private customSwalService = inject(CustomSwalService);
+
   public customToastService = inject(CustomToastService);
   public profielServiceService = inject(ProfielServiceService);
 
@@ -61,7 +60,8 @@ export default class UpdatePhotoEmployeeComponent implements OnInit, OnDestroy {
     this.uploadImg();
   }
   uploadImg() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     const formData = new FormData();
     formData.append('file', this.imgUpload);
     this.subRef$ = this.dataService
@@ -73,13 +73,13 @@ export default class UpdatePhotoEmployeeComponent implements OnInit, OnDestroy {
           this.profielServiceService.actualizarImagenPerfil(
             this.infoEmployeeDto.photoPath
           );
-          this.customSwalService.onClose();
-          this.customToastService.onShowSuccess();
+          // Mostrar un mensaje de éxito y cerrar Loading....
+          this.customToastService.onCloseToSuccess();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
-          this.customToastService.onShowError();
         },
       });
   }

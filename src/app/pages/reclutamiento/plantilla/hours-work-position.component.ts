@@ -5,7 +5,6 @@ import { TableModule } from 'primeng/table';
 import { Subscription } from 'rxjs';
 import { ETurnoTrabajoPipe } from 'src/app/pipes/turno-trabajo.pipe';
 import {
-  CustomSwalService,
   CustomToastService,
   DataService,
 } from 'src/app/services/common-services';
@@ -21,7 +20,6 @@ export default class HoursWorkPositionComponent implements OnInit, OnDestroy {
   public config = inject(DynamicDialogConfig);
   public dataService = inject(DataService);
   public ref = inject(DynamicDialogRef);
-  public customSwalService = inject(CustomSwalService);
   public customToastService = inject(CustomToastService);
 
   data: any;
@@ -31,19 +29,20 @@ export default class HoursWorkPositionComponent implements OnInit, OnDestroy {
   }
 
   onLoadData(workPositionId: number) {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
 
       .get(`WorkPosition/GetHours/${workPositionId}`)
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
-          this.customToastService.onShowError();
         },
       });
   }

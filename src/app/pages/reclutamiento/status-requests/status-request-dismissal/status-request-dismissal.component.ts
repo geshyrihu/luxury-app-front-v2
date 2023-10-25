@@ -9,7 +9,6 @@ import CardEmployeeComponent from 'src/app/pages/operaciones/directorios/emplead
 import PhoneFormatPipe from 'src/app/pipes/phone-format.pipe';
 import {
   AuthService,
-  CustomSwalService,
   CustomToastService,
   CustomerIdService,
   DataService,
@@ -19,8 +18,8 @@ import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import { environment } from 'src/environments/environment';
+import AddoreditSolicitudBajaComponent from '../../list-solicitudes/list-solicitud-baja/addoredit-solicitud-baja/addoredit-solicitud-baja.component';
 import AddOrEditStatusRequestDismissalDiscountComponent from './add-or-edit-status-request-dismissal-discount/add-or-edit-status-request-dismissal-discount.component';
-import AddOrEditStatusRequestDismissalComponent from './add-or-edit-status-request-dismissal/add-or-edit-status-request-dismissal.component';
 
 @Component({
   selector: 'app-status-request-dismissal',
@@ -45,7 +44,7 @@ export default class StatusRequestDismissalComponent
   public dataService = inject(DataService);
   public dialogService = inject(DialogService);
   public router = inject(Router);
-  public customSwalService = inject(CustomSwalService);
+
   public customToastService = inject(CustomToastService);
 
   workPositionId = this.statusSolicitudVacanteService.getworkPositionId();
@@ -64,18 +63,20 @@ export default class StatusRequestDismissalComponent
   }
 
   onLoadData() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get('RequestDismissal/' + this.workPositionId)
       .subscribe({
         next: (resp: any) => {
+          // Cuando se obtienen los datos con éxito, actualizar la variable 'data' y ocultar el mensaje de carga
           this.data = resp.body;
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
-          this.customToastService.onShowError();
         },
       });
   }
@@ -96,7 +97,8 @@ export default class StatusRequestDismissalComponent
   //Editar solicitud de baja
   onModalAddOrEdit(data: any) {
     this.ref = this.dialogService.open(
-      AddOrEditStatusRequestDismissalComponent,
+      // AddOrEditStatusRequestDismissalComponent,
+      AddoreditSolicitudBajaComponent,
       {
         data: {
           id: data.id,
@@ -116,16 +118,17 @@ export default class StatusRequestDismissalComponent
   }
   //Eliminar solicitud de baja
   onDelete(id: number) {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService.delete(`RequestDismissal/${id}`).subscribe({
       next: () => {
-        this.customToastService.onShowSuccess();
-        this.customSwalService.onClose();
+        // Cuando se completa la eliminación con éxito, mostrar un mensaje de éxito y volver a cargar los datos
+        this.customToastService.onCloseToSuccess();
         this.onLoadData();
       },
       error: (err) => {
-        this.customToastService.onShowError();
-        this.customSwalService.onClose();
+        // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+        this.customToastService.onCloseToError();
         console.log(err.error);
       },
     });
@@ -153,19 +156,20 @@ export default class StatusRequestDismissalComponent
   }
   //Eliminar solicitud de baja
   onDeleteDiscounts(id: number) {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .delete(`RequestDismissalDiscount/${id}`)
       .subscribe({
         next: () => {
           this.onLoadData();
-          this.customSwalService.onClose();
-          this.customToastService.onShowSuccess();
+          // Mostrar un mensaje de éxito y cerrar Loading....
+          this.customToastService.onCloseToSuccess();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
-          this.customToastService.onShowError();
         },
       });
   }

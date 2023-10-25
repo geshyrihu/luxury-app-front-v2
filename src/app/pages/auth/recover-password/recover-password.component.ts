@@ -7,9 +7,10 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import {
-  CustomSwalService,
+  CustomToastService,
   DataService,
 } from 'src/app/services/common-services';
 import CustomButtonComponent from 'src/app/shared/custom-buttons/custom-button/custom-button.component';
@@ -25,12 +26,13 @@ import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.mod
     CustomInputModule,
     CustomButtonComponent,
   ],
+  providers: [MessageService, CustomToastService],
 })
 export default class RecoverPasswordComponent implements OnInit, OnDestroy {
   private dataService = inject(DataService);
   private formBuilder = inject(FormBuilder);
+  public customToastService = inject(CustomToastService);
   private router = inject(Router);
-  public customSwalService = inject(CustomSwalService);
 
   form: FormGroup;
   sendEmail: boolean = false;
@@ -58,17 +60,18 @@ export default class RecoverPasswordComponent implements OnInit, OnDestroy {
       });
       return;
     }
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .post('Auth/RecoverPassword', this.form.value)
       .subscribe({
         next: () => {
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
           this.sendEmail = true;
         },
         error: (err) => {
           console.log(err.error);
-          this.customSwalService.onLoadingError(
+          this.customToastService.onLoadingError(
             err.error[''].errors[0].errorMessage
           );
         },

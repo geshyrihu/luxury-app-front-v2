@@ -5,7 +5,6 @@ import { Observable, Subscription } from 'rxjs';
 import { SanitizeHtmlPipe } from 'src/app/pipes/sanitize-html.pipe';
 import { ETypeMaintancePipe } from 'src/app/pipes/typeMaintance.pipe';
 import {
-  CustomSwalService,
   CustomToastService,
   CustomerIdService,
   DataService,
@@ -29,7 +28,7 @@ export default class MantenimientosComponent implements OnInit, OnDestroy {
   public customerIdService = inject(CustomerIdService);
   public dataService = inject(DataService);
   public messageService = inject(MessageService);
-  public customSwalService = inject(CustomSwalService);
+
   public customToastService = inject(CustomToastService);
   data: any[] = [];
   subRef$: Subscription;
@@ -44,7 +43,8 @@ export default class MantenimientosComponent implements OnInit, OnDestroy {
     });
   }
   onLoadData() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get(
         'EntregaRecepcion/InventarioMantenimientos/' +
@@ -53,12 +53,12 @@ export default class MantenimientosComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
-          this.customToastService.onShowError();
         },
       });
   }

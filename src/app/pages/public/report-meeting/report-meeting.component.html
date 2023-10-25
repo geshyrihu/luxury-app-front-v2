@@ -5,10 +5,33 @@
         <div class="card">
           <div class="card-body">
             <div *ngIf="data.minuta">
-              <app-haeder-customer
-                title="Minuta de junta con {{ data.minuta.eTypeMeeting }}"
-                subTitle="{{ data.minuta.date }}"
-              ></app-haeder-customer>
+              <div class="table-responsive header-customer">
+                <table class="table">
+                  <tbody>
+                    <tr>
+                      <td style="width: 20%">
+                        <img
+                          [src]="data.minutaCliente.customerLogo"
+                          alt=""
+                          class="avatar-lg h-auto d-block rounded"
+                        />
+                      </td>
+                      <td style="width: 60%">
+                        <h4 class="text-center font-size-16 mb-1">
+                          {{ data.minutaCliente.customer }}
+                        </h4>
+                        <h4 class="text-center font-size-16 mb-1">
+                          Minuta de junta con {{ data.minuta.eTypeMeeting }}
+                        </h4>
+                        <div class="text-center">
+                          <p mb-0>{{ data.minuta.date }}</p>
+                        </div>
+                      </td>
+                      <td style="width: 20%"></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
 
             <ng-container *ngIf="data.comite && data.comite.length > 0">

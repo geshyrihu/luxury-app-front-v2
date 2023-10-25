@@ -15,7 +15,6 @@ import { IWorkPositionAddOrEditDto } from 'src/app/interfaces/IEmpresaOrganigram
 import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
 import {
   AuthService,
-  CustomSwalService,
   CustomToastService,
   CustomerIdService,
   DataService,
@@ -36,15 +35,14 @@ import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.mod
   providers: [CustomToastService],
 })
 export default class AddoreditPlantillaComponent implements OnInit, OnDestroy {
+  private customToastService = inject(CustomToastService);
   private formBuilder = inject(FormBuilder);
-  public dataService = inject(DataService);
-  public ref = inject(DynamicDialogRef);
+  public authService = inject(AuthService);
   public config = inject(DynamicDialogConfig);
   public customerIdService = inject(CustomerIdService);
+  public dataService = inject(DataService);
+  public ref = inject(DynamicDialogRef);
   public selectItemService = inject(SelectItemService);
-  public authService = inject(AuthService);
-  private customSwalService = inject(CustomSwalService);
-  private customToastService = inject(CustomToastService);
 
   submitting: boolean = false;
 
@@ -132,21 +130,22 @@ export default class AddoreditPlantillaComponent implements OnInit, OnDestroy {
     });
     // Deshabilitar el botón al iniciar el envío del formulario
     this.submitting = true;
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     if (this.id === 0) {
       this.subRef$ = this.dataService
         .post(`WorkPosition`, this.form.value)
         .subscribe({
           next: () => {
-            this.customSwalService.onClose();
+            this.customToastService.onClose();
             this.ref.close(true);
           },
           error: (err) => {
-            console.log(err.error);
-            this.customToastService.onShowError();
             // Habilitar el botón nuevamente al finalizar el envío del formulario
             this.submitting = false;
-            this.customSwalService.onClose();
+            // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+            this.customToastService.onCloseToError();
+            console.log(err.error);
           },
         });
     } else {
@@ -154,15 +153,15 @@ export default class AddoreditPlantillaComponent implements OnInit, OnDestroy {
         .put(`WorkPosition/${this.id}`, this.form.value)
         .subscribe({
           next: () => {
-            this.customSwalService.onClose();
+            this.customToastService.onClose();
             this.ref.close(true);
           },
           error: (err) => {
-            console.log(err.error);
-            this.customToastService.onShowError();
             // Habilitar el botón nuevamente al finalizar el envío del formulario
             this.submitting = false;
-            this.customSwalService.onClose();
+            // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+            this.customToastService.onCloseToError();
+            console.log(err.error);
           },
         });
     }

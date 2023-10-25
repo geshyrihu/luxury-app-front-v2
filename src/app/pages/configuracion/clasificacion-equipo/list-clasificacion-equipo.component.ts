@@ -4,7 +4,6 @@ import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import {
-  CustomSwalService,
   CustomToastService,
   DataService,
 } from 'src/app/services/common-services';
@@ -24,7 +23,7 @@ export default class ListClasificacionEquipoComponent
 {
   private dataService = inject(DataService);
   public dialogService = inject(DialogService);
-  public customSwalService = inject(CustomSwalService);
+
   public messageService = inject(MessageService);
   public customToastService = inject(CustomToastService);
 
@@ -36,35 +35,36 @@ export default class ListClasificacionEquipoComponent
     this.onLoadData();
   }
   onLoadData() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get<any[]>('EquipoClasificacion')
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
-          this.customToastService.onShowError();
         },
       });
   }
   onDelete(data: any) {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .delete(`EquipoClasificacion/${data.id}`)
       .subscribe({
         next: () => {
           this.onLoadData();
-          this.customSwalService.onClose();
-          this.customToastService.onShowSuccess();
+          this.customToastService.onCloseToSuccess();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
-          this.customToastService.onShowError();
         },
       });
   }

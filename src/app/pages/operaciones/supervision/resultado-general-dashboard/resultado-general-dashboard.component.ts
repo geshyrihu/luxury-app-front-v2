@@ -7,7 +7,6 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { TableModule } from 'primeng/table';
 import { Subscription } from 'rxjs';
-import { CustomSwalService } from 'src/app/services/custom-swal.service';
 import { CustomToastService } from 'src/app/services/custom-toast.service';
 import { DataService } from 'src/app/services/data.service';
 import { DateService } from 'src/app/services/date.service';
@@ -38,7 +37,7 @@ export default class ResultadoGeneralDashboardComponent
   public messageService = inject(MessageService);
   public periodoMonthService = inject(PeriodoMonthService);
   public selectItemService = inject(SelectItemService);
-  public customSwalService = inject(CustomSwalService);
+
   public customToastService = inject(CustomToastService);
 
   reporteFiltro: string = 'MINUTAS GENERAL';
@@ -75,7 +74,8 @@ export default class ResultadoGeneralDashboardComponent
 
   onLoadDataMinutas() {
     this.reporteFiltro = 'MINUTAS GENERAL';
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get(
         `ResumenGeneral/ReporteResumenMinutas/${this.dateService.getDateFormat(
@@ -87,17 +87,18 @@ export default class ResultadoGeneralDashboardComponent
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
-          this.customToastService.onShowError();
         },
       });
   }
   onLoadDataMinutaFiltro(EAreaMinutasDetalles: number, reporteFiltro: string) {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get(
         `ResumenGeneral/ReporteResumenMinutasFiltro/${this.dateService.getDateFormat(
@@ -110,18 +111,18 @@ export default class ResultadoGeneralDashboardComponent
         next: (resp: any) => {
           this.data = resp.body;
           this.reporteFiltro = reporteFiltro;
-
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
-          this.customToastService.onShowError();
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
         },
       });
   }
   onLoadDataPreventivos() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get(
         `ResumenGeneral/ReporteResumenPreventivos/${this.dateService.getDateFormat(
@@ -134,18 +135,18 @@ export default class ResultadoGeneralDashboardComponent
         next: (resp: any) => {
           this.data = resp.body;
           this.reporteFiltro = 'MANTENIMIENTOS PREVENTIVOS';
-
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
-          this.customToastService.onShowError();
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
         },
       });
   }
   onLoadDataTickets() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get(
         `ResumenGeneral/ReporteResumenTicket/${this.dateService.getDateFormat(
@@ -158,12 +159,12 @@ export default class ResultadoGeneralDashboardComponent
         next: (resp: any) => {
           this.data = resp.body;
           this.reporteFiltro = 'TICKETS';
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
-          this.customToastService.onShowError();
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
         },
       });
   }

@@ -13,7 +13,6 @@ import { Subscription } from 'rxjs';
 import {
   AuthService,
   CatalogoGastosFijosService,
-  CustomSwalService,
   CustomToastService,
   CustomerIdService,
   DataService,
@@ -41,7 +40,6 @@ import PrimeNgModule from 'src/app/shared/prime-ng.module';
 export default class FormCatalogoGastosFijosComponent
   implements OnInit, OnDestroy
 {
-  public customSwalService = inject(CustomSwalService);
   public customToastService = inject(CustomToastService);
   public authService = inject(AuthService);
   private formBuilder = inject(FormBuilder);
@@ -109,7 +107,8 @@ export default class FormCatalogoGastosFijosComponent
   }
 
   onLoadData() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
 
     this.subRef$ = this.dataService
       .get<any>(`CatalogoGastosFijos/${this.id}`)
@@ -123,12 +122,12 @@ export default class FormCatalogoGastosFijosComponent
           this.form.patchValue({
             providerName: resp.body.provider,
           });
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
-          this.customToastService.onShowError();
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
         },
       });
   }
@@ -142,23 +141,23 @@ export default class FormCatalogoGastosFijosComponent
     }
     // Deshabilitar el botón al iniciar el envío del formulario
     this.submitting = true;
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     if (this.id === 0) {
       this.subRef$ = this.dataService
         .post(`CatalogoGastosFijos`, this.form.value)
         .subscribe({
           next: (resp: any) => {
-            this.customToastService.onShowSuccess();
             this.id = resp.body.id;
             this.onLoadData();
-            this.customSwalService.onClose();
+            this.customToastService.onCloseToSuccess();
           },
           error: (err) => {
-            this.customToastService.onShowError();
-            console.log(err.error);
             // Habilitar el botón nuevamente al finalizar el envío del formulario
             this.submitting = false;
-            this.customSwalService.onClose();
+            // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+            this.customToastService.onCloseToError();
+            console.log(err.error);
           },
         });
     } else {
@@ -167,15 +166,14 @@ export default class FormCatalogoGastosFijosComponent
         .subscribe({
           next: () => {
             this.onLoadData();
-            this.customSwalService.onClose();
-            this.customToastService.onShowSuccess();
+            this.customToastService.onCloseToSuccess();
           },
           error: (err) => {
-            this.customToastService.onShowError();
-            console.log(err.error);
             // Habilitar el botón nuevamente al finalizar el envío del formulario
             this.submitting = false;
-            this.customSwalService.onClose();
+            // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+            this.customToastService.onCloseToError();
+            console.log(err.error);
           },
         });
     }

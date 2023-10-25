@@ -14,7 +14,6 @@ import { EStatusTask } from 'src/app/enums/estatus.enum';
 import { ETypeMaintance } from 'src/app/enums/tipo-mantenimiento.enum';
 import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
 import { CustomerIdService } from 'src/app/services/common-services';
-import { CustomSwalService } from 'src/app/services/custom-swal.service';
 import { CustomToastService } from 'src/app/services/custom-toast.service';
 import { DataService } from 'src/app/services/data.service';
 import { DateService } from 'src/app/services/date.service';
@@ -46,7 +45,7 @@ export default class ServiceOrderAddOrEditComponent
   private formBuilder = inject(FormBuilder);
   public selectItemService = inject(SelectItemService);
   public ref = inject(DynamicDialogRef);
-  private customSwalService = inject(CustomSwalService);
+
   private customToastService = inject(CustomToastService);
 
   submitting: boolean = false;
@@ -163,22 +162,23 @@ export default class ServiceOrderAddOrEditComponent
     this.id = this.config.data.id;
     // Deshabilitar el botón al iniciar el envío del formulario
     this.submitting = true;
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
 
     if (this.id === 0) {
       this.subRef$ = this.dataService
         .post(`ServiceOrders`, this.form.value)
         .subscribe({
           next: () => {
-            this.customSwalService.onClose();
             this.ref.close(true);
+            this.customToastService.onClose();
           },
           error: (err) => {
-            console.log(err.error);
-            this.customToastService.onShowError();
             // Habilitar el botón nuevamente al finalizar el envío del formulario
             this.submitting = false;
-            this.customSwalService.onClose();
+            // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+            this.customToastService.onCloseToError();
+            console.log(err.error);
           },
         });
     } else {
@@ -186,15 +186,15 @@ export default class ServiceOrderAddOrEditComponent
         .put(`ServiceOrders/${this.id}`, this.form.value)
         .subscribe({
           next: () => {
-            this.customSwalService.onClose();
             this.ref.close(true);
+            this.customToastService.onClose();
           },
           error: (err) => {
-            console.log(err.error);
-            this.customToastService.onShowError();
             // Habilitar el botón nuevamente al finalizar el envío del formulario
             this.submitting = false;
-            this.customSwalService.onClose();
+            // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+            this.customToastService.onCloseToError();
+            console.log(err.error);
           },
         });
     }

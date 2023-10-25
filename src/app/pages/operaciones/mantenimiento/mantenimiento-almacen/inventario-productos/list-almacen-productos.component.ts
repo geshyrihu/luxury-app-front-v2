@@ -5,7 +5,6 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable, Subscription } from 'rxjs';
 import {
   AuthService,
-  CustomSwalService,
   CustomToastService,
   CustomerIdService,
   DataService,
@@ -41,7 +40,7 @@ export default class ListAlmacenProductosComponent
   public authService = inject(AuthService);
   public dialogService = inject(DialogService);
   public messageService = inject(MessageService);
-  public customSwalService = inject(CustomSwalService);
+
   public customToastService = inject(CustomToastService);
 
   data: any[] = [];
@@ -84,7 +83,8 @@ export default class ListAlmacenProductosComponent
   }
 
   onLoadData() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get(
         'InventarioProducto/GetAsyncAll/' + this.customerIdService.customerId
@@ -92,31 +92,31 @@ export default class ListAlmacenProductosComponent
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
           this.updateRowGroupMetaData();
         },
         error: (err) => {
-          this.customToastService.onShowError();
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
         },
       });
   }
 
   onDelete(data: any) {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .delete(`InventarioProducto/${data.id}`)
       .subscribe({
         next: () => {
           this.onLoadData();
-          this.customSwalService.onClose();
-          this.customToastService.onShowSuccess();
+          this.customToastService.onCloseToSuccess();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
-          this.customToastService.onShowError();
         },
       });
   }

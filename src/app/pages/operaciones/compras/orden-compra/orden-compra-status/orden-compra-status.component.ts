@@ -5,7 +5,6 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ToastModule } from 'primeng/toast';
 import { Subscription } from 'rxjs';
 import {
-  CustomSwalService,
   CustomToastService,
   DataService,
 } from 'src/app/services/common-services';
@@ -24,7 +23,6 @@ import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.mod
   ],
 })
 export default class OrdenCompraStatusComponent implements OnInit, OnDestroy {
-  public customSwalService = inject(CustomSwalService);
   public customToastService = inject(CustomToastService);
   public dataService = inject(DataService);
   private formBuilder = inject(FormBuilder);
@@ -65,7 +63,8 @@ export default class OrdenCompraStatusComponent implements OnInit, OnDestroy {
       });
   }
   onSubmit() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     // Deshabilitar el botón al iniciar el envío del formulario
     this.submitting = true;
     this.subRef$ = this.dataService
@@ -73,15 +72,14 @@ export default class OrdenCompraStatusComponent implements OnInit, OnDestroy {
       .subscribe({
         next: () => {
           this.ref.close(true);
-          this.customSwalService.onClose();
+          this.customToastService.onCloseToSuccess();
         },
         error: (err) => {
-          this.customToastService.onShowError();
-          console.log(err.error);
-          this.customSwalService.onClose();
           // Habilitar el botón nuevamente al finalizar el envío del formulario
           this.submitting = false;
-          this.customSwalService.onClose();
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
+          console.log(err.error);
         },
       });
   }

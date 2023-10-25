@@ -14,7 +14,6 @@ import { cb_ESiNo } from 'src/app/enums/si-no.enum';
 import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
 import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
 import {
-  CustomSwalService,
   CustomToastService,
   DataService,
 } from 'src/app/services/common-services';
@@ -39,7 +38,6 @@ export default class AddoreditModificacionSalarioComponent
 {
   private dataService = inject(DataService);
   private formBuilder = inject(FormBuilder);
-  private customSwalService = inject(CustomSwalService);
   private customToastService = inject(CustomToastService);
   public config = inject(DynamicDialogConfig);
   public ref = inject(DynamicDialogRef);
@@ -101,15 +99,15 @@ export default class AddoreditModificacionSalarioComponent
       .put(`RequestSalaryModification/${this.id}`, this.form.value)
       .subscribe({
         next: () => {
-          this.customSwalService.onClose();
           this.ref.close(true);
+          this.customToastService.onClose();
         },
         error: (err) => {
-          console.log(err.error);
-          this.customToastService.onShowError();
           // Habilitar el botón nuevamente al finalizar el envío del formulario
           this.submitting = false;
-          this.customSwalService.onClose();
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
+          console.log(err.error);
         },
       });
   }

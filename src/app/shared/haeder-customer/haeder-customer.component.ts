@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit, inject } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import { CustomerIdService } from 'src/app/services/common-services';
 import { DataService } from 'src/app/services/data.service';
 import { TicketFilterService } from 'src/app/services/ticket-filter.service';
@@ -17,12 +17,13 @@ export default class HaederCustomerComponent implements OnInit, OnDestroy {
   logoCustomer = '';
   nameCustomer = '';
   customerId$: Observable<number> = this.customerIdService.getCustomerId$();
-  subRef$: Subscription;
 
   @Input()
   title: string = 'Titulo de cabecera';
   @Input()
   subTitle: string = '';
+
+  private destroy$ = new Subject<void>(); // Utilizado para la gestión de recursos al destruir el componente
 
   ngOnInit(): void {
     this.onLoadData();
@@ -32,19 +33,22 @@ export default class HaederCustomerComponent implements OnInit, OnDestroy {
   }
 
   onLoadData() {
-    this.subRef$ = this.dataService
+    this.dataService
       .get(`Customers/${this.customerIdService.customerId}`)
-      .subscribe(
-        (resp: any) => {
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (resp: any) => {
           this.nameCustomer = resp.body.nameCustomer;
           this.logoCustomer = `${environment.base_urlImg}Administration/customer/${resp.body.photoPath}`;
         },
-        (err) => {
+        error: (err) => {
           console.log(err.error);
-        }
-      );
+        },
+      });
   }
   ngOnDestroy() {
-    if (this.subRef$) this.subRef$.unsubscribe();
+    // Cuando se destruye el componente, desvincular y liberar recursos
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

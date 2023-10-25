@@ -7,7 +7,6 @@ import {
 } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
-import { CustomSwalService } from 'src/app/services/custom-swal.service';
 import { DataService } from 'src/app/services/data.service';
 import { DateService } from 'src/app/services/date.service';
 import { SelectItemService } from 'src/app/services/select-item.service';
@@ -28,7 +27,6 @@ export default class AddoreditBudgetCardComponent implements OnInit, OnDestroy {
   public config = inject(DynamicDialogConfig);
   public ref = inject(DynamicDialogRef);
   private selectItemService = inject(SelectItemService);
-  public customSwalService = inject(CustomSwalService);
 
   submitting: boolean = false;
 
@@ -73,22 +71,23 @@ export default class AddoreditBudgetCardComponent implements OnInit, OnDestroy {
 
     // Deshabilitar el botón al iniciar el envío del formulario
     this.submitting = true;
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
 
     if (this.id === 0) {
       this.subRef$ = this.dataService
         .post(`CedulaPresupuestal`, budgetCardDTO)
         .subscribe({
           next: () => {
-            this.customSwalService.onClose();
+            this.customToastService.onClose();
             this.ref.close(true);
           },
           error: (err) => {
             console.log(err.error);
             this.customToastService.onShowError();
             // Habilitar el botón nuevamente al finalizar el envío del formulario
+            this.customToastService.onClose();
             this.submitting = false;
-            this.customSwalService.onClose();
           },
         });
     } else {
@@ -96,15 +95,15 @@ export default class AddoreditBudgetCardComponent implements OnInit, OnDestroy {
         .put(`CedulaPresupuestal/${this.id}`, budgetCardDTO)
         .subscribe({
           next: () => {
-            this.customSwalService.onClose();
+            this.customToastService.onClose();
             this.ref.close(true);
           },
           error: (err) => {
             console.log(err.error);
             this.customToastService.onShowError();
             // Habilitar el botón nuevamente al finalizar el envío del formulario
+            this.customToastService.onClose();
             this.submitting = false;
-            this.customSwalService.onClose();
           },
         });
     }

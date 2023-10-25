@@ -5,7 +5,6 @@ import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable, Subscription } from 'rxjs';
 import {
-  CustomSwalService,
   CustomToastService,
   CustomerIdService,
   DataService,
@@ -24,7 +23,6 @@ export default class DashboardTicketsComponent implements OnInit, OnDestroy {
   public customerIdService = inject(CustomerIdService);
   public dialogService = inject(DialogService);
   public customToastService = inject(CustomToastService);
-  public customSwalService = inject(CustomSwalService);
 
   data: any[] = [];
   customerId$: Observable<number> = this.customerIdService.getCustomerId$();
@@ -39,20 +37,22 @@ export default class DashboardTicketsComponent implements OnInit, OnDestroy {
     });
   }
   onLoadData() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataServide
       .get(
         'Dashboard/TicketPendientes/' + this.customerIdService.getcustomerId()
       )
       .subscribe({
         next: (resp: any) => {
+          // Cuando se obtienen los datos con éxito, actualizar la variable 'data' y ocultar el mensaje de carga
           this.data = resp.body;
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
-          this.customToastService.onShowError();
         },
       });
   }

@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
-import { CustomSwalService } from 'src/app/services/custom-swal.service';
 import { CustomToastService } from 'src/app/services/custom-toast.service';
 import { DataService } from 'src/app/services/data.service';
 import { DateService } from 'src/app/services/date.service';
@@ -29,7 +28,7 @@ export default class PresentacionesJuntasComiteComponent
   private viewPdfService = inject(ViewPdfService);
   public dateService = inject(DateService);
   public messageService = inject(MessageService);
-  public customSwalService = inject(CustomSwalService);
+
   public customToastService = inject(CustomToastService);
 
   data: any[] = [];
@@ -46,18 +45,20 @@ export default class PresentacionesJuntasComiteComponent
     let inicial = this.dateService.getDateFormat(
       new Date(this.periodo + '-' + 1)
     );
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get(`PresentacionJuntaComite/Generales/${inicial}/`)
       .subscribe({
         next: (resp: any) => {
+          // Cuando se obtienen los datos con éxito, actualizar la variable 'data' y ocultar el mensaje de carga
           this.data = resp.body;
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
-          this.customToastService.onShowError();
         },
       });
   }

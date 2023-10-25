@@ -11,7 +11,6 @@ import { Subscription } from 'rxjs';
 import AddProductosAlmacenComponent from 'src/app/pages/operaciones/mantenimiento/mantenimiento-almacen/inventario-productos/add-productos-almacen.component';
 import {
   AuthService,
-  CustomSwalService,
   CustomToastService,
   DataService,
   SelectItemService,
@@ -38,7 +37,6 @@ export default class OrdenCompraDetalleAddProductoComponent
   public authService = inject(AuthService);
   public messageService = inject(MessageService);
   public dialogService = inject(DialogService);
-  public customSwalService = inject(CustomSwalService);
 
   subRef$: Subscription;
 
@@ -61,18 +59,19 @@ export default class OrdenCompraDetalleAddProductoComponent
   }
 
   onLoadProduct() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get(`OrdenCompraDetalle/AddProductoToOrder/${this.ordenCompraId}`)
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
-          this.customToastService.onShowError();
         },
       });
   }

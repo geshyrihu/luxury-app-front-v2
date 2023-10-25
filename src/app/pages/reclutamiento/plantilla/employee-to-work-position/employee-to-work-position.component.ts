@@ -4,7 +4,6 @@ import { FormBuilder } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import { CustomerIdService } from 'src/app/services/common-services';
-import { CustomSwalService } from 'src/app/services/custom-swal.service';
 import { CustomToastService } from 'src/app/services/custom-toast.service';
 import { DataService } from 'src/app/services/data.service';
 import { DateService } from 'src/app/services/date.service';
@@ -25,7 +24,6 @@ export default class EmployeeToWorkPositionComponent implements OnInit {
   public dateService = inject(DateService);
   public ref = inject(DynamicDialogRef);
   public selectItemService = inject(SelectItemService);
-  public customSwalService = inject(CustomSwalService);
   public customToastService = inject(CustomToastService);
 
   submitting: boolean = false;
@@ -44,9 +42,9 @@ export default class EmployeeToWorkPositionComponent implements OnInit {
           this.existingPerson = resp.body;
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          // Habilitar el botón nuevamente al finalizar el envío del formulario
-          this.customSwalService.onClose();
         },
       });
   }
@@ -65,18 +63,18 @@ export default class EmployeeToWorkPositionComponent implements OnInit {
       cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.value) {
-        this.customSwalService.onLoading();
+        // Mostrar un mensaje de carga
+        this.customToastService.onLoading();
         this.subRef$ = this.dataService
           .get(`WorkPosition/AssignEmployee/${personId}/${this.workPositionId}`)
           .subscribe({
             next: () => {
-              this.customToastService.onShowSuccess();
-              this.customSwalService.onClose();
+              this.customToastService.onCloseToSuccess();
             },
             error: (err: any) => {
-              this.customToastService.onShowError();
+              // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+              this.customToastService.onCloseToError();
               console.log(err.error);
-              this.customSwalService.onClose();
             },
           });
       }

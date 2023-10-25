@@ -7,7 +7,6 @@ import { IFichaTecnicaActivoDto } from 'src/app/interfaces/IFichaTecnicaActivoDt
 import { EInventoryCategoryPipe } from 'src/app/pipes/inventoryCategory.pipe';
 import { EStatePipe } from 'src/app/pipes/state.pipe';
 import {
-  CustomSwalService,
   CustomToastService,
   DataService,
 } from 'src/app/services/common-services';
@@ -25,7 +24,6 @@ export default class FichaTecnicaActivoComponent implements OnInit, OnDestroy {
   public ref = inject(DynamicDialogRef);
   public config = inject(DynamicDialogConfig);
   public customToastService = inject(CustomToastService);
-  public customSwalService = inject(CustomSwalService);
 
   urlImgBase: string = environment.base_urlImg;
   data: IFichaTecnicaActivoDto;
@@ -38,18 +36,20 @@ export default class FichaTecnicaActivoComponent implements OnInit, OnDestroy {
   }
 
   onLoadData() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get<IFichaTecnicaActivoDto>(`Machineries/Fichatecnica/${this.id}`)
       .subscribe({
         next: (resp: any) => {
+          // Cuando se obtienen los datos con éxito, actualizar la variable 'data' y ocultar el mensaje de carga
           this.data = resp.body;
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
-          this.customToastService.onShowError();
         },
       });
   }

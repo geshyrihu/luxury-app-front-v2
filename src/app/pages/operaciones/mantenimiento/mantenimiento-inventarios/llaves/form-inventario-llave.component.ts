@@ -12,7 +12,6 @@ import { IInventarioLlaveAddOrEditDto } from 'src/app/interfaces/IInventarioLlav
 import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
 import {
   AuthService,
-  CustomSwalService,
   CustomToastService,
   CustomerIdService,
   DataService,
@@ -39,7 +38,7 @@ export default class FormInventarioLlaveComponent implements OnInit, OnDestroy {
   public config = inject(DynamicDialogConfig);
   public customerIdService = inject(CustomerIdService);
   public authService = inject(AuthService);
-  private customSwalService = inject(CustomSwalService);
+
   private customToastService = inject(CustomToastService);
 
   submitting: boolean = false;
@@ -90,22 +89,23 @@ export default class FormInventarioLlaveComponent implements OnInit, OnDestroy {
     this.id = this.config.data.id;
     // Deshabilitar el botón al iniciar el envío del formulario
     this.submitting = true;
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
 
     if (this.id === 0) {
       this.subRef$ = this.dataService
         .post(`InventarioLlave`, this.form.value)
         .subscribe({
           next: () => {
-            this.customSwalService.onClose();
             this.ref.close(true);
+            this.customToastService.onClose();
           },
           error: (err) => {
-            console.log(err.error);
-            this.customToastService.onShowError();
             // Habilitar el botón nuevamente al finalizar el envío del formulario
             this.submitting = false;
-            this.customSwalService.onClose();
+            // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+            this.customToastService.onCloseToError();
+            console.log(err.error);
           },
         });
     } else {
@@ -113,15 +113,15 @@ export default class FormInventarioLlaveComponent implements OnInit, OnDestroy {
         .put(`InventarioLlave/${this.id}`, this.form.value)
         .subscribe({
           next: () => {
-            this.customSwalService.onClose();
             this.ref.close(true);
+            this.customToastService.onClose();
           },
           error: (err) => {
-            console.log(err.error);
-            this.customToastService.onShowError();
             // Habilitar el botón nuevamente al finalizar el envío del formulario
             this.submitting = false;
-            this.customSwalService.onClose();
+            // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+            this.customToastService.onCloseToError();
+            console.log(err.error);
           },
         });
     }

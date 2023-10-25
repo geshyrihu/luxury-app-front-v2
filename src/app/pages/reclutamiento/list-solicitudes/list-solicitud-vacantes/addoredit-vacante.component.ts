@@ -12,7 +12,6 @@ import { Subscription } from 'rxjs';
 import { EStatus } from 'src/app/enums/estatus.enum';
 import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
 import {
-  CustomSwalService,
   CustomToastService,
   DataService,
 } from 'src/app/services/common-services';
@@ -37,7 +36,7 @@ export default class AddOrEditVacanteComponent implements OnInit, OnDestroy {
   private dataService = inject(DataService);
   public ref = inject(DynamicDialogRef);
   public config = inject(DynamicDialogConfig);
-  private customSwalService = inject(CustomSwalService);
+
   public customToastService = inject(CustomToastService);
 
   submitting: boolean = false;
@@ -89,15 +88,15 @@ export default class AddOrEditVacanteComponent implements OnInit, OnDestroy {
         .post(`RequestPosition`, this.form.value)
         .subscribe({
           next: () => {
-            this.customSwalService.onClose();
             this.ref.close(true);
+            this.customToastService.onClose();
           },
           error: (err) => {
-            console.log(err.error);
-            this.customToastService.onShowError();
             // Habilitar el botón nuevamente al finalizar el envío del formulario
             this.submitting = false;
-            this.customSwalService.onClose();
+            // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+            this.customToastService.onCloseToError();
+            console.log(err.error);
           },
         });
     } else {
@@ -105,15 +104,15 @@ export default class AddOrEditVacanteComponent implements OnInit, OnDestroy {
         .put(`RequestPosition/${this.id}`, this.form.value)
         .subscribe({
           next: () => {
-            this.customSwalService.onClose();
             this.ref.close(true);
+            this.customToastService.onClose();
           },
           error: (err) => {
-            console.log(err.error);
-            this.customToastService.onShowError();
             // Habilitar el botón nuevamente al finalizar el envío del formulario
             this.submitting = false;
-            this.customSwalService.onClose();
+            // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+            this.customToastService.onCloseToError();
+            console.log(err.error);
           },
         });
     }

@@ -6,7 +6,6 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable, Subscription } from 'rxjs';
 import { CurrencyMexicoPipe } from 'src/app/pipes/currencyMexico.pipe';
 import { CustomerIdService } from 'src/app/services/common-services';
-import { CustomSwalService } from 'src/app/services/custom-swal.service';
 import { CustomToastService } from 'src/app/services/custom-toast.service';
 import { DataService } from 'src/app/services/data.service';
 import { OrdenCompraService } from 'src/app/services/orden-compra.service';
@@ -28,7 +27,6 @@ import OrdenCompraComponent from '../orden-compra.component';
   providers: [DialogService, MessageService, CustomToastService],
 })
 export default class OrdenCompraPagadasComponent implements OnInit, OnDestroy {
-  public customSwalService = inject(CustomSwalService);
   public customToastService = inject(CustomToastService);
   public dataService = inject(DataService);
   public customerIdService = inject(CustomerIdService);
@@ -52,32 +50,36 @@ export default class OrdenCompraPagadasComponent implements OnInit, OnDestroy {
   }
 
   onLoadData(type: any) {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get(`OrdenCompra/Pagadas/${this.customerIdService.customerId}/${type}`)
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
         },
       });
   }
   onRevocarPago(id: number) {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get(`OrdenCompraStatus/RevocarPago/${id}`)
       .subscribe({
-        next: (resp: any) => {
+        next: () => {
           this.onLoadData(this.tipo);
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
         },
       });
   }

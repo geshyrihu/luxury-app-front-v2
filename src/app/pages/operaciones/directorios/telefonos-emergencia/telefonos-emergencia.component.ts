@@ -6,7 +6,6 @@ import { ToastModule } from 'primeng/toast';
 import { Subscription } from 'rxjs';
 import {
   AuthService,
-  CustomSwalService,
   CustomToastService,
   DataService,
 } from 'src/app/services/common-services';
@@ -25,7 +24,7 @@ export default class TelefonosEmergenciaComponent {
   public authService = inject(AuthService);
   public dataService = inject(DataService);
   public messageService = inject(MessageService);
-  public customSwalService = inject(CustomSwalService);
+
   public customToastService = inject(CustomToastService);
   public dialogService = inject(DialogService);
   data: any[] = [];
@@ -39,33 +38,34 @@ export default class TelefonosEmergenciaComponent {
   }
 
   onLoadData() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService.get('TelefonosEmergencia').subscribe({
       next: (resp: any) => {
         this.data = resp.body;
-        this.customSwalService.onClose();
+        this.customToastService.onClose();
       },
       error: (err) => {
+        // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+        this.customToastService.onCloseToError();
         console.log(err.error);
-        this.customSwalService.onClose();
-        this.customToastService.onShowError();
       },
     });
   }
   onDelete(data: any) {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .delete(`TelefonosEmergencia/${data.id}`)
       .subscribe({
         next: () => {
           this.onLoadData();
-          this.customSwalService.onClose();
-          this.customToastService.onShowSuccess();
+          this.customToastService.onCloseToSuccess();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
-          this.customToastService.onShowError();
         },
       });
   }

@@ -22,7 +22,7 @@
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
-          "options": {
+          "options": { 
             "allowedCommonJsDependencies": [
               "rfdc",
               "rxjs",

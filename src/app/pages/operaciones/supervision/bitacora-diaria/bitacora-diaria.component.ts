@@ -7,7 +7,6 @@ import { Subscription } from 'rxjs';
 import { IFechasFiltro } from 'src/app/interfaces/IFechasFiltro.interface';
 import {
   AuthService,
-  CustomSwalService,
   CustomToastService,
   DataService,
   DateService,
@@ -27,7 +26,6 @@ const base_url = environment.base_urlImg + 'Administration/accounts/';
   providers: [DialogService, MessageService, CustomToastService],
 })
 export default class BitacoraDiariaComponent implements OnInit, OnDestroy {
-  private customSwalService = inject(CustomSwalService);
   private dateService = inject(DateService);
   public authService = inject(AuthService);
   private dataService = inject(DataService);
@@ -75,18 +73,19 @@ export default class BitacoraDiariaComponent implements OnInit, OnDestroy {
   }
 
   onLoadData() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get(`AgendaSupervision/GetAll/${this.fechaInicial}/${this.fechaFinal}`)
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
-          this.customToastService.onShowError();
         },
       });
   }
@@ -124,18 +123,18 @@ export default class BitacoraDiariaComponent implements OnInit, OnDestroy {
   }
 
   onDelete(data: any) {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .delete('AgendaSupervision/' + data.id)
       .subscribe({
         next: () => {
-          this.customSwalService.onClose();
-          this.customToastService.onShowSuccess();
+          this.customToastService.onCloseToSuccess();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
-          this.customToastService.onShowError();
         },
       });
   }

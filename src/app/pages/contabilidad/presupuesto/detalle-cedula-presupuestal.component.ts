@@ -32,7 +32,7 @@
 //   public authService = inject(AuthService);
 //   public dialogService = inject(DialogService);
 //   public messageService = inject(MessageService);
-//   public customSwalService = inject(CustomSwalService);
+//
 
 //   constructor() {
 //     this.idBudgetCard = this.pathActive.snapshot.params.id;
@@ -49,7 +49,8 @@
 //   }
 
 //   onLoadData() {
-//     this.customSwalService.onLoading();
+//     // Mostrar un mensaje de carga
+this.customToastService.onLoading();
 //     this.subRef$ = this.dataService
 //       .get(`CedulaPresupuestalDetalles/GetAllAsync/${this.idBudgetCard}`)
 //       .subscribe({

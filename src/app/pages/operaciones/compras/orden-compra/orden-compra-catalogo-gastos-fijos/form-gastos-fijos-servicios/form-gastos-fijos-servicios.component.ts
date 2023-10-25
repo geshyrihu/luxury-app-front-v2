@@ -6,7 +6,6 @@ import { Subscription } from 'rxjs';
 import {
   AuthService,
   CatalogoGastosFijosService,
-  CustomSwalService,
   CustomToastService,
   DataService,
   SelectItemService,
@@ -25,7 +24,6 @@ import { environment } from 'src/environments/environment';
 export default class FormGastosFijosServiciosComponent
   implements OnInit, OnDestroy
 {
-  public customSwalService = inject(CustomSwalService);
   public customToastService = inject(CustomToastService);
   public dataService = inject(DataService);
   public selectItemService = inject(SelectItemService);
@@ -72,19 +70,19 @@ export default class FormGastosFijosServiciosComponent
   }
 
   deleteProductoAgregado(id: number) {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .delete(`CatalogoGastosFijosDetalles/${id}`)
       .subscribe({
         next: () => {
-          this.customToastService.onShowSuccess();
           this.onLoadProductsAgregados();
-          this.customSwalService.onClose();
+          this.customToastService.onCloseToSuccess();
         },
         error: (err) => {
-          this.customToastService.onShowError();
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
         },
       });
   }

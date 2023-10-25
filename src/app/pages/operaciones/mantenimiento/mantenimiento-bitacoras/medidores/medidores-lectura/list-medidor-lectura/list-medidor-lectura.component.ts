@@ -8,7 +8,6 @@ import { Subscription } from 'rxjs';
 import { IMedidorLecturaDto } from 'src/app/interfaces/IMedidorLecturaDto.interface';
 import {
   AuthService,
-  CustomSwalService,
   CustomToastService,
   DataService,
 } from 'src/app/services/common-services';
@@ -30,7 +29,7 @@ import FormMedidorLecturaComponent from '../form-medidor-lectura/form-medidor-le
 })
 export default class ListMedidorLecturaComponent implements OnInit, OnDestroy {
   public authService = inject(AuthService);
-  public customSwalService = inject(CustomSwalService);
+
   public customToastService = inject(CustomToastService);
   public dataService = inject(DataService);
   public dialogService = inject(DialogService);
@@ -51,18 +50,19 @@ export default class ListMedidorLecturaComponent implements OnInit, OnDestroy {
   }
 
   onLoadData() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get<IMedidorLecturaDto[]>(`MedidorLectura/GetAll/${this.medidorId}`)
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
-          this.customToastService.onShowError();
         },
       });
   }
@@ -88,19 +88,19 @@ export default class ListMedidorLecturaComponent implements OnInit, OnDestroy {
     FileSaver.saveAs(data, fileName + EXCEL_EXTENSION);
   }
   onDelete(data: any) {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .delete(`MedidorLectura/${data.id}`)
       .subscribe({
         next: () => {
           this.onLoadData();
-          this.customSwalService.onClose();
-          this.customToastService.onShowSuccess();
+          this.customToastService.onCloseToSuccess();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
-          this.customToastService.onShowError();
         },
       });
   }

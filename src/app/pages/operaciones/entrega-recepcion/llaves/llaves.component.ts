@@ -3,7 +3,6 @@ import { MessageService } from 'primeng/api';
 import { TableModule } from 'primeng/table';
 import { Observable, Subscription } from 'rxjs';
 import { CustomerIdService } from 'src/app/services/common-services';
-import { CustomSwalService } from 'src/app/services/custom-swal.service';
 import { CustomToastService } from 'src/app/services/custom-toast.service';
 import { DataService } from 'src/app/services/data.service';
 import ComponentsModule from 'src/app/shared/components.module';
@@ -18,7 +17,7 @@ import ComponentsModule from 'src/app/shared/components.module';
 export default class LlavesComponent implements OnInit, OnDestroy {
   public customerIdService = inject(CustomerIdService);
   public dataService = inject(DataService);
-  public customSwalService = inject(CustomSwalService);
+
   public customToastService = inject(CustomToastService);
   data: any[] = [];
   subRef$: Subscription;
@@ -32,7 +31,8 @@ export default class LlavesComponent implements OnInit, OnDestroy {
     });
   }
   onLoadData() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get(
         'EntregaRecepcion/InventarioLlaves/' + this.customerIdService.customerId
@@ -40,12 +40,12 @@ export default class LlavesComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
-          this.customToastService.onShowError();
         },
       });
   }

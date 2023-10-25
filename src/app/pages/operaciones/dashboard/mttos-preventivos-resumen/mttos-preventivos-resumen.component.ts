@@ -10,7 +10,6 @@ import { EInventoryCategory } from 'src/app/enums/categoria-inventario.enum';
 import { EInventoryCategoryPipe } from 'src/app/pipes/inventoryCategory.pipe';
 import { SanitizeHtmlPipe } from 'src/app/pipes/sanitize-html.pipe';
 import { CustomerIdService } from 'src/app/services/common-services';
-import { CustomSwalService } from 'src/app/services/custom-swal.service';
 import { CustomToastService } from 'src/app/services/custom-toast.service';
 import { DataService } from 'src/app/services/data.service';
 import { DateService } from 'src/app/services/date.service';
@@ -33,7 +32,7 @@ export default class MantenimientosPreventivosResumenComponent
   public dataService = inject(DataService);
   public dateService = inject(DateService);
   public dialogService = inject(DialogService);
-  public customSwalService = inject(CustomSwalService);
+
   public customToastService = inject(CustomToastService);
 
   data: any[] = [];
@@ -51,7 +50,8 @@ export default class MantenimientosPreventivosResumenComponent
     );
   }
   onLoadData(fechaInicial: string, fechaFinal: string, status?: any) {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get(
         `Dashboard/DashboardOrdenServicio/${this.customerIdService.getcustomerId()}/${fechaInicial}/${fechaFinal}/${status}`
@@ -59,11 +59,12 @@ export default class MantenimientosPreventivosResumenComponent
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
         },
       });
   }

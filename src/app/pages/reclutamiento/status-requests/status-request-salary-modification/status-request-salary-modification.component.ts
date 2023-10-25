@@ -9,7 +9,6 @@ import CardEmployeeComponent from 'src/app/pages/operaciones/directorios/emplead
 import PhoneFormatPipe from 'src/app/pipes/phone-format.pipe';
 import {
   AuthService,
-  CustomSwalService,
   CustomToastService,
   CustomerIdService,
   DataService,
@@ -43,7 +42,7 @@ export default class StatusRequestSalaryModificationComponent
   public customerIdService = inject(CustomerIdService);
   public dataService = inject(DataService);
   public dialogService = inject(DialogService);
-  public customSwalService = inject(CustomSwalService);
+
   public customToastService = inject(CustomToastService);
   public router = inject(Router);
   public authService = inject(AuthService);
@@ -65,20 +64,22 @@ export default class StatusRequestSalaryModificationComponent
   }
 
   onLoadData() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get(
         `RequestSalaryModification/${this.workPositionId}/${this.employeeId}`
       )
       .subscribe({
         next: (resp: any) => {
+          // Cuando se obtienen los datos con éxito, actualizar la variable 'data' y ocultar el mensaje de carga
           this.data = resp.body;
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
-          this.customToastService.onShowError();
         },
       });
   }
@@ -119,19 +120,20 @@ export default class StatusRequestSalaryModificationComponent
   }
   //Eliminar solicitud de baja
   onDelete(id: number) {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .delete(`RequestSalaryModification/${id}`)
       .subscribe({
         next: () => {
           this.onLoadData();
-          this.customSwalService.onClose();
-          this.customToastService.onShowSuccess();
+          // Mostrar un mensaje de éxito y cerrar Loading....
+          this.customToastService.onCloseToSuccess();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
-          this.customToastService.onShowError();
         },
       });
   }

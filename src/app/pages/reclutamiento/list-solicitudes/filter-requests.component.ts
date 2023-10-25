@@ -5,7 +5,6 @@ import { Router, RouterModule } from '@angular/router';
 import * as saveAs from 'file-saver';
 import { Subscription } from 'rxjs';
 import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
-import { CustomSwalService } from 'src/app/services/custom-swal.service';
 import { CustomToastService } from 'src/app/services/custom-toast.service';
 import { DataService } from 'src/app/services/data.service';
 import { FilterRequestsService } from 'src/app/services/filter-requests.service';
@@ -23,7 +22,7 @@ export default class FilterRequestsComponent implements OnInit, OnDestroy {
   private dataService = inject(DataService);
   private router = inject(Router);
   private filterRequestsService = inject(FilterRequestsService);
-  public customSwalService = inject(CustomSwalService);
+
   public customToastService = inject(CustomToastService);
   menu = [
     { label: 'Vacantes', path: 'vacantes' },
@@ -68,18 +67,18 @@ export default class FilterRequestsComponent implements OnInit, OnDestroy {
       });
   }
   onSendReportVacants() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get(`SolicitudesReclutamiento/SendReportVacants`)
       .subscribe({
         next: (_) => {
-          this.customToastService.onShowSuccess();
-          this.customSwalService.onClose();
+          this.customToastService.onCloseToSuccess();
           this.onLoadData();
         },
         error: (err) => {
-          this.customToastService.onShowError();
-          this.customSwalService.onClose();
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
         },
       });

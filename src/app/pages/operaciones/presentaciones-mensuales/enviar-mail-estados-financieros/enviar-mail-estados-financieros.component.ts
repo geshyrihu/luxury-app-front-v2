@@ -16,7 +16,6 @@ import { ToastModule } from 'primeng/toast';
 import { Subscription } from 'rxjs';
 import { IDestinatariosMailReporte } from 'src/app/interfaces/IDestinatariosMailReporte.interface';
 import { CustomerIdService } from 'src/app/services/common-services';
-import { CustomSwalService } from 'src/app/services/custom-swal.service';
 import { CustomToastService } from 'src/app/services/custom-toast.service';
 import { DataService } from 'src/app/services/data.service';
 import { SelectItemService } from 'src/app/services/select-item.service';
@@ -30,7 +29,6 @@ import ComponentsModule from 'src/app/shared/components.module';
   providers: [MessageService, CustomToastService],
 })
 export default class EnviarMailEstadosFinancierosComponent {
-  public customSwalService = inject(CustomSwalService);
   public customerIdService = inject(CustomerIdService);
   public customToastService = inject(CustomToastService);
   private formBuilder = inject(FormBuilder);
@@ -81,7 +79,8 @@ export default class EnviarMailEstadosFinancierosComponent {
   }
 
   onEnviarEmail() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .post(
         `SendEmail/EstadosFinancierosCondominos/${this.id}`,
@@ -89,13 +88,12 @@ export default class EnviarMailEstadosFinancierosComponent {
       )
       .subscribe({
         next: () => {
-          this.customToastService.onShowSuccess();
-          this.customSwalService.onClose();
+          this.customToastService.onCloseToSuccess();
         },
-        error: (err: any) => {
-          this.customToastService.onShowError();
+        error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
         },
       });
   }

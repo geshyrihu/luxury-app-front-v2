@@ -13,7 +13,6 @@ import { EPriority } from 'src/app/enums/prioridad.enum';
 import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
 import {
   AuthService,
-  CustomSwalService,
   CustomToastService,
   DataService,
   DateService,
@@ -44,7 +43,7 @@ export default class AddoreditSistemasReporteComponent
   public config = inject(DynamicDialogConfig);
   public ref = inject(DynamicDialogRef);
   private dateService = inject(DateService);
-  public customSwalService = inject(CustomSwalService);
+
   private customToastService = inject(CustomToastService);
 
   submitting: boolean = false;
@@ -143,21 +142,22 @@ export default class AddoreditSistemasReporteComponent
     const model = this.createFormData(this.form.value);
     // Deshabilitar el botón al iniciar el envío del formulario
     this.submitting = true;
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     if (this.id === 0) {
       this.subRef$ = this.dataService
         .post(`Ticket/CreateFromSistemas`, model)
         .subscribe({
           next: () => {
-            this.customSwalService.onClose();
             this.ref.close(true);
+            this.customToastService.onClose();
           },
           error: (err) => {
-            console.log(err.error);
-            this.customToastService.onShowError();
             // Habilitar el botón nuevamente al finalizar el envío del formulario
             this.submitting = false;
-            this.customSwalService.onClose();
+            // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+            this.customToastService.onCloseToError();
+            console.log(err.error);
           },
         });
     } else {
@@ -168,10 +168,10 @@ export default class AddoreditSistemasReporteComponent
             this.ref.close(true);
           },
           error: (err) => {
-            console.log(err.error);
             // Habilitar el botón nuevamente al finalizar el envío del formulario
-            this.customSwalService.onClose();
             this.submitting = false;
+            this.customToastService.onCloseToError();
+            console.log(err.error);
           },
         });
     }

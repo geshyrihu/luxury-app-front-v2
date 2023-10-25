@@ -9,7 +9,6 @@ import { Observable, Subscription } from 'rxjs';
 import { ETypeMaintancePipe } from 'src/app/pipes/typeMaintance.pipe';
 import {
   AuthService,
-  CustomSwalService,
   CustomToastService,
   CustomerIdService,
   DataService,
@@ -51,7 +50,7 @@ export default class OrdenesServicioComponentComponent
   public dialogService = inject(DialogService);
   public dataService = inject(DataService);
   public dateService = inject(DateService);
-  public customSwalService = inject(CustomSwalService);
+
   public customToastService = inject(CustomToastService);
 
   mm = date.getMonth() + 1;
@@ -175,7 +174,8 @@ export default class OrdenesServicioComponentComponent
   onLoadPintura() {
     let converToDate = new Date(this.fecha + '-' + 1);
     this.reporteOrdenesServicioService.setDate(converToDate);
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
 
     this.subRef$ = this.dataService
       .get(
@@ -194,19 +194,20 @@ export default class OrdenesServicioComponentComponent
             );
             this.urlImg = `${environment.base_urlImg}customers/${this.customerIdService.customerId}/ordenServicio/${this.nameCarpetaFecha}/`;
           }
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
-          this.customToastService.onShowError();
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
         },
       });
   }
   onLoadData() {
     let converToDate = new Date(this.fecha + '-' + 1);
     this.reporteOrdenesServicioService.setDate(converToDate);
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
 
     this.subRef$ = this.dataService
       .get(
@@ -225,15 +226,15 @@ export default class OrdenesServicioComponentComponent
             );
             this.urlImg = `${environment.base_urlImg}customers/${this.customerIdService.customerId}/ordenServicio/${this.nameCarpetaFecha}/`;
           }
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
-          this.customToastService.onShowError();
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
         },
       });
-    this.customSwalService.onClose();
+    this.customToastService.onClose();
   }
 
   onEdit(data: any) {
@@ -257,19 +258,19 @@ export default class OrdenesServicioComponentComponent
   }
 
   onDelete(data: any) {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .delete(`ServiceOrders/${data.id}`)
       .subscribe({
         next: () => {
           this.onLoadData();
-          this.customSwalService.onClose();
-          this.customToastService.onShowSuccess();
+          this.customToastService.onCloseToSuccess();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
-          this.customToastService.onShowError();
         },
       });
   }

@@ -4,7 +4,6 @@ import { TableModule } from 'primeng/table';
 import { Subscription } from 'rxjs';
 import { EStatusPipe } from 'src/app/pipes/status.pipe';
 import { CustomerIdService } from 'src/app/services/common-services';
-import { CustomSwalService } from 'src/app/services/custom-swal.service';
 import { CustomToastService } from 'src/app/services/custom-toast.service';
 import { DataService } from 'src/app/services/data.service';
 import { DateService } from 'src/app/services/date.service';
@@ -31,7 +30,7 @@ export default class ResumenOrdenesServicioComponent
   public dataService = inject(DataService);
   public dateService = inject(DateService);
   public reporteOrdenesServicioService = inject(ReporteOrdenesServicioService);
-  public customSwalService = inject(CustomSwalService);
+
   public customToastService = inject(CustomToastService);
   data: any[] = [];
   dataGraficos: any[] = [];
@@ -50,7 +49,8 @@ export default class ResumenOrdenesServicioComponent
   }
 
   onLoadData() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get(
         'MeetingDertailsSeguimiento/ResumenPreventivosPresentacion/' +
@@ -63,12 +63,12 @@ export default class ResumenOrdenesServicioComponent
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
-          this.customToastService.onShowError();
         },
       });
     this.subRef$ = this.dataService
@@ -84,12 +84,12 @@ export default class ResumenOrdenesServicioComponent
         next: (resp: any) => {
           this.dataGraficos = resp.body;
           this.reporteOrdenesServicioService.setDateGrafico(this.dataGraficos);
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
-          this.customToastService.onShowError();
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
         },
       });
   }

@@ -6,10 +6,11 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { MessageService } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
-import { CustomSwalService } from 'src/app/services/custom-swal.service';
+import { CustomToastService } from 'src/app/services/custom-toast.service';
 import { DataService } from 'src/app/services/data.service';
 import { SelectItemService } from 'src/app/services/select-item.service';
 import ComponentsModule from 'src/app/shared/components.module';
@@ -25,14 +26,15 @@ import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.mod
     ComponentsModule,
     CustomInputModule,
   ],
+  providers: [MessageService, CustomToastService],
 })
 export default class CreateAccountComponent implements OnInit, OnDestroy {
   private dataService = inject(DataService);
   private formBuilder = inject(FormBuilder);
   private selectItemService = inject(SelectItemService);
   public config = inject(DynamicDialogConfig);
+  public customToastService = inject(CustomToastService);
   public ref = inject(DynamicDialogRef);
-  public customSwalService = inject(CustomSwalService);
 
   submitting: boolean = false;
 
@@ -70,26 +72,26 @@ export default class CreateAccountComponent implements OnInit, OnDestroy {
       });
       return;
     }
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     // Deshabilitar el botón al iniciar el envío del formulario
     this.submitting = true;
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
 
     this.subRef$ = this.dataService
       .post('Auth/CreateAccount', this.form.value)
       .subscribe({
         next: () => {
           this.ref.close(true);
-          this.customSwalService.onClose();
+          this.customToastService.onCloseToSuccess();
         },
         error: (err) => {
-          console.log(err.error);
-          this.customSwalService.onLoadingError(
-            'No se pudo procesar la solicitud'
-          );
           // Habilitar el botón nuevamente al finalizar el envío del formulario
           this.submitting = false;
-          this.customSwalService.onClose();
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
+          console.log(err.error);
         },
       });
   }

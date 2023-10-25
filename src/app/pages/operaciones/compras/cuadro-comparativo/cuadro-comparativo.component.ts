@@ -6,7 +6,6 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import {
-  CustomSwalService,
   CustomToastService,
   DataService,
 } from 'src/app/services/common-services';
@@ -28,7 +27,6 @@ import ModalEditCotizacionComponent from './modal-edit-cotizacion/modal-edit-cot
   ],
 })
 export default class CuadroComparativoComponent implements OnInit, OnDestroy {
-  public customSwalService = inject(CustomSwalService);
   public customToastService = inject(CustomToastService);
   public dataService = inject(DataService);
   public routeActive = inject(ActivatedRoute);
@@ -87,7 +85,8 @@ export default class CuadroComparativoComponent implements OnInit, OnDestroy {
     });
   }
   onLoadData() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.onResetProvider();
     this.subRef$ = this.dataService
       .get<any>(`SolicitudCompra/CuadroComparativo/${this.solicitudCompraId}`)
@@ -134,12 +133,12 @@ export default class CuadroComparativoComponent implements OnInit, OnDestroy {
           }
           this.onEvaluationPriceTotal();
           this.ontotalPreciosMenores(this.solicitudCompraDetalle);
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
-          this.customToastService.onShowError();
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
         },
       });
   }

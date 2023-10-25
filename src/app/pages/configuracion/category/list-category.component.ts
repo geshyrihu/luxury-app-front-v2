@@ -6,7 +6,6 @@ import { Subscription } from 'rxjs';
 import { ICategoryDto } from 'src/app/interfaces/ICategory.interface';
 import {
   AuthService,
-  CustomSwalService,
   CustomToastService,
   DataService,
 } from 'src/app/services/common-services';
@@ -31,7 +30,6 @@ export default class ListCategoryComponent implements OnInit, OnDestroy {
   private dataService = inject(DataService);
   private customToastService = inject(CustomToastService);
   public dialogService = inject(DialogService);
-  public customSwalService = inject(CustomSwalService);
 
   data: ICategoryDto[] = [];
   ref: DynamicDialogRef;
@@ -42,31 +40,32 @@ export default class ListCategoryComponent implements OnInit, OnDestroy {
   }
 
   onLoadData() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService.get('Categories').subscribe({
       next: (resp: any) => {
         this.data = resp.body;
-        this.customSwalService.onClose();
+        this.customToastService.onClose();
       },
       error: (err) => {
+        // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+        this.customToastService.onCloseToError();
         console.log(err.error);
-        this.customSwalService.onClose();
-        this.customToastService.onShowError();
       },
     });
   }
 
   onDelete(data: ICategoryDto) {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService.delete(`Categories/${data.id}`).subscribe({
       next: () => {
-        this.customToastService.onShowSuccess();
-        this.customSwalService.onClose();
         this.onLoadData();
+        this.customToastService.onCloseToSuccess();
       },
       error: (err) => {
-        this.customToastService.onShowError();
-        this.customSwalService.onClose();
+        // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+        this.customToastService.onCloseToError();
         console.log(err.error);
       },
     });

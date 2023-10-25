@@ -14,7 +14,6 @@ import { passwordValidation } from 'src/app/directives/validations/password-vali
 import { ChangePassword } from 'src/app/interfaces/auth/change-password.interface';
 import {
   AuthService,
-  CustomSwalService,
   CustomToastService,
   DataService,
 } from 'src/app/services/common-services';
@@ -38,7 +37,6 @@ export default class UpdatePasswordComponent implements OnInit, OnDestroy {
   private dataService = inject(DataService);
   private formBuilder = inject(FormBuilder);
   public customToastService = inject(CustomToastService);
-  private customSwalService = inject(CustomSwalService);
 
   submitting: boolean = false;
   subRef$: Subscription;
@@ -84,21 +82,21 @@ export default class UpdatePasswordComponent implements OnInit, OnDestroy {
 
     // Deshabilitar el botón al iniciar el envío del formulario
     this.submitting = true;
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
 
     this.subRef$ = this.dataService
       .put(`Users/ChangePassword/${id}`, model)
       .subscribe({
         next: () => {
-          this.customToastService.onShowSuccess();
-          this.customSwalService.onClose();
+          this.customToastService.onCloseToSuccess();
         },
         error: (err) => {
-          this.customToastService.onShowError();
-          console.log(err.error);
           // Habilitar el botón nuevamente al finalizar el envío del formulario
           this.submitting = false;
-          this.customSwalService.onClose();
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
+          console.log(err.error);
         },
       });
   }

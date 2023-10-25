@@ -17,7 +17,6 @@ import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
 import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
 import {
   AuthService,
-  CustomSwalService,
   CustomToastService,
   CustomerIdService,
   DataService,
@@ -41,7 +40,6 @@ import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.mod
 export default class SolicitudBajaComponent implements OnInit {
   private dataService = inject(DataService);
   private formBuilder = inject(FormBuilder);
-  private customSwalService = inject(CustomSwalService);
   private customToastService = inject(CustomToastService);
   public config = inject(DynamicDialogConfig);
   public ref = inject(DynamicDialogRef);
@@ -105,7 +103,8 @@ export default class SolicitudBajaComponent implements OnInit {
 
     // Deshabilitar el botón al iniciar el envío del formulario
     this.submitting = true;
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
 
     this.dataService
       .post(
@@ -118,14 +117,14 @@ export default class SolicitudBajaComponent implements OnInit {
       .subscribe({
         next: () => {
           this.ref.close(true);
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
-          this.customToastService.onShowError();
-          console.log(err.error);
           // Habilitar el botón nuevamente al finalizar el envío del formulario
           this.submitting = false;
-          this.customSwalService.onClose();
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
+          console.log(err.error);
         },
       });
 

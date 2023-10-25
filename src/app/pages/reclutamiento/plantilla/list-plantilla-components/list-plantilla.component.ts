@@ -13,7 +13,6 @@ import CardEmployeeComponent from 'src/app/pages/operaciones/directorios/emplead
 import { ETurnoTrabajoPipe } from 'src/app/pipes/turno-trabajo.pipe';
 import {
   AuthService,
-  CustomSwalService,
   CustomToastService,
   CustomerIdService,
   DataService,
@@ -59,7 +58,6 @@ export default class ListWorkPlantillaComponent implements OnInit, OnDestroy {
   public dialogService = inject(DialogService);
   public messageService = inject(MessageService);
   public statusSolicitudVacanteService = inject(StatusSolicitudVacanteService);
-  public customSwalService = inject(CustomSwalService);
   public customToastService = inject(CustomToastService);
 
   customerId$: Observable<number> = this.customerIdService.getCustomerId$();
@@ -77,7 +75,8 @@ export default class ListWorkPlantillaComponent implements OnInit, OnDestroy {
   }
 
   onLoadData() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get<IWorkPositionDto[]>(
         'WorkPosition/GetAll/' +
@@ -88,12 +87,12 @@ export default class ListWorkPlantillaComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
-          this.customToastService.onShowError();
         },
       });
   }
@@ -282,32 +281,33 @@ export default class ListWorkPlantillaComponent implements OnInit, OnDestroy {
   }
   //Eliminar vacante workPosition
   onDelete(id: number) {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService.delete(`WorkPosition/${id}`).subscribe({
       next: () => {
-        this.customToastService.onShowSuccess();
-        this.customSwalService.onClose();
+        this.customToastService.onCloseToSuccess();
         this.onLoadData();
       },
       error: (err) => {
-        this.customToastService.onShowError();
-        this.customSwalService.onClose();
+        // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+        this.customToastService.onCloseToError();
         console.log(err.error);
       },
     });
   }
   SendMailTest() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get('SolicitudesReclutamiento/SendMailTest')
       .subscribe({
         next: (_) => {
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
-          this.customToastService.onShowError();
         },
       });
   }

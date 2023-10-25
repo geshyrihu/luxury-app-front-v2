@@ -1,0 +1,213 @@
+<ng-container *ngIf="data && data.budgetDetailDto">
+  <p-toast position="top-left" [baseZIndex]="99999"></p-toast>
+  <div class="card">
+    <p-table
+      #dt
+      [(selection)]="data.budgetDetailDto"
+      [value]="data.budgetDetailDto"
+      styleClass="p-datatable-gridlines p-datatable-striped"
+      [rowHover]="true"
+      currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
+      [showCurrentPageReport]="true"
+      [globalFilterFields]="['accountNumber', 'accountName']"
+      dataKey="id"
+    >
+      <ng-template pTemplate="caption">
+        <app-table-header
+          [title]="data.from + ' - ' + data.to"
+          [showAdd]="true"
+          (add)="onModalAdd(data)"
+          [dt]="dt"
+        ></app-table-header>
+      </ng-template>
+
+      <ng-template pTemplate="header">
+        <tr>
+          <th
+            scope="col"
+            style="width: 10%"
+            pSortableColumn="accountNumber"
+            rowspan="2"
+          >
+            CUENTA
+            <p-sortIcon field="accountNumber"></p-sortIcon>
+          </th>
+          <th
+            scope="col"
+            style="width: 28%"
+            pSortableColumn="accountName"
+            rowspan="2"
+          >
+            PARTIDA PRESUPUESTAL
+            <p-sortIcon field="accountName"></p-sortIcon>
+          </th>
+          <th scope="col" style="width: 13%" pSortableColumn="monthlyBudget">
+            PRESUPUESTO ANTERIOR
+            <p-sortIcon field="monthlyBudget"></p-sortIcon>
+          </th>
+          <th scope="col" style="width: 13%" pSortableColumn="monthlyBudget">
+            MENSUAL
+            <p-sortIcon field="monthlyBudget"></p-sortIcon>
+          </th>
+          <th
+            scope="col"
+            field="descripcion"
+            style="width: 13%"
+            pSortableColumn="totalBudget"
+          >
+            TOTAL
+            <p-sortIcon field="totalBudget"></p-sortIcon>
+          </th>
+          <th scope="col" style="width: 13%" pSortableColumn="budgetSpent">
+            EJERCIDO
+            <p-sortIcon field="budgetSpent"></p-sortIcon>
+          </th>
+
+          <th scope="col" style="width: 13%" pSortableColumn="budgetAvailable">
+            DISPONIBLE
+            <p-sortIcon field="budgetAvailable"></p-sortIcon>
+          </th>
+          <th style="width: 10%"></th>
+        </tr>
+        <tr>
+          <th scope="col">{{ data.totalMonthlyBudgetFormet }}</th>
+          <th scope="col">
+            {{ data.totalMonthlyBudget }}
+          </th>
+          <th scope="col">
+            {{ data.totalGeneralBudget }}
+          </th>
+          <th scope="col">
+            {{ data.totalBudgetSpent }}
+          </th>
+          <th scope="col">
+            {{ data.totalBudgetAvailable }}
+          </th>
+          <th scope="col">Opciones</th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-item let-editing="editing">
+        <tr>
+          <td class="p-column-title">
+            {{ item.accountNumber }}
+          </td>
+          <td class="p-column-title">
+            {{ item.accountName }}
+          </td>
+          <td class="p-column-title">
+            <ngb-alert
+              [dismissible]="false"
+              role="alert"
+              type="warning"
+              class="alert show alert-warning fade p-1 m-0"
+            >
+              {{ item.monthlyBudgetFormet }}
+            </ngb-alert>
+          </td>
+
+          <td
+            class="p-column-title"
+            [pEditableColumn]="item.monthlyBudget"
+            pEditableColumnField="monthlyBudget"
+          >
+            <ngb-alert
+              [dismissible]="false"
+              role="alert"
+              type="light"
+              class="alert show alert-light fade p-1 m-0"
+            >
+              <p-cellEditor>
+                <ng-template pTemplate="input">
+                  <div style="display: flex; align-items: center">
+                    <input
+                      pInputText
+                      type="text"
+                      [(ngModel)]="item.monthlyBudget"
+                      required
+                    />
+                    <i
+                      (click)="onEnterPressed(item)"
+                      class="fa-duotone fa-check text-success"
+                      style="margin-left: 10px"
+                    ></i>
+                  </div>
+                </ng-template>
+                <ng-template pTemplate="output">
+                  {{ item.monthlyBudget }}
+                </ng-template>
+              </p-cellEditor>
+            </ngb-alert>
+          </td>
+          <td class="p-column-title">
+            <ngb-alert
+              [dismissible]="false"
+              role="alert"
+              type="light"
+              class="alert show alert-light fade p-1 m-0"
+            >
+              {{ item.totalBudget }}
+            </ngb-alert>
+          </td>
+          <td class="p-column-title">
+            <ngb-alert
+              [dismissible]="false"
+              role="alert"
+              type="light"
+              class="alert show alert-light fade p-1 m-0"
+            >
+              {{ item.budgetSpent }}
+            </ngb-alert>
+          </td>
+
+          <td class="p-column-title">
+            <ngb-alert
+              [dismissible]="false"
+              role="alert"
+              type="danger"
+              class="alert show alert-danger fade p-1 m-0"
+              *ngIf="!item.isAvailable"
+            >
+              {{ item.budgetAvailable }}
+            </ngb-alert>
+            <ngb-alert
+              [dismissible]="false"
+              role="alert"
+              type="success"
+              class="alert show alert-success fade p-1 m-0"
+              *ngIf="item.isAvailable"
+            >
+              {{ item.budgetAvailable }}
+            </ngb-alert>
+          </td>
+
+          <td>
+            <div class="d-flex justify-content-center">
+              <custom-button
+                ngbTooltip="Imagenes"
+                [customClass]="'btn-outline-info'"
+                icon="fa-duotone fa-images text-info"
+                (clicked)="onModalEmailData(item.id)"
+              ></custom-button>
+              <custom-button
+                ngbTooltip="Documentos"
+                [customClass]="'btn-outline-info'"
+                icon="fa-duotone fa-file text-info"
+                (clicked)="onModalEmailData(item.id)"
+              ></custom-button>
+              <custom-button
+                ngbTooltip="Historial"
+                [customClass]="'btn-outline-primary'"
+                icon="fa-duotone fa-calendar-days text-primary"
+                (clicked)="onGetHistorial(item.id)"
+              ></custom-button>
+              <custom-button-delete
+                (OnConfirm)="onDelete(item)"
+              ></custom-button-delete>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</ng-container>

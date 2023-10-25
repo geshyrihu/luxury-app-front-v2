@@ -15,7 +15,6 @@ import { Subscription } from 'rxjs';
 import { ERelationEmployee } from 'src/app/enums/relacion-empleado.enum';
 import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
 import {
-  CustomSwalService,
   CustomToastService,
   DataService,
 } from 'src/app/services/common-services';
@@ -36,7 +35,6 @@ import ComponentsModule from 'src/app/shared/components.module';
   providers: [MessageService, ConfirmationService, CustomToastService],
 })
 export default class ContactEmployeeComponent implements OnInit, OnDestroy {
-  public customSwalService = inject(CustomSwalService);
   public customToastService = inject(CustomToastService);
   private formBuilder = inject(FormBuilder);
   public config = inject(DynamicDialogConfig);
@@ -79,12 +77,12 @@ export default class ContactEmployeeComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
-          this.customToastService.onShowError();
         },
       });
   }
@@ -98,19 +96,19 @@ export default class ContactEmployeeComponent implements OnInit, OnDestroy {
       });
   }
   onDelete(item: any) {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .delete(`ContactEmployees/${item.id}`)
       .subscribe({
         next: () => {
-          this.customToastService.onShowSuccess();
           this.getContactEmployees();
-          this.customSwalService.onClose();
+          this.customToastService.onCloseToSuccess();
         },
         error: (err) => {
-          this.customToastService.onShowError();
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
         },
       });
   }
@@ -124,24 +122,24 @@ export default class ContactEmployeeComponent implements OnInit, OnDestroy {
 
     // Deshabilitar el botón al iniciar el envío del formulario
     this.submitting = true;
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
 
     this.subRef$ = this.dataService
       .post(`ContactEmployees`, this.form.value)
       .subscribe({
         next: () => {
-          this.customToastService.onShowSuccess();
           this.showButtonAddOrCancel = false;
           this.getContactEmployees();
           this.onLoadForm();
-          this.customSwalService.onClose();
+          this.customToastService.onCloseToSuccess();
         },
         error: (err) => {
-          this.customToastService.onShowError();
-          console.log(err.error);
           // Habilitar el botón nuevamente al finalizar el envío del formulario
           this.submitting = false;
-          this.customSwalService.onClose();
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
+          console.log(err.error);
         },
       });
   }

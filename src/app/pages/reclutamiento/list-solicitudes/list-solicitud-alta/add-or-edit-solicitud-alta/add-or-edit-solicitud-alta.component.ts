@@ -13,7 +13,6 @@ import { EStatus } from 'src/app/enums/estatus.enum';
 import { ETypeContractRegister } from 'src/app/enums/type-contract-register.enum';
 import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
 import {
-  CustomSwalService,
   CustomToastService,
   DataService,
 } from 'src/app/services/common-services';
@@ -40,7 +39,7 @@ export default class AddOrEditSolicitudAltaComponent
   private dataService = inject(DataService);
   public ref = inject(DynamicDialogRef);
   public config = inject(DynamicDialogConfig);
-  private customSwalService = inject(CustomSwalService);
+
   private customToastService = inject(CustomToastService);
 
   submitting: boolean = false;
@@ -94,15 +93,15 @@ export default class AddOrEditSolicitudAltaComponent
         .post(`RequestEmployeeRegister`, this.form.value)
         .subscribe({
           next: () => {
-            this.customSwalService.onClose();
+            this.customToastService.onClose();
             this.ref.close(true);
           },
           error: (err) => {
             console.log(err.error);
             this.customToastService.onShowError();
             // Habilitar el botón nuevamente al finalizar el envío del formulario
+            this.customToastService.onClose();
             this.submitting = false;
-            this.customSwalService.onClose();
           },
         });
     } else {
@@ -110,15 +109,15 @@ export default class AddOrEditSolicitudAltaComponent
         .put(`RequestEmployeeRegister/${this.id}`, this.form.value)
         .subscribe({
           next: () => {
-            this.customSwalService.onClose();
+            this.customToastService.onClose();
             this.ref.close(true);
           },
           error: (err) => {
             console.log(err.error);
             this.customToastService.onShowError();
             // Habilitar el botón nuevamente al finalizar el envío del formulario
+            this.customToastService.onClose();
             this.submitting = false;
-            this.customSwalService.onClose();
           },
         });
     }

@@ -8,10 +8,11 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { ResetPasswordDto } from 'src/app/interfaces/auth/reset-password.interface';
 import {
-  CustomSwalService,
+  CustomToastService,
   DataService,
 } from 'src/app/services/common-services';
 import CustomButtonComponent from 'src/app/shared/custom-buttons/custom-button/custom-button.component';
@@ -27,13 +28,14 @@ import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.mod
     CustomInputModule,
     CustomButtonComponent,
   ],
+  providers: [MessageService, CustomToastService],
 })
 export default class RestorePasswordComponent implements OnInit, OnDestroy {
   private activatedRoute = inject(ActivatedRoute);
   private formBuilder = inject(FormBuilder);
   private router = inject(Router);
+  public customToastService = inject(CustomToastService);
   private dataService = inject(DataService);
-  public customSwalService = inject(CustomSwalService);
 
   subRef$: Subscription;
   form: FormGroup;
@@ -84,16 +86,17 @@ export default class RestorePasswordComponent implements OnInit, OnDestroy {
       token: this.token,
     };
 
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .post('Auth/ResetPassword', this.data)
       .subscribe({
         next: () => {
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
           this.router.navigateByUrl('#/auth/login');
         },
         error: (err: any) => {
-          this.customSwalService.onLoadingError(
+          this.customToastService.onLoadingError(
             'Error, ' + err.error.description
           );
         },

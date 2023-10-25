@@ -11,7 +11,6 @@ import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
 import TarjetaProductoComponent from 'src/app/pages/operaciones/mantenimiento/mantenimiento-catalogos/tarjeta-producto/tarjeta-producto.component';
 import {
   AuthService,
-  CustomSwalService,
   CustomToastService,
   DataService,
   SelectItemService,
@@ -34,7 +33,6 @@ import { environment } from 'src/environments/environment';
 })
 export default class AddProductModalComponent implements OnInit {
   public customToastService = inject(CustomToastService);
-  public customSwalService = inject(CustomSwalService);
 
   isInRole: boolean;
   id: any = 0;
@@ -68,20 +66,22 @@ export default class AddProductModalComponent implements OnInit {
   }
 
   onLoadProduct() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.dataService
       .get(
         `SolicitudCompraDetalle/AddProductoToSolicitudDto/${this.solicitudCompraId}`
       )
       .subscribe({
         next: (resp: any) => {
+          // Cuando se obtienen los datos con éxito, actualizar la variable 'data' y ocultar el mensaje de carga
           this.data = resp.body;
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
-          this.customToastService.onShowError();
         },
       });
   }

@@ -6,12 +6,15 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { MessageService } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import { imageToBase64 } from 'src/app/helpers/enumeration';
 import { UserInfoDto } from 'src/app/interfaces/auth/user-info.interface';
-import { CustomerIdService } from 'src/app/services/common-services';
-import { CustomSwalService } from 'src/app/services/custom-swal.service';
+import {
+  CustomToastService,
+  CustomerIdService,
+} from 'src/app/services/common-services';
 import { DataService } from 'src/app/services/data.service';
 import { DateService } from 'src/app/services/date.service';
 import { SelectItemService } from 'src/app/services/select-item.service';
@@ -29,15 +32,17 @@ import { environment } from 'src/environments/environment';
     CommonModule,
     CustomInputModule,
   ],
+
+  providers: [MessageService, CustomToastService],
 })
 export default class AddAccountCustomerComponent implements OnInit, OnDestroy {
   public config = inject(DynamicDialogConfig);
   public customerIdService = inject(CustomerIdService);
+  public customToastService = inject(CustomToastService);
   public dataService = inject(DataService);
   public dateService = inject(DateService);
   private formBuilder = inject(FormBuilder);
   public selectItemService = inject(SelectItemService);
-  public customSwalService = inject(CustomSwalService);
   public ref = inject(DynamicDialogRef);
 
   submitting: boolean = false;
@@ -69,24 +74,25 @@ export default class AddAccountCustomerComponent implements OnInit, OnDestroy {
     const formData = this.createFormData(this.form.value);
     // Deshabilitar el botón al iniciar el envío del formulario
     this.submitting = true;
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
 
     this.subRef$ = this.dataService
       .post('Employees/CreateEmployee', formData)
       .subscribe({
         next: () => {
           this.ref.close(true);
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
           console.log(err.error);
           err.error.forEach((x) => {
             this.dataError = this.dataError + x['description'] + ' ';
           });
-          this.customSwalService.onLoadingError(this.dataError);
+          this.customToastService.onLoadingError(this.dataError);
           // Habilitar el botón nuevamente al finalizar el envío del formulario
           this.submitting = false;
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
       });
   }
@@ -142,9 +148,11 @@ export default class AddAccountCustomerComponent implements OnInit, OnDestroy {
           this.existingPerson = resp.body;
         },
         error: (err) => {
-          console.log(err.error);
           // Habilitar el botón nuevamente al finalizar el envío del formulario
-          this.customSwalService.onClose();
+          this.submitting = false;
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
+          console.log(err.error);
         },
       });
   }

@@ -17,7 +17,6 @@ import { EStatusOrdenCompra } from 'src/app/enums/estatus-orden-compra.enum';
 import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
 import {
   AuthService,
-  CustomSwalService,
   CustomToastService,
   CustomerIdService,
   DataService,
@@ -52,7 +51,6 @@ import SolicitudCompraDetalleComponent from './solicitud-compra-detalle/solicitu
   ],
 })
 export default class SolicitudCompraComponent implements OnInit, OnDestroy {
-  public customSwalService = inject(CustomSwalService);
   public customToastService = inject(CustomToastService);
   public authService = inject(AuthService);
   public dataService = inject(DataService);
@@ -154,13 +152,14 @@ export default class SolicitudCompraComponent implements OnInit, OnDestroy {
           this.SolicitudCompraDetalle =
             this.solicitudCompra.solicitudCompraDetalle;
 
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
-          this.customToastService.onShowError();
-          console.log(err.error);
           // Habilitar el botón nuevamente al finalizar el envío del formulario
-          this.customSwalService.onClose();
+          this.submitting = false;
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
+          console.log(err.error);
         },
       });
   }
@@ -174,7 +173,8 @@ export default class SolicitudCompraComponent implements OnInit, OnDestroy {
     }
     // Deshabilitar el botón al iniciar el envío del formulario
     this.submitting = true;
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
 
     if (Number(this.id) === 0) {
       this.subRef$ = this.dataService
@@ -184,14 +184,14 @@ export default class SolicitudCompraComponent implements OnInit, OnDestroy {
             this.id = Number(resp.body.id);
             this.onLoadData();
             this.submitting = false;
-            this.customSwalService.onClose();
-            this.customToastService.onShowSuccess();
+            this.customToastService.onCloseToSuccess();
           },
           error: (err) => {
-            console.log(err.error);
+            // Habilitar el botón nuevamente al finalizar el envío del formulario
             this.submitting = false;
-            this.customSwalService.onClose();
-            this.customToastService.onShowError();
+            // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+            this.customToastService.onCloseToError();
+            console.log(err.error);
           },
         });
     } else {
@@ -201,14 +201,14 @@ export default class SolicitudCompraComponent implements OnInit, OnDestroy {
           next: () => {
             this.submitting = false;
             this.onLoadData();
-            this.customToastService.onShowSuccess();
-            this.customSwalService.onClose();
+            this.customToastService.onCloseToSuccess();
           },
           error: (err) => {
+            // Habilitar el botón nuevamente al finalizar el envío del formulario
             this.submitting = false;
-            this.customToastService.onShowError();
+            // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+            this.customToastService.onCloseToError();
             console.log(err.error);
-            this.customSwalService.onClose();
           },
         });
     }

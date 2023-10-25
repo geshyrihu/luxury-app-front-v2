@@ -5,7 +5,6 @@ import { ButtonModule } from 'primeng/button';
 import { Observable, Subscription } from 'rxjs';
 import {
   AuthService,
-  CustomSwalService,
   CustomToastService,
   CustomerIdService,
   DataService,
@@ -23,7 +22,6 @@ import { environment } from 'src/environments/environment';
   providers: [MessageService, CustomToastService],
 })
 export default class AccessLogComponent implements OnInit, OnDestroy {
-  public customSwalService = inject(CustomSwalService);
   public customToastService = inject(CustomToastService);
   public authService = inject(AuthService);
   private dataService = inject(DataService);
@@ -58,7 +56,8 @@ export default class AccessLogComponent implements OnInit, OnDestroy {
   }
 
   onLoadData(fechaInicial: string, fechaFinal: string): void {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get(
         'HistorialAcceso/Customer/' +
@@ -71,12 +70,12 @@ export default class AccessLogComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
-          this.customToastService.onShowError();
         },
       });
   }

@@ -12,7 +12,6 @@ import { Subscription } from 'rxjs';
 import { EMonthPipe } from 'src/app/pipes/month.pipe';
 import {
   AuthService,
-  CustomSwalService,
   CustomToastService,
   DataService,
 } from 'src/app/services/common-services';
@@ -36,7 +35,6 @@ import ModalDatosServicioComponent from './modal-datos-servicio/modal-datos-serv
   providers: [DialogService, MessageService, CustomToastService],
 })
 export default class CalendarioMaestroComponent implements OnInit, OnDestroy {
-  public customSwalService = inject(CustomSwalService);
   public customToastService = inject(CustomToastService);
   private dataService = inject(DataService);
   public dialogService = inject(DialogService);
@@ -51,17 +49,18 @@ export default class CalendarioMaestroComponent implements OnInit, OnDestroy {
   }
 
   onLoadData() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
 
     this.subRef$ = this.dataService.get('CalendarioMaestro/GetAll').subscribe({
       next: (resp: any) => {
         this.data = resp.body;
-        this.customSwalService.onClose();
+        this.customToastService.onClose();
       },
       error: (err) => {
+        // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+        this.customToastService.onCloseToError();
         console.log(err.error);
-        this.customSwalService.onClose();
-        this.customToastService.onShowError();
       },
     });
   }
@@ -85,13 +84,12 @@ export default class CalendarioMaestroComponent implements OnInit, OnDestroy {
       .subscribe({
         next: () => {
           this.onLoadData();
-          this.customSwalService.onClose();
-          this.customToastService.onShowSuccess();
+          this.customToastService.onCloseToSuccess();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
-          this.customToastService.onShowError();
         },
       });
   }

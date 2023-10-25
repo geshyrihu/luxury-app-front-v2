@@ -7,7 +7,6 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { TableModule } from 'primeng/table';
 import { Observable, Subscription } from 'rxjs';
 import {
-  CustomSwalService,
   CustomToastService,
   CustomerIdService,
   DataService,
@@ -26,7 +25,6 @@ import AddoreditMaintenancePreventiveComponent from './addoredit-maintenance-pre
 export default class CronogramaAnualMantenimientoComponent
   implements OnInit, OnDestroy
 {
-  public customSwalService = inject(CustomSwalService);
   public customToastService = inject(CustomToastService);
   public dataService = inject(DataService);
   public customerIdService = inject(CustomerIdService);
@@ -71,7 +69,8 @@ export default class CronogramaAnualMantenimientoComponent
   }
 
   onLoadData(filtro?: any) {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     if (this.filtroId == 10) {
       this.subRef$ = this.dataService
         .get(
@@ -81,13 +80,13 @@ export default class CronogramaAnualMantenimientoComponent
           next: (resp: any) => {
             this.cronogramaAnual = resp.body;
             if (!this.cronogramaAnual) {
-              this.customSwalService.onClose();
+              this.customToastService.onClose();
             }
           },
           error: (err) => {
-            this.customToastService.onShowError();
+            // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+            this.customToastService.onCloseToError();
             console.log(err.error);
-            this.customSwalService.onClose();
           },
         });
     } else {
@@ -99,17 +98,17 @@ export default class CronogramaAnualMantenimientoComponent
           next: (resp: any) => {
             this.cronogramaAnual = resp.body;
             if (!this.cronogramaAnual) {
-              this.customSwalService.onClose();
+              this.customToastService.onClose();
             }
           },
           error: (err) => {
-            this.customToastService.onShowError();
+            // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+            this.customToastService.onCloseToError();
             console.log(err.error);
-            this.customSwalService.onClose();
           },
         });
     }
-    this.customSwalService.onClose();
+    this.customToastService.onClose();
   }
 
   exportExcel() {

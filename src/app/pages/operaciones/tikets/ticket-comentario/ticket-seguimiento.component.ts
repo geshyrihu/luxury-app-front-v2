@@ -12,7 +12,6 @@ import { Subscription } from 'rxjs';
 import { ITicketseguimiento } from 'src/app/interfaces/ITicketseguimiento.interface';
 import {
   AuthService,
-  CustomSwalService,
   CustomToastService,
   DataService,
 } from 'src/app/services/common-services';
@@ -29,7 +28,7 @@ export default class TicketSeguimientoComponent implements OnInit, OnDestroy {
   public ref = inject(DynamicDialogRef);
   public config = inject(DynamicDialogConfig);
   public authService = inject(AuthService);
-  private customSwalService = inject(CustomSwalService);
+
   private customToastService = inject(CustomToastService);
 
   seguimientos: ITicketseguimiento[] = [];
@@ -103,7 +102,8 @@ export default class TicketSeguimientoComponent implements OnInit, OnDestroy {
 
     // Deshabilitar el botón al iniciar el envío del formulario
     this.submitting = true;
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
 
     this.subRef$ = this.dataService
       .post(`TicketSeguimiento`, this.form.value)
@@ -114,15 +114,14 @@ export default class TicketSeguimientoComponent implements OnInit, OnDestroy {
             seguimiento: '',
           });
           this.seguimientoLenght = 200;
-          this.customToastService.onShowSuccess();
-          this.customSwalService.onClose();
+          this.customToastService.onCloseToSuccess();
         },
         error: (err) => {
-          this.customToastService.onShowError();
-          console.log(err.error);
           // Habilitar el botón nuevamente al finalizar el envío del formulario
           this.submitting = false;
-          this.customSwalService.onClose();
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
+          console.log(err.error);
         },
       });
   }

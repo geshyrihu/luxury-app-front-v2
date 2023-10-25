@@ -8,7 +8,6 @@ import { IEmployeeDto } from 'src/app/interfaces/IEmployeeDto.interface';
 import UpdatePasswordModalComponent from 'src/app/pages/configuracion/accounts/modal-edit-account/update-password-modal/update-password-modal.component';
 import {
   AuthService,
-  CustomSwalService,
   CustomToastService,
   CustomerIdService,
   DataService,
@@ -41,7 +40,7 @@ export default class ListEmployeeComponent implements OnInit, OnDestroy {
   private dataService = inject(DataService);
   private rutaActiva = inject(ActivatedRoute);
   private dialogService = inject(DialogService);
-  private customSwalService = inject(CustomSwalService);
+
   public customToastService = inject(CustomToastService);
 
   activo: boolean = true;
@@ -77,19 +76,19 @@ export default class ListEmployeeComponent implements OnInit, OnDestroy {
     this.subRef$ = this.dataService.get(`Employees/Bloqueo/${id}`).subscribe({
       next: () => {
         this.onLoadData();
-        this.customToastService.onShowSuccess();
-        this.customSwalService.onClose();
+        this.customToastService.onCloseToSuccess();
       },
       error: (err) => {
-        this.customToastService.onShowError();
+        // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+        this.customToastService.onCloseToError();
         console.log(err.error);
-        this.customSwalService.onClose();
       },
     });
   }
 
   onLoadData() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get<IEmployeeDto[]>(
         `Employees/ListaEmpleados/${this.customerIdService.customerId}/${this.activo}/${this.tipoContrato}`
@@ -97,12 +96,12 @@ export default class ListEmployeeComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
-          this.customToastService.onShowError();
         },
       });
   }
@@ -126,16 +125,16 @@ export default class ListEmployeeComponent implements OnInit, OnDestroy {
   }
 
   onDelete(data: any) {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService.delete(`Employees/${data.id}`).subscribe({
       next: () => {
-        this.customToastService.onShowSuccess();
-        this.customSwalService.onClose();
         this.onLoadData();
+        this.customToastService.onCloseToSuccess();
       },
       error: (err) => {
-        this.customToastService.onShowError();
-        this.customSwalService.onClose();
+        // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+        this.customToastService.onCloseToError();
         console.log(err.error);
       },
     });

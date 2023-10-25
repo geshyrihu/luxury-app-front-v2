@@ -7,7 +7,6 @@ import { Subscription } from 'rxjs';
 import { SanitizeHtmlPipe } from 'src/app/pipes/sanitize-html.pipe';
 import { ETypeMeetingPipe } from 'src/app/pipes/typeMeeting.pipe';
 import {
-  CustomSwalService,
   CustomToastService,
   CustomerIdService,
   DataService,
@@ -32,7 +31,7 @@ export default class ReportMeetingComponent implements OnInit, OnDestroy {
   public dataService = inject(DataService);
   public rutaActiva = inject(ActivatedRoute);
   public customerIdService = inject(CustomerIdService);
-  public customSwalService = inject(CustomSwalService);
+
   public customToastService = inject(CustomToastService);
 
   data: any = [];
@@ -45,7 +44,8 @@ export default class ReportMeetingComponent implements OnInit, OnDestroy {
   imgBase = environment.base_urlImg + 'Administration/customer/';
   ngOnInit(): void {
     this.data = [];
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
 
     this.customer = this.rutaActiva.snapshot.params.customer;
     this.meetingId = this.rutaActiva.snapshot.params.id;
@@ -55,10 +55,10 @@ export default class ReportMeetingComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-
+          console.log('🚀 ~ resp.body:', resp.body);
           this.detalles = resp.body.asuntos;
           this.onLoadCustomer();
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
           this.customToastService.onShowError();

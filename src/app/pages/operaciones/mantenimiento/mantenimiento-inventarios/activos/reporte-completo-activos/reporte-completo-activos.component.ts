@@ -4,7 +4,6 @@ import { MessageService } from 'primeng/api';
 import { Observable, Subscription } from 'rxjs';
 import { SanitizeHtmlPipe } from 'src/app/pipes/sanitize-html.pipe';
 import {
-  CustomSwalService,
   CustomToastService,
   CustomerIdService,
   DataService,
@@ -21,7 +20,6 @@ import { environment } from 'src/environments/environment';
 export default class ReporteCompletoActivosComponent
   implements OnInit, OnDestroy
 {
-  public customSwalService = inject(CustomSwalService);
   public customToastService = inject(CustomToastService);
   public customerIdService = inject(CustomerIdService);
   public dataService = inject(DataService);
@@ -46,22 +44,23 @@ export default class ReporteCompletoActivosComponent
 
   onLoadData() {
     this.base_urlImg = this.urlImg(this.customerId);
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
 
     this.subRef$ = this.dataService
       .get('Machineries/InventarioCompleto/' + this.customerId)
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
-          this.customToastService.onShowError();
         },
       });
-    this.customSwalService.onClose();
+    this.customToastService.onClose();
   }
 
   urlImg(customerId: any): string {

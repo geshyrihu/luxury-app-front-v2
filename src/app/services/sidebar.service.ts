@@ -403,9 +403,27 @@ export class SidebarService {
             'Asistente',
             'Mantenimiento',
             'Residente',
+            'Contador',
           ]),
-          label: 'Presupuesto',
+
+          // Se va a editar y se mostraran todos los presupuestos
+          label: 'Ultimo Presupuesto',
           link: 'operaciones/compras/cedula-cliente',
+          name: 'Compras-Cedula presupuestal',
+        },
+        {
+          visible: this.authService.onValidateRoles([
+            'SuperUsuario',
+            'Asistente',
+            'Mantenimiento',
+            'Residente',
+            'Contador',
+          ]),
+
+          // Se va a editar y se mostraran todos los presupuestos
+          label: 'Presupuestos',
+          // link: 'operaciones/compras/cedula-cliente',
+          link: 'operaciones/compras/presupuestos',
           name: 'Compras-Cedula presupuestal',
         },
         {

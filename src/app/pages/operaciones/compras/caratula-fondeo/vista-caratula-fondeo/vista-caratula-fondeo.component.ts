@@ -20,7 +20,6 @@ import {
 } from 'src/app/interfaces/IItemsFondeoCaratulaDto.interface';
 import { CurrencyMexicoPipe } from 'src/app/pipes/currencyMexico.pipe';
 import { CaratulaFondeoService } from 'src/app/services/caratula-fondeo.service';
-import { CustomSwalService } from 'src/app/services/custom-swal.service';
 import { CustomToastService } from 'src/app/services/custom-toast.service';
 import { DataService } from 'src/app/services/data.service';
 import { DateService } from 'src/app/services/date.service';
@@ -43,7 +42,7 @@ export default class VistaCaratulaFondeoComponent implements OnInit, OnDestroy {
   public caratulaFondeoService = inject(CaratulaFondeoService);
   public dataService = inject(DataService);
   public router = inject(Router);
-  public customSwalService = inject(CustomSwalService);
+
   public customToastService = inject(CustomToastService);
 
   subRef$: Subscription;
@@ -78,7 +77,8 @@ export default class VistaCaratulaFondeoComponent implements OnInit, OnDestroy {
     if (this.caratulaFondeoService.requestFondeoCaratulaDto === undefined) {
       this.router.navigateByUrl('compras/ordenesCompra');
     } else {
-      this.customSwalService.onLoading();
+      // Mostrar un mensaje de carga
+      this.customToastService.onLoading();
 
       this.subRef$ = this.dataService
         .post(
@@ -89,11 +89,12 @@ export default class VistaCaratulaFondeoComponent implements OnInit, OnDestroy {
           next: (resp: any) => {
             this.data = undefined;
             this.data = resp.body;
-            this.customSwalService.onClose();
+            this.customToastService.onCloseToSuccess();
           },
           error: (err: any) => {
+            // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+            this.customToastService.onCloseToError();
             console.log(err.error);
-            this.customSwalService.onClose();
           },
         });
     }
@@ -241,16 +242,17 @@ export default class VistaCaratulaFondeoComponent implements OnInit, OnDestroy {
   }
 
   downloadAsExcel() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
 
     this.subRef$ = this.dataService
       .post('ExportExcel/GetCaratulaFondeo', this.data)
       .subscribe({
-        next: (_) => this.customSwalService.onClose(),
+        next: (_) => this.customToastService.onClose(),
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
-          this.customToastService.onShowError();
         },
       });
   }

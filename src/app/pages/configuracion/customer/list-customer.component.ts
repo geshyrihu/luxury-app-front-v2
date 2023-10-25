@@ -7,7 +7,6 @@ import { ICustomerDto } from 'src/app/interfaces/ICustomerDto.interface';
 import { CelularNumberPipe } from 'src/app/pipes/celular-number.pipe';
 import {
   AuthService,
-  CustomSwalService,
   CustomToastService,
   DataService,
 } from 'src/app/services/common-services';
@@ -28,7 +27,7 @@ export default class ListCustomerComponent implements OnInit, OnDestroy {
   private dataService = inject(DataService);
   public messageService = inject(MessageService);
   public dialogService = inject(DialogService);
-  public customSwalService = inject(CustomSwalService);
+
   public customToastService = inject(CustomToastService);
 
   urlBaseImg = `${environment.base_urlImg}Administration/customer/`;
@@ -43,33 +42,34 @@ export default class ListCustomerComponent implements OnInit, OnDestroy {
   }
 
   onLoadData() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get(`Customers/GetAllAsync/${this.state}`)
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
-          this.customToastService.onShowError();
         },
       });
   }
 
   onDelete(data: any) {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService.delete('Customers/' + data.id).subscribe({
       next: () => {
-        this.customToastService.onShowSuccess();
-        this.customSwalService.onClose();
         this.onLoadData();
+        this.customToastService.onCloseToSuccess();
       },
       error: (err) => {
-        this.customToastService.onShowError();
-        this.customSwalService.onClose();
+        // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+        this.customToastService.onCloseToError();
         console.log(err.error);
       },
     });

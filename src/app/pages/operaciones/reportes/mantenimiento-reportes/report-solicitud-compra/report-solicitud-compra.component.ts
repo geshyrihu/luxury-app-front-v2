@@ -5,7 +5,6 @@ import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { TableModule } from 'primeng/table';
 import { Observable, Subscription } from 'rxjs';
 import { CustomerIdService } from 'src/app/services/common-services';
-import { CustomSwalService } from 'src/app/services/custom-swal.service';
 import { CustomToastService } from 'src/app/services/custom-toast.service';
 import { DataService } from 'src/app/services/data.service';
 import { DateService } from 'src/app/services/date.service';
@@ -30,7 +29,7 @@ export default class ReportSolicitudCompraComponent
 {
   private dataService = inject(DataService);
   public customerIdService = inject(CustomerIdService);
-  public customSwalService = inject(CustomSwalService);
+
   public customToastService = inject(CustomToastService);
   public dateService = inject(DateService);
   public periodoMonthService = inject(PeriodoMonthService);
@@ -57,7 +56,8 @@ export default class ReportSolicitudCompraComponent
     });
   }
   onLoadData() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get(
         `MaintenanceReport/solicitudinsumos/${
@@ -70,12 +70,12 @@ export default class ReportSolicitudCompraComponent
         next: (resp: any) => {
           this.solicitudes = resp.body.solicitudes;
           this.ordenesCompra = resp.body.ordenesCompra;
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
-          this.customToastService.onShowError();
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
         },
       });
   }

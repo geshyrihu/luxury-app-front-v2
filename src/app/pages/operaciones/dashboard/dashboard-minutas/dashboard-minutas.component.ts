@@ -10,7 +10,6 @@ import { EAreaMinutasDetalles } from 'src/app/enums/area-minutas-detalles.enum';
 import { IFechasFiltro } from 'src/app/interfaces/IFechasFiltro.interface';
 import {
   AuthService,
-  CustomSwalService,
   CustomToastService,
   CustomerIdService,
   DataService,
@@ -33,7 +32,6 @@ import DashboardMinutasResumenComponent from '../dashboard-minutas-resumen/dashb
   providers: [MessageService, CustomToastService],
 })
 export default class DashboardMinutasComponent implements OnInit, OnDestroy {
-  public customSwalService = inject(CustomSwalService);
   public customToastService = inject(CustomToastService);
   public authService = inject(AuthService);
   private dataService = inject(DataService);
@@ -63,24 +61,26 @@ export default class DashboardMinutasComponent implements OnInit, OnDestroy {
   }
 
   onSendEmailAllPendingMeeting() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get(`Meetings/SendEmailAllPendingMeeting`)
       .subscribe({
         next: (resp: any) => {
           this.customToastService.onShowSuccess();
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customToastService.onShowError();
-          this.customSwalService.onClose();
         },
       });
   }
 
   onLoadData() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get(
         `Dashboard/MinutasPendientes/${this.customerIdService.getcustomerId()}`
@@ -88,12 +88,12 @@ export default class DashboardMinutasComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
-          this.customToastService.onShowError();
         },
       });
   }

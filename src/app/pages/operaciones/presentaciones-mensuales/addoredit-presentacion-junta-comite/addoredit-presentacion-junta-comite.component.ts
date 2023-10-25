@@ -4,7 +4,6 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import {
   AuthService,
-  CustomSwalService,
   CustomToastService,
   DataService,
 } from 'src/app/services/common-services';
@@ -20,7 +19,6 @@ export default class AddoreditPresentacionJuntaComiteComponent
   implements OnInit, OnDestroy
 {
   private formBuilder = inject(FormBuilder);
-  private customSwalService = inject(CustomSwalService);
   private customToastService = inject(CustomToastService);
   public authService = inject(AuthService);
   public config = inject(DynamicDialogConfig);
@@ -59,21 +57,22 @@ export default class AddoreditPresentacionJuntaComiteComponent
     const model = this.onCreateFormData(this.form.value);
     // Deshabilitar el botón al iniciar el envío del formulario
     this.submitting = true;
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
 
     this.subRef$ = this.dataService
       .post(`PresentacionJuntaComite/AddFile`, model)
       .subscribe({
         next: () => {
           this.ref.close(true);
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
-          this.customToastService.onShowError();
-          console.log(err.error);
           // Habilitar el botón nuevamente al finalizar el envío del formulario
           this.submitting = false;
-          this.customSwalService.onClose();
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
+          console.log(err.error);
         },
       });
   }

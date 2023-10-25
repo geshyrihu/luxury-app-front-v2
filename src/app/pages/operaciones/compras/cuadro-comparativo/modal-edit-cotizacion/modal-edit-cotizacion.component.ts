@@ -10,7 +10,6 @@ import {
 } from 'primeng/dynamicdialog';
 import { ToastModule } from 'primeng/toast';
 import { Subscription } from 'rxjs';
-import { CustomSwalService } from 'src/app/services/custom-swal.service';
 import { CustomToastService } from 'src/app/services/custom-toast.service';
 import { DataService } from 'src/app/services/data.service';
 import { SelectItemService } from 'src/app/services/select-item.service';
@@ -25,7 +24,6 @@ import CreateOrdenCompraComponent from '../../orden-compra/orden-compra/create-o
   providers: [DialogService, MessageService, CustomToastService],
 })
 export default class ModalEditCotizacionComponent implements OnInit, OnDestroy {
-  public customSwalService = inject(CustomSwalService);
   public customToastService = inject(CustomToastService);
   public ref = inject(DynamicDialogRef);
   public config = inject(DynamicDialogConfig);
@@ -172,7 +170,8 @@ export default class ModalEditCotizacionComponent implements OnInit, OnDestroy {
   }
 
   onDeleteProvider() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .delete(
         `solicitudCompra/DeleteProvider/${this.solicitudCompraId}/${this.providerId}`
@@ -180,12 +179,12 @@ export default class ModalEditCotizacionComponent implements OnInit, OnDestroy {
       .subscribe({
         next: () => {
           this.ref.close(true);
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
-          this.customToastService.onShowError();
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
         },
       });
   }

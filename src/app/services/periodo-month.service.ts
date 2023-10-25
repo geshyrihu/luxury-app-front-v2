@@ -42,17 +42,65 @@ export class PeriodoMonthService {
    * Establece el periodo y notifica a los observadores.
    * @param periodo Objeto que contiene el año y mes del periodo.
    */
-  setPeriodo(periodo: any) {
-    this.fechaInicial = new Date(periodo.year, periodo.month - 1, 1);
-    let finalTemp = new Date(periodo.year, periodo.month - 1, 1);
-    this.fechaFinal = new Date(
-      finalTemp.getFullYear(),
-      finalTemp.getMonth() + 1,
-      0
-    );
+  // setPeriodo(periodo: any) {
+  //   console.log('🚀 ~ periodo:', periodo);
+  //   this.fechaInicial = new Date(periodo.year, periodo.month - 1, 1);
+  //   console.log('🚀 ~ this.fechaInicial:', this.fechaInicial);
+  //   let finalTemp = new Date(periodo.year, periodo.month - 1, 1);
+  //   this.fechaFinal = new Date(
+  //     finalTemp.getFullYear(),
+  //     finalTemp.getMonth() + 1,
+  //     0
+  //   );
+  //   console.log('🚀 ~ this.fechaFinal:', this.fechaFinal);
 
-    // Emitimos eventos a través de los Subjects para notificar a los observadores con las nuevas fechas del periodo.
-    this.periodoInicial$.next(this.fechaInicial);
-    this.periodoFinal$.next(this.fechaFinal);
+  //   // Emitimos eventos a través de los Subjects para notificar a los observadores con las nuevas fechas del periodo.
+  //   this.periodoInicial$.next(this.fechaInicial);
+  //   this.periodoFinal$.next(this.fechaFinal);
+  // }
+  setPeriodo(periodo: string) {
+    console.log('🚀 ~ periodo------------:', periodo);
+
+    // Dividir la cadena "AAAA-MM" en año y mes.
+    const [year, month] = periodo.split('-').map(Number);
+
+    // Verificar que los valores sean válidos.
+    if (
+      !Number.isNaN(year) &&
+      !Number.isNaN(month) &&
+      month >= 1 &&
+      month <= 12
+    ) {
+      this.fechaInicial = new Date(year, month - 1, 1);
+      let finalTemp = new Date(year, month - 1, 1);
+      this.fechaFinal = new Date(
+        finalTemp.getFullYear(),
+        finalTemp.getMonth() + 1,
+        0
+      );
+
+      // Emitir eventos a través de los Subjects para notificar a los observadores con las nuevas fechas del período.
+      this.periodoInicial$.next(this.fechaInicial);
+      this.periodoFinal$.next(this.fechaFinal);
+    } else {
+      console.error('Valores de año o mes no válidos.');
+    }
+    // // Dividir la cadena en año y mes
+    // const [year, month] = periodo.split('-');
+
+    // // Crear la fecha inicial
+    // this.fechaInicial = new Date(parseInt(year), parseInt(month) - 1, 1);
+
+    // // Calcular la fecha final
+    // const finalTemp = new Date(parseInt(year), parseInt(month) - 1, 1);
+    // this.fechaFinal = new Date(
+    //   finalTemp.getFullYear(),
+    //   finalTemp.getMonth() + 1,
+    //   0
+    // );
+
+    // // Emitir eventos a través de los Subjects para notificar a los observadores con las nuevas fechas del periodo.
+    // this.periodoInicial$.next(this.fechaInicial);
+    // this.periodoFinal$.next(this.fechaFinal);
   }
 }

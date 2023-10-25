@@ -16,7 +16,6 @@ import { ETypeOfDeparture } from 'src/app/enums/type-departure.enum';
 import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
 import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
 import {
-  CustomSwalService,
   CustomToastService,
   DataService,
 } from 'src/app/services/common-services';
@@ -40,7 +39,7 @@ export default class AddoreditSolicitudBajaComponent implements OnInit {
   private dataService = inject(DataService);
   public ref = inject(DynamicDialogRef);
   public config = inject(DynamicDialogConfig);
-  private customSwalService = inject(CustomSwalService);
+
   private customToastService = inject(CustomToastService);
 
   submitting: boolean = false;
@@ -97,7 +96,7 @@ export default class AddoreditSolicitudBajaComponent implements OnInit {
               })
             );
           });
-          console.log(this.form.value);
+          console.log('Formulario', this.form.value);
         },
         error: (err) => {
           this.customToastService.onShowError();
@@ -107,7 +106,7 @@ export default class AddoreditSolicitudBajaComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.form.value);
+    console.log('Formulario', this.form.value);
     if (this.form.invalid) {
       Object.values(this.form.controls).forEach((x) => {
         x.markAllAsTouched();
@@ -123,15 +122,15 @@ export default class AddoreditSolicitudBajaComponent implements OnInit {
         .post(`RequestDismissal/`, this.form.value)
         .subscribe({
           next: () => {
-            this.customSwalService.onClose();
+            this.customToastService.onClose();
             this.ref.close(true);
           },
           error: (err) => {
             console.log(err.error);
             this.customToastService.onShowError();
             // Habilitar el botón nuevamente al finalizar el envío del formulario
+            this.customToastService.onClose();
             this.submitting = false;
-            this.customSwalService.onClose();
           },
         });
     } else {
@@ -139,15 +138,15 @@ export default class AddoreditSolicitudBajaComponent implements OnInit {
         .put(`RequestDismissal/${this.id}`, this.form.value)
         .subscribe({
           next: () => {
-            this.customSwalService.onClose();
+            this.customToastService.onClose();
             this.ref.close(true);
           },
           error: (err) => {
             console.log(err.error);
             this.customToastService.onShowError();
             // Habilitar el botón nuevamente al finalizar el envío del formulario
+            this.customToastService.onClose();
             this.submitting = false;
-            this.customSwalService.onClose();
           },
         });
     }
@@ -165,18 +164,18 @@ export default class AddoreditSolicitudBajaComponent implements OnInit {
     return control.invalid && (control.dirty || control.touched);
   }
   removeDiscountDescription(index: number, id: number) {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .delete(`RequestDismissalDiscount/${id}`)
       .subscribe({
         next: () => {
-          this.customToastService.onShowSuccess();
-          this.customSwalService.onClose();
+          this.customToastService.onCloseToSuccess();
           this.discounts.removeAt(index);
         },
         error: (err) => {
-          this.customToastService.onShowError();
-          this.customSwalService.onClose();
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
         },
       });

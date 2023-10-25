@@ -41,7 +41,7 @@
 // export default class EditOrdenCompraFijosComponent
 //   implements OnInit, OnDestroy
 // {
-//   public customSwalService = inject(CustomSwalService);
+//
 //   public customToastService = inject(CustomToastService);
 //   public authService = inject(AuthService);
 //   public dataService = inject(DataService);
@@ -104,7 +104,8 @@
 //   onLoadData() {
 //     this.esGastoFijo = false;
 
-//     this.customSwalService.onLoading();
+//     // Mostrar un mensaje de carga
+this.customToastService.onLoading();
 //     this.subRef$ = this.dataService
 //       .get<any>(`OrdenCompra/${this.ordenCompraId}`)
 //       .subscribe(
@@ -332,7 +333,8 @@
 //       );
 //   }
 //   onDeleteOrdenCompraPresupuesto(id: number): void {
-//     this.customSwalService.onLoading();
+//     // Mostrar un mensaje de carga
+this.customToastService.onLoading();
 //     this.subRef$ = this.dataService
 //       .delete(`OrdenCompraPresupuesto/${id}`)
 //       .subscribe(
@@ -350,7 +352,8 @@
 //   }
 
 //   onDeleteProduct(data: any) {
-//     this.customSwalService.onLoading();
+//     // Mostrar un mensaje de carga
+this.customToastService.onLoading();
 //     this.subRef$ = this.dataService
 //       .delete(`OrdenCompraDetalle/${data.id}`)
 //       .subscribe(

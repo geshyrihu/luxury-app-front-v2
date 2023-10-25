@@ -13,7 +13,6 @@ import { ERecurrencePipe } from 'src/app/pipes/recurrence.pipe';
 import { SanitizeHtmlPipe } from 'src/app/pipes/sanitize-html.pipe';
 import {
   AuthService,
-  CustomSwalService,
   CustomToastService,
   CustomerIdService,
   DataService,
@@ -49,7 +48,6 @@ import ServiceHistoryMachineryComponent from './service-history-machinery/servic
   ],
 })
 export default class ListEquiposComponent implements OnInit, OnDestroy {
-  public customSwalService = inject(CustomSwalService);
   public customToastService = inject(CustomToastService);
   public customerIdService = inject(CustomerIdService);
   public dataService = inject(DataService);
@@ -104,7 +102,8 @@ export default class ListEquiposComponent implements OnInit, OnDestroy {
     if (!this.state) this.subTitle = ' Activos';
     // this.onPath();
     this.base_urlImg = this.urlImg(this.customerId);
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get(
         `Machineries/GetAll/${this.customerIdService.customerId}/${this.inventoryCategoryId}/${this.state}`
@@ -113,12 +112,12 @@ export default class ListEquiposComponent implements OnInit, OnDestroy {
         next: (resp: any) => {
           this.data = resp.body;
           this.OnChageTitle();
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
-          this.customToastService.onShowError();
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
         },
       });
   }
@@ -127,16 +126,16 @@ export default class ListEquiposComponent implements OnInit, OnDestroy {
     this.onLoadData();
   }
   onDelete(data: any) {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService.delete('Machineries/' + data.id).subscribe({
       next: () => {
-        this.customToastService.onShowSuccess();
-        this.customSwalService.onClose();
         this.onLoadData();
+        this.customToastService.onCloseToSuccess();
       },
       error: (err) => {
-        this.customToastService.onShowError();
-        this.customSwalService.onClose();
+        // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+        this.customToastService.onCloseToError();
         console.log(err.error);
       },
     });
@@ -296,19 +295,19 @@ export default class ListEquiposComponent implements OnInit, OnDestroy {
   }
 
   onDeleteOrder(data: any) {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subscriber = this.dataService
       .delete(`MaintenanceCalendars/${data.id}`)
       .subscribe({
         next: () => {
           this.onLoadData();
-          this.customSwalService.onClose();
-          this.customToastService.onShowSuccess();
+          this.customToastService.onCloseToSuccess();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
-          this.customToastService.onShowError();
         },
       });
   }

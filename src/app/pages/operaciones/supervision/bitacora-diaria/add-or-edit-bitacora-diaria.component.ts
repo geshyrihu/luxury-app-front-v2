@@ -6,12 +6,12 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { MessageService } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
 import {
   AuthService,
-  CustomSwalService,
   CustomToastService,
   DataService,
   DateService,
@@ -32,6 +32,7 @@ import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.mod
     ReactiveFormsModule,
     CustomInputModule,
   ],
+  providers: [MessageService, CustomToastService],
 })
 export default class AddOrEditBitacoraDiariaComponent
   implements OnInit, OnDestroy
@@ -43,7 +44,6 @@ export default class AddOrEditBitacoraDiariaComponent
   public config = inject(DynamicDialogConfig);
   public ref = inject(DynamicDialogRef);
   private dateService = inject(DateService);
-  private customSwalService = inject(CustomSwalService);
   private customToastService = inject(CustomToastService);
 
   submitting: boolean = false;
@@ -104,7 +104,8 @@ export default class AddOrEditBitacoraDiariaComponent
 
     // Deshabilitar el botón al iniciar el envío del formulario
     this.submitting = true;
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
 
     if (this.id === 0) {
       this.subRef$ = this.dataService
@@ -114,11 +115,11 @@ export default class AddOrEditBitacoraDiariaComponent
             this.ref.close(true);
           },
           error: (err) => {
-            this.customToastService.onShowError();
-            console.log(err.error.errors);
             // Habilitar el botón nuevamente al finalizar el envío del formulario
             this.submitting = false;
-            this.customSwalService.onClose();
+            // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+            this.customToastService.onCloseToError();
+            console.log(err.error);
           },
         });
     } else {
@@ -126,15 +127,15 @@ export default class AddOrEditBitacoraDiariaComponent
         .put(`AgendaSupervision/${this.id}`, this.form.value)
         .subscribe({
           next: () => {
-            this.customSwalService.onClose();
             this.ref.close(true);
+            this.customToastService.onClose();
           },
           error: (err) => {
-            console.log(err.error);
-            this.customToastService.onShowError();
             // Habilitar el botón nuevamente al finalizar el envío del formulario
             this.submitting = false;
-            this.customSwalService.onClose();
+            // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+            this.customToastService.onCloseToError();
+            console.log(err.error);
           },
         });
     }

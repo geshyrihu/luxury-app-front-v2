@@ -13,7 +13,6 @@ import { ToastModule } from 'primeng/toast';
 import { Subscription } from 'rxjs';
 import { ResetPasswordDto } from 'src/app/interfaces/auth/user-info.interface';
 import {
-  CustomSwalService,
   CustomToastService,
   DataService,
 } from 'src/app/services/common-services';
@@ -38,7 +37,6 @@ export default class UpdatePasswordAccountComponent
 {
   private dataService = inject(DataService);
   private customToastService = inject(CustomToastService);
-  public customSwalService = inject(CustomSwalService);
 
   @Input()
   applicationUserId: string = '';
@@ -61,19 +59,19 @@ export default class UpdatePasswordAccountComponent
   }
 
   onSubmit() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
 
     this.subRef$ = this.dataService
       .post('Auth/ResetPasswordAdmin', this.form.value)
       .subscribe({
         next: () => {
-          this.customToastService.onShowSuccess();
-          this.customSwalService.onClose();
+          this.customToastService.onCloseToSuccess();
         },
         error: (err) => {
-          this.customToastService.onShowError();
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
         },
       });
   }

@@ -3,7 +3,6 @@ import { Component, OnInit, inject } from '@angular/core';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import {
-  CustomSwalService,
   CustomToastService,
   CustomerIdService,
   DataService,
@@ -21,7 +20,7 @@ export default class AccountToEmployeeComponent implements OnInit {
   public config = inject(DynamicDialogConfig);
   private dataService = inject(DataService);
   private customToastService = inject(CustomToastService);
-  private customSwalService = inject(CustomSwalService);
+
   private customerIdService = inject(CustomerIdService);
 
   submitting: boolean = false;
@@ -57,7 +56,8 @@ export default class AccountToEmployeeComponent implements OnInit {
     this.id = this.config.data.id;
     // Deshabilitar el botón al iniciar el envío del formulario
     this.submitting = true;
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
 
     this.subRef$ = this.dataService
       .get(
@@ -65,15 +65,15 @@ export default class AccountToEmployeeComponent implements OnInit {
       )
       .subscribe({
         next: () => {
-          this.customSwalService.onClose();
           this.ref.close(true);
+          this.customToastService.onClose();
         },
         error: (err) => {
-          console.log(err.error);
-          this.customToastService.onShowError();
           // Habilitar el botón nuevamente al finalizar el envío del formulario
           this.submitting = false;
-          this.customSwalService.onClose();
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
+          console.log(err.error);
         },
       });
   }

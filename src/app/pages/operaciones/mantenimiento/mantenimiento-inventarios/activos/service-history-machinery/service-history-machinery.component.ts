@@ -6,7 +6,6 @@ import {
 } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import {
-  CustomSwalService,
   CustomToastService,
   DataService,
 } from 'src/app/services/common-services';
@@ -26,7 +25,7 @@ export default class ServiceHistoryMachineryComponent
 {
   private dataService = inject(DataService);
   public config = inject(DynamicDialogConfig);
-  private customSwalService = inject(CustomSwalService);
+
   private customToastService = inject(CustomToastService);
   public dialogService = inject(DialogService);
 
@@ -41,17 +40,18 @@ export default class ServiceHistoryMachineryComponent
   }
 
   onLoadData() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get(`Machineries/ServiceHistory/${this.config.data.id}`)
       .subscribe({
         next: (resp: any) => {
-          this.customSwalService.onClose();
           this.data = resp.body;
+          this.customToastService.onClose();
         },
         error: (err) => {
-          this.customSwalService.onClose();
-          this.customToastService.onShowError();
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
         },
       });

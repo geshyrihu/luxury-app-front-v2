@@ -1,7 +1,8 @@
 import { Component, OnDestroy, inject } from '@angular/core';
+import { MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import {
-  CustomSwalService,
+  CustomToastService,
   DataService,
 } from 'src/app/services/common-services';
 import CustomButtonComponent from 'src/app/shared/custom-buttons/custom-button/custom-button.component';
@@ -11,745 +12,809 @@ import CustomButtonComponent from 'src/app/shared/custom-buttons/custom-button/c
   templateUrl: './depuracion.component.html',
   imports: [CustomButtonComponent],
   standalone: true,
+  providers: [MessageService, CustomToastService],
 })
 export default class DepuracionComponent implements OnDestroy {
   private dataService = inject(DataService);
-  private customSwalService = inject(CustomSwalService);
-
+  public customToastService = inject(CustomToastService);
+  public messageService = inject(MessageService);
   // onDepuracionCotizacionProveedor() {
-  //   this.customSwalService.onLoading();
+  //   // Mostrar un mensaje de carga
+  //  this.customToastService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('Depuracion/CotizacionProveedor')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //       },
   //       error: (err) => {
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //         console.log(err.error);
   //       },
   //     });
   // }
   // SolicitudCompra() {
-  //   this.customSwalService.onLoading();
+  //   // Mostrar un mensaje de carga
+  //  this.customToastService.onLoading();
   //   this.subRef$ = this.dataService.get('Depuracion/SolicitudCompra').subscribe(
   //     (resp: any) => {
-  //       this.customSwalService.onClose();
+  //       this.customToastService.onClose();
   //     },
   //     (err) => {
-  //       this.customSwalService.onClose();
+  //       this.customToastService.onClose();
   //       console.log(err.error);
   //     }
   //   );
   // }
   // ReporteSemanal() {
-  //   this.customSwalService.onLoading();
+  //   // Mostrar un mensaje de carga
+  //  this.customToastService.onLoading();
   //   this.subRef$ = this.dataService.get('Depuracion/ReporteSemanal').subscribe(
   //     (resp: any) => {
-  //       this.customSwalService.onClose();
+  //       this.customToastService.onClose();
   //     },
   //     (err) => {
-  //       this.customSwalService.onClose();
+  //       this.customToastService.onClose();
   //       console.log(err.error);
   //     }
   //   );
   // }
   // PrestamoHerramienta() {
-  //   this.customSwalService.onLoading();
+  //   // Mostrar un mensaje de carga
+  //  this.customToastService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('Depuracion/PrestamoHerramienta')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //       },
   //       error: (err) => {
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //         console.log(err.error);
   //       },
   //     });
   // }
   // OrdenCompra() {
-  //   this.customSwalService.onLoading();
+  //   // Mostrar un mensaje de carga
+  //  this.customToastService.onLoading();
   //   this.subRef$ = this.dataService.get('Depuracion/OrdenCompra').subscribe(
   //     (resp: any) => {
-  //       this.customSwalService.onClose();
+  //       this.customToastService.onClose();
   //     },
   //     (err) => {
-  //       this.customSwalService.onClose();
+  //       this.customToastService.onClose();
   //       console.log(err.error);
   //     }
   //   );
   // }
   // OrdenesServicio() {
-  //   this.customSwalService.onLoading();
+  //   // Mostrar un mensaje de carga
+  //  this.customToastService.onLoading();
   //   this.subRef$ = this.dataService.get('Depuracion/OrdenesServicio').subscribe(
   //     (resp: any) => {
-  //       this.customSwalService.onClose();
+  //       this.customToastService.onClose();
   //     },
   //     (err) => {
-  //       this.customSwalService.onClose();
+  //       this.customToastService.onClose();
   //       console.log(err.error);
   //     }
   //   );
   // }
   // CalendarioMantenimiento() {
-  //   this.customSwalService.onLoading();
+  //   // Mostrar un mensaje de carga
+  //  this.customToastService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('Depuracion/CalendarioMantenimiento')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //       },
   //       error: (err) => {
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //         console.log(err.error);
   //       },
   //     });
   // }
   // Equipos() {
-  //   this.customSwalService.onLoading();
+  //   // Mostrar un mensaje de carga
+  // this.customToastService.onLoading();
   //   this.subRef$ = this.dataService.get('Depuracion/Equipos').subscribe(
   //     (resp: any) => {
-  //       this.customSwalService.onClose();
+  //       this.customToastService.onClose();
   //     },
   //     (err) => {
-  //       this.customSwalService.onClose();
+  //       this.customToastService.onClose();
   //       console.log(err.error);
   //     }
   //   );
   // }
   // Recorrido() {
-  //   this.customSwalService.onLoading();
+  //   // Mostrar un mensaje de carga
+  //  this.customToastService.onLoading();
   //   this.subRef$ = this.dataService.get('Depuracion/Recorrido').subscribe(
   //     (resp: any) => {
-  //       this.customSwalService.onClose();
+  //       this.customToastService.onClose();
   //     },
   //     (err) => {
-  //       this.customSwalService.onClose();
+  //       this.customToastService.onClose();
   //       console.log(err.error);
   //     }
   //   );
   // }
   // BitacoraMantenimiento() {
-  //   this.customSwalService.onLoading();
+  //   // Mostrar un mensaje de carga
+  //  this.customToastService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('Depuracion/BitacoraMantenimiento')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //       },
   //       error: (err) => {
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //         console.log(err.error);
   //       },
   //     });
   // }
   // InventarioPintura() {
-  //   this.customSwalService.onLoading();
+  //   // Mostrar un mensaje de carga
+  //  this.customToastService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('Depuracion/InventarioPintura')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //       },
   //       error: (err) => {
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //         console.log(err.error);
   //       },
   //     });
   // }
   // InventarioIluminacion() {
-  //   this.customSwalService.onLoading();
+  //   // Mostrar un mensaje de carga
+  //  this.customToastService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('Depuracion/InventarioIluminacion')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //       },
   //       error: (err) => {
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //         console.log(err.error);
   //       },
   //     });
   // }
   // MachineryDocument() {
-  //   this.customSwalService.onLoading();
+  //   // Mostrar un mensaje de carga
+  // this.customToastService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('Depuracion/MachineryDocument')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //       },
   //       error: (err) => {
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //         console.log(err.error);
   //       },
   //     });
   // }
   // CotizacionProveedorPendiente() {
-  //   this.customSwalService.onLoading();
+  //   // Mostrar un mensaje de carga
+  //  this.customToastService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('Depuracion/CotizacionProveedorPendiente')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //       },
   //       error: (err) => {
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //         console.log(err.error);
   //       },
   //     });
   // }
   // SolicitudCompraPendiente() {
-  //   this.customSwalService.onLoading();
+  //   // Mostrar un mensaje de carga
+  //  this.customToastService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('Depuracion/SolicitudCompraPendiente')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //       },
   //       error: (err) => {
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //         console.log(err.error);
   //       },
   //     });
   // }
   // OrdenCompraPendiente() {
-  //   this.customSwalService.onLoading();
+  //   // Mostrar un mensaje de carga
+  //  this.customToastService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('Depuracion/OrdenCompraPendiente')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //       },
   //       error: (err) => {
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //         console.log(err.error);
   //       },
   //     });
   // }
   // DeleteProveedor() {
-  //   this.customSwalService.onLoading();
+  //   // Mostrar un mensaje de carga
+  //  this.customToastService.onLoading();
   //   this.subRef$ = this.dataService.get('Depuracion/DeleteProveedor').subscribe(
   //     (resp: any) => {
-  //       this.customSwalService.onClose();
+  //       this.customToastService.onClose();
   //     },
   //     (err) => {
-  //       this.customSwalService.onClose();
+  //       this.customToastService.onClose();
   //       console.log(err.error);
   //     }
   //   );
   // }
 
   // Presentaciones() {
-  //   this.customSwalService.onLoading();
+  //   // Mostrar un mensaje de carga
+  //  this.customToastService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('ActualizarCuentas/Presentaciones')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //       },
   //       error: (err) => {
   //         console.log(err.error);
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //       },
   //     });
   // }
   // Reporte() {
-  //   this.customSwalService.onLoading();
+  //   // Mostrar un mensaje de carga
+  //  this.customToastService.onLoading();
   //   this.subRef$ = this.dataService.get('ActualizarCuentas/Reporte').subscribe(
   //     (resp: any) => {
-  //       this.customSwalService.onClose();
+  //       this.customToastService.onClose();
   //     },
   //     (err) => {
   //       console.log(err.error);
-  //       this.customSwalService.onClose();
+  //       this.customToastService.onClose();
   //     }
   //   );
   // }
   // ActualizarDatos() {
-  //   this.customSwalService.onLoading();
+  //   // Mostrar un mensaje de carga
+  //  this.customToastService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('ActualizarCuentas/ActualizarDatos')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //       },
   //       error: (err) => {
   //         console.log(err.error);
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //       },
   //     });
   // }
   // ActualizarDatosEmpleado() {
-  //   this.customSwalService.onLoading();
+  //   // Mostrar un mensaje de carga
+  //  this.customToastService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('ActualizarCuentas/ActualizarDatosEmpleado')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //       },
   //       error: (err) => {
   //         console.log(err.error);
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //       },
   //     });
   // }
   // HistorialAcceso() {
-  //   this.customSwalService.onLoading();
+  //   // Mostrar un mensaje de carga
+  //  this.customToastService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('ActualizarCuentas/HistorialAcceso')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //       },
   //       error: (err) => {
   //         console.log(err.error);
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //       },
   //     });
   // }
   // MinutasParticipantesAdmin() {
-  //   this.customSwalService.onLoading();
+  //   // Mostrar un mensaje de carga
+  //  this.customToastService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('ActualizarCuentas/MinutasParticipantesAdmin')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //       },
   //       error: (err) => {
   //         console.log(err.error);
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //       },
   //     });
   // }
   // MinutasDetails() {
-  //   this.customSwalService.onLoading();
+  //   // Mostrar un mensaje de carga
+  //  this.customToastService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('ActualizarCuentas/MinutasDetails')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //       },
   //       error: (err) => {
   //         console.log(err.error);
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //       },
   //     });
   // }
   // MeetingDertailsSeguimientos() {
-  //   this.customSwalService.onLoading();
+  //   // Mostrar un mensaje de carga
+  //  this.customToastService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('ActualizarCuentas/MeetingDertailsSeguimientos')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //       },
   //       error: (err) => {
   //         console.log(err.error);
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //       },
   //     });
   // }
   // OrdenCompraUpdate() {
-  //   this.customSwalService.onLoading();
+  //   // Mostrar un mensaje de carga
+  //  this.customToastService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('ActualizarCuentas/OrdenCompra')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //       },
   //       error: (err) => {
   //         console.log(err.error);
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //       },
   //     });
   // }
   // MetodoDePagos() {
-  //   this.customSwalService.onLoading();
+  //   // Mostrar un mensaje de carga
+  //  this.customToastService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('ActualizarCuentas/MetodoDePagos')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //       },
   //       error: (err) => {
   //         console.log(err.error);
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //       },
   //     });
   // }
   // OrdenCompraAuth() {
-  //   this.customSwalService.onLoading();
+  //   // Mostrar un mensaje de carga
+  //  this.customToastService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('ActualizarCuentas/OrdenCompraAuth')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //       },
   //       error: (err) => {
   //         console.log(err.error);
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //       },
   //     });
   // }
   // Productos() {
-  //   this.customSwalService.onLoading();
+  //   // Mostrar un mensaje de carga
+  //  this.customToastService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('ActualizarCuentas/Productos')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //       },
   //       error: (err) => {
   //         console.log(err.error);
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //       },
   //     });
   // }
   // Providers() {
-  //   this.customSwalService.onLoading();
+  //   // Mostrar un mensaje de carga
+  //  this.customToastService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('ActualizarCuentas/Providers')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //       },
   //       error: (err) => {
   //         console.log(err.error);
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //       },
   //     });
   // }
   // SalidaProducto() {
-  //   this.customSwalService.onLoading();
+  //   // Mostrar un mensaje de carga
+  //  this.customToastService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('ActualizarCuentas/SalidaProducto')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //       },
   //       error: (err) => {
   //         console.log(err.error);
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //       },
   //     });
   // }
   // ServiceOrders() {
-  //   this.customSwalService.onLoading();
+  //   // Mostrar un mensaje de carga
+  // this.customToastService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('ActualizarCuentas/ServiceOrders')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //       },
   //       error: (err) => {
   //         console.log(err.error);
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //       },
   //     });
   // }
   // SolicitudCompras() {
-  //   this.customSwalService.onLoading();
+  //   // Mostrar un mensaje de carga
+  // this.customToastService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('ActualizarCuentas/SolicitudCompras')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //       },
   //       error: (err) => {
   //         console.log(err.error);
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //       },
   //     });
   // }
   // SolicitudCompraDetalles() {
-  //   this.customSwalService.onLoading();
+  //   // Mostrar un mensaje de carga
+  //  this.customToastService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('ActualizarCuentas/SolicitudCompraDetalles')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //       },
   //       error: (err) => {
   //         console.log(err.error);
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //       },
   //     });
   // }
   // Tool() {
-  //   this.customSwalService.onLoading();
+  //   // Mostrar un mensaje de carga
+  //  this.customToastService.onLoading();
   //   this.subRef$ = this.dataService.get('ActualizarCuentas/Tool').subscribe(
   //     (resp: any) => {
-  //       this.customSwalService.onClose();
+  //       this.customToastService.onClose();
   //     },
   //     (err) => {
   //       console.log(err.error);
-  //       this.customSwalService.onClose();
+  //       this.customToastService.onClose();
   //     }
   //   );
   // }
 
   // UsoCFDI() {
-  //   this.customSwalService.onLoading();
+  //   // Mostrar un mensaje de carga
+  //  this.customToastService.onLoading();
   //   this.subRef$ = this.dataService.get('ActualizarCuentas/UsoCFDI').subscribe(
   //     (resp: any) => {
-  //       this.customSwalService.onClose();
+  //       this.customToastService.onClose();
   //     },
   //     (err) => {
   //       console.log(err.error);
-  //       this.customSwalService.onClose();
+  //       this.customToastService.onClose();
   //     }
   //   );
   // }
   // AgendasSupervision() {
-  //   this.customSwalService.onLoading();
+  //   // Mostrar un mensaje de carga
+  //  this.customToastService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('ActualizarCuentas/AgendasSupervision')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //       },
   //       error: (err) => {
   //         console.log(err.error);
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //       },
   //     });
   // }
   // InventarioExtintor() {
-  //   this.customSwalService.onLoading();
+  //   // Mostrar un mensaje de carga
+  //  this.customToastService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('ActualizarCuentas/InventarioExtintor')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //       },
   //       error: (err) => {
   //         console.log(err.error);
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //       },
   //     });
   // }
   // InventarioIluminacions() {
-  //   this.customSwalService.onLoading();
+  //   // Mostrar un mensaje de carga
+  //   this.customToastService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('ActualizarCuentas/InventarioIluminacions')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //       },
   //       error: (err) => {
   //         console.log(err.error);
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //       },
   //     });
   // }
   // Machinerys() {
-  //   this.customSwalService.onLoading();
+  //   // Mostrar un mensaje de carga
+  //  this.customToastService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('ActualizarCuentas/Machinerys')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //       },
   //       error: (err) => {
   //         console.log(err.error);
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //       },
   //     });
   // }
   // InventarioLlaves() {
-  //   this.customSwalService.onLoading();
+  //   // Mostrar un mensaje de carga
+  //  this.customToastService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('ActualizarCuentas/InventarioLlaves')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //       },
   //       error: (err) => {
   //         console.log(err.error);
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //       },
   //     });
   // }
   // BitacoraMantenimientoUpdate() {
-  //   this.customSwalService.onLoading();
+  //   // Mostrar un mensaje de carga
+  //  this.customToastService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('ActualizarCuentas/BitacoraMantenimiento')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //       },
   //       error: (err) => {
   //         console.log(err.error);
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //       },
   //     });
   // }
   // Medidor() {
-  //   this.customSwalService.onLoading();
+  //   // Mostrar un mensaje de carga
+  //  this.customToastService.onLoading();
   //   this.subRef$ = this.dataService.get('ActualizarCuentas/Medidor').subscribe(
   //     (resp: any) => {
-  //       this.customSwalService.onClose();
+  //       this.customToastService.onClose();
   //     },
   //     (err) => {
   //       console.log(err.error);
-  //       this.customSwalService.onClose();
+  //       this.customToastService.onClose();
   //     }
   //   );
   // }
   // ControlPrestamoHerramienta() {
-  //   this.customSwalService.onLoading();
+  //   // Mostrar un mensaje de carga
+  //  this.customToastService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('ActualizarCuentas/ControlPrestamoHerramienta')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //       },
   //       error: (err) => {
   //         console.log(err.error);
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //       },
   //     });
   // }
   // UpdateCalendarId() {
-  //   this.customSwalService.onLoading();
+  //   // Mostrar un mensaje de carga
+  //  this.customToastService.onLoading();
   //   this.subRef$ = this.dataService
   //     .get('ServiceOrders/UpdateCalendarId')
   //     .subscribe({
   //       next: (resp: any) => {
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //       },
   //       error: (err) => {
   //         console.log(err.error);
-  //         this.customSwalService.onClose();
+  //         this.customToastService.onClose();
   //       },
   //     });
   // }
   onEmployeeUpdate() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get('UpdateDataBase/UpdateEmployee')
       .subscribe({
         next: (_) => {
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
         },
       });
   }
   // }
   UpdateSalary() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get('UpdateDataBase/UpdateSalary')
       .subscribe({
         next: (_) => {
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
         },
       });
   }
   UpdateDocumentCustomer() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get('UpdateDataBase/UpdateDocumentCustomer')
       .subscribe({
         next: (_) => {
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
         },
       });
   }
   CreateAccounsFaltantes() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get('UpdateDataBase/CreateAccounsFaltantes')
       .subscribe({
         next: (_) => {
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
         },
       });
   }
   UpdateEmployeeToAccountUser() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get('UpdateDataBase/UpdateEmployeeToAccountUser')
       .subscribe({
         next: (_) => {
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
         },
       });
   }
   UpdatePerson() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get('UpdateDataBase/UpdatePerson')
       .subscribe({
         next: (_) => {
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
         },
       });
   }
   UpdateProfession() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get('UpdateDataBase/UpdateProfession')
       .subscribe({
         next: (_) => {
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
         },
       });
   }
   WorkPosition() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get('UpdateDataBase/WorkPosition')
       .subscribe({
         next: (_) => {
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
         },
       });
   }
   RemovePerson() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get('UpdateDataBase/RemovePerson')
       .subscribe({
         next: (_) => {
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
         },
       });
   }

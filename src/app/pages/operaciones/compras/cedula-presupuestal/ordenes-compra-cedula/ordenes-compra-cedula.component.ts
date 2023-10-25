@@ -7,7 +7,6 @@ import {
   DynamicDialogRef,
 } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { CustomSwalService } from 'src/app/services/custom-swal.service';
 import { CustomToastService } from 'src/app/services/custom-toast.service';
 import { DataService } from 'src/app/services/data.service';
 import { OrdenCompraService } from 'src/app/services/orden-compra.service';
@@ -23,7 +22,6 @@ import OrdenCompraComponent from '../../orden-compra/orden-compra/orden-compra.c
   providers: [CustomToastService],
 })
 export default class OrdenesCompraCedulaComponent implements OnInit, OnDestroy {
-  private customSwalService = inject(CustomSwalService);
   private customToastService = inject(CustomToastService);
   private dataService = inject(DataService);
   public config = inject(DynamicDialogConfig);
@@ -42,7 +40,8 @@ export default class OrdenesCompraCedulaComponent implements OnInit, OnDestroy {
   }
 
   onLoadData() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get(
         `OrdenCompra/compraspresupuesto/${this.partidaPresupuestalId}/${this.cedulaPresupuestalId}`
@@ -50,12 +49,12 @@ export default class OrdenesCompraCedulaComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
-          this.customToastService.onShowError();
         },
       });
   }

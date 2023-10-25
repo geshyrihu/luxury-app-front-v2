@@ -4,7 +4,6 @@ import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable, Subscription } from 'rxjs';
 import {
-  CustomSwalService,
   CustomToastService,
   CustomerIdService,
   DataService,
@@ -23,7 +22,6 @@ import AddoreditDocumentoComponent from './addoredit-documento.component';
   providers: [DialogService, MessageService, CustomToastService],
 })
 export default class ListDocumentoComponent implements OnInit, OnDestroy {
-  public customSwalService = inject(CustomSwalService);
   public customToastService = inject(CustomToastService);
   public dataService = inject(DataService);
   public customerIdService = inject(CustomerIdService);
@@ -57,7 +55,8 @@ export default class ListDocumentoComponent implements OnInit, OnDestroy {
   }
 
   onLoadData() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get(
         'DocumentoCustomer/GetAll/' +
@@ -67,11 +66,13 @@ export default class ListDocumentoComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.customSwalService.onClose();
+          console.log('🚀 ~ pollon:', resp.body);
+          this.customToastService.onClose();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
         },
       });
   }
@@ -97,19 +98,19 @@ export default class ListDocumentoComponent implements OnInit, OnDestroy {
   }
 
   onDelete(id: number) {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .delete('DocumentoCustomer/' + id)
       .subscribe({
         next: (resp: any) => {
-          this.customToastService.onShowSuccess();
-          this.customSwalService.onClose();
           this.onLoadData();
           this.data = resp.body;
+          this.customToastService.onCloseToSuccess();
         },
         error: (err) => {
-          this.customToastService.onShowError();
-          this.customSwalService.onClose();
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
         },
       });

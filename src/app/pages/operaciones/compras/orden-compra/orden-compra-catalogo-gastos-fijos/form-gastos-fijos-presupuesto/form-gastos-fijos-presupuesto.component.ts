@@ -7,7 +7,6 @@ import { Subscription } from 'rxjs';
 import { CatalogoGastosFijosService } from 'src/app/services/catalogo-gastos-fijos.service';
 import {
   AuthService,
-  CustomSwalService,
   CustomToastService,
   CustomerIdService,
   DataService,
@@ -25,7 +24,6 @@ import PrimeNgModule from 'src/app/shared/prime-ng.module';
 export default class FormGastosFijosPresupuestoComponent
   implements OnInit, OnDestroy
 {
-  public customSwalService = inject(CustomSwalService);
   public customToastService = inject(CustomToastService);
   public dataService = inject(DataService);
   public authService = inject(AuthService);
@@ -52,7 +50,8 @@ export default class FormGastosFijosPresupuestoComponent
   }
 
   onLoadPresupuesto() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get(
         `OrdenCompraPresupuesto/GetAllForGastosFijos/${this.customerIdService.customerId}/${this.cedulaId}/${this.catalogoGastosFijosId}`
@@ -60,14 +59,13 @@ export default class FormGastosFijosPresupuestoComponent
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-
           this.onLoadPresupuestoAgregados();
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
-          this.customToastService.onShowError();
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
         },
       });
   }
@@ -79,19 +77,20 @@ export default class FormGastosFijosPresupuestoComponent
       dineroUsado: partidaPresupuestal.dineroUsado,
       catalogoGastosFijosId: this.catalogoGastosFijosId,
     };
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .post(`CatalogoGastosFijosPresupuesto`, model)
       .subscribe({
         next: () => {
           this.onLoadPresupuestoAgregados();
           this.onLoadPresupuesto();
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
-          this.customToastService.onShowError();
         },
       });
   }
@@ -113,20 +112,20 @@ export default class FormGastosFijosPresupuestoComponent
   }
 
   deletePresupuestoAgregado(id: number) {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .delete(`CatalogoGastosFijosPresupuesto/${id}`)
       .subscribe({
         next: () => {
-          this.customToastService.onShowSuccess();
           this.onLoadPresupuesto();
           this.onLoadPresupuestoAgregados();
-          this.customSwalService.onClose();
+          this.customToastService.onCloseToSuccess();
         },
         error: (err) => {
-          this.customToastService.onShowError();
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
         },
       });
   }

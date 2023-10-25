@@ -6,7 +6,6 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable, Subscription } from 'rxjs';
 import {
   AuthService,
-  CustomSwalService,
   CustomToastService,
   CustomerIdService,
   DataService,
@@ -33,7 +32,7 @@ export default class EntregaRecepcionClienteComponent
   public messageService = inject(MessageService);
   public dialogService = inject(DialogService);
   public viewPdfService = inject(ViewPdfService);
-  public customSwalService = inject(CustomSwalService);
+
   public route = inject(Router);
 
   customerId$: Observable<number> = this.customerIdService.getCustomerId$();
@@ -69,7 +68,8 @@ export default class EntregaRecepcionClienteComponent
     this.onLoadData();
   }
   onLoadData() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     // * Peticion para generar los items de entrega recepcion
     this.subRef$ = this.dataService
       .get('EntregaRecepcionCliente/GenerateData')
@@ -91,12 +91,12 @@ export default class EntregaRecepcionClienteComponent
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
-          this.customToastService.onShowError();
         },
       });
   }

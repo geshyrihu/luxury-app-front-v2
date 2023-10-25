@@ -19,7 +19,6 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import { IDestinatariosMailReporte } from 'src/app/interfaces/IDestinatariosMailReporte.interface';
 import {
-  CustomSwalService,
   CustomToastService,
   CustomerIdService,
   DataService,
@@ -45,7 +44,6 @@ export default class EnviarComunicadoComponent {
   public dialogService = inject(DialogService);
   public dataService = inject(DataService);
   public customerIdService = inject(CustomerIdService);
-  private customSwalService = inject(CustomSwalService);
 
   public animation: boolean = false;
 
@@ -134,17 +132,18 @@ export default class EnviarComunicadoComponent {
     let model = this.onCreateFormData();
     // Deshabilitar el botón al iniciar el envío del formulario
     this.submitting = true;
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
 
     this.subRef$ = this.dataService
       .post('SendEmail/SendComunicado', model)
       .subscribe({
         error: (err) => {
-          this.customToastService.onShowError();
-          console.log(err.error);
           // Habilitar el botón nuevamente al finalizar el envío del formulario
           this.submitting = false;
-          this.customSwalService.onClose();
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
+          console.log(err.error);
         },
       });
   }

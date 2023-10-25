@@ -13,7 +13,6 @@ import { ETypeMeeting } from 'src/app/enums/tipo-reunion.enum';
 import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
 import {
   AuthService,
-  CustomSwalService,
   CustomToastService,
   DataService,
   DateService,
@@ -52,7 +51,6 @@ export default class AddOrEditMeetingComponent implements OnInit, OnDestroy {
   private formBuilder = inject(FormBuilder);
   public messageService = inject(MessageService);
   public customToastService = inject(CustomToastService);
-  public customSwalService = inject(CustomSwalService);
 
   subRef$: Subscription;
 
@@ -93,32 +91,34 @@ export default class AddOrEditMeetingComponent implements OnInit, OnDestroy {
       const model: IMeetingDto = this.form.value;
 
       if (this.id !== 0) {
-        this.customSwalService.onLoading();
+        // Mostrar un mensaje de carga
+        this.customToastService.onLoading();
         this.subRef$ = this.dataService
           .put(`Meetings/${this.id}`, model)
           .subscribe({
             next: () => {
               this.onLoadData();
-              this.customSwalService.onClose();
+              this.customToastService.onClose();
             },
             error: (err) => {
+              // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+              this.customToastService.onCloseToError();
               console.log(err.error);
-              this.customToastService.onShowError();
-              this.customSwalService.onClose();
             },
           });
       } else {
-        this.customSwalService.onLoading();
+        // Mostrar un mensaje de carga
+        this.customToastService.onLoading();
         this.subRef$ = this.dataService.post(`Meetings`, model).subscribe({
           next: (resp: any) => {
             this.id = resp.body.id;
             this.onLoadData();
-            this.customSwalService.onClose();
+            this.customToastService.onClose();
           },
           error: (err) => {
+            // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+            this.customToastService.onCloseToError();
             console.log(err.error);
-            this.customToastService.onShowError();
-            this.customSwalService.onClose();
           },
         });
       }

@@ -8,7 +8,6 @@ import AddorEditMeetingSeguimientoComponent from 'src/app/pages/operaciones/junt
 import { SanitizeHtmlPipe } from 'src/app/pipes/sanitize-html.pipe';
 import {
   AuthService,
-  CustomSwalService,
   CustomToastService,
   DataService,
 } from 'src/app/services/common-services';
@@ -29,7 +28,7 @@ export default class LegalPendientesMinutaComponent
   public authService = inject(AuthService);
   public dialogService = inject(DialogService);
   public messageService = inject(MessageService);
-  public customSwalService = inject(CustomSwalService);
+
   public customToastService = inject(CustomToastService);
 
   data: any[] = [];
@@ -43,7 +42,8 @@ export default class LegalPendientesMinutaComponent
   }
 
   onLoadData() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get(
         `ContabilidadMinuta/ListaMinutaLegal/${this.authService.userTokenDto.infoUserAuthDto.applicationUserId}/${this.statusFiltro}`
@@ -51,12 +51,12 @@ export default class LegalPendientesMinutaComponent
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
-          this.customToastService.onShowError();
         },
       });
   }
@@ -103,19 +103,19 @@ export default class LegalPendientesMinutaComponent
   }
 
   onDeleteSeguimiento(id: number) {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .delete(`MeetingDertailsSeguimiento/${id}`)
       .subscribe({
         next: () => {
           this.onLoadData();
-          this.customSwalService.onClose();
-          this.customToastService.onShowSuccess();
+          this.customToastService.onCloseToSuccess();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
-          this.customToastService.onShowError();
         },
       });
   }

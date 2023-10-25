@@ -7,7 +7,6 @@ import { Subscription } from 'rxjs';
 import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
 import {
   AuthService,
-  CustomSwalService,
   CustomToastService,
   DataService,
   SelectItemService,
@@ -33,7 +32,6 @@ export default class ListCedulasPresupuestalesComponent
   private selectItemService = inject(SelectItemService);
   public messageService = inject(MessageService);
   public dialogService = inject(DialogService);
-  public customSwalService = inject(CustomSwalService);
 
   subRef$: Subscription;
 
@@ -65,18 +63,19 @@ export default class ListCedulasPresupuestalesComponent
     this.onLoadData();
   }
   onLoadData() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get(`CedulaPresupuestal/GetAllAsync/`)
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
-          this.customToastService.onShowError();
         },
       });
   }

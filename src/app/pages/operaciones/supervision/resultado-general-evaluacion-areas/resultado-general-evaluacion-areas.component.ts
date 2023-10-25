@@ -8,7 +8,6 @@ import { Subscription } from 'rxjs';
 import { EAreaMinutasDetalles } from 'src/app/enums/area-minutas-detalles.enum';
 import { EStatusTask } from 'src/app/enums/estatus.enum';
 import { IFechasFiltro } from 'src/app/interfaces/IFechasFiltro.interface';
-import { CustomSwalService } from 'src/app/services/custom-swal.service';
 import { CustomToastService } from 'src/app/services/custom-toast.service';
 import { DataService } from 'src/app/services/data.service';
 import { DateService } from 'src/app/services/date.service';
@@ -29,7 +28,7 @@ export default class EvaluacionAreasComponent implements OnInit, OnDestroy {
   public dialogService = inject(DialogService);
   public messageService = inject(MessageService);
   public rangoCalendarioService = inject(FiltroCalendarService);
-  public customSwalService = inject(CustomSwalService);
+
   public customToastService = inject(CustomToastService);
 
   fechaInicial: string = '';
@@ -53,18 +52,20 @@ export default class EvaluacionAreasComponent implements OnInit, OnDestroy {
     );
   }
   onLoadData(fechaInicio: string, fechaFinal: string) {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get(`ResumenGeneral/EvaluacionAreas/${fechaInicio}/${fechaFinal}`)
       .subscribe({
         next: (resp: any) => {
+          // Cuando se obtienen los datos con éxito, actualizar la variable 'data' y ocultar el mensaje de carga
           this.data = resp.body;
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
           console.log(err.error);
-          this.customToastService.onShowError();
-          this.customSwalService.onClose();
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
         },
       });
   }

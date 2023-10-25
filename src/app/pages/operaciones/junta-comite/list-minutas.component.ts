@@ -12,7 +12,6 @@ import { SanitizeHtmlPipe } from 'src/app/pipes/sanitize-html.pipe';
 import { ETypeMeetingPipe } from 'src/app/pipes/typeMeeting.pipe';
 import {
   AuthService,
-  CustomSwalService,
   CustomToastService,
   CustomerIdService,
   DataService,
@@ -54,7 +53,7 @@ export default class ListMinutasComponent implements OnInit, OnDestroy {
   public messageService = inject(MessageService);
   public reportService = inject(ReportService);
   public route = inject(Router);
-  public customSwalService = inject(CustomSwalService);
+
   public customToastService = inject(CustomToastService);
 
   public EnumTypeMeeting = ETypeMeeting;
@@ -75,7 +74,8 @@ export default class ListMinutasComponent implements OnInit, OnDestroy {
   }
   onLoadData(tipoJunta: number) {
     this.tipoJunta = tipoJunta;
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get<IMeetingIndexDto[]>(
         `Meetings/GetAll/${this.customerIdService.customerId}/${this.tipoJunta}`
@@ -83,12 +83,12 @@ export default class ListMinutasComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
-          this.customToastService.onShowError();
         },
       });
   }
@@ -113,36 +113,34 @@ export default class ListMinutasComponent implements OnInit, OnDestroy {
       });
   }
   onDelete(data: any) {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService.delete('Meetings/' + data.id).subscribe({
       next: () => {
-        this.customToastService.onShowSuccess();
         this.onLoadData(this.tipoJunta);
-        this.customSwalService.onClose();
+        this.customToastService.onCloseToSuccess();
       },
       error: (err) => {
-        this.customToastService.onShowError();
-        this.customSwalService.onClose();
+        // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+        this.customToastService.onCloseToError();
         console.log(err.error);
       },
     });
   }
 
   onSendEmailMeeting(meetingId: number) {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
-      .get<IMeetingIndexDto[]>(
-        `SendEmail/Meeting/${meetingId}/${this.authService.infoUserAuthDto.applicationUserId}`
-      )
+      .get<IMeetingIndexDto[]>(`SendEmail/Meeting/${meetingId}`)
       .subscribe({
         next: () => {
-          this.customToastService.onShowSuccess();
-          this.customSwalService.onClose();
+          this.customToastService.onCloseToSuccess();
         },
         error: (err) => {
-          this.customToastService.onShowError();
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
         },
       });
   }
@@ -210,7 +208,8 @@ export default class ListMinutasComponent implements OnInit, OnDestroy {
     this.route.navigate(['operaciones/junta-comite/resumen-minuta/' + id]);
   }
   onSendEmailResponsible(id: number, eAreaMinutasDetalles: number) {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get(
         `Meetings/SendEmailResponsible/${id}/${this.customerIdService.getcustomerId()}/${eAreaMinutasDetalles}/${
@@ -218,13 +217,12 @@ export default class ListMinutasComponent implements OnInit, OnDestroy {
         }`
       )
       .subscribe({
-        next: (resp: any) => {
-          this.customSwalService.onClose();
-          this.customToastService.onShowSuccess();
+        next: () => {
+          this.customToastService.onCloseToSuccess();
         },
         error: (err) => {
-          this.customToastService.onShowError();
-          this.customSwalService.onClose();
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
         },
       });
@@ -257,34 +255,34 @@ export default class ListMinutasComponent implements OnInit, OnDestroy {
   }
 
   onDeleteSeguimiento(id: number) {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .delete(`MeetingDertailsSeguimiento/${id}`)
       .subscribe({
         next: () => {
-          this.customToastService.onShowSuccess();
           this.onLoadData(this.tipoJunta);
-          this.customSwalService.onClose();
+          this.customToastService.onCloseToSuccess();
         },
         error: (err) => {
-          this.customToastService.onShowError();
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
         },
       });
   }
 
   onDeleteMeetingDetail(id: number) {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService.delete(`MeetingsDetails/${id}`).subscribe({
       next: () => {
-        this.customToastService.onShowSuccess();
-        this.customSwalService.onClose();
+        this.customToastService.onCloseToSuccess();
         this.onLoadData(this.tipoJunta);
       },
       error: (err) => {
-        this.customToastService.onShowError();
-        this.customSwalService.onClose();
+        // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+        this.customToastService.onCloseToError();
         console.log(err.error);
       },
     });

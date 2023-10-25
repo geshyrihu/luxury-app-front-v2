@@ -10,7 +10,6 @@ import CardEmployeeComponent from 'src/app/pages/operaciones/directorios/emplead
 import {
   AuthService,
   CustomerIdService,
-  CustomSwalService,
   CustomToastService,
   DataService,
   DateService,
@@ -54,7 +53,7 @@ export default class ListTicketComponent implements OnInit, OnDestroy {
   public ticketFilterService = inject(TicketFilterService);
   public reportService = inject(ReportService);
   public router = inject(Router);
-  public customSwalService = inject(CustomSwalService);
+
   public customToastService = inject(CustomToastService);
 
   base_urlImg = '';
@@ -85,20 +84,20 @@ export default class ListTicketComponent implements OnInit, OnDestroy {
     this.base_urlImg = `${
       environment.base_urlImg
     }customers/${this.ticketFilterService.getIdCustomer()}/report/`;
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .post<IFilterTicket>('Ticket', this.ticketFilterService.getfilterTicket)
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-
           this.dataCompleta = resp.body;
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
-          this.customToastService.onShowError();
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
         },
       });
   }
@@ -215,7 +214,8 @@ export default class ListTicketComponent implements OnInit, OnDestroy {
   }
 
   onDelete(item: any) {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .delete(
         `Ticket/onDelete/${item.id}/${this.authService.userTokenDto.infoUserAuthDto.applicationUserId}`
@@ -223,13 +223,12 @@ export default class ListTicketComponent implements OnInit, OnDestroy {
       .subscribe({
         next: () => {
           this.onLoadData();
-          this.customSwalService.onClose();
-          this.customToastService.onShowSuccess();
+          this.customToastService.onCloseToSuccess();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
-          this.customToastService.onShowError();
         },
       });
   }
@@ -256,17 +255,18 @@ export default class ListTicketComponent implements OnInit, OnDestroy {
     });
   }
   onUpdateStateTicket(item: any) {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get(
         `Ticket/ActualizarStateEnviarReporte/${item.id}/${item.folioReporte}`
       )
       .subscribe({
         next: () => {
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
           console.log(err.error);
         },
       });

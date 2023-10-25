@@ -4,7 +4,6 @@ import { MessageService } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import {
-  CustomSwalService,
   CustomToastService,
   DataService,
 } from 'src/app/services/common-services';
@@ -25,7 +24,6 @@ export default class AddOrEditEmployeeOnlyImgComponent
   public dataService = inject(DataService);
   public ref = inject(DynamicDialogRef);
   public customToastService = inject(CustomToastService);
-  private customSwalService = inject(CustomSwalService);
 
   is_role: boolean = false;
   submitting: boolean = false;
@@ -78,7 +76,8 @@ export default class AddOrEditEmployeeOnlyImgComponent
 
     // Deshabilitar el botón al iniciar el envío del formulario
     this.submitting = true;
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
 
     this.subRef$ = this.dataService
       .put('Employees/updateImg/' + this.id, formData)
@@ -90,14 +89,14 @@ export default class AddOrEditEmployeeOnlyImgComponent
           } else {
             return false;
           }
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
-          this.customToastService.onShowError();
-          console.log(err.error);
           // Habilitar el botón nuevamente al finalizar el envío del formulario
           this.submitting = false;
-          this.customSwalService.onClose();
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
+          console.log(err.error);
         },
       });
   }

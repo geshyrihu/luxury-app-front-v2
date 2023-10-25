@@ -5,7 +5,6 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import {
   AuthService,
-  CustomSwalService,
   CustomToastService,
   DataService,
 } from 'src/app/services/common-services';
@@ -21,7 +20,6 @@ import AddOrEditEmailDataComponent from './add-or-edit-email-data.component';
   providers: [DialogService, MessageService, CustomToastService],
 })
 export default class ListEmailDataComponent {
-  public customSwalService = inject(CustomSwalService);
   public customToastService = inject(CustomToastService);
   public authService = inject(AuthService);
   private dataService = inject(DataService);
@@ -37,30 +35,31 @@ export default class ListEmailDataComponent {
   }
 
   onLoadData() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService.get('EmailData/GetAsyncAll').subscribe({
       next: (resp: any) => {
         this.data = resp.body;
-        this.customSwalService.onClose();
+        this.customToastService.onClose();
       },
       error: (err) => {
+        // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+        this.customToastService.onCloseToError();
         console.log(err.error);
-        this.customSwalService.onClose();
-        this.customToastService.onShowError();
       },
     });
   }
   onDelete(id: number) {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService.delete(`EmailData/${id}`).subscribe({
       next: () => {
-        this.customToastService.onShowSuccess();
-        this.customSwalService.onClose();
         this.onLoadData();
+        this.customToastService.onCloseToSuccess();
       },
       error: (err) => {
-        this.customToastService.onShowError();
-        this.customSwalService.onClose();
+        // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+        this.customToastService.onCloseToError();
         console.log(err.error);
       },
     });
@@ -85,24 +84,20 @@ export default class ListEmailDataComponent {
   }
 
   onSendTestEmail(applicationUserId: string) {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
 
     this.subRef$ = this.dataService
-      .get(
-        'SendEmail/SendTestMail/' +
-          applicationUserId +
-          '/' +
-          this.authService.infoUserAuthDto.email
-      )
+      .get('SendEmail/SendTestMail/' + applicationUserId)
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
-          this.customToastService.onShowError();
         },
       });
   }

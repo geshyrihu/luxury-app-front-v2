@@ -1,0 +1,7 @@
+{
+    "/api": {
+      "target": "http://luxurybuildingapp.com:9090",
+      "secure": false
+    }
+  }
+  

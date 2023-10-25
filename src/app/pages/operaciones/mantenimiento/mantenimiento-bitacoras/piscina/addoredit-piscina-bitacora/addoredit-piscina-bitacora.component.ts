@@ -10,7 +10,6 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import {
   AuthService,
-  CustomSwalService,
   CustomToastService,
   CustomerIdService,
   DataService,
@@ -39,7 +38,7 @@ export default class AddoreditPiscinaBitacoraComponent
   public config = inject(DynamicDialogConfig);
   public ref = inject(DynamicDialogRef);
   public customerIdService = inject(CustomerIdService);
-  private customSwalService = inject(CustomSwalService);
+
   private customToastService = inject(CustomToastService);
 
   submitting: boolean = false;
@@ -101,21 +100,22 @@ export default class AddoreditPiscinaBitacoraComponent
     }
     // Deshabilitar el botón al iniciar el envío del formulario
     this.submitting = true;
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     if (this.id === 0) {
       this.subRef$ = this.dataService
         .post('piscinabitacora', this.form.value)
         .subscribe({
           next: () => {
-            this.customSwalService.onClose();
+            this.customToastService.onClose();
             this.ref.close(true);
           },
           error: (err) => {
             console.log(err.error);
             this.customToastService.onShowError();
             // Habilitar el botón nuevamente al finalizar el envío del formulario
+            this.customToastService.onClose();
             this.submitting = false;
-            this.customSwalService.onClose();
           },
         });
     } else {
@@ -123,15 +123,15 @@ export default class AddoreditPiscinaBitacoraComponent
         .put(`piscinabitacora/${this.id}`, this.form.value)
         .subscribe({
           next: () => {
-            this.customSwalService.onClose();
+            this.customToastService.onClose();
             this.ref.close(true);
           },
           error: (err) => {
             console.log(err.error);
             this.customToastService.onShowError();
             // Habilitar el botón nuevamente al finalizar el envío del formulario
+            this.customToastService.onClose();
             this.submitting = false;
-            this.customSwalService.onClose();
           },
         });
     }

@@ -7,7 +7,6 @@ import { ToastModule } from 'primeng/toast';
 import { Subscription } from 'rxjs';
 import { IRolesDto } from 'src/app/interfaces/IRolesDto.interface';
 import {
-  CustomSwalService,
   CustomToastService,
   DataService,
 } from 'src/app/services/common-services';
@@ -22,7 +21,6 @@ import {
 export default class UpdateRoleComponent implements OnInit, OnDestroy {
   private dataService = inject(DataService);
   private customToastService = inject(CustomToastService);
-  public customSwalService = inject(CustomSwalService);
 
   roles: IRolesDto[] = [];
   rolesUpdate: IRolesDto[] = [];
@@ -45,17 +43,17 @@ export default class UpdateRoleComponent implements OnInit, OnDestroy {
   }
 
   updateRole(roles: any) {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
 
     const url = `Accounts/AddRoleToUser/${this.applicationUserId}`;
     this.subRef$ = this.dataService.post(url, roles).subscribe({
       next: () => {
-        this.customToastService.onShowSuccess();
-        this.customSwalService.onClose();
+        this.customToastService.onCloseToSuccess();
       },
       error: (err) => {
-        this.customToastService.onShowError();
-        this.customSwalService.onClose();
+        // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+        this.customToastService.onCloseToError();
         console.log(err.error);
       },
     });

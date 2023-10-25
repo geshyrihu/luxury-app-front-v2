@@ -9,6 +9,20 @@ export default [
       ),
   },
   {
+    path: 'presupuesto-individual/:id',
+    loadComponent: () =>
+      import(
+        'src/app/pages/contabilidad/presupuesto-edition/presupuesto-individual.component'
+      ),
+  },
+  {
+    path: 'presupuestos',
+    loadComponent: () =>
+      import(
+        'src/app/pages/contabilidad/presupuesto-edition/list-presupuesto/list-presupuesto.component'
+      ),
+  },
+  {
     path: 'solicitudes-compra',
     loadComponent: () =>
       import(

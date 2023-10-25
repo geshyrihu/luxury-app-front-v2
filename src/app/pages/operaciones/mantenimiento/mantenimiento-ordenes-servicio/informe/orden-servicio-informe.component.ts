@@ -19,7 +19,7 @@
 // export default class OrdenServicioInformeComponent implements OnInit, OnDestroy {
 //   public dataService = inject(DataService);
 //   public dateService = inject(DateService);
-//   public customSwalService = inject(CustomSwalService);
+//
 //   public customToastService = inject(CustomToastService);
 //   public messageService = inject(MessageService);
 //   public rutaActiva = inject(ActivatedRoute);
@@ -39,7 +39,8 @@
 //   }
 
 //   onLoadData() {
-//     this.customSwalService.onLoading();
+//     // Mostrar un mensaje de carga
+this.customToastService.onLoading();
 //     this.subRef$ = this.dataService
 //       .get(
 //         `ServiceOrder/Informe/${this.customerId}/${this.monthId}/${this.yearId}`

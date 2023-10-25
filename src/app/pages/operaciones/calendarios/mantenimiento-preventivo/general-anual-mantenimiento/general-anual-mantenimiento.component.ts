@@ -8,7 +8,6 @@ import { EMonthPipe } from 'src/app/pipes/month.pipe';
 import { ERecurrencePipe } from 'src/app/pipes/recurrence.pipe';
 import { SanitizeHtmlPipe } from 'src/app/pipes/sanitize-html.pipe';
 import {
-  CustomSwalService,
   CustomToastService,
   CustomerIdService,
   DataService,
@@ -32,7 +31,6 @@ import { environment } from 'src/environments/environment';
 export default class GeneralAnualMantenimientoComponent
   implements OnInit, OnDestroy
 {
-  public customSwalService = inject(CustomSwalService);
   public dataService = inject(DataService);
   public customerIdService = inject(CustomerIdService);
   public customToastService = inject(CustomToastService);
@@ -71,7 +69,8 @@ export default class GeneralAnualMantenimientoComponent
   }
   onLoadData() {
     this.data = [];
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get(
         `MaintenanceCalendars/GeneralMantenimiento/${this.customerIdService.customerId}/${this.providerId}`
@@ -79,11 +78,12 @@ export default class GeneralAnualMantenimientoComponent
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
         },
       });
   }

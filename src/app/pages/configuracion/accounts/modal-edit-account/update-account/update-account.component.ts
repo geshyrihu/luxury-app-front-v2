@@ -14,7 +14,6 @@ import { IEditarCuentaDto } from 'src/app/interfaces/IEditarCuentaDto.interface'
 import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
 import {
   AuthService,
-  CustomSwalService,
   CustomToastService,
   CustomerIdService,
   DataService,
@@ -44,7 +43,6 @@ export default class UpdateAccountComponent implements OnInit, OnDestroy {
   private customToastService = inject(CustomToastService);
   public authService = inject(AuthService);
   public customerIdService = inject(CustomerIdService);
-  private customSwalService = inject(CustomSwalService);
 
   cb_customer: ISelectItemDto[] = this.selectItemService.customer;
   cb_employee: ISelectItemDto[] = !this.authService.onValidateRoles([
@@ -78,7 +76,9 @@ export default class UpdateAccountComponent implements OnInit, OnDestroy {
 
   onLoadData() {
     this.subRef$ = this.dataService
-      .get<IEditarCuentaDto>(`Accounts/EditarCuenta/${this.applicationUserId}`)
+      .get<IEditarCuentaDto>(
+        `Accounts/GetApplicationUser/${this.applicationUserId}`
+      )
       .subscribe({
         next: (resp: any) => {
           this.form.patchValue(resp.body);
@@ -108,22 +108,21 @@ export default class UpdateAccountComponent implements OnInit, OnDestroy {
 
     this.subRef$ = this.dataService
       .put<IEditarCuentaDto>(
-        `Accounts/EditarCuenta/${this.applicationUserId}`,
+        `Accounts/UpdateApplicationUser/${this.applicationUserId}`,
         this.form.value
       )
       .subscribe({
         next: () => {
           this.onLoadData();
-          this.customSwalService.onClose();
-          this.customToastService.onShowSuccess();
           this.submitting = false;
+          this.customToastService.onCloseToSuccess();
         },
         error: (err) => {
-          this.customToastService.onShowError();
-          console.log(err.error);
           // Habilitar el botón nuevamente al finalizar el envío del formulario
           this.submitting = false;
-          this.customSwalService.onClose();
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
+          console.log(err.error);
         },
       });
   }

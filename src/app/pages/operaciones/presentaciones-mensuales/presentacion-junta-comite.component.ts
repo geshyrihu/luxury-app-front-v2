@@ -6,7 +6,6 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable, Subscription } from 'rxjs';
 import {
   AuthService,
-  CustomSwalService,
   CustomToastService,
   CustomerIdService,
   DataService,
@@ -43,7 +42,7 @@ export default class PresentacionJuntaComiteComponent
   public dateService = inject(DateService);
   public messageService = inject(MessageService);
   public route = inject(Router);
-  public customSwalService = inject(CustomSwalService);
+
   public customToastService = inject(CustomToastService);
   public dialogService = inject(DialogService);
 
@@ -126,7 +125,8 @@ export default class PresentacionJuntaComiteComponent
     }
   }
   onLoadData(): void {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get(
         `PresentacionJuntaComite/GetAll/${this.customerIdService.getcustomerId()}`
@@ -134,11 +134,12 @@ export default class PresentacionJuntaComiteComponent
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
         },
       });
   }
@@ -378,14 +379,14 @@ export default class PresentacionJuntaComiteComponent
     }
   }
   enviarMailTesorero(idJunta: number) {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get('SendEmail/EnviarEstadosFinancierosTesorero/' + idJunta)
       .subscribe({
         next: () => {
-          this.customToastService.onShowSuccess();
           this.onLoadData();
-          this.customSwalService.onClose();
+          this.customToastService.onCloseToSuccess();
         },
         error: (err) => {
           this.customToastService.onShowError();
@@ -395,14 +396,14 @@ export default class PresentacionJuntaComiteComponent
   }
 
   enviarMailPresentacionComite(idJunta: number) {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get('SendEmail/PresentacionFinalComite/' + idJunta)
       .subscribe({
         next: () => {
-          this.customToastService.onShowSuccess();
           this.onLoadData();
-          this.customSwalService.onClose();
+          this.customToastService.onCloseToSuccess();
         },
         error: (err) => {
           this.customToastService.onShowError();

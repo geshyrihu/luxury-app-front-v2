@@ -9,7 +9,6 @@ import { Observable, Subscription } from 'rxjs';
 import { IChartType } from 'src/app/interfaces/IChartType.interface';
 import { IDataSet } from 'src/app/interfaces/IDataSet.interface';
 import { IFechasFiltro } from 'src/app/interfaces/IFechasFiltro.interface';
-import { CustomSwalService } from 'src/app/services/custom-swal.service';
 import { CustomToastService } from 'src/app/services/custom-toast.service';
 import { DataService } from 'src/app/services/data.service';
 import { DateService } from 'src/app/services/date.service';
@@ -28,7 +27,7 @@ export default class ChartLecturaComponent implements OnInit, OnDestroy {
   public dateService = inject(DateService);
   public dialogService = inject(DialogService);
   public filtroCalendarService = inject(FiltroCalendarService);
-  public customSwalService = inject(CustomSwalService);
+
   public customToastService = inject(CustomToastService);
 
   subRef$: Subscription;
@@ -85,7 +84,8 @@ export default class ChartLecturaComponent implements OnInit, OnDestroy {
   }
 
   onDataGraficoDiaria() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
 
     this.subRef$ = this.dataService
       .get(
@@ -101,17 +101,19 @@ export default class ChartLecturaComponent implements OnInit, OnDestroy {
             this.data.labels,
             this.data.data
           );
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
         },
       });
   }
 
   onDataGraficoMensual(fechaInicial: string, fechaFinal: string) {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
 
     this.subRef$ = this.dataService
       .get(
@@ -127,11 +129,12 @@ export default class ChartLecturaComponent implements OnInit, OnDestroy {
             this.data.labels,
             this.data.data
           );
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
         },
       });
   }

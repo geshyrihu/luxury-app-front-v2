@@ -4,7 +4,7 @@ import { AuthService } from './auth.service';
 import { CaratulaFondeoService } from './caratula-fondeo.service';
 import { CatalogoGastosFijosService } from './catalogo-gastos-fijos.service';
 import { CronogramaMantenimientoService } from './cronograma-mantenimiento.service';
-import { CustomSwalService } from './custom-swal.service';
+// import { CustomSwalService } from './custom-swal.service';
 import { CustomToastService } from './custom-toast.service';
 import { CustomerIdService } from './customer-id.service';
 import { DataService } from './data.service';
@@ -30,7 +30,7 @@ export {
   CaratulaFondeoService,
   CatalogoGastosFijosService,
   CronogramaMantenimientoService,
-  CustomSwalService,
+  // CustomSwalService,
   CustomToastService,
   CustomerIdService,
   DataFilterService,
@@ -52,7 +52,7 @@ export {
   TicketFilterService,
 };
 
-// public customSwalService = inject(CustomSwalService);
+//
 // public customToastService = inject(CustomToastService);
 // public authService = inject(AuthService);
 // private dataService = inject(DataService);

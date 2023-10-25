@@ -7,9 +7,10 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import {
-  CustomSwalService,
+  CustomToastService,
   DataService,
   SecurityService,
 } from 'src/app/services/common-services';
@@ -25,6 +26,7 @@ import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.mod
     CustomInputModule,
     ComponentsModule,
   ],
+  providers: [MessageService, CustomToastService],
 })
 export default class LoginComponent implements OnInit, OnDestroy {
   private dataService = inject(DataService);
@@ -32,7 +34,7 @@ export default class LoginComponent implements OnInit, OnDestroy {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private securityService = inject(SecurityService);
-  private customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
 
   fieldTextType!: boolean;
   form: FormGroup;
@@ -52,7 +54,8 @@ export default class LoginComponent implements OnInit, OnDestroy {
         return;
       });
     }
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .post('Auth/login', this.form.value)
       .subscribe({
@@ -60,12 +63,12 @@ export default class LoginComponent implements OnInit, OnDestroy {
           this.onRemember(this.form.get('remember').value);
           this.router.navigateByUrl(localStorage.getItem('currentUrl'));
           this.securityService.setAuthData(resp.body.token);
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
           console.log(err.error.errors);
-          this.customSwalService.onClose();
-          this.customSwalService.onLoadingError(err.error['description']);
+          this.customToastService.onClose();
+          this.customToastService.onLoadingError(err.error['description']);
         },
       });
   }

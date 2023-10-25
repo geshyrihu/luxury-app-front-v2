@@ -8,7 +8,6 @@ import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
 import { IAccountDto } from 'src/app/interfaces/account-dto.interface';
 import CardEmployeeComponent from 'src/app/pages/operaciones/directorios/empleados/card-employee/card-employee.component';
 import PhoneFormatPipe from 'src/app/pipes/phone-format.pipe';
-import { CustomSwalService } from 'src/app/services/custom-swal.service';
 import { CustomToastService } from 'src/app/services/custom-toast.service';
 import { DataService } from 'src/app/services/data.service';
 import { DataFilterService } from 'src/app/services/dataFilter.service';
@@ -38,7 +37,7 @@ export default class ListAccountComponent implements OnInit, OnDestroy {
   private dataService = inject(DataService);
   public dialogService = inject(DialogService);
   public messageService = inject(MessageService);
-  public customSwalService = inject(CustomSwalService);
+
   public customToastService = inject(CustomToastService);
   public dataFilterService = inject(DataFilterService);
 
@@ -120,17 +119,18 @@ export default class ListAccountComponent implements OnInit, OnDestroy {
   }
 
   onLoadData(): void {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get<IAccountDto[]>(`Accounts/GetAll`)
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
-          this.customToastService.onShowError();
-          this.customSwalService.onClose();
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
         },
       });

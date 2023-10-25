@@ -3,7 +3,6 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
-import { CustomSwalService } from 'src/app/services/custom-swal.service';
 import { CustomToastService } from 'src/app/services/custom-toast.service';
 import { DataService } from 'src/app/services/data.service';
 import { SelectItemService } from 'src/app/services/select-item.service';
@@ -17,7 +16,6 @@ import { environment } from 'src/environments/environment';
   providers: [MessageService, CustomToastService],
 })
 export default class OrdenCompraPdfComponent implements OnInit, OnDestroy {
-  public customSwalService = inject(CustomSwalService);
   public customToastService = inject(CustomToastService);
   public dataService = inject(DataService);
   public routeActive = inject(ActivatedRoute);
@@ -46,7 +44,8 @@ export default class OrdenCompraPdfComponent implements OnInit, OnDestroy {
   }
 
   onLoadData() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get(`ordencompra/Pdf/${this.ordenCompraId}`)
       .subscribe({
@@ -79,11 +78,11 @@ export default class OrdenCompraPdfComponent implements OnInit, OnDestroy {
           this.subtotal = subTotal;
 
           this.total = this.subtotal + this.iva - this.retencionIva;
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
-          this.customToastService.onShowError();
-          this.customSwalService.onClose();
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
         },
       });
@@ -113,12 +112,12 @@ export default class OrdenCompraPdfComponent implements OnInit, OnDestroy {
           for (let n of this.ordenCompraDetalle) {
             this.total += n.total;
           }
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
-          this.customToastService.onShowError();
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
         },
       });
   }

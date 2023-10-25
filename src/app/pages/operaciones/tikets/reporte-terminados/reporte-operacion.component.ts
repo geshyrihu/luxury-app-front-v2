@@ -6,7 +6,6 @@ import { Observable, Subscription } from 'rxjs';
 import { IFilterTicket } from 'src/app/interfaces/IFilterTicket.interface';
 import {
   AuthService,
-  CustomSwalService,
   CustomToastService,
   CustomerIdService,
   DataService,
@@ -24,7 +23,6 @@ import { environment } from 'src/environments/environment';
   providers: [CustomToastService, MessageService],
 })
 export default class ReporteOperacionComponent implements OnInit, OnDestroy {
-  public customSwalService = inject(CustomSwalService);
   public customToastService = inject(CustomToastService);
   public authService = inject(AuthService);
   public reportService = inject(ReportService);
@@ -55,7 +53,8 @@ export default class ReporteOperacionComponent implements OnInit, OnDestroy {
     });
   }
   onLoadData() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.urlImg = `${environment.base_urlImg}customers/${this.ticketFilterService.filterTicket.customer}/report/`;
 
     this.subRef$ = this.dataService
@@ -66,12 +65,12 @@ export default class ReporteOperacionComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
-          this.customToastService.onShowError();
         },
       });
   }

@@ -3,6 +3,7 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { DialogModule } from 'primeng/dialog';
 import { EditorModule } from 'primeng/editor';
 import { ImageModule } from 'primeng/image';
+import { InputTextModule } from 'primeng/inputtext';
 import { MenuModule } from 'primeng/menu';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { TableModule } from 'primeng/table';
@@ -17,6 +18,7 @@ import { ToastModule } from 'primeng/toast';
     ImageModule,
     MenuModule,
     MultiSelectModule,
+    InputTextModule,
   ],
   exports: [
     EditorModule,
@@ -27,6 +29,7 @@ import { ToastModule } from 'primeng/toast';
     ImageModule,
     MenuModule,
     MultiSelectModule,
+    InputTextModule,
   ],
 })
 export default class PrimeNgModule {}

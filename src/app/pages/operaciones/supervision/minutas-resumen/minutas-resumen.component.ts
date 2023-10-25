@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { TableModule } from 'primeng/table';
 import { Subscription } from 'rxjs';
-import { CustomSwalService } from 'src/app/services/custom-swal.service';
+import { CustomToastService } from 'src/app/services/custom-toast.service';
 import { DataService } from 'src/app/services/data.service';
 import { DateService } from 'src/app/services/date.service';
 import { PeriodoMonthService } from 'src/app/services/periodo-month.service';
@@ -15,7 +16,7 @@ import FiltroMinutasAreaComponent from '../filtro-minutas-area/filtro-minutas-ar
 @Component({
   selector: 'app-minutas-resumen',
   templateUrl: './minutas-resumen.component.html',
-  providers: [DialogService],
+  providers: [DialogService, MessageService, CustomToastService],
   standalone: true,
   imports: [
     ComponentsModule,
@@ -26,12 +27,12 @@ import FiltroMinutasAreaComponent from '../filtro-minutas-area/filtro-minutas-ar
   ],
 })
 export default class MinutasResumenComponent implements OnInit, OnDestroy {
-  public dateService = inject(DateService);
-  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
   public dataService = inject(DataService);
+  public dateService = inject(DateService);
   public dialogService = inject(DialogService);
-  public selectItemService = inject(SelectItemService);
   public periodoMonthService = inject(PeriodoMonthService);
+  public selectItemService = inject(SelectItemService);
   ref: DynamicDialogRef;
   cb_customers: any[] = [];
   generalMinutas: any[] = [];
@@ -59,13 +60,17 @@ export default class MinutasResumenComponent implements OnInit, OnDestroy {
       this.dateService.getDateFormat(this.periodoMonthService.getPeriodoInicio),
       this.dateService.getDateFormat(this.periodoMonthService.getPeriodoFin)
     );
+
     this.periodo = this.dateService.getNameMontYear(
       this.periodoMonthService.fechaInicial
     );
   }
 
   onLoadData(fehcaInicio: string, fechaFinal: string) {
-    this.customSwalService.onLoading();
+    console.log('🚀 ~ fechaFinal:', fechaFinal);
+    console.log('🚀 ~ fehcaInicio:', fehcaInicio);
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get(
         `ResumenGeneral/ResumenMinutasGeneralLista/${fehcaInicio}/${fechaFinal}`
@@ -73,12 +78,13 @@ export default class MinutasResumenComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (resp: any) => {
           this.generalMinutas = resp.body;
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
 
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
         },
       });
     this.subRef$ = this.dataService
@@ -88,11 +94,12 @@ export default class MinutasResumenComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (resp: any) => {
           this.generalMinutasGrupo = resp.body;
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
         },
       });
   }

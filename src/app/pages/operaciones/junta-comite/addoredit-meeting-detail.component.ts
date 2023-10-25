@@ -7,7 +7,6 @@ import { Subscription } from 'rxjs';
 import { EAreaMinutasDetallesPipe } from 'src/app/pipes/area-minuta-detalles.pipe';
 import { SanitizeHtmlPipe } from 'src/app/pipes/sanitize-html.pipe';
 import { EStatusPipe } from 'src/app/pipes/status.pipe';
-import { CustomSwalService } from 'src/app/services/custom-swal.service';
 import { CustomToastService } from 'src/app/services/custom-toast.service';
 import { DataService } from 'src/app/services/data.service';
 import { DateService } from 'src/app/services/date.service';
@@ -28,7 +27,6 @@ import { DateService } from 'src/app/services/date.service';
 export default class AddOrEditMeetingDetailComponent
   implements OnInit, OnDestroy
 {
-  public customSwalService = inject(CustomSwalService);
   public customToastService = inject(CustomToastService);
   public config = inject(DynamicDialogConfig);
   public dataService = inject(DataService);
@@ -54,18 +52,19 @@ export default class AddOrEditMeetingDetailComponent
     return this.dateService.getDateFormat(item);
   }
   onLoadData() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get(`MeetingsDetails/DetallesFiltro/${this.meetingId}/${this.status}`)
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
-          this.customToastService.onShowError();
         },
       });
   }

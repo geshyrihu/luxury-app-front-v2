@@ -17,7 +17,6 @@ import { IFilterTicket } from 'src/app/interfaces/IFilterTicket.interface';
 import {
   AuthService,
   CustomerIdService,
-  CustomSwalService,
   CustomToastService,
   DataService,
   DateService,
@@ -53,7 +52,6 @@ export default class AddoreditTicketComponent implements OnInit, OnDestroy {
   public authService = inject(AuthService);
   public config = inject(DynamicDialogConfig);
   public ref = inject(DynamicDialogRef);
-  public customSwalService = inject(CustomSwalService);
 
   subRef$: Subscription;
 
@@ -181,19 +179,19 @@ export default class AddoreditTicketComponent implements OnInit, OnDestroy {
 
   onticketTerminado(status: any, model: any) {
     // Deshabilitar el botón al iniciar el envío del formulario
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .put(`Ticket/${this.id}/${status}`, model)
       .subscribe({
         next: () => {
           this.ref.close(true);
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
-          this.customToastService.onShowError();
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          // Habilitar el botón nuevamente al finalizar el envío del formulario
-          this.customSwalService.onClose();
         },
       });
   }
@@ -211,20 +209,21 @@ export default class AddoreditTicketComponent implements OnInit, OnDestroy {
     const model = this.createFormData(this.form.value);
     // Deshabilitar el botón al iniciar el envío del formulario
     this.submitting = true;
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
 
     if (this.id === 0) {
       this.subRef$ = this.dataService.post(`Ticket/Create`, model).subscribe({
         next: () => {
           this.ref.close(true);
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
-          console.log(err.error);
-          this.customToastService.onShowError();
           // Habilitar el botón nuevamente al finalizar el envío del formulario
           this.submitting = false;
-          this.customSwalService.onClose();
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
+          console.log(err.error);
         },
       });
     } else {
@@ -232,15 +231,15 @@ export default class AddoreditTicketComponent implements OnInit, OnDestroy {
         .put(`Ticket/UpdateInfo/${this.id}`, model)
         .subscribe({
           next: () => {
-            this.customSwalService.onClose();
             this.ref.close(true);
+            this.customToastService.onClose();
           },
           error: (err) => {
-            console.log(err.error);
-            this.customToastService.onShowError();
             // Habilitar el botón nuevamente al finalizar el envío del formulario
             this.submitting = false;
-            this.customSwalService.onClose();
+            // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+            this.customToastService.onCloseToError();
+            console.log(err.error);
           },
         });
     }

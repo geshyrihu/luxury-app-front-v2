@@ -6,7 +6,6 @@ import { MessageService } from 'primeng/api';
 import { TableModule } from 'primeng/table';
 import { Subscription } from 'rxjs';
 import { SanitizeHtmlPipe } from 'src/app/pipes/sanitize-html.pipe';
-import { CustomSwalService } from 'src/app/services/custom-swal.service';
 import { CustomToastService } from 'src/app/services/custom-toast.service';
 import { DataService } from 'src/app/services/data.service';
 import { ReportService } from 'src/app/services/report.service';
@@ -27,7 +26,6 @@ import ResumenMinutaGraficoComponent from '../resumen-minuta-grafico/resumen-min
   providers: [CustomToastService, MessageService],
 })
 export default class ResumenMinutaComponent implements OnInit, OnDestroy {
-  public customSwalService = inject(CustomSwalService);
   public customToastService = inject(CustomToastService);
   public reportService = inject(ReportService);
   public dataService = inject(DataService);
@@ -44,7 +42,8 @@ export default class ResumenMinutaComponent implements OnInit, OnDestroy {
   }
 
   onLoadData() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get(
         `MeetingDertailsSeguimiento/ResumenMinutasPresentacion/${this.activatedRoute.snapshot.params.meetingId}`
@@ -52,12 +51,12 @@ export default class ResumenMinutaComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
-          this.customToastService.onShowError();
         },
       });
     this.subRef$ = this.dataService
@@ -68,12 +67,12 @@ export default class ResumenMinutaComponent implements OnInit, OnDestroy {
         next: (resp: any) => {
           this.dataGrafico = resp.body;
           this.reportService.setDataGrafico(resp.body);
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
-          this.customToastService.onShowError();
         },
       });
   }

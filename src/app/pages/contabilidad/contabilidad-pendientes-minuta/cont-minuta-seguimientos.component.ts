@@ -10,7 +10,6 @@ import { TableModule } from 'primeng/table';
 import { Subscription } from 'rxjs';
 import AddorEditMeetingSeguimientoComponent from 'src/app/pages/operaciones/junta-comite/addoredit-seguimiento/addor-edit-meeting-seguimiento.component';
 import {
-  CustomSwalService,
   CustomToastService,
   DataService,
 } from 'src/app/services/common-services';
@@ -30,7 +29,6 @@ export default class ContMinutaSeguimientosComponent
   public dataService = inject(DataService);
   public dialogService = inject(DialogService);
   public customToastService = inject(CustomToastService);
-  public customSwalService = inject(CustomSwalService);
 
   data: any[] = [];
   id = this.config.data.idItem;
@@ -41,18 +39,20 @@ export default class ContMinutaSeguimientosComponent
     this.onLoadData();
   }
   onLoadData() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get(`ContabilidadMinuta/ListaSeguimientos/${this.id}`)
       .subscribe({
         next: (resp: any) => {
+          // Cuando se obtienen los datos con éxito, actualizar la variable 'data' y ocultar el mensaje de carga
           this.data = resp.body;
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
-          this.customToastService.onShowError();
         },
       });
   }

@@ -10,7 +10,6 @@ import { Subscription } from 'rxjs';
 import { EStatusOrdenCompraPipe } from 'src/app/pipes/status-orden-compra.pipe';
 import {
   AuthService,
-  CustomSwalService,
   CustomToastService,
   DataService,
   OrdenCompraService,
@@ -55,7 +54,7 @@ import OrdenCompraEditPresupustoUtilizadoComponent from './orden-compra-edit-pre
 })
 export default class OrdenCompraComponent implements OnInit, OnDestroy {
   public customToastService = inject(CustomToastService);
-  public customSwalService = inject(CustomSwalService);
+
   public authService = inject(AuthService);
   public dataService = inject(DataService);
   public routeActive = inject(ActivatedRoute);
@@ -200,7 +199,8 @@ export default class OrdenCompraComponent implements OnInit, OnDestroy {
 
   onLoadData() {
     this.esGastoFijo = false;
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get(`OrdenCompra/${this.ordenCompraId}`)
       .subscribe({
@@ -265,11 +265,11 @@ export default class OrdenCompraComponent implements OnInit, OnDestroy {
           }
           // Fin Buscar Ordenes de compra relacionadas
 
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
-          this.customToastService.onShowError();
-          this.customSwalService.onClose();
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
         },
       });
@@ -294,9 +294,7 @@ export default class OrdenCompraComponent implements OnInit, OnDestroy {
 
   deautorizarCompra() {
     this.subRef$ = this.dataService
-      .get(
-        `OrdenCompraAuth/Desautorizar/${this.ordenCompraId}/${this.authService.userTokenDto.infoEmployeeDto.employeeId}`
-      )
+      .get(`OrdenCompraAuth/Desautorizar/${this.ordenCompraId}`)
       .subscribe({
         next: (resp: any) => {
           this.nombreAutorizador = '';
@@ -472,37 +470,37 @@ export default class OrdenCompraComponent implements OnInit, OnDestroy {
       });
   }
   onDeleteOrdenCompraPresupuesto(id: number): void {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .delete(`OrdenCompraPresupuesto/${id}`)
       .subscribe({
         next: () => {
           this.onLoadData();
-          this.customSwalService.onClose();
-          this.customToastService.onShowSuccess();
+          this.customToastService.onCloseToSuccess();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
-          this.customToastService.onShowError();
         },
       });
   }
 
   onDeleteProduct(data: any) {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .delete(`OrdenCompraDetalle/${data.id}`)
       .subscribe({
         next: () => {
           this.onLoadData();
-          this.customSwalService.onClose();
-          this.customToastService.onShowSuccess();
+          this.customToastService.onCloseToSuccess();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
-          this.customToastService.onShowError();
         },
       });
   }

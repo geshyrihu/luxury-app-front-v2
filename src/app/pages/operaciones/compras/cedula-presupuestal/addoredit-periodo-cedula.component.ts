@@ -15,7 +15,6 @@ import {
 import { Subscription } from 'rxjs';
 import {
   AuthService,
-  CustomSwalService,
   CustomToastService,
   DataService,
   SelectItemService,
@@ -47,7 +46,6 @@ export default class AddoreditPeriodoCedulaPresupuestalComponent
   public customToastService = inject(CustomToastService);
   public ref = inject(DynamicDialogRef);
   public selectItemService = inject(SelectItemService);
-  private customSwalService = inject(CustomSwalService);
 
   submitting: boolean = false;
 
@@ -83,21 +81,22 @@ export default class AddoreditPeriodoCedulaPresupuestalComponent
 
     // Deshabilitar el botón al iniciar el envío del formulario
     this.submitting = true;
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     if (this.id === 0) {
       this.subRef$ = this.dataService
         .post(`CedulaPresupuestal`, cedulaDto)
         .subscribe({
           next: () => {
-            this.customSwalService.onClose();
+            this.customToastService.onClose();
             this.ref.close(true);
           },
           error: (err) => {
             console.log(err.error);
             this.customToastService.onShowError();
             // Habilitar el botón nuevamente al finalizar el envío del formulario
+            this.customToastService.onClose();
             this.submitting = false;
-            this.customSwalService.onClose();
           },
         });
     } else {
@@ -105,15 +104,15 @@ export default class AddoreditPeriodoCedulaPresupuestalComponent
         .put(`CedulaPresupuestal/Actualizar/${this.id}`, cedulaDto)
         .subscribe({
           next: () => {
-            this.customSwalService.onClose();
+            this.customToastService.onClose();
             this.ref.close(true);
           },
           error: (err) => {
             console.log(err.error);
             this.customToastService.onShowError();
             // Habilitar el botón nuevamente al finalizar el envío del formulario
+            this.customToastService.onClose();
             this.submitting = false;
-            this.customSwalService.onClose();
           },
         });
     }

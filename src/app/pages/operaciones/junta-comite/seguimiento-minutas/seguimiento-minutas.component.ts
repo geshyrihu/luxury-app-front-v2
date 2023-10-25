@@ -10,7 +10,6 @@ import { SanitizeHtmlPipe } from 'src/app/pipes/sanitize-html.pipe';
 import {
   AuthService,
   CustomerIdService,
-  CustomSwalService,
   CustomToastService,
   DataService,
 } from 'src/app/services/common-services';
@@ -28,7 +27,7 @@ export default class SeguimientoMinutaComponent implements OnInit, OnDestroy {
   public dialogService = inject(DialogService);
   public messageService = inject(MessageService);
   public authService = inject(AuthService);
-  public customSwalService = inject(CustomSwalService);
+
   public customToastService = inject(CustomToastService);
   public customerIdService = inject(CustomerIdService);
 
@@ -47,7 +46,8 @@ export default class SeguimientoMinutaComponent implements OnInit, OnDestroy {
   }
 
   onLoadData(filtro: number) {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get(
         `Meetings/SeguimientoMinutas/${this.customerIdService.customerId}/${filtro}`
@@ -55,13 +55,12 @@ export default class SeguimientoMinutaComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
-          this.customToastService.onShowError();
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
         },
       });
   }
@@ -108,19 +107,19 @@ export default class SeguimientoMinutaComponent implements OnInit, OnDestroy {
   }
 
   onDeleteSeguimiento(id: number) {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .delete(`MeetingDertailsSeguimiento/${id}`)
       .subscribe({
         next: () => {
-          this.customToastService.onShowSuccess();
-          this.customSwalService.onClose();
           this.onLoadData(this.statusFiltro);
+          this.customToastService.onCloseToSuccess();
         },
         error: (err) => {
-          this.customToastService.onShowError();
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
         },
       });
   }

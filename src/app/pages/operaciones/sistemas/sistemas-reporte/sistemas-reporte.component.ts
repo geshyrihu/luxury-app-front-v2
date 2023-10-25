@@ -6,7 +6,6 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable, Subscription } from 'rxjs';
 import {
   AuthService,
-  CustomSwalService,
   CustomToastService,
   DataService,
   DateService,
@@ -34,7 +33,6 @@ import AddoreditSistemasReporteComponent from '../addoredit-sistemas-reporte/add
 export default class SistemasReporteComponent implements OnInit, OnDestroy {
   public dataService = inject(DataService);
   public dateService = inject(DateService);
-  public customSwalService = inject(CustomSwalService);
   public customToastService = inject(CustomToastService);
   public authService = inject(AuthService);
   public dialogService = inject(DialogService);
@@ -83,7 +81,8 @@ export default class SistemasReporteComponent implements OnInit, OnDestroy {
   }
 
   onLoadData(fechaInicio: string, fechaFinal: string): void {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get(
         `Ticket/SolicitudesSistemas/${fechaInicio}/${fechaFinal}/${this.pendiente}/${this.terminado}/${this.employeeId}`
@@ -97,11 +96,12 @@ export default class SistemasReporteComponent implements OnInit, OnDestroy {
             this.terminados = this.onFilterItems(resp.body, 1);
           }
           this.sistemasReporteService.setData(this.data);
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
         },
       });
   }

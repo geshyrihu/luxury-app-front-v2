@@ -7,7 +7,6 @@ import { Subscription } from 'rxjs';
 import { IProductoListAddDto } from 'src/app/interfaces/IProductoListAddDto.interface.interface';
 import {
   AuthService,
-  CustomSwalService,
   CustomToastService,
   CustomerIdService,
   DataService,
@@ -26,7 +25,7 @@ import TarjetaProductoComponent from '../../mantenimiento-catalogos/tarjeta-prod
 })
 export default class AddProductosAlmacenComponent implements OnInit, OnDestroy {
   private dataService = inject(DataService);
-  public customSwalService = inject(CustomSwalService);
+
   public customToastService = inject(CustomToastService);
   private selectItemService = inject(SelectItemService);
   public authService = inject(AuthService);
@@ -71,7 +70,8 @@ export default class AddProductosAlmacenComponent implements OnInit, OnDestroy {
   }
 
   onLoadData() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get(
         `InventarioProducto/GetProductoDropdownDto/${this.customerIdService.customerId}`
@@ -79,12 +79,12 @@ export default class AddProductosAlmacenComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
-          this.customToastService.onShowError();
         },
       });
   }
@@ -102,19 +102,20 @@ export default class AddProductosAlmacenComponent implements OnInit, OnDestroy {
         'Completa todos los campos :Existencia, Unidad, Stok Max,   Stok Min';
       return;
     }
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
 
     this.subRef$ = this.dataService
       .post(`InventarioProducto/`, item)
       .subscribe({
         next: () => {
           this.mensajeError = '';
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
           this.onLoadData();
         },
         error: (err) => {
-          this.customToastService.onShowError();
-          this.customSwalService.onClose();
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
         },
       });

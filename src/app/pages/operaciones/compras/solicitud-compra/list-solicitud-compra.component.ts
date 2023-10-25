@@ -7,7 +7,6 @@ import { Observable, Subscription } from 'rxjs';
 import { EStatusOrdenCompraPipe } from 'src/app/pipes/status-orden-compra.pipe';
 import {
   AuthService,
-  CustomSwalService,
   CustomToastService,
   CustomerIdService,
   DataService,
@@ -40,9 +39,9 @@ export default class ListSolicitudCompraComponent implements OnInit, OnDestroy {
   public messageService = inject(MessageService);
   public router = inject(Router);
   public solicitudCompraService = inject(SolicitudCompraService);
-  public customSwalService = inject(CustomSwalService);
   public customToastService = inject(CustomToastService);
   public dialogService = inject(DialogService);
+
   data: any[] = [];
   ref: DynamicDialogRef;
   subRef$: Subscription;
@@ -62,7 +61,8 @@ export default class ListSolicitudCompraComponent implements OnInit, OnDestroy {
     this.solicitudCompraService.onSetTextoFiltro(texto);
   }
   onLoadData() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get(
         `SolicitudCompra/Solicitudes/${
@@ -72,30 +72,30 @@ export default class ListSolicitudCompraComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
-          this.customToastService.onShowError();
         },
       });
   }
 
   onDelete(data: any) {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .delete(`SolicitudCompra/${data.id}`)
       .subscribe({
         next: () => {
           this.onLoadData();
-          this.customSwalService.onClose();
-          this.customToastService.onShowSuccess();
+          this.customToastService.onCloseToSuccess();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
-          this.customToastService.onShowError();
         },
       });
   }

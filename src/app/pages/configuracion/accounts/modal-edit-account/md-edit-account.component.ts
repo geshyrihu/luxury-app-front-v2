@@ -7,7 +7,6 @@ import { Subscription } from 'rxjs';
 import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
 import {
   AuthService,
-  CustomSwalService,
   CustomToastService,
   DataService,
   SelectItemService,
@@ -34,7 +33,7 @@ import UpdateRoleComponent from './update-roles/update-role.component';
 export default class MdEditAccountComponent implements OnInit, OnDestroy {
   private dataService = inject(DataService);
   private selectItemService = inject(SelectItemService);
-  private customSwalService = inject(CustomSwalService);
+
   public config = inject(DynamicDialogConfig);
   public messageService = inject(MessageService);
   public ref = inject(DynamicDialogRef);
@@ -61,18 +60,19 @@ export default class MdEditAccountComponent implements OnInit, OnDestroy {
       });
   }
   onLoadData() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
-      .get('Accounts/EditarCuenta/' + this.applicationUserId)
+      .get('Accounts/GetApplicationUser/' + this.applicationUserId)
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
-          this.customToastService.onShowError();
         },
       });
   }

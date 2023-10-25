@@ -8,7 +8,6 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import {
   AuthService,
-  CustomSwalService,
   CustomToastService,
   CustomerIdService,
   DataService,
@@ -43,7 +42,7 @@ export default class statuspositionrequestcomponent
   public customerIdService = inject(CustomerIdService);
   public dataService = inject(DataService);
   public dialogService = inject(DialogService);
-  public customSwalService = inject(CustomSwalService);
+
   public customToastService = inject(CustomToastService);
   public router = inject(Router);
   public authService = inject(AuthService);
@@ -65,18 +64,20 @@ export default class statuspositionrequestcomponent
   }
 
   onLoadData() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get('RequestPositionCandidate/Candidatos/' + this.positionRequestId)
       .subscribe({
         next: (resp: any) => {
+          // Cuando se obtienen los datos con éxito, actualizar la variable 'data' y ocultar el mensaje de carga
           this.data = resp.body;
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
-          this.customToastService.onShowError();
         },
       });
   }
@@ -124,16 +125,17 @@ export default class statuspositionrequestcomponent
     });
   }
   onDeletePositionRequest(id: number) {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService.delete(`RequestPosition/${id}`).subscribe({
       next: () => {
-        this.customToastService.onShowSuccess();
-        this.customSwalService.onClose();
+        // Cuando se obtienen los datos con éxito, actualizar la variable 'data' y ocultar el mensaje de carga
         this.onLoadData();
+        this.customToastService.onClose();
       },
       error: (err) => {
-        this.customToastService.onShowError();
-        this.customSwalService.onClose();
+        // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+        this.customToastService.onCloseToError();
         console.log(err.error);
       },
     });
@@ -146,7 +148,8 @@ export default class statuspositionrequestcomponent
       }
     });
     // Deshabilitar el botón al iniciar el envío del formulario
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.submitting = true;
     this.dataService
       .post(
@@ -156,14 +159,14 @@ export default class statuspositionrequestcomponent
       .subscribe({
         next: () => {
           this.onLoadData();
-          this.customSwalService.onClose();
-          this.customToastService.onShowSuccess();
+          // Mostrar un mensaje de éxito y cerrar Loading....
+          this.customToastService.onCloseToSuccess();
         },
         error: (err) => {
           console.log(err.error);
-          this.customToastService.onShowError();
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           // Habilitar el botón nuevamente al finalizar el envío del formulario
-          this.customSwalService.onClose();
           this.submitting = false;
         },
       });

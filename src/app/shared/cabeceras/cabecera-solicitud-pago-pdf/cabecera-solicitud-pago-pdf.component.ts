@@ -2,7 +2,6 @@ import { NgIf } from '@angular/common';
 import { Component, Input, OnDestroy, OnInit, inject } from '@angular/core';
 import { Subscription } from 'rxjs';
 import {
-  CustomSwalService,
   CustomToastService,
   CustomerIdService,
   DataService,
@@ -22,7 +21,6 @@ export default class CabeceraSolicitudPagoPdfComponent
   public dataService = inject(DataService);
   public customerIdService = inject(CustomerIdService);
   public customToastService = inject(CustomToastService);
-  public customSwalService = inject(CustomSwalService);
 
   data: any;
   subRef$: Subscription;
@@ -40,18 +38,20 @@ export default class CabeceraSolicitudPagoPdfComponent
   }
 
   onloadData() {
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get('Customers/' + this.customerIdService.getcustomerId())
       .subscribe({
         next: (resp: any) => {
+          // Cuando se obtienen los datos con éxito, actualizar la variable 'data' y ocultar el mensaje de carga
           this.data = resp.body;
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
-          this.customSwalService.onClose();
-          this.customToastService.onShowError();
         },
       });
   }

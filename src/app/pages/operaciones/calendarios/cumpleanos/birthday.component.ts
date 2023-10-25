@@ -9,7 +9,7 @@ import { Observable, Subscription } from 'rxjs';
 import CardEmployeeComponent from 'src/app/pages/operaciones/directorios/empleados/card-employee/card-employee.component';
 import {
   AuthService,
-  CustomSwalService,
+  CustomToastService,
   CustomerIdService,
   DataService,
 } from 'src/app/services/common-services';
@@ -19,13 +19,13 @@ import {
   templateUrl: './birthday.component.html',
   standalone: true,
   imports: [FullCalendarModule],
-  providers: [DialogService, MessageService],
+  providers: [DialogService, MessageService, CustomToastService],
 })
 export default class BirthdayComponent implements OnInit, OnDestroy {
   public authService = inject(AuthService);
   public customerIdService = inject(CustomerIdService);
   public dataService = inject(DataService);
-  public customSwalService = inject(CustomSwalService);
+  public customToastService = inject(CustomToastService);
   public dialogService = inject(DialogService);
 
   subRef$: Subscription;
@@ -52,7 +52,8 @@ export default class BirthdayComponent implements OnInit, OnDestroy {
   onLoadData() {
     // this.onLoadData();
     this.customerId$ = this.customerIdService.getCustomerId$();
-    this.customSwalService.onLoading();
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get('Employees/AllCumpleanos/' + this.customerIdService.customerId)
       .subscribe({
@@ -71,10 +72,11 @@ export default class BirthdayComponent implements OnInit, OnDestroy {
             events: resp.body,
             eventClick: this.tarjetaUsuario.bind(this),
           };
-          this.customSwalService.onClose();
+          this.customToastService.onClose();
         },
         error: (err) => {
-          this.customSwalService.onClose();
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
           console.log(err.error);
         },
       });
