@@ -40,7 +40,6 @@ export default class AddOrEditPiscinaComponent implements OnInit, OnDestroy {
   public config = inject(DynamicDialogConfig);
   public ref = inject(DynamicDialogRef);
   public customerIdService = inject(CustomerIdService);
-
   private customToastService = inject(CustomToastService);
 
   submitting: boolean = false;

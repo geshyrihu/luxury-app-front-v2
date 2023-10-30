@@ -29,14 +29,16 @@
     <ng-template pTemplate="body" let-item>
       <tr>
         <td class="p-column-title">
+          {{ item.folio }}
+
           <i
             ngbTooltip="Ver"
             placement="top"
             class="fa-duotone fa-hand-point-right pointer"
             (click)="onOrdenCompraModal(item.ordenCompraId)"
           >
-            {{ item.folio }}
           </i>
+          <!-- {{ item.folio }} -->
         </td>
         <td class="p-column-title">{{ item.justificacion }}</td>
         <td class="p-column-title">{{ item.provider }}</td>

@@ -46,7 +46,6 @@ export default class AddoreditMaintenancePreventiveComponent
   public ref = inject(DynamicDialogRef);
   public selectItemService = inject(SelectItemService);
   public customerIdService = inject(CustomerIdService);
-
   private customToastService = inject(CustomToastService);
 
   cb_machinery: any[] = [];

@@ -19,8 +19,8 @@ import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
 
 @Component({
-  selector: 'app-addoredit-ledger-accounts',
-  templateUrl: './addoredit-ledger-accounts.component.html',
+  selector: 'app-addoredit-cuentas-tercer-nivel',
+  templateUrl: './addoredit-cuentas-tercer-nivel.component.html',
   standalone: true,
   imports: [ReactiveFormsModule, ComponentsModule, CustomInputModule],
   providers: [CustomToastService],
@@ -54,9 +54,8 @@ export default class AddoreditLedgerAccountsComponent
       id: { value: this.id, disabled: true },
       numeroCuenta: ['', Validators.required],
       descripcion: ['', Validators.required],
-      codigoSat: ['000'],
       estate: ['', Validators.required],
-      applicationUserId: [this.applicationUserId],
+      information: [''],
     });
   }
 

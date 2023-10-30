@@ -3,18 +3,13 @@
   <div class="card">
     <p-table
       #dt
-      [(selection)]="data.budgetDetailDto"
       [value]="data.budgetDetailDto"
-      styleClass="p-datatable-gridlines p-datatable-striped"
-      [rowHover]="true"
-      currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
-      [showCurrentPageReport]="true"
       [globalFilterFields]="['accountNumber', 'accountName']"
-      dataKey="id"
+      styleClass="custom-table p-datatable-sm"
     >
       <ng-template pTemplate="caption">
         <app-table-header
-          [title]="data.from + ' - ' + data.to"
+          [title]="'PRESUPUESTO ' + data.from + ' - ' + data.to"
           [showAdd]="true"
           (add)="onModalAdd(data)"
           [dt]="dt"
@@ -23,77 +18,40 @@
 
       <ng-template pTemplate="header">
         <tr>
-          <th
-            scope="col"
-            style="width: 10%"
-            pSortableColumn="accountNumber"
-            rowspan="2"
-          >
-            CUENTA
-            <p-sortIcon field="accountNumber"></p-sortIcon>
-          </th>
-          <th
-            scope="col"
-            style="width: 28%"
-            pSortableColumn="accountName"
-            rowspan="2"
-          >
+          <th scope="col" style="width: 30%" rowspan="3" colspan="2">
             PARTIDA PRESUPUESTAL
-            <p-sortIcon field="accountName"></p-sortIcon>
           </th>
-          <th scope="col" style="width: 13%" pSortableColumn="monthlyBudget">
-            PRESUPUESTO ANTERIOR
-            <p-sortIcon field="monthlyBudget"></p-sortIcon>
-          </th>
-          <th scope="col" style="width: 13%" pSortableColumn="monthlyBudget">
-            MENSUAL
-            <p-sortIcon field="monthlyBudget"></p-sortIcon>
-          </th>
-          <th
-            scope="col"
-            field="descripcion"
-            style="width: 13%"
-            pSortableColumn="totalBudget"
-          >
-            TOTAL
-            <p-sortIcon field="totalBudget"></p-sortIcon>
-          </th>
-          <th scope="col" style="width: 13%" pSortableColumn="budgetSpent">
-            EJERCIDO
-            <p-sortIcon field="budgetSpent"></p-sortIcon>
-          </th>
-
-          <th scope="col" style="width: 13%" pSortableColumn="budgetAvailable">
-            DISPONIBLE
-            <p-sortIcon field="budgetAvailable"></p-sortIcon>
-          </th>
-          <th style="width: 10%"></th>
+          <th scope="col" style="width: 10%">MONTO ANTERIOR</th>
+          <th scope="col" style="width: 10%">MENSUAL</th>
+          <th scope="col" style="width: 10%">INCREMENTO</th>
+          <th scope="col" style="width: 10%">TOTAL ANUAL</th>
+          <th scope="col" style="width: 5%" rowspan="2"></th>
         </tr>
         <tr>
-          <th scope="col">{{ data.totalMonthlyBudgetFormet }}</th>
           <th scope="col">
-            {{ data.totalMonthlyBudget }}
+            {{ data.totalMonthlyBudgetFormet }}
+          </th>
+          <th scope="col">{{ data.totalMonthlyBudget }}</th>
+          <th scope="col">
+            {{ data.totalPercentageIncrease }}
           </th>
           <th scope="col">
             {{ data.totalGeneralBudget }}
           </th>
-          <th scope="col">
-            {{ data.totalBudgetSpent }}
-          </th>
-          <th scope="col">
-            {{ data.totalBudgetAvailable }}
-          </th>
-          <th scope="col">Opciones</th>
         </tr>
       </ng-template>
 
       <ng-template pTemplate="body" let-item let-editing="editing">
         <tr>
-          <td class="p-column-title">
-            {{ item.accountNumber }}
+          <td class="p-column-title text-center">
+            <i
+              class="fa-duotone fa-square-question text-info pointer"
+              ngbTooltip="Información"
+              (click)="onModalInfoCuenta(item.accountId)"
+            ></i>
           </td>
           <td class="p-column-title">
-            {{ item.accountName }}
+            <p>{{ item.accountNumber }} - {{ item.accountName }}</p>
           </td>
           <td class="p-column-title">
             <ngb-alert
@@ -101,7 +59,19 @@
               role="alert"
               type="warning"
               class="alert show alert-warning fade p-1 m-0"
+              style="color: black !important"
             >
+              <i
+                *ngIf="item.id !== 0"
+                ngbTooltip="Historial de compras"
+                (click)="
+                  onModalOrdenesCompraCedula(
+                    item.presupuestoAnteriorDetalleId,
+                    item.presupuestoAnteriorId
+                  )
+                "
+                class="fa-duotone fa-folder-open me-2 pointer"
+              ></i>
               {{ item.monthlyBudgetFormet }}
             </ngb-alert>
           </td>
@@ -116,6 +86,7 @@
               role="alert"
               type="light"
               class="alert show alert-light fade p-1 m-0"
+              style="color: black !important"
             >
               <p-cellEditor>
                 <ng-template pTemplate="input">
@@ -125,12 +96,8 @@
                       type="text"
                       [(ngModel)]="item.monthlyBudget"
                       required
+                      (keydown.enter)="onEnterPressed(item)"
                     />
-                    <i
-                      (click)="onEnterPressed(item)"
-                      class="fa-duotone fa-check text-success"
-                      style="margin-left: 10px"
-                    ></i>
                   </div>
                 </ng-template>
                 <ng-template pTemplate="output">
@@ -145,8 +112,9 @@
               role="alert"
               type="light"
               class="alert show alert-light fade p-1 m-0"
+              style="color: black !important"
             >
-              {{ item.totalBudget }}
+              {{ item.percentageIncrease }}
             </ngb-alert>
           </td>
           <td class="p-column-title">
@@ -155,54 +123,35 @@
               role="alert"
               type="light"
               class="alert show alert-light fade p-1 m-0"
+              style="color: black !important"
             >
-              {{ item.budgetSpent }}
-            </ngb-alert>
-          </td>
-
-          <td class="p-column-title">
-            <ngb-alert
-              [dismissible]="false"
-              role="alert"
-              type="danger"
-              class="alert show alert-danger fade p-1 m-0"
-              *ngIf="!item.isAvailable"
-            >
-              {{ item.budgetAvailable }}
-            </ngb-alert>
-            <ngb-alert
-              [dismissible]="false"
-              role="alert"
-              type="success"
-              class="alert show alert-success fade p-1 m-0"
-              *ngIf="item.isAvailable"
-            >
-              {{ item.budgetAvailable }}
+              {{ item.totalBudget }}
             </ngb-alert>
           </td>
 
           <td>
             <div class="d-flex justify-content-center">
               <custom-button
-                ngbTooltip="Imagenes"
-                [customClass]="'btn-outline-info'"
-                icon="fa-duotone fa-images text-info"
-                (clicked)="onModalEmailData(item.id)"
+                ngbTooltipCustom="Agregar documentos"
+                [customClass]="'btn-outline-info btn-sm'"
+                icon="fa-duotone fa-file-circle-plus text-info"
+                (clicked)="onModalDocument(item.id)"
               ></custom-button>
               <custom-button
-                ngbTooltip="Documentos"
-                [customClass]="'btn-outline-info'"
-                icon="fa-duotone fa-file text-info"
-                (clicked)="onModalEmailData(item.id)"
-              ></custom-button>
-              <custom-button
-                ngbTooltip="Historial"
-                [customClass]="'btn-outline-primary'"
-                icon="fa-duotone fa-calendar-days text-primary"
+                ngbTooltipCustom="Historial"
+                [customClass]="'btn-outline-primary btn-sm'"
+                icon="fa-duotone fa-calendar-users text-primary"
                 (clicked)="onGetHistorial(item.id)"
               ></custom-button>
+              <custom-button
+                ngbTooltipCustom="Servicios calendarizados"
+                [customClass]="'btn-outline-success btn-sm'"
+                icon="fa-duotone fa-calendar-lines-pen text-success"
+                (clicked)="ServiciosMttoProgramados(item.accountId)"
+              ></custom-button>
+
               <custom-button-delete
-                (OnConfirm)="onDelete(item)"
+                (OnConfirm)="onDelete(item.id)"
               ></custom-button-delete>
             </div>
           </td>

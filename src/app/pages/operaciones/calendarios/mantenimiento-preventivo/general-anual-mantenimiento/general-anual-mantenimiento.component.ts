@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
+import { MessageService } from 'primeng/api';
 import { Observable, Subscription } from 'rxjs';
 import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
 import { EMonthPipe } from 'src/app/pipes/month.pipe';
@@ -26,7 +27,7 @@ import { environment } from 'src/environments/environment';
     SanitizeHtmlPipe,
     EMonthPipe,
   ],
-  providers: [CustomToastService],
+  providers: [CustomToastService, MessageService],
 })
 export default class GeneralAnualMantenimientoComponent
   implements OnInit, OnDestroy

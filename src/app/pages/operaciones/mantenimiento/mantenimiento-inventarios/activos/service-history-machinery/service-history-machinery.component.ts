@@ -35,7 +35,6 @@ export default class ServiceHistoryMachineryComponent
   ref: DynamicDialogRef;
 
   ngOnInit() {
-    console.log('this.config.data.id', this.config.data.id);
     this.onLoadData();
   }
 

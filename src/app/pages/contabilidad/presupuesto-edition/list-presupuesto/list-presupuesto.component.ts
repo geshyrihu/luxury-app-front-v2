@@ -60,6 +60,29 @@ export default class ListPresupuestoComponent implements OnInit {
       });
   }
 
+  onFinished(cedulaId: number, finished: boolean) {
+    this.subRef$ = this.dataService
+      .get(`Presupuesto/Finished/${cedulaId}/${finished}`)
+      .subscribe({
+        next: (resp: any) => {
+          // Actualiza solo el registro afectado en lugar de toda la lista
+          const updatedRecord = resp.body;
+          const recordIndex = this.data.findIndex(
+            (record) => record.id === updatedRecord.id
+          );
+          if (recordIndex !== -1) {
+            this.data[recordIndex] = updatedRecord;
+          }
+          this.customToastService.onCloseToSuccess();
+        },
+        error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
+          console.log(err.error);
+        },
+      });
+  }
+
   onAddPresupuesto(id: number) {
     this.ref = this.dialogService.open(PresupuestoAddComponent, {
       header: 'Agregar presupuesto',
@@ -70,6 +93,9 @@ export default class ListPresupuestoComponent implements OnInit {
       styleClass: 'modal-sm',
       baseZIndex: 10000,
       closeOnEscape: true,
+    });
+    this.ref.onClose.subscribe(() => {
+      this.onLoadData();
     });
   }
 
@@ -95,7 +121,6 @@ export default class ListPresupuestoComponent implements OnInit {
     });
   }
   onGetPresupuestoDetalle(id: number) {
-    console.log('🚀 ~ id:', id);
     this.router.navigate(['/operaciones/compras/presupuesto-individual/', id]);
   }
 

@@ -43,24 +43,19 @@ export class PeriodoMonthService {
    * @param periodo Objeto que contiene el año y mes del periodo.
    */
   // setPeriodo(periodo: any) {
-  //   console.log('🚀 ~ periodo:', periodo);
   //   this.fechaInicial = new Date(periodo.year, periodo.month - 1, 1);
-  //   console.log('🚀 ~ this.fechaInicial:', this.fechaInicial);
   //   let finalTemp = new Date(periodo.year, periodo.month - 1, 1);
   //   this.fechaFinal = new Date(
   //     finalTemp.getFullYear(),
   //     finalTemp.getMonth() + 1,
   //     0
   //   );
-  //   console.log('🚀 ~ this.fechaFinal:', this.fechaFinal);
 
   //   // Emitimos eventos a través de los Subjects para notificar a los observadores con las nuevas fechas del periodo.
   //   this.periodoInicial$.next(this.fechaInicial);
   //   this.periodoFinal$.next(this.fechaFinal);
   // }
   setPeriodo(periodo: string) {
-    console.log('🚀 ~ periodo------------:', periodo);
-
     // Dividir la cadena "AAAA-MM" en año y mes.
     const [year, month] = periodo.split('-').map(Number);
 

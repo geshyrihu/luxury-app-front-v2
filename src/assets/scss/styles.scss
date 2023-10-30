@@ -19,13 +19,13 @@ input,
 textarea,
 select {
 // font-family: 'IBM Plex Sans', sans-serif !important;
-// font-family:'San Francisco', sans-serif !important
-font-family: 'Roboto', sans-serif !important ;
-// font-family: 'Nunito', sans-serif !important ;
-// font-family: 'Lato', sans-serif !important ;
-// font-family: 'PT Sans', sans-serif !important ;
+font-family: 'Roboto'!important;
 }
 
+table{
+color: black !important; /* Cambia el color de texto a negro */
+
+}
 
 @media (min-width: 320px) {
   .modal-sm {

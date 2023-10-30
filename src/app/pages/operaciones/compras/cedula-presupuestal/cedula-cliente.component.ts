@@ -146,6 +146,8 @@ export default class CedulaClienteComponent implements OnInit, OnDestroy {
     });
   }
   onModalOrdenesCompraCedula(partidaPresupuestalId: number) {
+    console.log('🚀 ~ partidaPresupuestalId:', partidaPresupuestalId);
+    console.log('🚀 ~ cedulaPresupuestalId:', this.id);
     this.ref = this.dialogService.open(OrdenesCompraCedulaComponent, {
       data: {
         partidaPresupuestalId,

@@ -76,15 +76,6 @@ export default class AddoreditSolicitudBajaComponent implements OnInit {
       .subscribe({
         next: (resp: any) => {
           this.form.patchValue(resp.body);
-          // this.form.patchValue({
-          //   id: resp.body.id,
-          //   executionDate: resp.body.executionDate,
-          //   status: resp.body.status,
-          //   tipoBaja: resp.body.tipoBaja,
-          //   reasonForLeaving: resp.body.reasonForLeaving,
-          //   lawyerAssistance: resp.body.lawyerAssistance,
-          //   employeeInformed: resp.body.employeeInformed,
-          // });
 
           // Luego, recorre el arreglo de discounts y agrégalo al formArray 'discounts'
           resp.body.discounts.forEach((discount: any) => {
@@ -96,7 +87,6 @@ export default class AddoreditSolicitudBajaComponent implements OnInit {
               })
             );
           });
-          console.log('Formulario', this.form.value);
         },
         error: (err) => {
           this.customToastService.onShowError();
@@ -106,7 +96,6 @@ export default class AddoreditSolicitudBajaComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log('Formulario', this.form.value);
     if (this.form.invalid) {
       Object.values(this.form.controls).forEach((x) => {
         x.markAllAsTouched();

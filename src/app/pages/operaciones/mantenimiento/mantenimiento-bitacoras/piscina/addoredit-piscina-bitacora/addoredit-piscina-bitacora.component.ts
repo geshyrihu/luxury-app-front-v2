@@ -38,7 +38,6 @@ export default class AddoreditPiscinaBitacoraComponent
   public config = inject(DynamicDialogConfig);
   public ref = inject(DynamicDialogRef);
   public customerIdService = inject(CustomerIdService);
-
   private customToastService = inject(CustomToastService);
 
   submitting: boolean = false;

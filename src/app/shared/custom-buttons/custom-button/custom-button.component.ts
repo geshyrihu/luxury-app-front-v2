@@ -15,7 +15,7 @@ export default class CustomButtonComponent {
   @Input() customNgClass: any;
   @Input() icon = '';
   @Input() label = '';
-  @Input() ngbTooltip: string = '';
+  @Input() ngbTooltipCustom: string = '';
   @Input() placement: string = 'top';
   @Input() type: string = 'button';
 

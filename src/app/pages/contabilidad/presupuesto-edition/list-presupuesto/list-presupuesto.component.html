@@ -34,14 +34,27 @@
 
       <td class="p-column-title">
         <div class="d-flex justify-content-center">
+          <!-- Start Boton para finalizar presupuesto -->
           <custom-button
-            *ngIf="
-              authService.onValidateRoles([
-                'Residente',
-                'SuperUsuario',
-                'Contador'
-              ])
-            "
+            *ngIf="!item.finished"
+            ngbTooltip="Finalizar presupuesto"
+            [customClass]="'btn-outline-info btn-sm'"
+            icon="fa-duotone fa-pen-field  text-danger"
+            (clicked)="onFinished(item.id, !item.finished)"
+          ></custom-button>
+          <!-- End Boton para finalizar presupuesto -->
+          <!-- Start Boton para Habilitar presupuesto -->
+          <custom-button
+            *ngIf="item.finished"
+            ngbTooltip="Habilitar edición"
+            [customClass]="'btn-outline-info btn-sm'"
+            icon="fa-duotone fa-check-double text-success"
+            (clicked)="onFinished(item.id, !item.finished)"
+          ></custom-button>
+          <!-- End Boton para Habilitar presupuesto -->
+
+          <custom-button
+            *ngIf="authService.onValidateRoles(['SuperUsuario'])"
             customClass="btn-sm btn-outline-primary"
             (clicked)="onModalAddOrEdit(item.id)"
             icon="fa-duotone fa-pen-to-square"
@@ -52,13 +65,15 @@
               authService.onValidateRoles([
                 'Residente',
                 'SuperUsuario',
-                'Contador'
-              ])
+                'Contador',
+                'SupervisorContable',
+                'SupervisionOperativa'
+              ]) && !item.finished
             "
-            customClass="btn-sm btn-outline-primary"
+            customClass="btn-sm btn-outline-success"
             (clicked)="onGetPresupuestoDetalle(item.id)"
             icon="fa-duotone fa-money-bill-trend-up"
-            ngbTooltip="Ver todo el presupuesto"
+            ngbTooltip="Editar el presupuesto"
           ></custom-button>
           <custom-button-delete
             *ngIf="authService.onValidateRoles(['SuperUsuario'])"

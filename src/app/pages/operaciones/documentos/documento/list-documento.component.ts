@@ -66,7 +66,6 @@ export default class ListDocumentoComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          console.log('🚀 ~ pollon:', resp.body);
           this.customToastService.onClose();
         },
         error: (err) => {

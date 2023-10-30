@@ -103,7 +103,6 @@ export default class AddoreditPlantillaComponent implements OnInit, OnDestroy {
           this.form.patchValue({
             id: this.id,
           });
-          console.log('onLoadData()', this.form.value);
         },
         error: (err) => {
           this.customToastService.onShowError();

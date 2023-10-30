@@ -38,7 +38,7 @@ export default class AccessCustomerComponent implements OnInit, OnDestroy {
   }
   onGetAccesCustomer() {
     this.subRef$ = this.dataService
-      .get('AccesoCustomers/GetCustomers/' + this.applicationUserId)
+      .get('AccesoClientes/GetCustomers/' + this.applicationUserId)
       .subscribe({
         next: (resp: any) => {
           this.clientes = resp.body;
@@ -50,7 +50,7 @@ export default class AccessCustomerComponent implements OnInit, OnDestroy {
   onUpdateAcceso(roles: any) {
     // Mostrar un mensaje de carga
     this.customToastService.onLoading();
-    const url = `AccesoCustomers/AddCustomerAccesoToUser/${this.applicationUserId}`;
+    const url = `AccesoClientes/AddCustomerAccesoToUser/${this.applicationUserId}`;
     this.subRef$ = this.dataService.post(url, roles).subscribe({
       next: () => {
         this.customToastService.onCloseToSuccess();

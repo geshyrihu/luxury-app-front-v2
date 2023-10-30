@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { OrgChartModule } from 'angular13-organization-chart';
+import { MessageService } from 'primeng/api';
 import { Observable, Subscription } from 'rxjs';
 import { ITreeNode } from 'src/app/interfaces/ITreeNode.interface';
 import { CustomerIdService } from 'src/app/services/common-services';
@@ -12,7 +13,7 @@ import { environment } from 'src/environments/environment';
   templateUrl: './organigrama-interno.component.html',
   standalone: true,
   imports: [OrgChartModule, CommonModule],
-  providers: [CustomToastService],
+  providers: [MessageService, CustomToastService],
 })
 export default class OrganigramaInternoComponent implements OnInit, OnDestroy {
   public dataService = inject(DataService);

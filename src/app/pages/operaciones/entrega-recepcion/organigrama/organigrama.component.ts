@@ -16,7 +16,12 @@ import { environment } from 'src/environments/environment';
   templateUrl: './organigrama.component.html',
   standalone: true,
   imports: [ComponentsModule, TableModule],
-  providers: [MessageService, CustomToastService, DialogService],
+  providers: [
+    MessageService,
+    CustomToastService,
+    DialogService,
+    CustomToastService,
+  ],
 })
 export default class OrganigramaComponent implements OnInit, OnDestroy {
   public customToastService = inject(CustomToastService);

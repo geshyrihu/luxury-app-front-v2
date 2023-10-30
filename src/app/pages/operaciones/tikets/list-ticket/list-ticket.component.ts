@@ -53,7 +53,6 @@ export default class ListTicketComponent implements OnInit, OnDestroy {
   public ticketFilterService = inject(TicketFilterService);
   public reportService = inject(ReportService);
   public router = inject(Router);
-
   public customToastService = inject(CustomToastService);
 
   base_urlImg = '';

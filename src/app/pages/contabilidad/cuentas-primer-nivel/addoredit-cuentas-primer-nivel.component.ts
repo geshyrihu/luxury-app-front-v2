@@ -6,7 +6,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { RatingModule } from 'primeng/rating';
 import { Subscription } from 'rxjs';
 import {
   AuthService,
@@ -14,61 +13,41 @@ import {
   DataService,
 } from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
+import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
+
 @Component({
-  selector: 'app-calificacion-proveedor',
-  templateUrl: './calificacion-proveedor.component.html',
+  selector: 'app-addoredit-cuentas-primer-nivel',
+  templateUrl: './addoredit-cuentas-primer-nivel.component.html',
   standalone: true,
-  imports: [ReactiveFormsModule, ComponentsModule, RatingModule],
+  imports: [ReactiveFormsModule, ComponentsModule, CustomInputModule],
   providers: [CustomToastService],
 })
-export default class CalificacionProveedorComponent
+export default class AddoreditCuentasPrimerNivelComponent
   implements OnInit, OnDestroy
 {
-  public authService = inject(AuthService);
-  public config = inject(DynamicDialogConfig);
-  public dataService = inject(DataService);
   private formBuilder = inject(FormBuilder);
+  public authService = inject(AuthService);
+  private dataService = inject(DataService);
+  public config = inject(DynamicDialogConfig);
   public ref = inject(DynamicDialogRef);
 
   private customToastService = inject(CustomToastService);
 
   submitting: boolean = false;
-  subRef$: Subscription;
 
-  providerId: number = 0;
-  qualificationProviderId: number = 0;
-  form: FormGroup = this.formBuilder.group({
-    employeeId: [
-      this.authService.userTokenDto.infoEmployeeDto.employeeId,
-      Validators.required,
-    ],
-    providerId: [this.config.data.providerId, Validators.required],
-    precio: [0, Validators.required],
-    servicio: [0, Validators.required],
-    entrega: [0, Validators.required],
-  });
+  id: any = 0;
+  form: FormGroup;
 
   ngOnInit(): void {
-    this.providerId = this.config.data.providerId;
-    this.onLoadData();
-  }
-
-  onLoadData() {
-    this.subRef$ = this.dataService
-      .get(
-        `ProveedorCalificacion/${this.authService.userTokenDto.infoEmployeeDto.employeeId}/${this.providerId}`
-      )
-      .subscribe({
-        next: (resp: any) => {
-          if (resp.body !== null) {
-            this.qualificationProviderId = resp.body.id;
-            this.form.patchValue(resp.body);
-          }
-        },
-        error: (err) => {
-          err.error;
-        },
-      });
+    this.id = this.config.data.id;
+    if (this.id !== 0) {
+      this.onLoadData();
+    }
+    this.form = this.formBuilder.group({
+      id: { value: this.id, disabled: true },
+      numeroCuenta: ['', Validators.required],
+      descripcion: ['', Validators.required],
+    });
   }
 
   onSubmit() {
@@ -83,13 +62,13 @@ export default class CalificacionProveedorComponent
     // Mostrar un mensaje de carga
     this.customToastService.onLoading();
 
-    if (this.qualificationProviderId === 0) {
+    if (this.id === 0) {
       this.subRef$ = this.dataService
-        .post(`ProveedorCalificacion`, this.form.value)
+        .post(`Cuentas/`, this.form.value)
         .subscribe({
           next: () => {
             this.ref.close(true);
-            this.customToastService.onClose();
+            this.customToastService.onCloseToSuccess();
           },
           error: (err) => {
             // Habilitar el botón nuevamente al finalizar el envío del formulario
@@ -101,10 +80,7 @@ export default class CalificacionProveedorComponent
         });
     } else {
       this.subRef$ = this.dataService
-        .put(
-          `ProveedorCalificacion/${this.qualificationProviderId}`,
-          this.form.value
-        )
+        .put(`Cuentas/${this.id}`, this.form.value)
         .subscribe({
           next: () => {
             this.ref.close(true);
@@ -120,7 +96,24 @@ export default class CalificacionProveedorComponent
         });
     }
   }
-  ngOnDestroy() {
+  onLoadData() {
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
+    this.subRef$ = this.dataService.get(`Cuentas/${this.id}`).subscribe({
+      next: (resp) => {
+        this.form.patchValue(resp.body);
+        this.customToastService.onClose();
+      },
+      error: (err) => {
+        // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+        this.customToastService.onCloseToError();
+        console.log(err.error);
+      },
+    });
+  }
+
+  subRef$: Subscription;
+  ngOnDestroy(): void {
     if (this.subRef$) this.subRef$.unsubscribe();
   }
 }

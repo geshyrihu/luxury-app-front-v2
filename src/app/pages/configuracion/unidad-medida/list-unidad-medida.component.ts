@@ -43,7 +43,7 @@ export default class ListUnidadMedidaComponent implements OnInit, OnDestroy {
   onLoadData() {
     // Mostrar un mensaje de carga
     this.customToastService.onLoading();
-    this.subRef$ = this.dataService.get('MeasurementUnits').subscribe({
+    this.subRef$ = this.dataService.get('UnidadMedida').subscribe({
       next: (resp: any) => {
         this.data = resp.body;
         this.customToastService.onClose();
@@ -60,7 +60,7 @@ export default class ListUnidadMedidaComponent implements OnInit, OnDestroy {
     // Mostrar un mensaje de carga
     this.customToastService.onLoading();
     this.subRef$ = this.dataService
-      .delete(`MeasurementUnits/${data.id}`)
+      .delete(`UnidadMedida/${data.id}`)
       .subscribe({
         next: () => {
           this.onLoadData();

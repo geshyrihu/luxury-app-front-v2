@@ -5,6 +5,7 @@
     "**/*.angular/": true
   },
 
+  // // "editor.fontFamily": "Cascadia Code Ligth, Consolas, Courier New, monospace",
   "editor.fontFamily": "Cascadia Code, Consolas, Courier New, monospace",
   "workbench.colorCustomizations": {
     "activityBar.activeBackground": "#1f6fd0",

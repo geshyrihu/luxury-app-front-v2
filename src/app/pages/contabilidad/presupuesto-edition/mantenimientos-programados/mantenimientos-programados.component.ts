@@ -1,44 +1,53 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription, takeUntil } from 'rxjs';
 import { CustomToastService } from 'src/app/services/custom-toast.service';
+import { CustomerIdService } from 'src/app/services/customer-id.service';
 import { DataService } from 'src/app/services/data.service';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 
 @Component({
-  selector: 'app-presupuesto-detalle-edicion-historial',
-  templateUrl: './presupuesto-detalle-edicion-historial.component.html',
+  selector: 'app-mantenimientos-programados',
+  templateUrl: './mantenimientos-programados.component.html',
   standalone: true,
   imports: [PrimeNgModule],
 })
-export default class PresupuestoDetalleEdicionHistorialComponent
+export default class MantenimientosProgramadosComponent
   implements OnInit, OnDestroy
 {
+  private customerIdService = inject(CustomerIdService);
   private dataService = inject(DataService);
   public ref = inject(DynamicDialogRef);
   public config = inject(DynamicDialogConfig);
   private customToastService = inject(CustomToastService);
 
   data: any[] = [];
-  id: number = 0;
   subRef$: Subscription;
+  cuentaId: number = 0;
+  private destroy$ = new Subject<void>(); // Utilizado para la gestión de recursos al destruir el componente
 
   ngOnInit() {
-    this.id = this.config.data.id;
-    if (this.id !== 0) this.onLoadData();
+    this.cuentaId = this.config.data.cuentaId;
+    if (this.cuentaId !== 0) this.onLoadData();
   }
 
   onLoadData() {
     // Mostrar un mensaje de carga
     this.customToastService.onLoading();
 
-    // Realizar una solicitud HTTP para eliminar un banco específico
-    this.subRef$ = this.dataService
-      .get(`Presupuesto/HistorialToEdition/${this.id}`)
+    // Realizar una solicitud HTTP para obtener datos de bancos
+    this.dataService
+      .get(
+        `Presupuesto/ServiciosMttoProgramados/${
+          this.cuentaId
+        }/${this.customerIdService.getcustomerId()}`
+      )
+      .pipe(takeUntil(this.destroy$)) // Cancelar la suscripción cuando el componente se destruye
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          // Cuando se completa la eliminación con éxito, mostrar un mensaje de éxito y volver a cargar los datos
+          console.log('🚀 ~ resp:', resp.body);
+          // Oculta el mensaje de carga
           this.customToastService.onClose();
         },
         error: (err) => {
@@ -48,7 +57,8 @@ export default class PresupuestoDetalleEdicionHistorialComponent
         },
       });
   }
-  ngOnDestroy(): void {
+
+  ngOnDestroy() {
     if (this.subRef$) this.subRef$.unsubscribe();
   }
 }

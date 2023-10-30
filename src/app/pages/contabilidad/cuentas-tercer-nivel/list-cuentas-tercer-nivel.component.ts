@@ -10,18 +10,19 @@ import {
 } from 'src/app/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
-import AddoreditLedgerAccountsComponent from './addoredit-ledger-accounts.component';
+import AddoreditLedgerAccountsComponent from './addoredit-cuentas-tercer-nivel.component';
 
 @Component({
-  selector: 'app-list-ledger-accounts',
-  templateUrl: './list-ledger-accounts.component.html',
+  selector: 'app-list-cuentas-tercer-nivel',
+  templateUrl: './list-cuentas-tercer-nivel.component.html',
   standalone: true,
   imports: [CommonModule, ComponentsModule, PrimeNgModule],
   providers: [DialogService, MessageService, CustomToastService],
 })
-export default class ListLedgerAccountsComponent implements OnInit, OnDestroy {
+export default class ListCuentasTercerNivelComponent
+  implements OnInit, OnDestroy
+{
   public customToastService = inject(CustomToastService);
-
   private dataService = inject(DataService);
   public messageService = inject(MessageService);
   public dialogService = inject(DialogService);
@@ -40,7 +41,7 @@ export default class ListLedgerAccountsComponent implements OnInit, OnDestroy {
     this.customToastService.onLoading();
     this.state = state;
     this.subRef$ = this.dataService
-      .get('Cuentas/AllCuentas/' + (state ? 0 : 1))
+      .get('Cuentas/GetList/' + (state ? 0 : 1))
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
@@ -91,5 +92,53 @@ export default class ListLedgerAccountsComponent implements OnInit, OnDestroy {
   subRef$: Subscription;
   ngOnDestroy(): void {
     if (this.subRef$) this.subRef$.unsubscribe();
+  }
+
+  organizeData(rawData: any[]): any[] {
+    const organizedData = [];
+
+    for (const rawItem of rawData) {
+      // Nivel 1: Cuenta de primer nivel
+      const nivel1Item = {
+        idCuentaPrimerNivel: rawItem.idCuentaPrimerNivel,
+        numeroCuentaPrimerNivel: rawItem.numeroCuentaPrimerNivel,
+        descripcionPrimerNivel: rawItem.descripcionPrimerNivel,
+        subNiveles: [],
+      };
+
+      // Nivel 2: Cuenta de segundo nivel
+      const nivel2Item = {
+        idCuentaSegundoNivel: rawItem.idCuentaSegundoNivel,
+        numeroCuentaSegundoNivel: rawItem.numeroCuentaSegundoNivel,
+        descripcionSegundoNivel: rawItem.descripcionSegundoNivel,
+        subNiveles: [],
+      };
+
+      // Nivel 3: Cuenta de tercer nivel
+      const nivel3Item = {
+        idCuentaTercerNivel: rawItem.idCuentaTercerNivel,
+        numeroCuentaTercerNivel: rawItem.numeroCuentaTercerNivel,
+        descripcionTercerNivel: rawItem.descripcionTercerNivel,
+      };
+
+      // Agregar nivel 3 al nivel 2
+      nivel2Item.subNiveles.push(nivel3Item);
+
+      // Buscar si el nivel 1 ya existe en la estructura
+      const nivel1Index = organizedData.findIndex(
+        (item) => item.idCuentaPrimerNivel === nivel1Item.idCuentaPrimerNivel
+      );
+
+      if (nivel1Index !== -1) {
+        // Nivel 1 ya existe, agregar nivel 2
+        organizedData[nivel1Index].subNiveles.push(nivel2Item);
+      } else {
+        // Nivel 1 no existe, agregarlo con nivel 2
+        nivel1Item.subNiveles.push(nivel2Item);
+        organizedData.push(nivel1Item);
+      }
+    }
+
+    return organizedData;
   }
 }

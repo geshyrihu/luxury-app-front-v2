@@ -20,6 +20,13 @@
     placeholder="descripción"
   ></custom-input-text>
 
+  <custom-input-text-area
+    [control]="form.get('information')"
+    formControlName="information"
+    label="Información"
+    placeholder="información"
+  ></custom-input-text-area>
+
   <custom-input-select
     [control]="form.get('estate')"
     formControlName="estate"

@@ -55,7 +55,6 @@ export default class ReportMeetingComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          console.log('🚀 ~ resp.body:', resp.body);
           this.detalles = resp.body.asuntos;
           this.onLoadCustomer();
           this.customToastService.onClose();

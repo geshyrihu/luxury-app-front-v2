@@ -57,17 +57,15 @@ export default class AddOrEditUnidadMedidaComponent
   }
 
   onLoadData() {
-    this.subRef$ = this.dataService
-      .get(`MeasurementUnits/${this.id}`)
-      .subscribe({
-        next: (resp) => {
-          this.form.patchValue(resp.body);
-        },
-        error: (err) => {
-          this.customToastService.onShowError();
-          console.log(err.error);
-        },
-      });
+    this.subRef$ = this.dataService.get(`UnidadMedida/${this.id}`).subscribe({
+      next: (resp) => {
+        this.form.patchValue(resp.body);
+      },
+      error: (err) => {
+        this.customToastService.onShowError();
+        console.log(err.error);
+      },
+    });
   }
 
   onSubmit() {
@@ -84,7 +82,7 @@ export default class AddOrEditUnidadMedidaComponent
     this.customToastService.onLoading();
     if (this.id === 0) {
       this.subRef$ = this.dataService
-        .post(`MeasurementUnits/`, this.form.value)
+        .post(`UnidadMedida/`, this.form.value)
         .subscribe({
           next: () => {
             this.ref.close(true);
@@ -100,7 +98,7 @@ export default class AddOrEditUnidadMedidaComponent
         });
     } else {
       this.subRef$ = this.dataService
-        .put(`MeasurementUnits/${this.id}`, this.form.value)
+        .put(`UnidadMedida/${this.id}`, this.form.value)
         .subscribe({
           next: () => {
             this.ref.close(true);

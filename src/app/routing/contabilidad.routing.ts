@@ -29,10 +29,24 @@ export default [
       import('src/app/pages/configuracion/bancos/list-banco.component'),
   },
   {
+    path: 'catalogo-cuentas-primer-nivel',
+    loadComponent: () =>
+      import(
+        'src/app/pages/contabilidad/cuentas-primer-nivel/cuentas-primer-nivel.component'
+      ),
+  },
+  {
+    path: 'catalogo-cuentas-segundo-nivel',
+    loadComponent: () =>
+      import(
+        'src/app/pages/contabilidad/cuentas-segundo-nivel/cuentas-segundo-nivel.component'
+      ),
+  },
+  {
     path: 'catalogo-cuentas',
     loadComponent: () =>
       import(
-        'src/app/pages/contabilidad/presupuesto-cuentas/list-ledger-accounts.component'
+        'src/app/pages/contabilidad/cuentas-tercer-nivel/list-cuentas-tercer-nivel.component'
       ),
   },
   {

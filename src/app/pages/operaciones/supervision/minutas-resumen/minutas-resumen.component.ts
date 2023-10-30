@@ -67,8 +67,6 @@ export default class MinutasResumenComponent implements OnInit, OnDestroy {
   }
 
   onLoadData(fehcaInicio: string, fechaFinal: string) {
-    console.log('🚀 ~ fechaFinal:', fechaFinal);
-    console.log('🚀 ~ fehcaInicio:', fehcaInicio);
     // Mostrar un mensaje de carga
     this.customToastService.onLoading();
     this.subRef$ = this.dataService

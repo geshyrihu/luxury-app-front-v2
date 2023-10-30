@@ -7,6 +7,7 @@ import {
 } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import { IFechasFiltro } from 'src/app/interfaces/IFechasFiltro.interface';
+import { AuthService } from 'src/app/services/auth.service';
 import { CustomToastService } from 'src/app/services/custom-toast.service';
 import { CustomerIdService } from 'src/app/services/customer-id.service';
 import { DataService } from 'src/app/services/data.service';
@@ -30,6 +31,7 @@ export default class PresupuestoAddComponent implements OnInit {
   public messageService = inject(MessageService);
   public rangoCalendarioService = inject(FiltroCalendarService);
   public ref = inject(DynamicDialogRef);
+  public authService = inject(AuthService);
 
   periodo: IPresupuestoAdd;
   subRef$: Subscription;
@@ -37,7 +39,6 @@ export default class PresupuestoAddComponent implements OnInit {
 
   ngOnInit() {
     this.id = this.config.data.id;
-    console.log('🚀 ~ this.config.data.id:', this.config.data.id);
     if (this.id !== 0) this.onLoadData();
     this.periodo = {
       customerId: this.customerIdService.customerId,
@@ -59,7 +60,6 @@ export default class PresupuestoAddComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log('🚀 ~ this.periodo:', this.periodo);
     if (this.id === 0) {
       // Mostrar un mensaje de carga
       this.customToastService.onLoading();

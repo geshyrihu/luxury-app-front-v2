@@ -21,6 +21,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { NgxMaskModule } from 'ngx-mask';
 import { AppComponent } from './app/app.component';
+import { AutosizeDirective } from './app/directives/autosize-text-area.diective';
 import { AuthGuard } from './app/guards/auth.guard';
 import { LayoutComponent } from './app/layouts/layout.component';
 import { JwtInterceptor } from './app/services/jwt-interceptor.service';
@@ -60,6 +61,7 @@ registerLocaleData(localeEsMX);
 bootstrapApplication(AppComponent, {
   providers: [
     importProvidersFrom(
+      AutosizeDirective,
       TranslateModule.forRoot({
         defaultLanguage: 'es',
       }),
@@ -89,9 +91,5 @@ bootstrapApplication(AppComponent, {
     provideAnimations(),
     importProvidersFrom([BrowserModule, BrowserAnimationsModule]),
     provideRouter(routes),
-    // provideServiceWorker('ngsw-worker.js', {
-    //   enabled: !isDevMode(),
-    //   registrationStrategy: 'registerWhenStable:30000',
-    // }),
   ],
 }).catch((err) => console.error(err));

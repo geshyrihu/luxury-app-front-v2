@@ -42,11 +42,6 @@ export default class MaintenanceReportsComponent implements OnInit {
   ngOnInit(): void {
     this.onLoadMenu();
     this.periodoInicial$.subscribe(() => {
-      console.log(
-        this.dateService.formatDateTimeToMMAAAA(
-          this.periodoMonthService.getPeriodoInicio
-        )
-      );
       this.onLoadMenu();
     });
   }

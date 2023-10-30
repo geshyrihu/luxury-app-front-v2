@@ -30,7 +30,6 @@ export default class CrudEntregaRecepcionClienteComponent
   public ref = inject(DynamicDialogRef);
   public config = inject(DynamicDialogConfig);
   public customerIdService = inject(CustomerIdService);
-
   private customToastService = inject(CustomToastService);
 
   id: number = 0;

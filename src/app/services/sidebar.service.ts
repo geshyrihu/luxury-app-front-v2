@@ -91,6 +91,31 @@ export class SidebarService {
           link: 'operaciones/compras/cedula-cliente',
           name: 'Contabilidad-Presupuesto',
         },
+
+        {
+          visible: this.authService.onValidateRoles(['SuperUsuario']),
+          label: 'Catalogo de Cuentas',
+          subItems: [
+            {
+              visible: this.authService.onValidateRoles(['SuperUsuario']),
+              label: 'Cuentas 1er Nivel',
+              link: '/contabilidad/catalogo-cuentas-primer-nivel',
+              name: 'Cuentas 1er Nivel',
+            },
+            {
+              visible: this.authService.onValidateRoles(['SuperUsuario']),
+              label: 'Cuentas 2do Nivel',
+              link: '/contabilidad/catalogo-cuentas-segundo-nivel',
+              name: 'Cuentas 2do Nivel',
+            },
+            {
+              visible: this.authService.onValidateRoles(['SuperUsuario']),
+              label: 'Cuentas',
+              link: '/contabilidad/catalogo-cuentas',
+              name: 'Cuentas',
+            },
+          ],
+        },
       ],
     },
     {
