@@ -15,6 +15,7 @@ import { DataService } from 'src/app/services/data.service';
 import { SelectItemService } from 'src/app/services/select-item.service';
 import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
+import PrimeNgModule from 'src/app/shared/prime-ng.module';
 
 @Component({
   selector: 'app-create-account-customer',
@@ -25,6 +26,7 @@ import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.mod
     ReactiveFormsModule,
     ComponentsModule,
     CustomInputModule,
+    PrimeNgModule,
   ],
   providers: [MessageService, CustomToastService],
 })

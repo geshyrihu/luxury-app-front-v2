@@ -25,7 +25,12 @@
       ></custom-input-text>
       <div class="form-group mb-2">
         <label class="form-label">Asunto</label>
-        <p-editor
+        <ckeditor
+          [config]="{ toolbar: ['heading', '|', 'bold', 'italic'] }"
+          [editor]="Editor"
+          formControlName="requestService"
+        ></ckeditor>
+        <!-- <p-editor
           formControlName="requestService"
           [style]="{ height: '200px' }"
         >
@@ -57,7 +62,7 @@
               <button class="ql-list" value="bullet"></button>
             </label>
           </ng-template>
-        </p-editor>
+        </p-editor> -->
       </div>
 
       <custom-input-select

@@ -52,6 +52,7 @@ export default class ResultadoGeneralDashboardComponent
   ngOnInit(): void {
     this.selectItemService.getCustomersNombreCorto().subscribe((resp) => {
       this.cb_customers = resp;
+      console.log('🚀 ~ this.cb_customers:', this.cb_customers);
     });
     this.periodo = this.dateService.getNameMontYear(
       this.periodoMonthService.fechaInicial

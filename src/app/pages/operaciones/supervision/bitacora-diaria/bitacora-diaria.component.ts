@@ -92,10 +92,11 @@ export default class BitacoraDiariaComponent implements OnInit, OnDestroy {
 
   onLoadUserSupervisor() {
     this.subRef$ = this.dataService
-      .get('SelectItem/GetListSupervision')
+      .get('SelectItem/getlistsupervision')
       .subscribe({
         next: (resp: any) => {
           this.cb_user = resp.body;
+          console.log('🚀 ~ resp.body:', resp.body);
         },
         error: (err) => {
           this.customToastService.onShowError();

@@ -3,6 +3,7 @@ import { MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import {
   CustomToastService,
+  CustomerIdService,
   DataService,
 } from 'src/app/services/common-services';
 import CustomButtonComponent from 'src/app/shared/custom-buttons/custom-button/custom-button.component';
@@ -18,6 +19,7 @@ export default class DepuracionComponent implements OnDestroy {
   private dataService = inject(DataService);
   public customToastService = inject(CustomToastService);
   public messageService = inject(MessageService);
+  public customerIdService = inject(CustomerIdService);
   // onDepuracionCotizacionProveedor() {
   //   // Mostrar un mensaje de carga
   //  this.customToastService.onLoading();
@@ -807,6 +809,22 @@ export default class DepuracionComponent implements OnDestroy {
     this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get('UpdateDataBase/RemovePerson')
+      .subscribe({
+        next: (_) => {
+          this.customToastService.onClose();
+        },
+        error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
+          console.log(err.error);
+        },
+      });
+  }
+  UpdatePhoneNumberAccount() {
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
+    this.subRef$ = this.dataService
+      .get('UpdateDataBase/UpdatePhoneNumberAccount')
       .subscribe({
         next: (_) => {
           this.customToastService.onClose();

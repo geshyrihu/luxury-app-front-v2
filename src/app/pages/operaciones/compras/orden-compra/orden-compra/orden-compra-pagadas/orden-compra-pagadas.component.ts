@@ -66,23 +66,23 @@ export default class OrdenCompraPagadasComponent implements OnInit, OnDestroy {
         },
       });
   }
-  onRevocarPago(id: number) {
-    // Mostrar un mensaje de carga
-    this.customToastService.onLoading();
-    this.subRef$ = this.dataService
-      .get(`OrdenCompraStatus/RevocarPago/${id}`)
-      .subscribe({
-        next: () => {
-          this.onLoadData(this.tipo);
-          this.customToastService.onClose();
-        },
-        error: (err) => {
-          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
-          this.customToastService.onCloseToError();
-          console.log(err.error);
-        },
-      });
-  }
+  // // onRevocarPago(id: number) {
+  // //   // Mostrar un mensaje de carga
+  // //   this.customToastService.onLoading();
+  // //   this.subRef$ = this.dataService
+  // //     .get(`OrdenCompraStatus/RevocarPago/${id}`)
+  // //     .subscribe({
+  // //       next: () => {
+  // //         this.onLoadData(this.tipo);
+  // //         this.customToastService.onClose();
+  // //       },
+  // //       error: (err) => {
+  // //         // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+  // //         this.customToastService.onCloseToError();
+  // //         console.log(err.error);
+  // //       },
+  // //     });
+  // // }
   onAddOrEdit(id: number) {
     this.ordenCompraService.setOrdenCompraId(id);
     this.ref = this.dialogService.open(OrdenCompraComponent, {

@@ -55,7 +55,7 @@
               "src/manifest.webmanifest"
             ],
             "styles": [
-              "node_modules/bootstrap-icons/font/bootstrap-icons.scss",
+              // // "node_modules/bootstrap-icons/font/bootstrap-icons.scss",
               "node_modules/ngx-ui-switch/ui-switch.component.css",
               "node_modules/primeng/resources/primeng.min.css",
               "node_modules/primeng/resources/themes/saga-blue/theme.css",

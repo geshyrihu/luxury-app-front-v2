@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import {
   DialogService,
@@ -30,6 +32,7 @@ import ComponentsModule from 'src/app/shared/components.module';
     EditorModule,
     ERecurrencePipe,
     EMonthPipe,
+    CKEditorModule,
   ],
   providers: [MessageService, CustomToastService],
 })
@@ -42,6 +45,8 @@ export default class OrderServiceComponent implements OnInit, OnDestroy {
   public config = inject(DynamicDialogConfig);
   public ref = inject(DynamicDialogRef);
   public confirmationService = inject(ConfirmationService);
+
+  public Editor = ClassicEditor;
 
   subRef$: Subscription;
   maintenanceCalendars: any[] = [];

@@ -95,7 +95,12 @@
 
         <div class="form-group col-sm-6">
           <label>Especificaciones Técnicas</label>
-          <p-editor
+          <ckeditor
+            [config]="{ toolbar: ['heading', '|', 'bold', 'italic'] }"
+            [editor]="Editor"
+            formControlName="technicalSpecifications"
+          ></ckeditor>
+          <!-- <p-editor
             formControlName="technicalSpecifications"
             [style]="{ height: '200px' }"
           >
@@ -122,12 +127,17 @@
                 <button class="ql-list" value="bullet"></button>
               </span>
             </ng-template>
-          </p-editor>
+          </p-editor> -->
         </div>
 
         <div class="form-group col-sm-6">
           <label>Observaciones</label>
-          <p-editor
+          <ckeditor
+            [config]="{ toolbar: ['heading', '|', 'bold', 'italic'] }"
+            [editor]="Editor"
+            formControlName="observations"
+          ></ckeditor>
+          <!-- <p-editor
             formControlName="observations"
             [style]="{ height: '200px' }"
           >
@@ -154,7 +164,7 @@
                 <button class="ql-list" value="bullet"></button>
               </span>
             </ng-template>
-          </p-editor>
+          </p-editor> -->
         </div>
       </div>
       <custom-button-submit
@@ -243,7 +253,12 @@
 
         <div class="form-group col-sm-6">
           <label>Especificaciones Técnicas</label>
-          <p-editor
+          <ckeditor
+            [config]="{ toolbar: ['heading', '|', 'bold', 'italic'] }"
+            [editor]="Editor"
+            formControlName="technicalSpecifications"
+          ></ckeditor>
+          <!-- <p-editor
             formControlName="technicalSpecifications"
             [style]="{ height: '200px' }"
           >
@@ -270,12 +285,17 @@
                 <button class="ql-list" value="bullet"></button>
               </span>
             </ng-template>
-          </p-editor>
+          </p-editor> -->
         </div>
 
         <div class="form-group col-sm-6">
           <label>Observaciones</label>
-          <p-editor
+          <ckeditor
+            [config]="{ toolbar: ['heading', '|', 'bold', 'italic'] }"
+            [editor]="Editor"
+            formControlName="observations"
+          ></ckeditor>
+          <!-- <p-editor
             formControlName="observations"
             [style]="{ height: '200px' }"
           >
@@ -302,7 +322,7 @@
                 <button class="ql-list" value="bullet"></button>
               </span>
             </ng-template>
-          </p-editor>
+          </p-editor> -->
         </div>
       </div>
       <custom-button-submit

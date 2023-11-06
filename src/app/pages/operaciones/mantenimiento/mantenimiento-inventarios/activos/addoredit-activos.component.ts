@@ -6,6 +6,8 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import {
   DialogService,
   DynamicDialogConfig,
@@ -38,6 +40,7 @@ import { environment } from 'src/environments/environment';
     ComponentsModule,
     PrimeNgModule,
     CustomInputModule,
+    CKEditorModule,
   ],
   providers: [DialogService, CustomToastService],
 })
@@ -51,8 +54,9 @@ export default class AddOrEditActivosComponent implements OnInit, OnDestroy {
   public ref = inject(DynamicDialogRef);
   public customerIdService = inject(CustomerIdService);
   public dialogService = inject(DialogService);
-
   private customToastService = inject(CustomToastService);
+
+  public Editor = ClassicEditor;
 
   submitting: boolean = false;
   subRef$: Subscription;

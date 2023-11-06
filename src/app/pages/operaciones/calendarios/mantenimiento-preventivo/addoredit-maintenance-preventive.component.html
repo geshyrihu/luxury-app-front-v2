@@ -90,60 +90,19 @@
               >Maximo 200 caracteres</small
             >
           </div>
-          <p-editor formControlName="activity" [style]="{ height: '200px' }">
-            <ng-template pTemplate="header">
-              <span class="ql-formats">
-                <button
-                  type="button"
-                  class="ql-bold"
-                  aria-label="Bold"
-                ></button>
-                <button
-                  type="button"
-                  class="ql-italic"
-                  aria-label="Italic"
-                ></button>
-                <button
-                  type="button"
-                  class="ql-underline"
-                  aria-label="Underline"
-                ></button>
-              </span>
-              <span class="ql-formats">
-                <button class="ql-list" value="ordered"></button>
-                <button class="ql-list" value="bullet"></button>
-              </span>
-            </ng-template>
-          </p-editor>
+          <ckeditor
+            [config]="{ toolbar: ['heading', '|', 'bold', 'italic'] }"
+            [editor]="Editor"
+            formControlName="activity"
+          ></ckeditor>
         </div>
         <div class="col-sm-6">
           <label>Observaciones</label>
-
-          <p-editor formControlName="observation" [style]="{ height: '200px' }">
-            <ng-template pTemplate="header">
-              <span class="ql-formats">
-                <button
-                  type="button"
-                  class="ql-bold"
-                  aria-label="Bold"
-                ></button>
-                <button
-                  type="button"
-                  class="ql-italic"
-                  aria-label="Italic"
-                ></button>
-                <button
-                  type="button"
-                  class="ql-underline"
-                  aria-label="Underline"
-                ></button>
-              </span>
-              <span class="ql-formats">
-                <button class="ql-list" value="ordered"></button>
-                <button class="ql-list" value="bullet"></button>
-              </span>
-            </ng-template>
-          </p-editor>
+          <ckeditor
+            [config]="{ toolbar: ['heading', '|', 'bold', 'italic'] }"
+            [editor]="Editor"
+            formControlName="observation"
+          ></ckeditor>
         </div>
       </div>
 
@@ -154,3 +113,4 @@
     </form>
   </div>
 </div>
+<!-- app.component.html -->

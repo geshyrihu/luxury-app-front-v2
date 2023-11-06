@@ -6,6 +6,8 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { EditorModule } from 'primeng/editor';
 import { Subscription } from 'rxjs';
@@ -29,6 +31,7 @@ import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.mod
     CommonModule,
     EditorModule,
     CustomInputModule,
+    CKEditorModule,
   ],
   providers: [CustomToastService],
 })
@@ -42,7 +45,7 @@ export default class AddoreditMinutaDetalleComponent
   public authService = inject(AuthService);
 
   private customToastService = inject(CustomToastService);
-
+  public Editor = ClassicEditor;
   submitting: boolean = false;
 
   cb_estatus = [

@@ -111,7 +111,9 @@ export default class AddOrEditEmailDataComponent implements OnInit, OnDestroy {
     this.customToastService.onLoading();
 
     this.subRef$ = this.dataService
-      .get(`SendEmail/TestEmail/${this.applicationUserId}`)
+      .get(
+        `SendEmail/TestEmail/${this.applicationUserId}/${this.authService.infoEmployeeDto.personId}`
+      )
       .subscribe({
         next: (resp: any) => {
           this.testEmailMessage = resp.body.message;
@@ -141,6 +143,7 @@ export default class AddOrEditEmailDataComponent implements OnInit, OnDestroy {
       )
       .subscribe({
         next: (resp: any) => {
+          console.log('🚀 ~ resp.body:', resp.body);
           if (resp.body !== null) {
             this.form.patchValue(resp.body);
             this.id = resp.body.id;

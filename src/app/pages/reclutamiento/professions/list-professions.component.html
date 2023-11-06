@@ -3,7 +3,7 @@
 <p-table
   #dt
   [autoLayout]="true"
-  [globalFilterFields]="['nameProfession']"
+  [globalFilterFields]="['nameProfession', 'area']"
   [rowHover]="true"
   [value]="data"
   currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
@@ -11,6 +11,8 @@
   rowGroupMode="subheader"
   sortField="area"
   groupRowsBy="area"
+  [reorderableColumns]="true"
+  (onRowReorder)="onRowReorder($event)"
 >
   <ng-template pTemplate="caption">
     <app-table-header
@@ -22,7 +24,7 @@
 
   <ng-template pTemplate="groupheader" let-item>
     <tr pRowGroupHeader>
-      <td colspan="4">
+      <td colspan="5">
         <span class="font-size-18 fw-semibold ml-2">{{ item.area }}</span>
       </td>
     </tr>
@@ -30,25 +32,42 @@
 
   <ng-template pTemplate="header">
     <tr>
-      <th scope="col" style="width: 5%">#</th>
-      <th scope="col" style="width: 15%" pSortableColumn="hierarchy">
+      <th pReorderableColumn scope="col" style="width: 5%">#</th>
+      <th
+        pReorderableColumn
+        scope="col"
+        style="width: 15%"
+        pSortableColumn="hierarchy"
+      >
         JERARQUÍA
         <p-sortIcon field="hierarchy"></p-sortIcon>
       </th>
-      <th scope="col" style="width: 15%" pSortableColumn="professionkey">
+      <th
+        pReorderableColumn
+        scope="col"
+        style="width: 15%"
+        pSortableColumn="professionkey"
+      >
         FOLIO
         <p-sortIcon field="professionkey"></p-sortIcon>
       </th>
-      <th scope="col" style="width: 75%" pSortableColumn="nameProfession">
+      <th
+        pReorderableColumn
+        scope="col"
+        style="width: 75%"
+        pSortableColumn="nameProfession"
+      >
         PROFESION <p-sortIcon field="nameProfession"></p-sortIcon>
       </th>
-      <th scope="col" style="width: 10%"></th>
+      <th pReorderableColumn scope="col" style="width: 10%"></th>
     </tr>
   </ng-template>
 
-  <ng-template pTemplate="body" let-item let-rowIndex="rowIndex">
-    <tr>
-      <td class="p-column-title">{{ rowIndex + 1 }}</td>
+  <ng-template pTemplate="body" let-item let-index="rowIndex">
+    <tr [pReorderableRow]="index">
+      <td class="p-column-title text-center">
+        <i class="fa-duotone fa-bars" pReorderableRowHandle></i>
+      </td>
       <td class="p-column-title">
         {{ item.hierarchy }}
       </td>

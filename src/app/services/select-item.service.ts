@@ -26,22 +26,22 @@ export class SelectItemService {
   employeeFromCustomer: ISelectItemDto[] = [];
 
   constructor() {
-    this.onGetCustomer();
+    // this.onGetCustomer();
     this.onGetProfessions();
     this.onGetAllEmployee();
     this.onGetEmployeeFromCustomer();
   }
 
-  onGetCustomer() {
-    this.subRef$ = this.dataService.get('SelectItem/Customers').subscribe({
-      next: (resp: any) => {
-        this.customer = resp.body;
-      },
-      error: (err) => {
-        console.log(err.error);
-      },
-    });
-  }
+  // onGetCustomer() {
+  //   this.subRef$ = this.dataService.get('SelectItem/Customers').subscribe({
+  //     next: (resp: any) => {
+  //       this.customer = resp.body;
+  //     },
+  //     error: (err) => {
+  //       console.log(err.error);
+  //     },
+  //   });
+  // }
 
   onGetProfessions() {
     this.subRef$ = this.dataService.get('SelectItem/Professions').subscribe({
@@ -136,6 +136,7 @@ export class SelectItemService {
       map((resp: any[]) =>
         resp.map((selectList) => ({
           label: selectList.label,
+          // value: selectList.value,
         }))
       )
     );

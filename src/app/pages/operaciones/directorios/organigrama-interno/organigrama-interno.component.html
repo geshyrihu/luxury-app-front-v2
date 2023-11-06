@@ -1,55 +1,40 @@
-<div class="container-fluid horizontal-scrollable">
-  <div class="row">
-    <div class="col">
-      <ng-container *ngIf="tree">
-        <angular-org-chart
-          [nodeTemplate]="nodeTemplate"
-          [data]="tree"
-          #exampleChart="orgChart"
-        >
-     
-        </angular-org-chart>
+<ngb-alert [dismissible]="false" style="font-size: 16px" type="secondary">
+  DIRECTORIO {{ nameCustomer }}- LUXURY BUILDING GROUP</ngb-alert
+>
 
-        <ng-template #nodeTemplate let-node style="width: 150px; height: 60px">
-          <div class="chart-node">
-            <img class="rounded avatar-md" [src]="baseUrlImg + node?.image" />
-            <div class="name text-truncate small">{{ node?.name }}</div>
-            <div class="description text-truncate small">
-              {{ node?.description }}
-            </div>
-            <div
-              *ngIf="node.children.length"
-              (click)="node.hideChildren = !node.hideChildren"
-              class="tree-fold-btn"
-            >
-              {{ node.hideChildren ? "+" : "-" }}
-            </div>
-          </div>
-        </ng-template>
-        <style>
-          :host {
-            display: block;
-            text-align: center;
-            padding: 64px;
-          }
-
-          .zoom-button {
-            padding: 0;
-            margin: 0;
-            border-radius: 50%;
-            text-align: center;
-            width: 40px;
-            height: 40px;
-            overflow: hidden;
-          }
-        </style>
-      </ng-container>
-    </div>
-  </div>
+<div class="card">
+  <p-table
+    [value]="data"
+    rowGroupMode="rowspan"
+    groupRowsBy="index"
+    styleClass="custom-table"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 15%">AREA</th>
+        <th style="width: 20%">PUESTO</th>
+        <th style="width: 25%">COLABORADOR</th>
+        <th style="width: 25%">CORREO</th>
+        <th style="width: 15%">TELÉFONO</th>
+      </tr>
+    </ng-template>
+    <ng-template
+      pTemplate="body"
+      let-item
+      let-rowgroup="rowgroup"
+      let-rowspan="rowspan"
+    >
+      <tr>
+        <td *ngIf="rowgroup" [attr.rowspan]="rowspan">
+          <span class="font-bold ml-2">{{ item.eAreaOrganigrama }}</span>
+        </td>
+        <td style="width: 20%">{{ item.profession }}</td>
+        <td style="width: 25%">{{ item.nameEmployee }}</td>
+        <td style="width: 25%">
+          {{ item.email }}
+        </td>
+        <td style="width: 15%">{{ item.phoneNumber }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
 </div>
-<style>
-  .horizontal-scrollable > .row {
-    overflow-x: auto;
-    white-space: nowrap;
-  }
-</style>

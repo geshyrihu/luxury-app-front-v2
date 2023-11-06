@@ -6,6 +6,8 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { SelectItem } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { EditorModule } from 'primeng/editor';
@@ -33,6 +35,7 @@ import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.mod
     ComponentsModule,
     EditorModule,
     CustomInputModule,
+    CKEditorModule,
   ],
   providers: [CustomToastService],
 })
@@ -47,6 +50,8 @@ export default class AddoreditMaintenancePreventiveComponent
   public selectItemService = inject(SelectItemService);
   public customerIdService = inject(CustomerIdService);
   private customToastService = inject(CustomToastService);
+
+  public Editor = ClassicEditor;
 
   cb_machinery: any[] = [];
   cb_providers: any[] = [];

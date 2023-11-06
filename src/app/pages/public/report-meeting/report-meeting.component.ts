@@ -68,7 +68,7 @@ export default class ReportMeetingComponent implements OnInit, OnDestroy {
 
   onLoadCustomer() {
     this.subRef$ = this.dataService
-      .get(`Customers/GetReport/${this.customer}`)
+      .get(`Customers/${this.customer}`)
       .subscribe((resp: any) => {
         this.nameCustomer = resp.body.nameCustomer;
         this.logoCustomer = `${environment.base_urlImg}Administration/customer/${resp.body.photoPath}`;

@@ -154,8 +154,12 @@
           <div class="">
             <div class="">
               <label class="form-label">Actividad</label>
-
-              <p-editor
+              <ckeditor
+                [config]="{ toolbar: ['heading', '|', 'bold', 'italic'] }"
+                [editor]="Editor"
+                formControlName="activity"
+              ></ckeditor>
+              <!-- <p-editor
                 formControlName="activity"
                 [style]="{ height: '200px' }"
               >
@@ -183,7 +187,7 @@
                     <button class="ql-list" value="bullet"></button>
                   </span>
                 </ng-template>
-              </p-editor>
+              </p-editor> -->
               <div
                 *ngIf="
                   f.activity.invalid && (f.activity.dirty || f.activity.touched)
@@ -201,8 +205,12 @@
           <div class="">
             <div class="">
               <label class="form-label">Observaciones</label>
-
-              <p-editor
+              <ckeditor
+                [config]="{ toolbar: ['heading', '|', 'bold', 'italic'] }"
+                [editor]="Editor"
+                formControlName="observations"
+              ></ckeditor>
+              <!-- <p-editor
                 formControlName="observations"
                 [style]="{ height: '200px' }"
               >
@@ -230,7 +238,7 @@
                     <button class="ql-list" value="bullet"></button>
                   </span>
                 </ng-template>
-              </p-editor>
+              </p-editor> -->
             </div>
           </div>
         </div>

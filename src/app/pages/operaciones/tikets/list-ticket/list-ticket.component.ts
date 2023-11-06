@@ -304,6 +304,23 @@ export default class ListTicketComponent implements OnInit, OnDestroy {
     this.data = this.dataCompleta;
   }
 
+  SetFolios() {
+    // Mostrar un mensaje de carga
+    this.customToastService.onLoading();
+    this.subRef$ = this.dataService
+      .get('Ticket/SetFolios/' + this.customerIdService.getcustomerId())
+      .subscribe({
+        next: (_) => {
+          this.customToastService.onClose();
+        },
+        error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
+          console.log(err.error);
+        },
+      });
+  }
+
   ngOnDestroy() {
     if (this.subRef$) this.subRef$.unsubscribe();
   }

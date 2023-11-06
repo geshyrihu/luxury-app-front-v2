@@ -6,6 +6,8 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { SelectItem } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { EditorModule } from 'primeng/editor';
@@ -22,6 +24,7 @@ import ComponentsModule, {
   flatpickrFactory,
 } from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
+
 @Component({
   selector: 'app-addoredit-service-order',
   templateUrl: './addoredit-service-order.component.html',
@@ -32,6 +35,7 @@ import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.mod
     ComponentsModule,
     EditorModule,
     CustomInputModule,
+    CKEditorModule,
   ],
   providers: [CustomToastService],
 })
@@ -45,8 +49,9 @@ export default class ServiceOrderAddOrEditComponent
   private formBuilder = inject(FormBuilder);
   public selectItemService = inject(SelectItemService);
   public ref = inject(DynamicDialogRef);
-
   private customToastService = inject(CustomToastService);
+
+  public Editor = ClassicEditor;
 
   submitting: boolean = false;
   subRef$: Subscription;

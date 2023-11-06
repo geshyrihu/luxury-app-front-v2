@@ -11,6 +11,7 @@ import {
   AuthService,
   CustomToastService,
   CustomerIdService,
+  DataService,
   SelectItemService,
 } from 'src/app/services/common-services';
 import { ProfielServiceService } from 'src/app/services/profiel-service.service';
@@ -40,6 +41,7 @@ export class TopbarComponent implements OnInit {
   public profielServiceService = inject(ProfielServiceService);
   public customToastService = inject(CustomToastService);
   private location = inject(Location);
+  private dataService = inject(DataService);
 
   //TODO REVISAR FUNCIONAKLIDAD QUE SE OCULTE MENU EN VERSION MOBIL
   @Output()
@@ -59,6 +61,7 @@ export class TopbarComponent implements OnInit {
       )
       .subscribe((resp) => {
         this.cb_customer = resp;
+        console.log('🚀 ~ topbar customer:', this.cb_customer);
       });
   }
 
@@ -107,6 +110,10 @@ export class TopbarComponent implements OnInit {
     const currentUrl = this.router.url;
     localStorage.setItem('currentUrl', currentUrl);
     this.router.navigate(['/auth/login']);
+
+    this.dataService
+      .get('Auth/Logout/' + this.authService.infoUserAuthDto.applicationUserId)
+      .subscribe(() => {});
   }
 
   onBack() {

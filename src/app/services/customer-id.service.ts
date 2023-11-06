@@ -1,11 +1,17 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { AuthService } from './auth.service';
+import { DataService } from './data.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CustomerIdService {
+  public dataService = inject(DataService);
+
+  nameCustomer: string = '';
+  logoCustomer: string = '';
   customerId: number = 0; // Valor predeterminado para el ID del cliente
   private customerId$ = new Subject<number>(); // Observable para el ID del cliente
 
@@ -24,6 +30,8 @@ export class CustomerIdService {
   setCustomerId(customerId: number) {
     this.customerId = customerId;
     this.customerId$.next(customerId); // Notificar a los observadores sobre el cambio en el ID del cliente.
+
+    this.onLoadData(customerId);
   }
 
   /**
@@ -40,5 +48,12 @@ export class CustomerIdService {
    */
   getcustomerId() {
     return this.customerId;
+  }
+
+  onLoadData(customerId: number) {
+    this.dataService.get(`Customers/${customerId}`).subscribe((resp: any) => {
+      this.nameCustomer = resp.body.nameCustomer;
+      this.logoCustomer = `${environment.base_urlImg}Administration/customer/${resp.body.photoPath}`;
+    });
   }
 }

@@ -455,6 +455,19 @@ export class SidebarService {
           visible: this.authService.onValidateRoles([
             'SuperUsuario',
             'Asistente',
+            'Residente',
+          ]),
+
+          // Se va a editar y se mostraran todos los presupuestos
+          label: 'Cuentas Mtto',
+          // link: 'operaciones/compras/cedula-cliente',
+          link: 'operaciones/compras/mtto-presupuesto',
+          name: 'Compras-Cuentas Mtto',
+        },
+        {
+          visible: this.authService.onValidateRoles([
+            'SuperUsuario',
+            'Asistente',
             'Mantenimiento',
             'Residente',
           ]),

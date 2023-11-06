@@ -222,7 +222,7 @@ export default class PresupuestoIndividualComponent implements OnInit {
 
   onEnterPressed(item: any) {
     // Mostrar un mensaje de carga
-    this.customToastService.onLoading();
+    // this.customToastService.onLoading();
 
     const data = {
       id: item.id,
@@ -234,6 +234,76 @@ export default class PresupuestoIndividualComponent implements OnInit {
       .post(`Presupuesto/UpdateAccount/`, data)
       .pipe(takeUntil(this.destroy$)) // Cancelar la suscripción cuando el componente se destruye
       .subscribe({
+        next: (resp: any) => {
+          console.log('🚀 ~ resp:', resp.body);
+          // Cuando se actualiza el elemento con éxito, buscar su índice en la matriz
+          const index = this.data.budgetDetailDto.findIndex(
+            (existingItem) => existingItem.id === data.id
+          );
+          // Calcula el porcentaje de aumento
+          const porcentaje = this.PorcentajeAumento(
+            data.monthlyBudget,
+            item.monthlyBudgetFormet
+          ); // Reemplaza 'originalValor' por el valor correcto
+
+          if (index !== -1) {
+            // Actualiza el elemento en la matriz
+            this.data.budgetDetailDto[index] = {
+              ...this.data.budgetDetailDto[index],
+              monthlyBudget: parseFloat(data.monthlyBudget).toLocaleString(),
+              percentageIncrease: porcentaje,
+              totalBudget: (
+                this.data.duracion * parseFloat(data.monthlyBudget)
+              ).toLocaleString(),
+            };
+            console.log(
+              '🚀 ~ this.data.budgetDetailDto[index]:',
+              this.data.budgetDetailDto[index]
+            );
+          }
+
+          // Oculta el mensaje de carga
+          // this.customToastService.onCloseToSuccess();
+        },
+        error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onShowError();
+          console.log(err.error);
+        },
+      });
+  }
+  onEnterPressedPorcentaje(item: any) {
+    if (item.percentageIncrease > 100) return;
+    // Obtén el valor original de monthlyBudget (asegúrate de que sea un número)
+    const monthlyBudgetOriginal = parseFloat(
+      item.monthlyBudgetFormet.replace(/,/g, '')
+    );
+
+    // Obtén el porcentaje de aumento (asegúrate de que sea un número)
+    const percentageIncrease = parseFloat(item.percentageIncrease);
+
+    if (isNaN(monthlyBudgetOriginal) || isNaN(percentageIncrease)) {
+      // Maneja valores no válidos
+      return;
+    }
+
+    // Calcula el nuevo valor de monthlyBudget aplicando el porcentaje de aumento
+    const newmonthlyBudget =
+      monthlyBudgetOriginal * (1 + percentageIncrease / 100);
+
+    // Aquí puedes hacer lo que necesites con monthlyBudgetFormet
+    // Por ejemplo, llenar el objeto que se enviará en el POST
+    const data = {
+      id: item.id,
+      employeeId: this.employeeId,
+      monthlyBudget: newmonthlyBudget,
+    };
+
+    // Luego, realiza la solicitud POST con el objeto actualizado
+    this.dataService
+      .post(`Presupuesto/UpdateAccount/`, data)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
         next: () => {
           // Cuando se actualiza el elemento con éxito, buscar su índice en la matriz
           const index = this.data.budgetDetailDto.findIndex(
@@ -244,16 +314,16 @@ export default class PresupuestoIndividualComponent implements OnInit {
             // Actualiza el elemento en la matriz
             this.data.budgetDetailDto[index] = {
               ...this.data.budgetDetailDto[index],
-              monthlyBudget: data.monthlyBudget,
+              monthlyBudget: newmonthlyBudget.toLocaleString(),
+              percentageIncrease: percentageIncrease.toFixed(2) + '%',
+              totalBudget: (
+                this.data.duracion * newmonthlyBudget
+              ).toLocaleString(),
             };
           }
-
-          // Oculta el mensaje de carga
-          this.customToastService.onCloseToSuccess();
         },
         error: (err) => {
-          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
-          this.customToastService.onCloseToError();
+          // Maneja errores si es necesario
           console.log(err.error);
         },
       });
@@ -275,6 +345,30 @@ export default class PresupuestoIndividualComponent implements OnInit {
       closeOnEscape: true,
     });
   }
+
+  private PorcentajeAumento(
+    nuevoValor: string,
+    originalValor: string | null
+  ): string {
+    // Elimina comas de los valores y convierte a números
+    const nuevoValorNumero = parseFloat(nuevoValor.replace(/,/g, ''));
+
+    const originalValorNumero = parseFloat(originalValor.replace(/,/g, ''));
+
+    if (
+      isNaN(nuevoValorNumero) ||
+      isNaN(originalValorNumero) ||
+      originalValorNumero === 0
+    ) {
+      return 'N/A'; // Maneja valores no válidos o cero
+    }
+
+    const aumento = nuevoValorNumero - originalValorNumero;
+    const porcentajeAumento = (aumento / originalValorNumero) * 100;
+
+    return porcentajeAumento.toFixed(2) + '%';
+  }
+
   ngOnDestroy(): void {
     // Cuando se destruye el componente, desvincular y liberar recursos
     this.destroy$.next();

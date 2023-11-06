@@ -1,3 +1,11 @@
+<custom-button
+  *ngIf="authService.onValidateRoles(['SuperUsuario'])"
+  (clicked)="SetFolios()"
+  customClass="btn-outline-primary me-1 mb-1"
+  label="SetFolios"
+>
+</custom-button>
+
 <div class="row">
   <div class="col hide-print-mode">
     <button

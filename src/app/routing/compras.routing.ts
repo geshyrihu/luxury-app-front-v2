@@ -106,4 +106,11 @@ export default [
         'src/app/pages/operaciones/compras/orden-compra/orden-compra/orden-compra-pagadas/orden-compra-pagadas.component'
       ),
   },
+  {
+    path: 'mtto-presupuesto',
+    loadComponent: () =>
+      import(
+        'src/app/pages/operaciones/mantenimiento/mantenimiento-presupuesto/gastos-mantenimiento.component'
+      ),
+  },
 ] as Routes;

@@ -52,6 +52,7 @@ export default class ListCedulasPresupuestalesComponent
     this.selectItemService.onGetSelectItem(`GetAllYears`).subscribe({
       next: (resp: any) => {
         this.cb_Year = resp.body;
+        console.log('🚀 ~ resp.body:', resp.body);
       },
     });
   }

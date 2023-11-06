@@ -18,6 +18,7 @@ export interface InfoAccountAuthDto {
 
 export interface InfoEmployeeAuthDto {
   employeeId: number | null;
+  personId: number | null;
   firstName: string;
   lastName: string;
   birth: string;

@@ -92,7 +92,7 @@
                 <ng-template pTemplate="input">
                   <div style="display: flex; align-items: center">
                     <input
-                      pInputText
+                      class="form-control"
                       type="text"
                       [(ngModel)]="item.monthlyBudget"
                       required
@@ -106,7 +106,11 @@
               </p-cellEditor>
             </ngb-alert>
           </td>
-          <td class="p-column-title">
+          <td
+            class="p-column-title"
+            [pEditableColumn]="item.percentageIncrease"
+            pEditableColumnField="percentageIncrease"
+          >
             <ngb-alert
               [dismissible]="false"
               role="alert"
@@ -114,7 +118,24 @@
               class="alert show alert-light fade p-1 m-0"
               style="color: black !important"
             >
-              {{ item.percentageIncrease }}
+              <p-cellEditor>
+                <ng-template pTemplate="input">
+                  <div style="display: flex; align-items: center">
+                    <input
+                      class="form-control"
+                      type="number"
+                      min="0"
+                      max="100"
+                      [(ngModel)]="item.percentageIncrease"
+                      required
+                      (keydown.enter)="onEnterPressedPorcentaje(item)"
+                    />
+                  </div>
+                </ng-template>
+                <ng-template pTemplate="output">
+                  {{ item.percentageIncrease }}
+                </ng-template>
+              </p-cellEditor>
             </ngb-alert>
           </td>
           <td class="p-column-title">

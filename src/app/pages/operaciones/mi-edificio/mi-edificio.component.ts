@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { TableModule } from 'primeng/table';
@@ -17,7 +18,7 @@ import FichaTecnicaActivoComponent from '../../operaciones/mantenimiento/manteni
   selector: 'app-mi-edificio',
   templateUrl: './mi-edificio.component.html',
   standalone: true,
-  imports: [CommonModule, ComponentsModule, TableModule],
+  imports: [CommonModule, ComponentsModule, TableModule, RouterModule],
   providers: [DialogService, MessageService, CustomToastService],
 })
 export default class MiEdificioComponent implements OnInit, OnDestroy {
@@ -53,6 +54,7 @@ export default class MiEdificioComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
+          console.log('🚀 ~ resp.body:', resp.body);
           this.customToastService.onClose();
         },
         error: (err) => {
@@ -79,6 +81,18 @@ export default class MiEdificioComponent implements OnInit, OnDestroy {
         this.onLoadData();
       }
     });
+  }
+
+  // Función para agrupar elementos por la propiedad "categoria"
+  groupByCategory() {
+    const groupedData = {};
+    this.data.equipoElectromecanicos.forEach((item) => {
+      if (!groupedData[item.categoria]) {
+        groupedData[item.categoria] = [];
+      }
+      groupedData[item.categoria].push(item);
+    });
+    return groupedData;
   }
 
   ngOnDestroy(): void {

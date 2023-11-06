@@ -8,7 +8,8 @@
       'ePosicionComite',
       'departamento',
       'email',
-      'condomino'
+      'condomino',
+      'nameDirectoryCondominium'
     ]"
     [paginator]="true"
     [rowHover]="true"
@@ -33,14 +34,9 @@
           <p class="card-title">Posición</p>
           <p-sortIcon field="ePosicionComite"></p-sortIcon>
         </th>
-        <th
-          scope="col"
-          pSortableColumn="listCondomino.nameDirectoryCondominium"
-        >
+        <th scope="col" pSortableColumn="nameDirectoryCondominium">
           <p class="card-title">Nombre</p>
-          <p-sortIcon
-            field="listCondomino.nameDirectoryCondominium"
-          ></p-sortIcon>
+          <p-sortIcon field="nameDirectoryCondominium"></p-sortIcon>
         </th>
         <th scope="col" pSortableColumn="departamento">
           <p class="card-title">Departamento</p>
@@ -68,7 +64,7 @@
         </td>
         <td class="p-column-title">
           <p class="card-title">
-            {{ item.condomino }}
+            {{ item.nameDirectoryCondominium }}
           </p>
         </td>
         <td class="p-column-title">
