@@ -1,95 +1,97 @@
 /*
 Template Name: Minia - Admin & Dashboard Template
 Author: Themesbrand
-Version: 2.0.0
+Version: 2.1.0
 Website: https://themesbrand.com/
 Contact: themesbrand@gmail.com
 File: Main Css File
 */
-
 //Custom Style Primeng
 
 @import "custom-primeng.scss";
 @import "print-mode.scss";
 @import "styles.scss";
 
+
 //Fonts
-@import "custom/fonts/fonts";
+@import "fonts/fonts";
+
 //Core files
 @import "./node_modules/bootstrap/scss/functions";
-@import "./node_modules/bootstrap/scss/mixins.scss";
 @import "./node_modules/bootstrap/scss/variables";
-@import "theme-dark";
-@import "theme-light";
 @import "variables";
+@import "variables-dark";
+@import "./node_modules/bootstrap/scss/mixins.scss";
 
 // Structure
-@import "custom/structure/general";
-@import "custom/structure/topbar";
-@import "custom/structure/page-head";
-@import "custom/structure/footer";
-@import "custom/structure/right-sidebar";
-@import "custom/structure/vertical";
-@import "custom/structure/horizontal-nav";
-@import "custom/structure/layouts";
+@import "structure/general";
+@import "structure/topbar";
+@import "structure/page-head";
+@import "structure/footer";
+@import "structure/right-sidebar";
+@import "structure/vertical";
+@import "structure/horizontal-nav";
+@import "structure/layouts";
 
 // Components
-@import "custom/components/waves";
-@import "custom/components/accordion";
-@import "custom/components/avatar";
-@import "custom/components/helper";
-@import "custom/components/modals";
-@import "custom/components/forms";
-@import "custom/components/widgets";
-@import "custom/components/toasts";
-@import "custom/components/demos";
-@import "custom/components/print";
+@import "components/root";
+@import "components/waves";
+@import "components/accordion";
+@import "components/avatar";
+@import "components/helper";
+@import "components/modals";
+@import "components/forms";
+@import "components/widgets";
+@import "components/toasts";
+@import "components/demos";
+@import "components/print";
+@import "components/utilities";
 
 // Plugins
-@import "custom/plugins/custom-scrollbar";
-@import "custom/plugins/calendar";
-@import "custom/plugins/session-timeout";
-@import "custom/plugins/range-slider";
-@import "custom/plugins/sweatalert2";
-@import "custom/plugins/alertify";
-@import "custom/plugins/pristinejs";
-@import "custom/plugins/choices";
-@import "custom/plugins/switch";
-@import "custom/plugins/colorpicker";
-@import "custom/plugins/datepicker";
-@import "custom/plugins/form-editors";
-@import "custom/plugins/form-upload";
-@import "custom/plugins/form-wizard";
-@import "custom/plugins/datatable";
-@import "custom/plugins/responsive-table";
-@import "custom/plugins/table-editable";
-@import "custom/plugins/apexcharts";
-@import "custom/plugins/echarts";
-@import "custom/plugins/sparkline-chart";
-@import "custom/plugins/google-map";
-@import "custom/plugins/vector-maps";
-@import "custom/plugins/leaflet-maps";
+@import "plugins/custom-scrollbar";
+@import "plugins/calendar";
+@import "plugins/session-timeout";
+@import "plugins/range-slider";
+@import "plugins/sweatalert2";
+@import "plugins/alertify";
+@import "plugins/pristinejs";
+@import "plugins/choices";
+@import "plugins/switch";
+@import "plugins/colorpicker";
+@import "plugins/datepicker";
+@import "plugins/form-editors";
+@import "plugins/form-upload";
+@import "plugins/form-wizard";
+@import "plugins/datatable";
+@import "plugins/responsive-table";
+@import "plugins/table-editable";
+@import "plugins/apexcharts";
+@import "plugins/echarts";
+@import "plugins/sparkline-chart";
+@import "plugins/google-map";
+@import "plugins/vector-maps";
+@import "plugins/leaflet-maps";
 
 
 // Pages
-@import "custom/pages/authentication";
-@import "custom/pages/email";
-@import "custom/pages/chat";
-@import "custom/pages/coming-soon";
-@import "custom/pages/timeline";
-@import "custom/pages/extras-pages";
+@import "pages/authentication";
+@import "pages/email";
+@import "pages/chat";
+@import "pages/coming-soon";
+@import "pages/timeline";
+@import "pages/extras-pages";
 
 // Custom Scss
 @import "./custom.scss";
 
-// RTL Scss
-// @import "custom/rtl/bootstrap-rtl";
-// @import "custom/rtl/components-rtl";
-// @import "custom/rtl/float-rtl";
-// @import "custom/rtl/general-rtl";
-// @import "custom/rtl/components-rtl";
-// @import "custom/rtl/pages-rtl";
-// @import "custom/rtl/plugins-rtl";
-// @import "custom/rtl/spacing-rtl";
-// @import "custom/rtl/structure-rtl";
-// @import "custom/rtl/text-rtl";
+
+// rtl
+// @import "rtl/bootstrap-rtl";
+// @import "rtl/components-rtl";
+// @import "rtl/float-rtl";
+// @import "rtl/general-rtl";
+// @import "rtl/pages-rtl";
+// @import "rtl/plugins-rtl";
+// @import "rtl/spacing-rtl";
+// @import "rtl/structure-rtl";
+// @import "rtl/text-rtl";

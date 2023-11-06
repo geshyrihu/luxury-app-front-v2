@@ -1,15 +1,13 @@
-@import "leaflet/dist/leaflet.css";
+// @import 'leaflet/dist/leaflet.css';
 
 // Custom Dashboard Css
 .activity-wid .activity-list:last-child::before {
   display: none;
 }
 
-
-
 // owl-carousel
-@import "ngx-owl-carousel-o/lib/styles/scss/owl.carousel";
-@import "ngx-owl-carousel-o/lib/styles/scss/owl.theme.default";
+// @import 'ngx-owl-carousel-o/lib/styles/scss/owl.carousel';
+// @import 'ngx-owl-carousel-o/lib/styles/scss/owl.theme.default';
 
 .carousel-indicators li {
   box-sizing: content-box;
@@ -39,8 +37,7 @@
   .btn-close {
     font-size: 10px;
     padding: $alert-padding-y * 1.4 $alert-padding-x;
-    background: transparent escape-svg($btn-close-bg) center / $btn-close-width
-      auto no-repeat;
+    background: transparent escape-svg($btn-close-bg) center / $btn-close-width auto no-repeat;
   }
 }
 
@@ -50,8 +47,7 @@
     border: 0;
     font-size: 10px;
     padding: 1.35rem 1.25rem;
-    background: transparent escape-svg($btn-close-bg) center / $btn-close-width
-      auto no-repeat;
+    background: transparent escape-svg($btn-close-bg) center / $btn-close-width auto no-repeat;
     position: absolute;
     top: 0;
     right: 0;
@@ -181,7 +177,8 @@
 
 // dark style
 
-body[data-layout-mode="dark"] {
+body[data-bs-theme="dark"] {
+
   // Calender
   .fc-theme-standard .fc-scrollgrid,
   .fc-theme-standard td,
@@ -240,12 +237,21 @@ body[data-layout-mode="dark"] {
 
   // File Upload
   .dropzone {
+    border: 2px dashed var(--bs-border-color);
     background-color: #333836 !important;
     border-color: $gray-300 !important;
   }
 
   .dropzone .dz-message {
     background-color: #333836 !important;
+  }
+}
+
+body[data-bs-theme="dark"] {
+
+  .app-search .form-control {
+    border: none !important;
+    background-color: #363a38 !important;
   }
 }
 
@@ -299,7 +305,9 @@ body[data-layout-mode="dark"] {
   }
 }
 
+
 body[data-sidebar-size="md"] {
+
   #sidebar-menu ul li a {
     i-feather {
       display: block;
@@ -314,5 +322,67 @@ body {
   }
 }
 
+.step {
+  position: relative;
+  transition: all .5s ease-in-out;
+
+  i {
+    display: inline-block;
+    width: 56px !important;
+    height: 56px;
+    line-height: 54px;
+    border: 1px solid rgba(81, 86, 190, .2);
+    color: #5156be;
+    text-align: center;
+    border-radius: 50%;
+    position: relative;
+    z-index: 1;
+    font-size: 20px;
+    background-color: transparent;
+    color: #5156be;
+    border-color: rgba(81, 86, 190, .2)
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    width: 75%;
+    height: 2px;
+    background-color: $primary;
+    left: 62%;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  &:last-child {
+    &::before {
+      display: none;
+    }
+  }
+
+  &.active {
+    i {
+      background-color: rgba(81, 86, 190, .2);
+    }
+  }
+
+}
+
+.container-fluid {
+  --bs-gutter-x: 1.5rem;
+  --bs-gutter-y: 0;
+  width: 100%;
+  padding-right: calc(var(--bs-gutter-x) * .5);
+  padding-left: calc(var(--bs-gutter-x) * .5);
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.main-content {
+  .content {
+    margin-top: 0px
+  }
+}
+
 // flatpicker
-@import "~flatpickr/dist/flatpickr.css";
+@import '~flatpickr/dist/flatpickr.css';
