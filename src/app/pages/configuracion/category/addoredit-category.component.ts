@@ -9,11 +9,11 @@ import {
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { ICategoryAddOrEditDto } from 'src/app/interfaces/ICategoryAddOrEditDto.interface';
+import { ICategoryAddOrEditDto } from 'src/app/core/interfaces/ICategoryAddOrEditDto.interface';
 import {
   CustomToastService,
   DataService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
 

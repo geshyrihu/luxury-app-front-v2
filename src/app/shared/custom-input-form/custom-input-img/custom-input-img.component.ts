@@ -1,6 +1,6 @@
 import { NgIf, NgStyle } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { imageToBase64 } from 'src/app/helpers/enumeration';
+import { imageToBase64 } from 'src/app/core/helpers/enumeration';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -43,15 +43,17 @@ export default class CustomInputImgComponent {
   onValidateImgCurrent(): boolean {
     const url = this.urlImgCurrent;
 
+    let result:boolean=false;
     if (url) {
       const parts = url.split('/');
       const lastPart = parts.pop();
 
       if (lastPart == 'null') {
-        return true;
+        result= true;
       } else {
-        return false;
+        result= false;
       }
     }
+    return result;
   }
 }

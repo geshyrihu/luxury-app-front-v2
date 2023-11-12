@@ -8,7 +8,7 @@ import {
   CustomToastService,
   CustomerIdService,
   DataService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import DashboardTicketsResumenComponent from '../dashboard-tickets-resumen/dashboard-tickets-resumen.component';
 
 @Component({

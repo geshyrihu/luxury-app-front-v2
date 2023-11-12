@@ -56,13 +56,13 @@
             <i
               class="fa-duotone fa-thumbtack"
               [ngClass]="{
-                'text-success': item.tipoServicio == 0,
-                'text-danger': item.tipoServicio == 1,
-                'text-primary': item.tipoServicio == 2
+                'text-success': item.tipoServicio == 'Preventivo',
+                'text-danger': item.tipoServicio == 'Correctivo',
+                'text-primary': item.tipoServicio == 'Predictivo'
               }"
             ></i>
-            {{ item.tipoServicio | eTypeMaintance }},
-            {{ item.recurrencia | eRecurrence }}
+            {{ item.tipoServicio }},
+            {{ item.recurrencia }}
           </p>
         </div>
       </td>

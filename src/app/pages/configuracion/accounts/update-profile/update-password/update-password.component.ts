@@ -10,13 +10,13 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { Subscription } from 'rxjs';
-import { passwordValidation } from 'src/app/directives/validations/password-validation.directive';
-import { ChangePassword } from 'src/app/interfaces/auth/change-password.interface';
+import { passwordValidation } from 'src/app/core/directives/password-validation.directive';
+import { ChangePassword } from 'src/app/core/interfaces/change-password.interface';
 import {
   AuthService,
   CustomToastService,
   DataService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 
 @Component({

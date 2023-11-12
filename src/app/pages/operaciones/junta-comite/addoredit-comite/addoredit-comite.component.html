@@ -33,7 +33,7 @@
     *ngFor="let item of listaParticipantesComite"
     class="list-group-item list-group-item-action"
   >
-    {{ item.cargo | ePositionComite }}-{{ item.nombre }}
+    {{ item.cargo }}-{{ item.nombre }}
 
     <span
       (click)="onDelete(item.id)"

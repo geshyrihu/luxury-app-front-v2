@@ -3,11 +3,11 @@ import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { CustomerIdService } from 'src/app/services/common-services';
-import { CustomToastService } from 'src/app/services/custom-toast.service';
-import { DataService } from 'src/app/services/data.service';
-import { DateService } from 'src/app/services/date.service';
-import { SelectItemService } from 'src/app/services/select-item.service';
+import { CustomerIdService } from 'src/app/core/services/common-services';
+import { CustomToastService } from 'src/app/core/services/custom-toast.service';
+import { DataService } from 'src/app/core/services/data.service';
+import { DateService } from 'src/app/core/services/date.service';
+import { SelectItemService } from 'src/app/core/services/select-item.service';
 import Swal from 'sweetalert2';
 
 @Component({

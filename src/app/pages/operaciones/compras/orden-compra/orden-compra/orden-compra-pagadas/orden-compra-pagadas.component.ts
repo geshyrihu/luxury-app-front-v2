@@ -4,11 +4,11 @@ import { Router, RouterModule } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable, Subscription } from 'rxjs';
-import { CurrencyMexicoPipe } from 'src/app/pipes/currencyMexico.pipe';
-import { CustomerIdService } from 'src/app/services/common-services';
-import { CustomToastService } from 'src/app/services/custom-toast.service';
-import { DataService } from 'src/app/services/data.service';
-import { OrdenCompraService } from 'src/app/services/orden-compra.service';
+import { CurrencyMexicoPipe } from 'src/app/core/pipes/currencyMexico.pipe';
+import { CustomerIdService } from 'src/app/core/services/common-services';
+import { CustomToastService } from 'src/app/core/services/custom-toast.service';
+import { DataService } from 'src/app/core/services/data.service';
+import { OrdenCompraService } from 'src/app/core/services/orden-compra.service';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import OrdenCompraComponent from '../orden-compra.component';
@@ -66,23 +66,6 @@ export default class OrdenCompraPagadasComponent implements OnInit, OnDestroy {
         },
       });
   }
-  // // onRevocarPago(id: number) {
-  // //   // Mostrar un mensaje de carga
-  // //   this.customToastService.onLoading();
-  // //   this.subRef$ = this.dataService
-  // //     .get(`OrdenCompraStatus/RevocarPago/${id}`)
-  // //     .subscribe({
-  // //       next: () => {
-  // //         this.onLoadData(this.tipo);
-  // //         this.customToastService.onClose();
-  // //       },
-  // //       error: (err) => {
-  // //         // En caso de error, mostrar un mensaje de error y registrar el error en la consola
-  // //         this.customToastService.onCloseToError();
-  // //         console.log(err.error);
-  // //       },
-  // //     });
-  // // }
   onAddOrEdit(id: number) {
     this.ordenCompraService.setOrdenCompraId(id);
     this.ref = this.dialogService.open(OrdenCompraComponent, {

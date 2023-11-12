@@ -4,13 +4,13 @@ import { FormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { CatalogoGastosFijosService } from 'src/app/services/catalogo-gastos-fijos.service';
+import { CatalogoGastosFijosService } from 'src/app/core/services/catalogo-gastos-fijos.service';
 import {
   AuthService,
   CustomToastService,
   CustomerIdService,
   DataService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 

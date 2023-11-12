@@ -4,13 +4,13 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { Subscription } from 'rxjs';
-import { InfoEmployeeAuthDto } from 'src/app/interfaces/auth/user-token.interface';
+import { InfoEmployeeAuthDto } from 'src/app/core/interfaces/user-token.interface';
 import {
   AuthService,
   CustomToastService,
   DataService,
-} from 'src/app/services/common-services';
-import { ProfielServiceService } from 'src/app/services/profiel-service.service';
+} from 'src/app/core/services/common-services';
+import { ProfielServiceService } from 'src/app/core/services/profiel-service.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -23,7 +23,6 @@ import { environment } from 'src/environments/environment';
 export default class UpdatePhotoEmployeeComponent implements OnInit, OnDestroy {
   public authService = inject(AuthService);
   private dataService = inject(DataService);
-
   public customToastService = inject(CustomToastService);
   public profielServiceService = inject(ProfielServiceService);
 

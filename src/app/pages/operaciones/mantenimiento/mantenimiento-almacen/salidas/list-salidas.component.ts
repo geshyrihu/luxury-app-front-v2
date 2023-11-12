@@ -8,7 +8,7 @@ import {
   CustomToastService,
   CustomerIdService,
   DataService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import EditSalidasComponent from './edit-salidas/edit-salidas.component';
@@ -22,7 +22,6 @@ import EditSalidasComponent from './edit-salidas/edit-salidas.component';
 })
 export default class ListSalidasComponent implements OnInit, OnDestroy {
   public authService = inject(AuthService);
-
   public customToastService = inject(CustomToastService);
   private customerIdService = inject(CustomerIdService);
   private dataService = inject(DataService);

@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { CustomToastService } from 'src/app/services/custom-toast.service';
-import { DataService } from 'src/app/services/data.service';
+import { CustomToastService } from 'src/app/core/services/custom-toast.service';
+import { DataService } from 'src/app/core/services/data.service';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 
 @Component({

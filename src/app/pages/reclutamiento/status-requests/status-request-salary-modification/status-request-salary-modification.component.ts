@@ -6,19 +6,19 @@ import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import CardEmployeeComponent from 'src/app/pages/operaciones/directorios/empleados/card-employee/card-employee.component';
-import PhoneFormatPipe from 'src/app/pipes/phone-format.pipe';
+import PhoneFormatPipe from 'src/app/core/pipes/phone-format.pipe';
 import {
   AuthService,
   CustomToastService,
   CustomerIdService,
   DataService,
   StatusSolicitudVacanteService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import { environment } from 'src/environments/environment';
-import AddOrEditStatusRequestSalaryModificationComponent from './add-or-edit-status-request-salary-modification/add-or-edit-status-request-salary-modification.component';
+import AddOrEditStatusRequestSalaryModificationComponent from './addoredit-status-request-salary-modification/addoredit-status-request-salary-modification.component';
 
 @Component({
   selector: 'app-status-request-salary-modification',
@@ -42,7 +42,6 @@ export default class StatusRequestSalaryModificationComponent
   public customerIdService = inject(CustomerIdService);
   public dataService = inject(DataService);
   public dialogService = inject(DialogService);
-
   public customToastService = inject(CustomToastService);
   public router = inject(Router);
   public authService = inject(AuthService);

@@ -3,13 +3,13 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { ICustomerDto } from 'src/app/interfaces/ICustomerDto.interface';
-import { CelularNumberPipe } from 'src/app/pipes/celular-number.pipe';
+import { ICustomerDto } from 'src/app/core/interfaces/ICustomerDto.interface';
+import { CelularNumberPipe } from 'src/app/core/pipes/celular-number.pipe';
 import {
   AuthService,
   CustomToastService,
   DataService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import { environment } from 'src/environments/environment';
@@ -27,7 +27,6 @@ export default class ListCustomerComponent implements OnInit, OnDestroy {
   private dataService = inject(DataService);
   public messageService = inject(MessageService);
   public dialogService = inject(DialogService);
-
   public customToastService = inject(CustomToastService);
 
   urlBaseImg = `${environment.base_urlImg}Administration/customer/`;

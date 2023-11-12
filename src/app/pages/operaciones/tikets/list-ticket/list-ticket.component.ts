@@ -5,7 +5,7 @@ import { Router, RouterModule } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable, Subscription } from 'rxjs';
-import { IFilterTicket } from 'src/app/interfaces/IFilterTicket.interface';
+import { IFilterTicket } from 'src/app/core/interfaces/IFilterTicket.interface';
 import CardEmployeeComponent from 'src/app/pages/operaciones/directorios/empleados/card-employee/card-employee.component';
 import {
   AuthService,
@@ -15,7 +15,7 @@ import {
   DateService,
   ReportService,
   TicketFilterService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import { environment } from 'src/environments/environment';

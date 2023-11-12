@@ -12,16 +12,15 @@ import { SelectItem } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { EditorModule } from 'primeng/editor';
 import { Subscription } from 'rxjs';
-import { ERecurrence } from 'src/app/enums/recurrencia.enum';
-import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
-import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
+import { ISelectItemDto } from 'src/app/core/interfaces/ISelectItemDto.interface';
 import {
   AuthService,
   CustomToastService,
   CustomerIdService,
   DataService,
   SelectItemService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
+import { EnumService } from 'src/app/core/services/enum-service';
 import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
 
@@ -50,17 +49,19 @@ export default class AddoreditMaintenancePreventiveComponent
   public selectItemService = inject(SelectItemService);
   public customerIdService = inject(CustomerIdService);
   private customToastService = inject(CustomToastService);
+  private enumService = inject(EnumService);
 
   public Editor = ClassicEditor;
 
   cb_machinery: any[] = [];
   cb_providers: any[] = [];
-  cb_recurrencia: ISelectItemDto[] = onGetSelectItemFromEnum(ERecurrence);
+  // cb_recurrencia: ISelectItemDto[] = onGetSelectItemFromEnum(ERecurrence);
+  cb_recurrencia: ISelectItemDto[] = [];
   cb_subCuentaId: ISelectItemDto[] = [];
+  cb_TypeMaintance: SelectItem[];
+
   submitting: boolean = false;
   subRef$: Subscription;
-
-  cb_TypeMaintance: SelectItem[];
 
   form: FormGroup;
   id: any = 0;
@@ -107,11 +108,12 @@ export default class AddoreditMaintenancePreventiveComponent
         this.cb_subCuentaId = resp;
       });
 
-    this.subRef$ = this.selectItemService
-      .onGetSelectItem('TypeMaintance')
-      .subscribe((resp) => {
-        this.cb_TypeMaintance = resp;
-      });
+    this.enumService.onGetSelectItemEmun('ETypeMaintance').subscribe((resp) => {
+      this.cb_TypeMaintance = resp;
+    });
+    this.enumService.onGetSelectItemEmun('ERecurrence').subscribe((resp) => {
+      this.cb_recurrencia = resp;
+    });
   }
 
   onGetMachinerySelectItem() {

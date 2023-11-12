@@ -4,10 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import * as saveAs from 'file-saver';
 import { Subscription } from 'rxjs';
-import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
-import { CustomToastService } from 'src/app/services/custom-toast.service';
-import { DataService } from 'src/app/services/data.service';
-import { FilterRequestsService } from 'src/app/services/filter-requests.service';
+import { ISelectItemDto } from 'src/app/core/interfaces/ISelectItemDto.interface';
+import { CustomToastService } from 'src/app/core/services/custom-toast.service';
+import { DataService } from 'src/app/core/services/data.service';
+import { FilterRequestsService } from 'src/app/core/services/filter-requests.service';
 import CustomButtonModule from 'src/app/shared/custom-buttons/custom-button.module';
 
 @Component({
@@ -22,7 +22,6 @@ export default class FilterRequestsComponent implements OnInit, OnDestroy {
   private dataService = inject(DataService);
   private router = inject(Router);
   private filterRequestsService = inject(FilterRequestsService);
-
   public customToastService = inject(CustomToastService);
   menu = [
     { label: 'Vacantes', path: 'vacantes' },
@@ -40,7 +39,7 @@ export default class FilterRequestsComponent implements OnInit, OnDestroy {
   cb_status_request: ISelectItemDto[] = [
     { value: 'Pendiente', label: 'Pendiente' },
     { value: 'Proceso', label: 'Proceso' },
-    { value: 'Terminado', label: 'Terminado' },
+    { value: 'Concluido', label: 'Concluido' },
     { value: 'Cancelado', label: 'Cancelada' },
   ];
 

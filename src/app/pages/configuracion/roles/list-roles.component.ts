@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 import {
   CustomToastService,
   DataService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 
 @Component({
   selector: 'app-list-roles',

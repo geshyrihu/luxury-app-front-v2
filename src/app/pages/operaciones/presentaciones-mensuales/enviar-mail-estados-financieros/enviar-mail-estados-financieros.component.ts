@@ -14,11 +14,11 @@ import {
 } from 'primeng/dynamicdialog';
 import { ToastModule } from 'primeng/toast';
 import { Subscription } from 'rxjs';
-import { IDestinatariosMailReporte } from 'src/app/interfaces/IDestinatariosMailReporte.interface';
-import { CustomerIdService } from 'src/app/services/common-services';
-import { CustomToastService } from 'src/app/services/custom-toast.service';
-import { DataService } from 'src/app/services/data.service';
-import { SelectItemService } from 'src/app/services/select-item.service';
+import { IDestinatariosMailReporte } from 'src/app/core/interfaces/IDestinatariosMailReporte.interface';
+import { CustomerIdService } from 'src/app/core/services/common-services';
+import { CustomToastService } from 'src/app/core/services/custom-toast.service';
+import { DataService } from 'src/app/core/services/data.service';
+import { SelectItemService } from 'src/app/core/services/select-item.service';
 import ComponentsModule from 'src/app/shared/components.module';
 
 @Component({

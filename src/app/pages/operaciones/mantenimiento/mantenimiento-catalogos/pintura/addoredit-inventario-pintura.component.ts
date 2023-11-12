@@ -8,12 +8,12 @@ import {
 } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
+import { ISelectItemDto } from 'src/app/core/interfaces/ISelectItemDto.interface';
 import {
   CustomToastService,
   CustomerIdService,
   DataService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
 
@@ -37,7 +37,6 @@ export default class AddoreditInventarioPinturaComponent
   public ref = inject(DynamicDialogRef);
   public config = inject(DynamicDialogConfig);
   public customerIdService = inject(CustomerIdService);
-
   private customToastService = inject(CustomToastService);
 
   submitting: boolean = false;

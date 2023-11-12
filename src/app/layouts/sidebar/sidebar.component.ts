@@ -10,8 +10,8 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import MetisMenu from 'metismenujs';
 import { SimplebarAngularModule } from 'simplebar-angular';
-import { SidebarService } from 'src/app/services/sidebar.service';
-import { MenuItem } from './menu.model';
+import { SidebarService } from 'src/app/core/services/sidebar.service';
+import { MenuItem } from '../../core/interfaces/menu.model';
 
 @Component({
   selector: 'app-sidebar',

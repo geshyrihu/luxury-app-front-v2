@@ -4,11 +4,11 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
-import { CustomToastService } from 'src/app/services/custom-toast.service';
-import { DataService } from 'src/app/services/data.service';
-import { DateService } from 'src/app/services/date.service';
-import { FiltroCalendarService } from 'src/app/services/filtro-calendar.service';
-import { ViewPdfService } from 'src/app/services/view-pdf.service';
+import { CustomToastService } from 'src/app/core/services/custom-toast.service';
+import { DataService } from 'src/app/core/services/data.service';
+import { DateService } from 'src/app/core/services/date.service';
+import { FiltroCalendarService } from 'src/app/core/services/filtro-calendar.service';
+import { ViewPdfService } from 'src/app/core/services/view-pdf.service';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 
@@ -28,7 +28,6 @@ export default class PresentacionesJuntasComiteComponent
   private viewPdfService = inject(ViewPdfService);
   public dateService = inject(DateService);
   public messageService = inject(MessageService);
-
   public customToastService = inject(CustomToastService);
 
   data: any[] = [];

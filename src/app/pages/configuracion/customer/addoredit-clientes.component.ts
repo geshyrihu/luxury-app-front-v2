@@ -8,13 +8,13 @@ import {
 } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { ICustomerAddOrEditDto } from 'src/app/interfaces/ICustomerAddOrEditDto.interface';
-import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
+import { ICustomerAddOrEditDto } from 'src/app/core/interfaces/ICustomerAddOrEditDto.interface';
+import { ISelectItemDto } from 'src/app/core/interfaces/ISelectItemDto.interface';
 import {
   CustomToastService,
   DataService,
   DateService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import ComponentsModule, {
   flatpickrFactory,
 } from 'src/app/shared/components.module';

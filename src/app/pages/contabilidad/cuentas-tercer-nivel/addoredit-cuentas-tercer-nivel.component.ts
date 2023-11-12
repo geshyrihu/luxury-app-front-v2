@@ -7,14 +7,14 @@ import {
 } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { EState } from 'src/app/enums/state.enum';
-import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
-import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
+// import { EState } from 'src/app/enums/state.enum';
+import { ISelectItemDto } from 'src/app/core/interfaces/ISelectItemDto.interface';
 import {
   AuthService,
   CustomToastService,
   DataService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
+import { EnumService } from 'src/app/core/services/enum-service';
 import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
 
@@ -33,12 +33,13 @@ export default class AddoreditLedgerAccountsComponent
   private dataService = inject(DataService);
   public config = inject(DynamicDialogConfig);
   public ref = inject(DynamicDialogRef);
-
   private customToastService = inject(CustomToastService);
+  private enumService = inject(EnumService);
 
   submitting: boolean = false;
 
-  cb_state: ISelectItemDto[] = onGetSelectItemFromEnum(EState);
+  // cb_state: ISelectItemDto[] = onGetSelectItemFromEnum(EState);
+  cb_state: ISelectItemDto[] = [];
 
   applicationUserId: string =
     this.authService.userTokenDto.infoUserAuthDto.applicationUserId;
@@ -46,6 +47,10 @@ export default class AddoreditLedgerAccountsComponent
   form: FormGroup;
 
   ngOnInit(): void {
+    this.enumService.onGetSelectItemEmun('EState').subscribe((resp) => {
+      this.cb_state = resp;
+    });
+
     this.id = this.config.data.id;
     if (this.id !== 0) {
       this.onLoadData();

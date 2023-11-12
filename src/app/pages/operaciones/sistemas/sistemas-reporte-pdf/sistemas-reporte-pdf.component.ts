@@ -10,7 +10,7 @@ import {
   DataService,
   FiltroCalendarService,
   SistemasReporteService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import CardEmployeeComponent from '../../directorios/empleados/card-employee/card-employee.component';
 
 @Component({

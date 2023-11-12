@@ -6,13 +6,13 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ToastModule } from 'primeng/toast';
 import { Observable, Subscription } from 'rxjs';
-import { IMedidorDto } from 'src/app/interfaces/IMedidorDto.interface';
+import { IMedidorDto } from 'src/app/core/interfaces/IMedidorDto.interface';
 import {
   AuthService,
   CustomToastService,
   CustomerIdService,
   DataService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import FormMedidorLecturaComponent from '../../medidores-lectura/form-medidor-lectura/form-medidor-lectura.component';
 import FormMedidorComponent from '../form-medidor/form-medidor.component';
@@ -30,7 +30,6 @@ import FormMedidorComponent from '../form-medidor/form-medidor.component';
 })
 export default class ListMedidorComponent implements OnInit, OnDestroy {
   public authService = inject(AuthService);
-
   public customToastService = inject(CustomToastService);
   private customerIdService = inject(CustomerIdService);
   private dataService = inject(DataService);

@@ -10,19 +10,19 @@ import {
   Txt,
 } from 'pdfmake-wrapper';
 import { ITable } from 'pdfmake-wrapper/lib/interfaces';
-import { MenuItem } from 'primeng/api';
+import { MenuItem, MessageService } from 'primeng/api';
 import { ContextMenuModule } from 'primeng/contextmenu';
 import { Subscription } from 'rxjs';
-import { IFondeoCaratulaDto } from 'src/app/interfaces/IFondeoCaratulaDto.interface';
+import { IFondeoCaratulaDto } from 'src/app/core/interfaces/IFondeoCaratulaDto.interface';
 import {
   IItemsFondeoCaratulaDto,
   TableRowItemFondeoCaratulaDto,
-} from 'src/app/interfaces/IItemsFondeoCaratulaDto.interface';
-import { CurrencyMexicoPipe } from 'src/app/pipes/currencyMexico.pipe';
-import { CaratulaFondeoService } from 'src/app/services/caratula-fondeo.service';
-import { CustomToastService } from 'src/app/services/custom-toast.service';
-import { DataService } from 'src/app/services/data.service';
-import { DateService } from 'src/app/services/date.service';
+} from 'src/app/core/interfaces/IItemsFondeoCaratulaDto.interface';
+import { CurrencyMexicoPipe } from 'src/app/core/pipes/currencyMexico.pipe';
+import { CaratulaFondeoService } from 'src/app/core/services/caratula-fondeo.service';
+import { CustomToastService } from 'src/app/core/services/custom-toast.service';
+import { DataService } from 'src/app/core/services/data.service';
+import { DateService } from 'src/app/core/services/date.service';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import { environment } from 'src/environments/environment';
 const date = new Date();
@@ -35,14 +35,13 @@ subRef$: Subscription;
   templateUrl: './vista-caratula-fondeo.component.html',
   standalone: true,
   imports: [CommonModule, PrimeNgModule, ContextMenuModule, CurrencyMexicoPipe],
-  providers: [CustomToastService],
+  providers: [CustomToastService, MessageService],
 })
 export default class VistaCaratulaFondeoComponent implements OnInit, OnDestroy {
   public dateService = inject(DateService);
   public caratulaFondeoService = inject(CaratulaFondeoService);
   public dataService = inject(DataService);
   public router = inject(Router);
-
   public customToastService = inject(CustomToastService);
 
   subRef$: Subscription;

@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { DataService } from 'src/app/services/data.service';
+import { DataService } from 'src/app/core/services/data.service';
 import ComponentsModule from 'src/app/shared/components.module';
 @Component({
   selector: 'app-pdf-solicitud-compra',

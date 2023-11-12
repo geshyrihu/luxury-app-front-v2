@@ -2,12 +2,12 @@ import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { Subscription } from 'rxjs';
-import { EStatusPipe } from 'src/app/pipes/status.pipe';
-import { CustomerIdService } from 'src/app/services/common-services';
-import { CustomToastService } from 'src/app/services/custom-toast.service';
-import { DataService } from 'src/app/services/data.service';
-import { DateService } from 'src/app/services/date.service';
-import { ReporteOrdenesServicioService } from 'src/app/services/reporte-ordenes-servicio.service';
+import { EStatusPipe } from 'src/app/core/pipes/status.pipe';
+import { CustomerIdService } from 'src/app/core/services/common-services';
+import { CustomToastService } from 'src/app/core/services/custom-toast.service';
+import { DataService } from 'src/app/core/services/data.service';
+import { DateService } from 'src/app/core/services/date.service';
+import { ReporteOrdenesServicioService } from 'src/app/core/services/reporte-ordenes-servicio.service';
 import ComponentsModule from 'src/app/shared/components.module';
 import ResumenOrdenesServicioGraficoComponent from '../resumen-ordenes-servicio-grafico/resumen-ordenes-servicio-grafico.component';
 @Component({
@@ -30,11 +30,10 @@ export default class ResumenOrdenesServicioComponent
   public dataService = inject(DataService);
   public dateService = inject(DateService);
   public reporteOrdenesServicioService = inject(ReporteOrdenesServicioService);
-
   public customToastService = inject(CustomToastService);
   data: any[] = [];
   dataGraficos: any[] = [];
-  terminados = 0;
+  concluidos = 0;
   pendientes = 0;
   noAutorizados = 0;
   grafico: any;

@@ -14,7 +14,7 @@ import {
   CustomerIdService,
   DataService,
   DateService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import ComponentsModule, {
   flatpickrFactory,
 } from 'src/app/shared/components.module';

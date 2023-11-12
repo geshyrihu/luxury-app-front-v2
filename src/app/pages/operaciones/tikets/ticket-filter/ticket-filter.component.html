@@ -4,13 +4,7 @@
     <form autocomplete="off" (ngSubmit)="onSubmit()" [formGroup]="form">
       <div class="row">
         <div class="col-sm-3">
-          <!-- <custom-input-select
-            [control]="form.get('status')"
-            formControlName="status"
-            label="Estatus"
-            [data]="cb_status"
-            [horizontal]="false"
-          ></custom-input-select> -->
+  
           <label>Estatus</label>
           <select class="form-control" formControlName="status">
             <option value="">Seleccionar opcion...</option>
@@ -19,13 +13,7 @@
             </option>
           </select>
           <div class="mb-3">
-            <!-- <custom-input-select
-              [control]="form.get('responsible')"
-              formControlName="responsible"
-              label="Responsable"
-              [data]="cb_area_responsable"
-              [horizontal]="false"
-            ></custom-input-select> -->
+
             <label>Responsable</label>
             <select class="form-control" formControlName="responsible">
               <option value="">Seleccionar opcion...</option>
@@ -48,13 +36,7 @@
           </div>
         </div>
         <div class="col-sm-3">
-          <!-- <custom-input-select
-            [control]="form.get('request')"
-            formControlName="request"
-            label="Solicita"
-            [data]="cb_solicitantes"
-            [horizontal]="false"
-          ></custom-input-select> -->
+       
           <div class="mb-3">
             <label>Solicita</label>
             <select class="form-control" formControlName="request">
@@ -64,15 +46,7 @@
               </option>
             </select>
           </div>
-          <!-- <div class="mb-3">
-            <custom-input-select
-              [control]="form.get('priority')"
-              formControlName="priority"
-              label="Prioridad"
-              [data]="cb_priority"
-              [horizontal]="false"
-            ></custom-input-select>
-          </div> -->
+
           <div class="mb-3">
             <label>Prioridad</label>
             <select class="form-control" formControlName="priority">

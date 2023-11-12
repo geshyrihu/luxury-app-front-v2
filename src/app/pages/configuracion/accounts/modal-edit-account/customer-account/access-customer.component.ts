@@ -5,11 +5,11 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { Subscription } from 'rxjs';
-import { IAddCustomerPermisoToUserDto } from 'src/app/interfaces/IAddCustomerPermisoToUserDto.interface';
+import { IAddCustomerPermisoToUserDto } from 'src/app/core/interfaces/IAddCustomerPermisoToUserDto.interface';
 import {
   CustomToastService,
   DataService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 @Component({
   selector: 'app-access-customer',
   templateUrl: './access-customer.component.html',

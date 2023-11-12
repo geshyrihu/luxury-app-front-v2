@@ -8,14 +8,13 @@ import {
 } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { ECargoComite } from 'src/app/enums/cargo-comite.enum';
-import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
-import { IComiteVigilanciaAddOrEditDto } from 'src/app/interfaces/IComiteVigilanciaAddOrEditDto.interface';
-import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
-import { CustomerIdService } from 'src/app/services/common-services';
-import { CustomToastService } from 'src/app/services/custom-toast.service';
-import { DataService } from 'src/app/services/data.service';
-import { SelectItemService } from 'src/app/services/select-item.service';
+import { IComiteVigilanciaAddOrEditDto } from 'src/app/core/interfaces/IComiteVigilanciaAddOrEditDto.interface';
+import { ISelectItemDto } from 'src/app/core/interfaces/ISelectItemDto.interface';
+import { CustomerIdService } from 'src/app/core/services/common-services';
+import { CustomToastService } from 'src/app/core/services/custom-toast.service';
+import { DataService } from 'src/app/core/services/data.service';
+import { EnumService } from 'src/app/core/services/enum-service';
+import { SelectItemService } from 'src/app/core/services/select-item.service';
 import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
 @Component({
@@ -39,12 +38,12 @@ export default class AddOrEditComiteVigilanciaComponent
   public customerIdService = inject(CustomerIdService);
   public ref = inject(DynamicDialogRef);
   public config = inject(DynamicDialogConfig);
-
   private customToastService = inject(CustomToastService);
+  private enumService = inject(EnumService);
 
   submitting: boolean = false;
 
-  cb_position: ISelectItemDto[] = onGetSelectItemFromEnum(ECargoComite);
+  cb_position: ISelectItemDto[] = [];
   cb_condomino: ISelectItemDto[] = [];
   id: number = 0;
   form: FormGroup = this.formBuilder.group({
@@ -66,6 +65,10 @@ export default class AddOrEditComiteVigilanciaComponent
       .subscribe((resp) => {
         this.cb_condomino = resp;
       });
+
+    this.enumService.onGetSelectItemEmun('ECargoComite').subscribe((resp) => {
+      this.cb_position = resp;
+    });
 
     this.form.patchValue({
       customerId: this.customerIdService.getcustomerId(),

@@ -12,13 +12,11 @@ import {
 import { EditorModule } from 'primeng/editor';
 import { Subscription } from 'rxjs';
 import AddoreditMaintenancePreventiveComponent from 'src/app/pages/operaciones/calendarios/mantenimiento-preventivo/addoredit-maintenance-preventive.component';
-import { EMonthPipe } from 'src/app/pipes/month.pipe';
-import { ERecurrencePipe } from 'src/app/pipes/recurrence.pipe';
 import {
   AuthService,
   CustomToastService,
   DataService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 //TODO: VALIDAR SU AUN ESTA ACTIVO ESTE MODULO
 @Component({
@@ -30,8 +28,6 @@ import ComponentsModule from 'src/app/shared/components.module';
     ComponentsModule,
     FormsModule,
     EditorModule,
-    ERecurrencePipe,
-    EMonthPipe,
     CKEditorModule,
   ],
   providers: [MessageService, CustomToastService],

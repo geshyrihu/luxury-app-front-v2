@@ -9,10 +9,10 @@ import {
 import { MessageService } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
-import { CustomToastService } from 'src/app/services/custom-toast.service';
-import { DataService } from 'src/app/services/data.service';
-import { SelectItemService } from 'src/app/services/select-item.service';
+import { ISelectItemDto } from 'src/app/core/interfaces/ISelectItemDto.interface';
+import { CustomToastService } from 'src/app/core/services/custom-toast.service';
+import { DataService } from 'src/app/core/services/data.service';
+import { SelectItemService } from 'src/app/core/services/select-item.service';
 import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';

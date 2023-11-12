@@ -21,10 +21,10 @@ import { TranslateModule } from '@ngx-translate/core';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { NgxMaskModule } from 'ngx-mask';
 import { AppComponent } from './app/app.component';
-import { AutosizeDirective } from './app/directives/autosize-text-area.diective';
-import { AuthGuard } from './app/guards/auth.guard';
+import { AutosizeDirective } from './app/core/directives/autosize-text-area.diective';
+import { AuthGuard } from './app/core/guards/auth.guard';
 import { LayoutComponent } from './app/layouts/layout.component';
-import { JwtInterceptor } from './app/services/jwt-interceptor.service';
+import { JwtInterceptor } from './app/core/services/jwt-interceptor.service';
 import { environment } from './environments/environment';
 
 if (environment.production) {

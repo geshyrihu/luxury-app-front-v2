@@ -8,18 +8,16 @@ import {
 } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { EState } from 'src/app/enums/state.enum';
-import { ETurnoTrabajo } from 'src/app/enums/turno-trabajo.enum';
-import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
-import { IWorkPositionAddOrEditDto } from 'src/app/interfaces/IEmpresaOrganigramaAddOrEditDto.interface';
-import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
+import { IWorkPositionAddOrEditDto } from 'src/app/core/interfaces/IEmpresaOrganigramaAddOrEditDto.interface';
+import { ISelectItemDto } from 'src/app/core/interfaces/ISelectItemDto.interface';
 import {
   AuthService,
   CustomToastService,
   CustomerIdService,
   DataService,
   SelectItemService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
+import { EnumService } from 'src/app/core/services/enum-service';
 import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
 @Component({
@@ -43,6 +41,7 @@ export default class AddoreditPlantillaComponent implements OnInit, OnDestroy {
   public dataService = inject(DataService);
   public ref = inject(DynamicDialogRef);
   public selectItemService = inject(SelectItemService);
+  public enumService = inject(EnumService);
 
   submitting: boolean = false;
 
@@ -50,11 +49,8 @@ export default class AddoreditPlantillaComponent implements OnInit, OnDestroy {
   checked: boolean = false;
   cb_profession: ISelectItemDto[] = [];
   cb_employee: ISelectItemDto[] = [];
-  cb_turnoTrabajo: ISelectItemDto[] = onGetSelectItemFromEnum(ETurnoTrabajo);
-  cb_state: ISelectItemDto[] = [
-    { label: 'Activo', value: EState.Activo },
-    { label: 'Inactivo', value: EState.Inactivo },
-  ];
+  cb_turnoTrabajo: ISelectItemDto[] = [];
+  cb_state: ISelectItemDto[] = [];
 
   subRef$: Subscription;
   form: FormGroup = this.formBuilder.group({
@@ -66,10 +62,10 @@ export default class AddoreditPlantillaComponent implements OnInit, OnDestroy {
     professionName: [''],
     sueldo: [0.0],
     sueldoBase: [0.0, Validators.required],
-    state: [EState.Activo, Validators.required],
+    state: [0, Validators.required],
     employeeId: [null],
     employeeName: [''],
-    turnoTrabajo: [ETurnoTrabajo.Matutino],
+    turnoTrabajo: [0],
     lunesEntrada: [''],
     lunesSalida: [''],
     martesEntrada: [''],
@@ -173,6 +169,10 @@ export default class AddoreditPlantillaComponent implements OnInit, OnDestroy {
     this.selectItemService.onGetSelectItem('Professions').subscribe((resp) => {
       this.cb_profession = resp;
     });
+
+    this.enumService.onGetSelectItemEmun('ETurnoTrabajo').subscribe((resp) => {
+      this.cb_turnoTrabajo = resp;
+    });
   }
 
   onLoadSelectItem() {
@@ -181,6 +181,9 @@ export default class AddoreditPlantillaComponent implements OnInit, OnDestroy {
       .subscribe((resp) => {
         this.cb_employee = resp;
       });
+    this.enumService.onGetSelectItemEmun('EState').subscribe((resp) => {
+      this.cb_state = resp;
+    });
   }
   public saveemployeeIdId(e: any): void {
     let find = this.cb_employee.find((x) => x?.label === e.target.value);

@@ -13,7 +13,7 @@ import {
   DataService,
   FilterRequestsService,
   StatusSolicitudVacanteService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import HoursWorkPositionComponent from '../../plantilla/hours-work-position.component';
@@ -43,7 +43,6 @@ export default class ListVacantesComponent implements OnInit, OnDestroy {
   public dialogService = inject(DialogService);
   public messageService = inject(MessageService);
   public statusSolicitudVacanteService = inject(StatusSolicitudVacanteService);
-
   public customToastService = inject(CustomToastService);
   public router = inject(Router);
 

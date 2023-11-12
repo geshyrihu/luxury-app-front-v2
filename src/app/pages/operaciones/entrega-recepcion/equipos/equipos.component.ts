@@ -2,12 +2,11 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { TableModule } from 'primeng/table';
 import { Observable, Subscription } from 'rxjs';
-import { EInventoryCategoryPipe } from 'src/app/pipes/inventoryCategory.pipe';
 import {
   CustomToastService,
   CustomerIdService,
   DataService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import { environment } from 'src/environments/environment';
 
@@ -15,14 +14,16 @@ import { environment } from 'src/environments/environment';
   selector: 'app-equipos',
   templateUrl: './equipos.component.html',
   standalone: true,
-  imports: [ComponentsModule, TableModule, EInventoryCategoryPipe],
+  imports: [
+    ComponentsModule,
+    TableModule,
+  ],
   providers: [MessageService, CustomToastService],
 })
 export default class EquiposComponent implements OnInit, OnDestroy {
   public customerIdService = inject(CustomerIdService);
   public dataService = inject(DataService);
   public messageService = inject(MessageService);
-
   public customToastService = inject(CustomToastService);
   data: any[] = [];
   subRef$: Subscription;

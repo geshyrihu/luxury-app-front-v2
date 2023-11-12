@@ -8,11 +8,11 @@ import {
 } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { IProfessionAddOrEditDto } from 'src/app/interfaces/IProfessionAddOrEditDto.interface';
-import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
-import { CustomToastService } from 'src/app/services/custom-toast.service';
-import { DataService } from 'src/app/services/data.service';
-import { SelectItemService } from 'src/app/services/select-item.service';
+import { IProfessionAddOrEditDto } from 'src/app/core/interfaces/IProfessionAddOrEditDto.interface';
+import { ISelectItemDto } from 'src/app/core/interfaces/ISelectItemDto.interface';
+import { CustomToastService } from 'src/app/core/services/custom-toast.service';
+import { DataService } from 'src/app/core/services/data.service';
+import { SelectItemService } from 'src/app/core/services/select-item.service';
 import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
 

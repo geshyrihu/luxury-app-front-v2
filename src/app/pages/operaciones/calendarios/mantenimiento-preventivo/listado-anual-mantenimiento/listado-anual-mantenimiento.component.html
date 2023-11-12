@@ -59,9 +59,7 @@
   <ng-template pTemplate="groupheader" let-item>
     <tr pRowGroupHeader>
       <td colspan="5">
-        <span class="p-text-bold p-ml-2">{{
-          item.inventoryCategory | eInventoryCategory
-        }}</span>
+        <span class="p-text-bold p-ml-2">{{ item.inventoryCategory }}</span>
       </td>
     </tr>
   </ng-template>
@@ -138,7 +136,7 @@
         <small>{{ item.provider }} </small>
       </td>
       <td class="p-column-title">
-        <small>{{ item.recurrencia | eRecurrence }} </small>
+        <small>{{ item.recurrencia }} </small>
       </td>
       <td class="p-column-title">
         <small>{{ item.fechaServicio }} </small>

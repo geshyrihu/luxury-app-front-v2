@@ -6,13 +6,13 @@ import { NgChartsModule } from 'ng2-charts';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable, Subscription } from 'rxjs';
-import { IChartType } from 'src/app/interfaces/IChartType.interface';
-import { IDataSet } from 'src/app/interfaces/IDataSet.interface';
-import { IFechasFiltro } from 'src/app/interfaces/IFechasFiltro.interface';
-import { CustomToastService } from 'src/app/services/custom-toast.service';
-import { DataService } from 'src/app/services/data.service';
-import { DateService } from 'src/app/services/date.service';
-import { FiltroCalendarService } from 'src/app/services/filtro-calendar.service';
+import { IChartType } from 'src/app/core/interfaces/IChartType.interface';
+import { IDataSet } from 'src/app/core/interfaces/IDataSet.interface';
+import { IFechasFiltro } from 'src/app/core/interfaces/IFechasFiltro.interface';
+import { CustomToastService } from 'src/app/core/services/custom-toast.service';
+import { DataService } from 'src/app/core/services/data.service';
+import { DateService } from 'src/app/core/services/date.service';
+import { FiltroCalendarService } from 'src/app/core/services/filtro-calendar.service';
 import ComponentsModule from 'src/app/shared/components.module';
 @Component({
   selector: 'app-chart-lectura',
@@ -27,7 +27,6 @@ export default class ChartLecturaComponent implements OnInit, OnDestroy {
   public dateService = inject(DateService);
   public dialogService = inject(DialogService);
   public filtroCalendarService = inject(FiltroCalendarService);
-
   public customToastService = inject(CustomToastService);
 
   subRef$: Subscription;

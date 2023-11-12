@@ -4,12 +4,12 @@ import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { IProfessionDto } from 'src/app/interfaces/IProfessionDto.interface';
+import { IProfessionDto } from 'src/app/core/interfaces/IProfessionDto.interface';
 import {
   AuthService,
   CustomToastService,
   DataService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import AddOrEditProfessionsComponent from './addoredit-professions.component';
@@ -69,7 +69,6 @@ export default class ListProfessionsComponent implements OnInit, OnDestroy {
 
       newdate.push(elemento);
     }
-    console.log('despues de', this.data);
     this.subRef$ = this.dataService
       // .get(`Professions/UpdateHierarchy/${item.id}/${event.dropIndex}`)
       .post(`Professions/ResetHierarchy/`, newdate)

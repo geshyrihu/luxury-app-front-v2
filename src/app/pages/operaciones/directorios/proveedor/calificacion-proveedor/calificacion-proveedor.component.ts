@@ -12,7 +12,7 @@ import {
   AuthService,
   CustomToastService,
   DataService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 @Component({
   selector: 'app-calificacion-proveedor',

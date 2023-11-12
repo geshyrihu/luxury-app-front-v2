@@ -1,11 +1,10 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ETipoGastoPipe } from 'src/app/pipes/tipo-gasto.pipe';
 
 @Component({
   selector: 'app-orden-compra-datos-pago-parcial',
   templateUrl: './orden-compra-datos-pago-parcial.component.html',
   standalone: true,
-  imports: [ETipoGastoPipe],
+  imports: [],
 })
 export default class OrdenCompraDatosPagoParcialComponent {
   @Input()

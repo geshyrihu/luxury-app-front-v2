@@ -5,18 +5,18 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { EInventoryCategory } from 'src/app/enums/categoria-inventario.enum';
+// import { EInventoryCategory } from 'src/app/enums/categoria-inventario.enum';
 import AddoreditMaintenancePreventiveComponent from 'src/app/pages/operaciones/calendarios/mantenimiento-preventivo/addoredit-maintenance-preventive.component';
-import { CurrencyMexicoPipe } from 'src/app/pipes/currencyMexico.pipe';
-import { EMonthPipe } from 'src/app/pipes/month.pipe';
-import { ERecurrencePipe } from 'src/app/pipes/recurrence.pipe';
-import { SanitizeHtmlPipe } from 'src/app/pipes/sanitize-html.pipe';
+import { CurrencyMexicoPipe } from 'src/app/core/pipes/currencyMexico.pipe';
+// import { EMonthPipe } from 'src/app/pipes/month.pipe';
+// import { ERecurrencePipe } from 'src/app/pipes/recurrence.pipe';
+import { SanitizeHtmlPipe } from 'src/app/core/pipes/sanitize-html.pipe';
 import {
   AuthService,
   CustomToastService,
   CustomerIdService,
   DataService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import { environment } from 'src/environments/environment';
@@ -35,8 +35,8 @@ import ServiceHistoryMachineryComponent from './service-history-machinery/servic
     ComponentsModule,
     CommonModule,
     PrimeNgModule,
-    ERecurrencePipe,
-    EMonthPipe,
+    // ERecurrencePipe,
+    // EMonthPipe,
     CurrencyMexicoPipe,
     SanitizeHtmlPipe,
   ],
@@ -67,7 +67,7 @@ export default class ListEquiposComponent implements OnInit, OnDestroy {
   datadetail: any[];
   paramId: string = '';
   ref: DynamicDialogRef;
-  inventoryCategoryId: EInventoryCategory;
+  inventoryCategoryId: any;
   state: number = 0;
   subTitle: string = '';
   title: string = '';
@@ -76,6 +76,10 @@ export default class ListEquiposComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.inventoryCategoryId = this.rutaActiva.snapshot.params.categoria;
+    console.log(
+      '🚀 ~ this.rutaActiva.snapshot.params.categoria:',
+      this.rutaActiva.snapshot.params.categoria
+    );
     this.base_urlImg = this.urlImg(this.customerId);
     this.customerId$ = this.customerIdService.getCustomerId$();
     this.customerId = this.customerIdService.getcustomerId();
@@ -265,31 +269,28 @@ export default class ListEquiposComponent implements OnInit, OnDestroy {
   }
 
   OnChageTitle() {
-    if (this.inventoryCategoryId == EInventoryCategory.Equipos) {
+    if (this.inventoryCategoryId == 1) {
       this.title = 'Equipos Electromecanicos';
     }
-    if (this.inventoryCategoryId == EInventoryCategory.Amenidades) {
+    if (this.inventoryCategoryId == 2) {
       this.title = 'Amenidades';
     }
-    if (this.inventoryCategoryId == EInventoryCategory.Mobiliarios) {
+    if (this.inventoryCategoryId == 3) {
       this.title = 'Mobiliario';
     }
-    if (this.inventoryCategoryId == EInventoryCategory.Equipamiento) {
+    if (this.inventoryCategoryId == 4) {
       this.title = 'Equipamiento';
     }
-    if (this.inventoryCategoryId == EInventoryCategory.Gimnasio) {
+    if (this.inventoryCategoryId == 5) {
       this.title = 'Equipos de Gimnasio';
     }
-    if (this.inventoryCategoryId == EInventoryCategory.Sistemas) {
+    if (this.inventoryCategoryId == 6) {
       this.title = 'Equipos de Sistemas';
     }
-    if (this.inventoryCategoryId == EInventoryCategory['Areas Comunes']) {
+    if (this.inventoryCategoryId == 8) {
       this.title = 'Areas Comunes';
     }
-    if (
-      this.inventoryCategoryId ==
-      EInventoryCategory['Bodegas, Cuartos de Maquinas']
-    ) {
+    if (this.inventoryCategoryId == 7) {
       this.title = 'Bodegas, Cuartos de Maquinas';
     }
   }

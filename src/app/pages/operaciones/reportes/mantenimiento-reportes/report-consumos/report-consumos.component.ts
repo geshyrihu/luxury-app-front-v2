@@ -3,12 +3,12 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { IChartData } from 'src/app/interfaces/chart-data.interface';
-import { CustomerIdService } from 'src/app/services/common-services';
-import { CustomToastService } from 'src/app/services/custom-toast.service';
-import { DataService } from 'src/app/services/data.service';
-import { DateService } from 'src/app/services/date.service';
-import { PeriodoMonthService } from 'src/app/services/periodo-month.service';
+import { IChartData } from 'src/app/core/interfaces/chart-data.interface';
+import { CustomerIdService } from 'src/app/core/services/common-services';
+import { CustomToastService } from 'src/app/core/services/custom-toast.service';
+import { DataService } from 'src/app/core/services/data.service';
+import { DateService } from 'src/app/core/services/date.service';
+import { PeriodoMonthService } from 'src/app/core/services/periodo-month.service';
 import PagetitleReportComponent from 'src/app/shared/cabeceras/pagetitlereport/pagetitlereport.component';
 import CustomBarChartComponent from 'src/app/shared/graficos/ng2-chart/custom-bar-chart/custom-bar-chart.component';
 import MultiAxisChartComponent from 'src/app/shared/graficos/primeng-chart/multi-axis-chart/multi-axis-chart.component';
@@ -28,7 +28,6 @@ import MultiAxisChartComponent from 'src/app/shared/graficos/primeng-chart/multi
 export default class ReportConsumosComponent implements OnInit, OnDestroy {
   private dataService = inject(DataService);
   public customerIdService = inject(CustomerIdService);
-
   public customToastService = inject(CustomToastService);
   public dateService = inject(DateService);
   public periodoMonthService = inject(PeriodoMonthService);

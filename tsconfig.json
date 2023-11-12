@@ -1,28 +1,70 @@
 {
+  // Desactiva la compilación automática al guardar.
   "compileOnSave": false,
+
+  // Opciones de configuración del compilador TypeScript.
   "compilerOptions": {
+    // Ruta base para resolver módulos.
     "baseUrl": "./",
-    // "outDir": "./dist/out-tsc",
+
+    // Ruta de salida para los archivos transpilados.
     "outDir": "C:\\inetpub\\frontend",
+
+    // Permite el uso de mayúsculas inconsistentes en los nombres de archivos.
     "forceConsistentCasingInFileNames": false,
+
+    // Modo de stricto cumplimiento desactivado.
     "strict": false,
+
+    // No muestra errores si una función no tiene una declaración de retorno.
     "noImplicitReturns": false,
+
+    // No muestra errores si hay casos fallidos en una instrucción switch.
     "noFallthroughCasesInSwitch": false,
+
+    // Genera archivos de mapa de origen (.map) para facilitar la depuración.
     "sourceMap": true,
+
+    // No genera archivos de declaración (.d.ts).
     "declaration": false,
+
+    // Permite la iteración descendente para compatibilidad con versiones antiguas de JavaScript/ECMAScript.
     "downlevelIteration": true,
+
+    // Permite el uso de decoradores experimentales de TypeScript.
     "experimentalDecorators": true,
+
+    // Resolución de módulos utilizando el sistema de nodos.
     "moduleResolution": "node",
+
+    // Habilita la ayuda de importación para cargar módulos más eficientemente.
     "importHelpers": true,
+
+    // Versión de ECMAScript a la que se compila el código TypeScript.
     "target": "ES2022",
+
+    // Sistema de módulos utilizado en la generación de código.
     "module": "es2020",
+
+    // Conjunto de bibliotecas incluidas para proporcionar características específicas de JavaScript/ECMAScript.
     "lib": ["es2018", "dom"],
+
+    // Utiliza el enfoque de definición de clase para los campos de clase.
     "useDefineForClassFields": false
   },
+
+  // Opciones de compilador específicas de Angular.
   "angularCompilerOptions": {
+    // Desactiva el formato de identificación de mensajes heredado de la internacionalización (i18n).
     "enableI18nLegacyMessageIdFormat": false,
+
+    // Exige una coincidencia estricta en los parámetros de inyección.
     "strictInjectionParameters": true,
+
+    // Exige un acceso estricto a las propiedades de entrada en los componentes.
     "strictInputAccessModifiers": true,
+
+    // Desactiva la estricta verificación de plantillas.
     "strictTemplates": false
   }
 }

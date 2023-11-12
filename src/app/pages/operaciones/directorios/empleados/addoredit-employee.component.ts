@@ -8,24 +8,18 @@ import {
 } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { EAreaResponsable } from 'src/app/enums/area-responsable.enum';
-import { EMaritalStatus } from 'src/app/enums/estado-civil.enum';
-import { EEducationLevel } from 'src/app/enums/nivel-educacion.enum';
-import { ECountry } from 'src/app/enums/paises.enum';
-import { ESex } from 'src/app/enums/sexo.enum';
-import { ETypeContract } from 'src/app/enums/tipo-contrato.enum';
-import { EBloodType } from 'src/app/enums/tipo-sangre.enum';
-import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
-import { IEmployeeAddOrEditDto } from 'src/app/interfaces/IEmployeeAddOrEditDto.interface';
-import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
-import { phonePrefixes } from 'src/app/interfaces/phone-number-prefix';
+import { ECountry } from 'src/app/core/enums/paises.enum';
+import { IEmployeeAddOrEditDto } from 'src/app/core/interfaces/IEmployeeAddOrEditDto.interface';
+import { ISelectItemDto } from 'src/app/core/interfaces/ISelectItemDto.interface';
+import { phonePrefixes } from 'src/app/core/interfaces/phone-number-prefix';
 import {
   AuthService,
   CustomToastService,
   CustomerIdService,
   DataService,
   SelectItemService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
+import { EnumService } from 'src/app/core/services/enum-service';
 import ComponentsModule, {
   flatpickrFactory,
 } from 'src/app/shared/components.module';
@@ -45,35 +39,38 @@ import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.mod
 })
 export default class AddOrEditEmplopyeeComponent implements OnInit, OnDestroy {
   public dataService = inject(DataService);
+  private customToastService = inject(CustomToastService);
   private formBuilder = inject(FormBuilder);
   public authService = inject(AuthService);
-  public selectItemService = inject(SelectItemService);
   public config = inject(DynamicDialogConfig);
-  public ref = inject(DynamicDialogRef);
-  public datepipe = inject(DatePipe);
   public customerIdService = inject(CustomerIdService);
-
-  private customToastService = inject(CustomToastService);
+  public datepipe = inject(DatePipe);
+  public ref = inject(DynamicDialogRef);
+  public selectItemService = inject(SelectItemService);
+  public enumService = inject(EnumService);
 
   submitting: boolean = false;
   subRef$: Subscription;
 
   id = 0;
 
-  cb_sex = onGetSelectItemFromEnum(ESex);
-  cb_education_level = onGetSelectItemFromEnum(EEducationLevel);
-  cb_area = onGetSelectItemFromEnum(EAreaResponsable);
-  cb_blood_type = onGetSelectItemFromEnum(EBloodType);
-  cb_marital_status = onGetSelectItemFromEnum(EMaritalStatus);
+  // cb_sex = onGetSelectItemFromEnum(ESex);
+  cb_sex: ISelectItemDto[] = [];
+  // cb_education_level = onGetSelectItemFromEnum(EEducationLevel);
+  cb_education_level: ISelectItemDto[] = [];
+  // cb_area = onGetSelectItemFromEnum(EAreaResponsable);
+  cb_area:ISelectItemDto[] = [];
+  // cb_blood_type = onGetSelectItemFromEnum(EBloodType);
+  cb_blood_type: ISelectItemDto[] = [];
+  // cb_marital_status = onGetSelectItemFromEnum(EMaritalStatus);
+  cb_marital_status: ISelectItemDto[] = [];
   cb_nationality = ECountry.GetEnum();
-  cb_type_contract = onGetSelectItemFromEnum(ETypeContract);
+  // cb_type_contract = onGetSelectItemFromEnum(ETypeContract);
+  cb_type_contract: ISelectItemDto[] = [];
   cb_profession: ISelectItemDto[];
   cb_phonePrefixes: any = phonePrefixes;
-
-  cb_state = [
-    { value: true, label: 'Activo' },
-    { value: false, label: 'Inactivo' },
-  ];
+  cb_customer: ISelectItemDto[] = [];
+  cb_state: ISelectItemDto[] = [];
   model: IEmployeeAddOrEditDto;
   form: FormGroup;
 
@@ -83,9 +80,36 @@ export default class AddOrEditEmplopyeeComponent implements OnInit, OnDestroy {
     this.selectItemService.onGetSelectItem('Professions').subscribe((resp) => {
       this.cb_profession = resp;
     });
+    this.selectItemService.onGetSelectItem('Customers').subscribe((resp) => {
+      this.cb_customer = resp;
+    });
+
+    this.enumService.getEnumValuesDisplay('EBloodType').subscribe((resp) => {
+      this.cb_blood_type = resp;
+    });
+
+    this.enumService.onGetSelectItemEmun('ETypeContract').subscribe((resp) => {
+      this.cb_type_contract = resp;
+    });
+    this.enumService.onGetSelectItemEmun('ESex').subscribe((resp) => {
+      this.cb_sex = resp;
+    });
+    this.enumService.getEnumValuesDisplay('EState').subscribe((resp) => {
+      this.cb_state = resp;
+    });
+    this.enumService.onGetSelectItemEmun('EMaritalStatus').subscribe((resp) => {
+      this.cb_state = resp;
+    });
+    this.enumService
+      .getEnumValuesDisplay('EEducationLevel')
+      .subscribe((resp) => {
+        this.cb_education_level = resp;
+      });
     flatpickrFactory();
     this.id = this.config.data.id;
+
     if (this.id !== 0) this.onLoadData();
+
     this.form = this.formBuilder.group({
       id: { value: this.id, disabled: true },
       firstName: [, Validators.required],
@@ -106,7 +130,7 @@ export default class AddOrEditEmplopyeeComponent implements OnInit, OnDestroy {
       nationality: [],
       nss: [],
       personId: [],
-      phoneNumberPrefix: [, Validators.required],
+      phoneNumberPrefix: [],
       photoPath: [],
       professionId: [],
       rfc: [],
@@ -148,13 +172,18 @@ export default class AddOrEditEmplopyeeComponent implements OnInit, OnDestroy {
   }
 
   onLoadData() {
-    this.subRef$ = this.dataService
-      .get(`Employees/${this.id}`)
-      .subscribe((resp: any) => {
+    this.subRef$ = this.dataService.get(`Employees/${this.id}`).subscribe({
+      next: (resp: any) => {
         this.model = resp.body;
         this.form.patchValue(this.model);
         this.onLoadPrefix(resp.body.phoneNumberPrefix);
-      });
+      },
+      error: (err) => {
+        // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+        this.customToastService.onCloseToError();
+        console.log(err.error);
+      },
+    });
   }
 
   onLoadPrefix(phoneNumberPrefix: string) {

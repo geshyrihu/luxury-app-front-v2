@@ -4,19 +4,19 @@ import { NgbDropdownModule, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
-import { IAccountDto } from 'src/app/interfaces/account-dto.interface';
+import { ISelectItemDto } from 'src/app/core/interfaces/ISelectItemDto.interface';
+import { IAccountDto } from 'src/app/core/interfaces/account-dto.interface';
 import CardEmployeeComponent from 'src/app/pages/operaciones/directorios/empleados/card-employee/card-employee.component';
-import PhoneFormatPipe from 'src/app/pipes/phone-format.pipe';
-import { CustomToastService } from 'src/app/services/custom-toast.service';
-import { DataService } from 'src/app/services/data.service';
-import { DataFilterService } from 'src/app/services/dataFilter.service';
+import PhoneFormatPipe from 'src/app/core/pipes/phone-format.pipe';
+import { CustomToastService } from 'src/app/core/services/custom-toast.service';
+import { DataService } from 'src/app/core/services/data.service';
+import { DataFilterService } from 'src/app/core/services/dataFilter.service';
 import ComponentsModule from 'src/app/shared/components.module';
 import DropdownRouteComponent from 'src/app/shared/ngb-dropdown-menu/dropdown-route.component';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import { environment } from 'src/environments/environment';
 import CreateAccountComponent from '../create-account/create-account.component';
-import AddOrEditEmailDataComponent from '../email-data/add-or-edit-email-data.component';
+import AddOrEditEmailDataComponent from '../email-data/addoredit-email-data.component';
 import MdEditAccountComponent from '../modal-edit-account/md-edit-account.component';
 @Component({
   selector: 'app-list-account',
@@ -37,7 +37,6 @@ export default class ListAccountComponent implements OnInit, OnDestroy {
   private dataService = inject(DataService);
   public dialogService = inject(DialogService);
   public messageService = inject(MessageService);
-
   public customToastService = inject(CustomToastService);
   public dataFilterService = inject(DataFilterService);
 

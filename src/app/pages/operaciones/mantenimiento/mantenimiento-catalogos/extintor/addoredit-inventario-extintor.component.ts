@@ -8,16 +8,15 @@ import {
 } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { EExtintor } from 'src/app/enums/extintor.enum';
-import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
-import { IInventarioExtintorDto } from 'src/app/interfaces/IInventarioExtintorDto.interface';
-import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
+import { IInventarioExtintorDto } from 'src/app/core/interfaces/IInventarioExtintorDto.interface';
+import { ISelectItemDto } from 'src/app/core/interfaces/ISelectItemDto.interface';
 import {
   AuthService,
   CustomToastService,
   CustomerIdService,
   DataService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
+import { EnumService } from 'src/app/core/services/enum-service';
 import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
 import { environment } from 'src/environments/environment';
@@ -43,12 +42,12 @@ export default class AddoreditInventarioExtintorComponent
   public config = inject(DynamicDialogConfig);
   public customerIdService = inject(CustomerIdService);
   public authService = inject(AuthService);
-
   private customToastService = inject(CustomToastService);
+  private enumService = inject(EnumService);
 
   submitting: boolean = false;
   subRef$: Subscription;
-  cb_extintor: ISelectItemDto[] = onGetSelectItemFromEnum(EExtintor);
+  cb_extintor: ISelectItemDto[] = [];
   urlBaseImg = `${environment.base_urlImg}customers/`;
   photoFileUpdate: boolean = false;
   id: number = 0;
@@ -68,6 +67,9 @@ export default class AddoreditInventarioExtintorComponent
   }
 
   ngOnInit(): void {
+    this.enumService.getEnumValuesDisplay('EExtintor').subscribe((resp) => {
+      this.cb_extintor = resp;
+    });
     this.id = this.config.data.id;
     if (this.id !== 0) this.onLoadData();
   }

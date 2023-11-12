@@ -6,11 +6,11 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { TableModule } from 'primeng/table';
 import { Subscription } from 'rxjs';
-import { CustomToastService } from 'src/app/services/custom-toast.service';
-import { DataService } from 'src/app/services/data.service';
-import { DateService } from 'src/app/services/date.service';
-import { PeriodoMonthService } from 'src/app/services/periodo-month.service';
-import { SelectItemService } from 'src/app/services/select-item.service';
+import { CustomToastService } from 'src/app/core/services/custom-toast.service';
+import { DataService } from 'src/app/core/services/data.service';
+import { DateService } from 'src/app/core/services/date.service';
+import { PeriodoMonthService } from 'src/app/core/services/periodo-month.service';
+import { SelectItemService } from 'src/app/core/services/select-item.service';
 import ComponentsModule from 'src/app/shared/components.module';
 import FiltroMinutasAreaComponent from '../filtro-minutas-area/filtro-minutas-area.component';
 @Component({

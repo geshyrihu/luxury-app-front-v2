@@ -6,15 +6,15 @@ import { NgbDropdownModule, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { MessageService } from 'primeng/api';
 import { DialogModule } from 'primeng/dialog';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { InfoEmployeeAuthDto } from 'src/app/interfaces/auth/user-token.interface';
+import { InfoEmployeeAuthDto } from 'src/app/core/interfaces/user-token.interface';
 import {
   AuthService,
   CustomToastService,
   CustomerIdService,
   DataService,
   SelectItemService,
-} from 'src/app/services/common-services';
-import { ProfielServiceService } from 'src/app/services/profiel-service.service';
+} from 'src/app/core/services/common-services';
+import { ProfielServiceService } from 'src/app/core/services/profiel-service.service';
 import { environment } from 'src/environments/environment';
 import ModalSearchComponent from '../modal-search/modal-search.component';
 
@@ -34,14 +34,14 @@ import ModalSearchComponent from '../modal-search/modal-search.component';
 })
 export class TopbarComponent implements OnInit {
   private customerIdService = inject(CustomerIdService);
+  private dataService = inject(DataService);
+  private location = inject(Location);
   private router = inject(Router);
   private selectItemService = inject(SelectItemService);
   public authService = inject(AuthService);
+  public customToastService = inject(CustomToastService);
   public dialogService = inject(DialogService);
   public profielServiceService = inject(ProfielServiceService);
-  public customToastService = inject(CustomToastService);
-  private location = inject(Location);
-  private dataService = inject(DataService);
 
   //TODO REVISAR FUNCIONAKLIDAD QUE SE OCULTE MENU EN VERSION MOBIL
   @Output()
@@ -61,7 +61,6 @@ export class TopbarComponent implements OnInit {
       )
       .subscribe((resp) => {
         this.cb_customer = resp;
-        console.log('🚀 ~ topbar customer:', this.cb_customer);
       });
   }
 

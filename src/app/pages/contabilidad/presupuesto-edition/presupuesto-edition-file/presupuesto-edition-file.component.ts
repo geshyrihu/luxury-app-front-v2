@@ -4,8 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { FileUploadModule } from 'primeng/fileupload';
 import { Subscription } from 'rxjs';
-import { DataService } from 'src/app/services/common-services';
-import { CustomToastService } from 'src/app/services/custom-toast.service';
+import { DataService } from 'src/app/core/services/common-services';
+import { CustomToastService } from 'src/app/core/services/custom-toast.service';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import { environment } from 'src/environments/environment';
@@ -55,7 +55,6 @@ export default class PresupuestoEditionFileComponent
       .get(`Cuentas/Description/${this.id}`)
       .subscribe({
         next: (resp: any) => {
-          console.log('🚀 ~ Files:', resp.body);
           this.description = resp.body.description;
           this.presupuestoDetalleSoporteId = resp.body.id;
         },
@@ -71,7 +70,6 @@ export default class PresupuestoEditionFileComponent
       .subscribe({
         next: (resp: any) => {
           this.files = resp.body;
-          console.log('🚀 ~ Files:', resp.body);
         },
         error: (err) => {
           this.customToastService.onShowError();

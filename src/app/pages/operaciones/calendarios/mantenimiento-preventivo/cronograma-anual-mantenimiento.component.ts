@@ -10,8 +10,8 @@ import {
   CustomToastService,
   CustomerIdService,
   DataService,
-} from 'src/app/services/common-services';
-import { CronogramaMantenimientoService } from 'src/app/services/cronograma-mantenimiento.service';
+} from 'src/app/core/services/common-services';
+import { CronogramaMantenimientoService } from 'src/app/core/services/cronograma-mantenimiento.service';
 import ComponentsModule from 'src/app/shared/components.module';
 import AddoreditMaintenancePreventiveComponent from './addoredit-maintenance-preventive.component';
 

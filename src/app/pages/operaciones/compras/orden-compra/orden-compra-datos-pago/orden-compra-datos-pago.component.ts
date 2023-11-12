@@ -8,11 +8,11 @@ import {
 } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { ETipoGasto } from 'src/app/enums/tipo-gasto.enum';
-import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
-import { CustomToastService } from 'src/app/services/custom-toast.service';
-import { DataService } from 'src/app/services/data.service';
-import { SelectItemService } from 'src/app/services/select-item.service';
+import { ISelectItemDto } from 'src/app/core/interfaces/ISelectItemDto.interface';
+import { CustomToastService } from 'src/app/core/services/custom-toast.service';
+import { DataService } from 'src/app/core/services/data.service';
+import { EnumService } from 'src/app/core/services/enum-service';
+import { SelectItemService } from 'src/app/core/services/select-item.service';
 import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
 
@@ -36,8 +36,8 @@ export default class OrdenCompraDatosPagoComponent
   public config = inject(DynamicDialogConfig);
   public dataService = inject(DataService);
   public selectItemService = inject(SelectItemService);
-
   private customToastService = inject(CustomToastService);
+  private enumService = inject(EnumService);
 
   submitting: boolean = false;
   subRef$: Subscription;
@@ -47,7 +47,7 @@ export default class OrdenCompraDatosPagoComponent
   cb_formaPago: any[] = [];
   cb_payment_method: any[] = [];
   cb_usoCfdi: any[] = [];
-  cb_tipoGasto = onGetSelectItemFromEnum(ETipoGasto);
+  cb_tipoGasto: ISelectItemDto[] = [];
   form: FormGroup = this.formBuilder.group({
     id: [0],
     ordenCompraId: [0],
@@ -84,6 +84,11 @@ export default class OrdenCompraDatosPagoComponent
     this.selectItemService.onGetSelectItem('WayToPay').subscribe((resp) => {
       this.cb_formaPago = resp;
     });
+
+    this.enumService.onGetSelectItemEmun('ETipoGasto').subscribe((resp) => {
+      this.cb_tipoGasto = resp;
+    });
+
     this.subRef$ = this.dataService
       .get(`OrdenCompraDatosPago/${this.ordenCompraDatosPagoId}`)
       .subscribe({

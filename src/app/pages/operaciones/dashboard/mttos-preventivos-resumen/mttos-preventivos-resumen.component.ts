@@ -6,20 +6,21 @@ import {
   DynamicDialogRef,
 } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { EInventoryCategory } from 'src/app/enums/categoria-inventario.enum';
-import { EInventoryCategoryPipe } from 'src/app/pipes/inventoryCategory.pipe';
-import { SanitizeHtmlPipe } from 'src/app/pipes/sanitize-html.pipe';
-import { CustomerIdService } from 'src/app/services/common-services';
-import { CustomToastService } from 'src/app/services/custom-toast.service';
-import { DataService } from 'src/app/services/data.service';
-import { DateService } from 'src/app/services/date.service';
-import { PeriodoMonthService } from 'src/app/services/periodo-month.service';
+import { SanitizeHtmlPipe } from 'src/app/core/pipes/sanitize-html.pipe';
+import { CustomerIdService } from 'src/app/core/services/common-services';
+import { CustomToastService } from 'src/app/core/services/custom-toast.service';
+import { DataService } from 'src/app/core/services/data.service';
+import { DateService } from 'src/app/core/services/date.service';
+import { PeriodoMonthService } from 'src/app/core/services/periodo-month.service';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 @Component({
   selector: 'app-mttos-preventivos-resumen',
   templateUrl: './mttos-preventivos-resumen.component.html',
   standalone: true,
-  imports: [PrimeNgModule, EInventoryCategoryPipe, SanitizeHtmlPipe],
+  imports: [
+    PrimeNgModule,
+    SanitizeHtmlPipe,
+  ],
   providers: [DialogService, MessageService, CustomToastService],
 })
 export default class MantenimientosPreventivosResumenComponent
@@ -32,13 +33,11 @@ export default class MantenimientosPreventivosResumenComponent
   public dataService = inject(DataService);
   public dateService = inject(DateService);
   public dialogService = inject(DialogService);
-
   public customToastService = inject(CustomToastService);
 
   data: any[] = [];
   ref: DynamicDialogRef;
   subRef$: Subscription;
-  responsable: EInventoryCategory;
   estatus: number;
 
   ngOnInit(): void {

@@ -8,13 +8,13 @@ import {
 } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { IMeetingDertailsSeguimientoAddOrEditDto } from 'src/app/interfaces/IMeetingDertailsSeguimientoAddOrEditDto.interface';
+import { IMeetingDertailsSeguimientoAddOrEditDto } from 'src/app/core/interfaces/IMeetingDertailsSeguimientoAddOrEditDto.interface';
 import {
   AuthService,
   CustomToastService,
   DataService,
   DateService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import ComponentsModule, {
   flatpickrFactory,
 } from 'src/app/shared/components.module';

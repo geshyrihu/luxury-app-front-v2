@@ -134,13 +134,13 @@
             <i
               class="fa-duotone fa-thumbtack me-1"
               [ngClass]="{
-                'text-success': item.typeMaintance == 0,
-                'text-danger': item.typeMaintance == 1,
-                'text-info': item.typeMaintance == 2,
-                'text-primary': item.typeMaintance == 3
+                'text-success': item.typeMaintance == 'Preventivo',
+                'text-danger': item.typeMaintance == 'Correctivo',
+                'text-info': item.typeMaintance == 'Predictivo',
+                'text-primary': item.typeMaintance == 'Pintura'
               }"
             ></i>
-            {{ item.typeMaintance | eTypeMaintance }}</span
+            {{ item.typeMaintance }}</span
           >
         </td>
         <td>{{ item.provider }}</td>

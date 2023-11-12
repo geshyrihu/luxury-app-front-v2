@@ -7,7 +7,7 @@ import { Subscription } from 'rxjs';
 import {
   CustomToastService,
   DataService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 
 @Component({
   selector: 'app-addoredit-invited',
@@ -45,7 +45,6 @@ export default class AddOrEditInvitedComponent implements OnInit, OnDestroy {
         next: () => {
           this.customToastService.onShowSuccess();
           this.onLoadData();
-          console.log('Seagrego invitado...');
         },
         error: (err) => {
           console.log(err.error);

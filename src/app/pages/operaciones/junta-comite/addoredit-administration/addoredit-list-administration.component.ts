@@ -7,7 +7,7 @@ import { Subscription } from 'rxjs';
 import {
   CustomToastService,
   DataService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 
 @Component({
   selector: 'app-addoredit-list-administration',
@@ -22,7 +22,6 @@ export default class AddOrEditListAdministrationComponent
   public config = inject(DynamicDialogConfig);
   public dataService = inject(DataService);
   public messageService = inject(MessageService);
-
   public customToastService = inject(CustomToastService);
 
   subRef$: Subscription;

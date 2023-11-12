@@ -8,13 +8,13 @@ import {
 } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { IMedidorLecturaDto } from 'src/app/interfaces/IMedidorLecturaDto.interface';
+import { IMedidorLecturaDto } from 'src/app/core/interfaces/IMedidorLecturaDto.interface';
 import {
   AuthService,
   CustomToastService,
   DataService,
   DateService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 const date = new Date();
 @Component({

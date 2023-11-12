@@ -4,14 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { IProductoListAddDto } from 'src/app/interfaces/IProductoListAddDto.interface.interface';
+import { IProductoListAddDto } from 'src/app/core/interfaces/IProductoListAddDto.interface.interface';
 import {
   AuthService,
   CustomToastService,
   CustomerIdService,
   DataService,
   SelectItemService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import TarjetaProductoComponent from '../../mantenimiento-catalogos/tarjeta-producto/tarjeta-producto.component';
@@ -25,7 +25,6 @@ import TarjetaProductoComponent from '../../mantenimiento-catalogos/tarjeta-prod
 })
 export default class AddProductosAlmacenComponent implements OnInit, OnDestroy {
   private dataService = inject(DataService);
-
   public customToastService = inject(CustomToastService);
   private selectItemService = inject(SelectItemService);
   public authService = inject(AuthService);

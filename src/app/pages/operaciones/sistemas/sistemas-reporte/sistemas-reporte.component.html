@@ -47,13 +47,13 @@
           PENDIENTE
         </button>
         <button
-          ngbTooltip="Mostar tikets terminados"
+          ngbTooltip="Mostar tikets concluidos"
           placement="top"
           type="button"
           class="btn btn-outline-success me-1"
           (click)="onFilter(false, true, employeeId)"
         >
-          TERMINADO
+          CONCLUIDO
         </button>
         <button
           ngbTooltip="Se mostraran todos los tikets"
@@ -87,7 +87,7 @@
             type="button"
             class="btn btn-success waves-effect waves-light w-sm"
           >
-            {{ terminados }} ATENDIDOS
+            {{ concluidos }} ATENDIDOS
           </button>
           <button
             type="button"

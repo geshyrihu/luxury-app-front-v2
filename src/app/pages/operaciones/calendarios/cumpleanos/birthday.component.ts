@@ -12,7 +12,7 @@ import {
   CustomToastService,
   CustomerIdService,
   DataService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 
 @Component({
   selector: 'app-birthday',

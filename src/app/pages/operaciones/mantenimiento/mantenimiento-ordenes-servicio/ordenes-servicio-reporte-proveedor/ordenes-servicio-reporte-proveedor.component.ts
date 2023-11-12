@@ -8,7 +8,7 @@ import {
   CustomToastService,
   CustomerIdService,
   DataService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import { environment } from 'src/environments/environment';
 
@@ -27,7 +27,6 @@ export default class OrdenesServicioReporteProveedorComponent
   public messageService = inject(MessageService);
   public dataService = inject(DataService);
   public ref = inject(DynamicDialogRef);
-
   public customToastService = inject(CustomToastService);
 
   id: number = 0;

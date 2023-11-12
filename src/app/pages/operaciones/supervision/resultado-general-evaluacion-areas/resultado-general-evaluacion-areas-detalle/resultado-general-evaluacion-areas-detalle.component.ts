@@ -4,14 +4,14 @@ import { DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { TableModule } from 'primeng/table';
 import { Subscription } from 'rxjs';
-import { EAreaMinutasDetalles } from 'src/app/enums/area-minutas-detalles.enum';
-import { EStatusTask } from 'src/app/enums/estatus.enum';
-import { SanitizeHtmlPipe } from 'src/app/pipes/sanitize-html.pipe';
-import { EStatusPipe } from 'src/app/pipes/status.pipe';
+import { EAreaMinutasDetalles } from 'src/app/core/enums/area-minutas-detalles.enum';
+import { EStatusTask } from 'src/app/core/enums/estatus.enum';
+import { SanitizeHtmlPipe } from 'src/app/core/pipes/sanitize-html.pipe';
+import { EStatusPipe } from 'src/app/core/pipes/status.pipe';
 import {
   CustomToastService,
   DataService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 
 @Component({

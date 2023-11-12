@@ -16,7 +16,7 @@
   <!-- Cabecera tabla -->
   <ng-template pTemplate="caption">
     <app-table-header
-      [title]="'Minutas de Juntas ' + (tipoJunta | eeTypeMeeting)"
+      [title]="'Minutas de Juntas ' + tipoJunta"
       (add)="showModalAddOrEditMeeting({ id: 0, title: 'Nuevo Registro' })"
       [showSearch]="false"
       [dt]="dt"
@@ -37,18 +37,27 @@
         SEGUIMIENTO A PENDIENTES
       </a>
       <!-- badge  bg-success -->
-      <a (click)="onLoadData(0)" class="pointer btn btn-sm btn-info me-1">
+      <a
+        (click)="onLoadData('Asamblea')"
+        class="pointer btn btn-sm btn-info me-1"
+      >
         ASAMBLEA
       </a>
-      <a (click)="onLoadData(1)" class="pointer btn btn-sm btn-info me-1">
+      <a
+        (click)="onLoadData('Comité')"
+        class="pointer btn btn-sm btn-info me-1"
+      >
         COMITÉ
       </a>
-      <a (click)="onLoadData(2)" class="pointer btn btn-sm btn-info me-1">
+      <a
+        (click)="onLoadData('Operación')"
+        class="pointer btn btn-sm btn-info me-1"
+      >
         OPERACIÓN
       </a>
       <div class="flex align-items-center justify-content-between">
         En total hay {{ data ? data.length : 0 }} reuniones.
-        {{ tipoJunta | eeTypeMeeting }}
+        {{ tipoJunta }}
       </div>
     </div>
   </ng-template>
@@ -66,9 +75,9 @@
         Total
         <p-sortIcon field="issues"></p-sortIcon>
       </th>
-      <th scope="col" style="width: 15%" pSortableColumn="terminados">
-        Terminado
-        <p-sortIcon field="terminados"></p-sortIcon>
+      <th scope="col" style="width: 15%" pSortableColumn="concluidos">
+        Concluido
+        <p-sortIcon field="concluidos"></p-sortIcon>
       </th>
       <th scope="col" style="width: 15%" pSortableColumn="pending">
         Pendiente
@@ -111,10 +120,10 @@
         <button
           class="badge bg-success pointer p-2 w-100 border-0"
           ngbTooltip="Revisar Pendientes"
-          (click)="showModalAddOrEditMeetingDetails(item.id, 'Terminados', 1)"
-          [disabled]="item.terminados == 0"
+          (click)="showModalAddOrEditMeetingDetails(item.id, 'Concluidos', 1)"
+          [disabled]="item.concluidos == 0"
         >
-          TERMINADOS.- {{ item.terminados }}
+          CONCLUIDOS.- {{ item.concluidos }}
         </button>
       </td>
       <td class="p-column-title text-center">

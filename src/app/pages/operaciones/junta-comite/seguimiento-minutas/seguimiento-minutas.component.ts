@@ -6,13 +6,13 @@ import { Observable, Subscription } from 'rxjs';
 import ContMinutaSeguimientosComponent from 'src/app/pages/contabilidad/contabilidad-pendientes-minuta/cont-minuta-seguimientos.component';
 import AddoreditMinutaDetalleComponent from 'src/app/pages/operaciones/junta-comite/addoredit-minuta-detalle/addoredit-minuta-detalle.component';
 import AddorEditMeetingSeguimientoComponent from 'src/app/pages/operaciones/junta-comite/addoredit-seguimiento/addor-edit-meeting-seguimiento.component';
-import { SanitizeHtmlPipe } from 'src/app/pipes/sanitize-html.pipe';
+import { SanitizeHtmlPipe } from 'src/app/core/pipes/sanitize-html.pipe';
 import {
   AuthService,
   CustomerIdService,
   CustomToastService,
   DataService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 @Component({
@@ -27,7 +27,6 @@ export default class SeguimientoMinutaComponent implements OnInit, OnDestroy {
   public dialogService = inject(DialogService);
   public messageService = inject(MessageService);
   public authService = inject(AuthService);
-
   public customToastService = inject(CustomToastService);
   public customerIdService = inject(CustomerIdService);
 

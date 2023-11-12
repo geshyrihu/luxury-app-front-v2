@@ -10,15 +10,15 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { Subscription } from 'rxjs';
-import { IEditarCuentaDto } from 'src/app/interfaces/IEditarCuentaDto.interface';
-import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
+import { IEditarCuentaDto } from 'src/app/core/interfaces/IEditarCuentaDto.interface';
+import { ISelectItemDto } from 'src/app/core/interfaces/ISelectItemDto.interface';
 import {
   AuthService,
   CustomToastService,
   CustomerIdService,
   DataService,
   SelectItemService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
 
@@ -44,7 +44,7 @@ export default class UpdateAccountComponent implements OnInit, OnDestroy {
   public authService = inject(AuthService);
   public customerIdService = inject(CustomerIdService);
 
-  cb_customer: ISelectItemDto[] = this.selectItemService.customer;
+  cb_customer: ISelectItemDto[] = [];
   cb_employee: ISelectItemDto[] = !this.authService.onValidateRoles([
     'SuperUsuario',
   ])
@@ -71,6 +71,9 @@ export default class UpdateAccountComponent implements OnInit, OnDestroy {
   });
 
   ngOnInit(): void {
+    this.selectItemService.onGetSelectItem('customers').subscribe((resp) => {
+      this.cb_customer = resp;
+    });
     this.onLoadData();
   }
 

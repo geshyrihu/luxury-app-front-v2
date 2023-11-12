@@ -2,14 +2,13 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable, Subscription } from 'rxjs';
-import { IComiteVigilanciaDto } from 'src/app/interfaces/IComiteVigilanciaDto.interface';
-import { EPosicionComitePipe } from 'src/app/pipes/posicionComite.pipe';
+import { IComiteVigilanciaDto } from 'src/app/core/interfaces/IComiteVigilanciaDto.interface';
 import {
   AuthService,
   CustomToastService,
   CustomerIdService,
   DataService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import AddOrEditComiteVigilanciaComponent from './addoredit-comite-vigilancia.component';
@@ -18,7 +17,10 @@ import AddOrEditComiteVigilanciaComponent from './addoredit-comite-vigilancia.co
   selector: 'app-list-comite-vigilancia',
   templateUrl: './list-comite-vigilancia.component.html',
   standalone: true,
-  imports: [ComponentsModule, PrimeNgModule, EPosicionComitePipe],
+  imports: [
+    ComponentsModule,
+    PrimeNgModule,
+  ],
   providers: [DialogService, MessageService, CustomToastService],
 })
 export default class ListComiteVigilanciaComponent
@@ -28,7 +30,6 @@ export default class ListComiteVigilanciaComponent
   public customerIdService = inject(CustomerIdService);
   public dataService = inject(DataService);
   public messageService = inject(MessageService);
-
   public customToastService = inject(CustomToastService);
   public dialogService = inject(DialogService);
   data: IComiteVigilanciaDto[] = [];
@@ -55,7 +56,6 @@ export default class ListComiteVigilanciaComponent
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          console.log('🚀 ~ resp.body:', resp.body);
           this.customToastService.onClose();
         },
         error: (err) => {

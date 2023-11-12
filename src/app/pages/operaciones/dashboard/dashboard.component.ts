@@ -7,7 +7,7 @@ import BitacoraMantenimientoComponent from 'src/app/pages/operaciones/mantenimie
 import {
   AuthService,
   CustomToastService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import DashboardMinutasComponent from './dashboard-minutas/dashboard-minutas.component';
 import DashboardTicketsComponent from './dashboard-tickets/dashboard-tickets.component';

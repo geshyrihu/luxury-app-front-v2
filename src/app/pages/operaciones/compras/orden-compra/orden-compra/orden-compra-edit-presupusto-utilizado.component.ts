@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs';
 import {
   CustomToastService,
   DataService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
 
@@ -34,7 +34,6 @@ export default class OrdenCompraEditPresupustoUtilizadoComponent
   public dataService = inject(DataService);
   public ref = inject(DynamicDialogRef);
   public config = inject(DynamicDialogConfig);
-
   public customToastService = inject(CustomToastService);
 
   submitting: boolean = false;

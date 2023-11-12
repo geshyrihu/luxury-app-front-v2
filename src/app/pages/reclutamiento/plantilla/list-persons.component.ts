@@ -3,13 +3,13 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable, Subscription } from 'rxjs';
-import { IWorkPositionDto } from 'src/app/interfaces/IEmpresaOrganigramaDto.interface';
+import { IWorkPositionDto } from 'src/app/core/interfaces/IEmpresaOrganigramaDto.interface';
 import {
   AuthService,
   CustomToastService,
   CustomerIdService,
   DataService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import { environment } from 'src/environments/environment';

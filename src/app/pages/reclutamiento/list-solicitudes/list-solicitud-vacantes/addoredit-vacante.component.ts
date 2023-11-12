@@ -9,12 +9,12 @@ import {
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { EStatus } from 'src/app/enums/estatus.enum';
-import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
+import { ISelectItemDto } from 'src/app/core/interfaces/ISelectItemDto.interface';
 import {
   CustomToastService,
   DataService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
+import { EnumService } from 'src/app/core/services/enum-service';
 import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
 
@@ -36,12 +36,12 @@ export default class AddOrEditVacanteComponent implements OnInit, OnDestroy {
   private dataService = inject(DataService);
   public ref = inject(DynamicDialogRef);
   public config = inject(DynamicDialogConfig);
-
   public customToastService = inject(CustomToastService);
+  public enumService = inject(EnumService);
 
   submitting: boolean = false;
 
-  cb_status = onGetSelectItemFromEnum(EStatus);
+  cb_status:ISelectItemDto[] = [];
   id: number = 0;
   subRef$: Subscription;
   form: FormGroup = this.formBuilder.group({
@@ -55,6 +55,10 @@ export default class AddOrEditVacanteComponent implements OnInit, OnDestroy {
     workPositionId: [this.config.data.workPositionId],
   });
   ngOnInit(): void {
+
+    this.enumService.onGetSelectItemEmun('EStatus').subscribe(resp=>{
+      this.cb_status=resp
+    })
     this.id = this.config.data.id;
     if (this.id !== 0) this.onLoadData();
   }

@@ -2,14 +2,12 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
-import { ERecurrencePipe } from 'src/app/pipes/recurrence.pipe';
-import { SanitizeHtmlPipe } from 'src/app/pipes/sanitize-html.pipe';
-import { ETypeMaintancePipe } from 'src/app/pipes/typeMaintance.pipe';
-import { CustomerIdService } from 'src/app/services/common-services';
-import { CustomToastService } from 'src/app/services/custom-toast.service';
-import { DataService } from 'src/app/services/data.service';
-import { DateService } from 'src/app/services/date.service';
-import { PeriodoMonthService } from 'src/app/services/periodo-month.service';
+import { SanitizeHtmlPipe } from 'src/app/core/pipes/sanitize-html.pipe';
+import { CustomerIdService } from 'src/app/core/services/common-services';
+import { CustomToastService } from 'src/app/core/services/custom-toast.service';
+import { DataService } from 'src/app/core/services/data.service';
+import { DateService } from 'src/app/core/services/date.service';
+import { PeriodoMonthService } from 'src/app/core/services/periodo-month.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -18,8 +16,6 @@ import { environment } from 'src/environments/environment';
   standalone: true,
   imports: [
     CommonModule,
-    ETypeMaintancePipe,
-    ERecurrencePipe,
     SanitizeHtmlPipe,
     DatePipe,
   ],

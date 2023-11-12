@@ -8,9 +8,7 @@ import {
 } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { EState } from 'src/app/enums/state.enum';
-import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
-import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
+import { ISelectItemDto } from 'src/app/core/interfaces/ISelectItemDto.interface';
 import {
   AuthService,
   CustomToastService,
@@ -18,7 +16,8 @@ import {
   DataService,
   DateService,
   SelectItemService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
+import { EnumService } from 'src/app/core/services/enum-service';
 import ComponentsModule, {
   flatpickrFactory,
 } from 'src/app/shared/components.module';
@@ -45,8 +44,8 @@ export default class AddoreditToolsComponent implements OnInit, OnDestroy {
   public config = inject(DynamicDialogConfig);
   public ref = inject(DynamicDialogRef);
   public customerIdService = inject(CustomerIdService);
-
   private customToastService = inject(CustomToastService);
+  private enumService = inject(EnumService);
 
   submitting: boolean = false;
   subRef$: Subscription;
@@ -58,7 +57,7 @@ export default class AddoreditToolsComponent implements OnInit, OnDestroy {
   photoFileUpdate: boolean = false;
 
   cb_category: any[] = [{}];
-  optionActive: ISelectItemDto[] = onGetSelectItemFromEnum(EState);
+  optionActive: ISelectItemDto[] = [];
   form: FormGroup;
 
   ngOnInit(): void {
@@ -90,6 +89,9 @@ export default class AddoreditToolsComponent implements OnInit, OnDestroy {
   onLoadSelectItem() {
     this.selectItemService.onGetSelectItem('Categories').subscribe((resp) => {
       this.cb_category = resp;
+    });
+    this.enumService.onGetSelectItemEmun('EState').subscribe((resp) => {
+      this.optionActive = resp;
     });
   }
   onLoadData() {

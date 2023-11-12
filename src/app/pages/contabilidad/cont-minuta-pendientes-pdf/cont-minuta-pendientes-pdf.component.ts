@@ -2,11 +2,11 @@ import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
-import { SanitizeHtmlPipe } from 'src/app/pipes/sanitize-html.pipe';
+import { SanitizeHtmlPipe } from 'src/app/core/pipes/sanitize-html.pipe';
 import {
   CustomToastService,
   DataService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 
 @Component({

@@ -4,7 +4,7 @@ import { MessageService } from 'primeng/api';
 import { LocaleSettings } from 'primeng/calendar';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable, Subscription } from 'rxjs';
-import { IFechasFiltro } from 'src/app/interfaces/IFechasFiltro.interface';
+import { IFechasFiltro } from 'src/app/core/interfaces/IFechasFiltro.interface';
 import CardEmployeeComponent from 'src/app/pages/operaciones/directorios/empleados/card-employee/card-employee.component';
 import {
   AuthService,
@@ -13,7 +13,7 @@ import {
   DataService,
   DateService,
   FiltroCalendarService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import FormBitacoraMantenimientoComponent from './form-bitacora-mantenimiento.component';
@@ -29,7 +29,6 @@ export default class BitacoraMantenimientoComponent
   implements OnInit, OnDestroy
 {
   public dateService = inject(DateService);
-
   public customToastService = inject(CustomToastService);
   public dialogService = inject(DialogService);
   public dataService = inject(DataService);

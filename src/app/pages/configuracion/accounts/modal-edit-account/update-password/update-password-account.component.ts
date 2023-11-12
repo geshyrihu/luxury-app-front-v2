@@ -11,11 +11,11 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { Subscription } from 'rxjs';
-import { ResetPasswordDto } from 'src/app/interfaces/auth/user-info.interface';
+import { ResetPasswordDto } from 'src/app/core/interfaces/user-info.interface';
 import {
   CustomToastService,
   DataService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import CustomButtonSubmitComponent from 'src/app/shared/custom-buttons/custom-button-submit/custom-button-submit.component';
 
 @Component({

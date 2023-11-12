@@ -6,7 +6,6 @@ import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable, Subscription } from 'rxjs';
-import { ETypeMaintancePipe } from 'src/app/pipes/typeMaintance.pipe';
 import {
   AuthService,
   CustomToastService,
@@ -14,7 +13,7 @@ import {
   DataService,
   DateService,
   ReporteOrdenesServicioService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import SubirPdfComponent from 'src/app/shared/subir-pdf/subir-pdf.component';
@@ -36,7 +35,6 @@ const date = new Date();
     ComponentsModule,
     NgbTooltipModule,
     PrimeNgModule,
-    ETypeMaintancePipe,
   ],
   providers: [DialogService, MessageService, CustomToastService],
 })
@@ -50,7 +48,6 @@ export default class OrdenesServicioComponentComponent
   public dialogService = inject(DialogService);
   public dataService = inject(DataService);
   public dateService = inject(DateService);
-
   public customToastService = inject(CustomToastService);
 
   mm = date.getMonth() + 1;

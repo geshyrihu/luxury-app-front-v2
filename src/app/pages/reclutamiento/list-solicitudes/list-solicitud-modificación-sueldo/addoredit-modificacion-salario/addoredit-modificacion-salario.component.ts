@@ -9,14 +9,14 @@ import {
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { EStatus } from 'src/app/enums/estatus.enum';
-import { cb_ESiNo } from 'src/app/enums/si-no.enum';
-import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
-import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
+import { cb_ESiNo } from 'src/app/core/enums/si-no.enum';
+import { onGetSelectItemFromEnum } from 'src/app/core/helpers/enumeration';
+import { ISelectItemDto } from 'src/app/core/interfaces/ISelectItemDto.interface';
 import {
   CustomToastService,
   DataService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
+import { EnumService } from 'src/app/core/services/enum-service';
 import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
 
@@ -41,10 +41,11 @@ export default class AddoreditModificacionSalarioComponent
   private customToastService = inject(CustomToastService);
   public config = inject(DynamicDialogConfig);
   public ref = inject(DynamicDialogRef);
+  public enumService = inject(EnumService);
 
   submitting: boolean = false;
 
-  cb_status = onGetSelectItemFromEnum(EStatus);
+  cb_status : ISelectItemDto[]= [];
   cb_si_no: ISelectItemDto[] = cb_ESiNo;
   id: number = 0;
   subRef$: Subscription;
@@ -70,6 +71,10 @@ export default class AddoreditModificacionSalarioComponent
     if (this.id !== 0) this.onLoadData();
   }
   onLoadData() {
+
+    this.enumService.onGetSelectItemEmun('EStatus').subscribe(resp=>{
+      this.cb_status=resp
+    })
     this.subRef$ = this.dataService
       .get(`RequestSalaryModification/GetById/${this.id}`)
       .subscribe({
@@ -129,7 +134,7 @@ export interface RequestSalaryModificationAddOrEditDto {
   executionDate: string;
   folio: string;
   retroactive: boolean;
-  status: EStatus;
+  status: string;
   applicationUserId: string;
   confirmationFinish: boolean;
 }

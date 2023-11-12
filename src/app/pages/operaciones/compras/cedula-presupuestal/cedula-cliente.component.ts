@@ -6,9 +6,9 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable, Subscription } from 'rxjs';
 import AddPartidaCedulaComponent from 'src/app/pages/contabilidad/presupuesto/add-partida-cedula.component';
 import EditPartidaCedulaComponent from 'src/app/pages/contabilidad/presupuesto/edit-partida-cedula.component';
-import { CustomerIdService } from 'src/app/services/common-services';
-import { CustomToastService } from 'src/app/services/custom-toast.service';
-import { DataService } from 'src/app/services/data.service';
+import { CustomerIdService } from 'src/app/core/services/common-services';
+import { CustomToastService } from 'src/app/core/services/custom-toast.service';
+import { DataService } from 'src/app/core/services/data.service';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import AddoreditPeriodoCedulaPresupuestalComponent from './addoredit-periodo-cedula.component';
@@ -146,8 +146,6 @@ export default class CedulaClienteComponent implements OnInit, OnDestroy {
     });
   }
   onModalOrdenesCompraCedula(partidaPresupuestalId: number) {
-    console.log('🚀 ~ partidaPresupuestalId:', partidaPresupuestalId);
-    console.log('🚀 ~ cedulaPresupuestalId:', this.id);
     this.ref = this.dialogService.open(OrdenesCompraCedulaComponent, {
       data: {
         partidaPresupuestalId,

@@ -3,20 +3,21 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { NgbAlert } from '@ng-bootstrap/ng-bootstrap';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { IFichaTecnicaActivoDto } from 'src/app/interfaces/IFichaTecnicaActivoDto.interface';
-import { EInventoryCategoryPipe } from 'src/app/pipes/inventoryCategory.pipe';
-import { EStatePipe } from 'src/app/pipes/state.pipe';
+import { IFichaTecnicaActivoDto } from 'src/app/core/interfaces/IFichaTecnicaActivoDto.interface';
 import {
   CustomToastService,
   DataService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-ficha-tecnica-activo',
   templateUrl: './ficha-tecnica-activo.component.html',
   standalone: true,
-  imports: [NgbAlert, CommonModule, EStatePipe, EInventoryCategoryPipe],
+  imports: [
+    NgbAlert,
+    CommonModule,
+  ],
   providers: [CustomToastService],
 })
 export default class FichaTecnicaActivoComponent implements OnInit, OnDestroy {

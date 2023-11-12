@@ -2,26 +2,27 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { TableModule } from 'primeng/table';
 import { Observable, Subscription } from 'rxjs';
-import { EExtintorPipe } from 'src/app/pipes/hidrantes.pipe';
 import {
   CustomToastService,
   CustomerIdService,
   DataService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-hidrantes',
   templateUrl: './hidrantes.component.html',
   standalone: true,
-  imports: [ComponentsModule, TableModule, EExtintorPipe],
+  imports: [
+    ComponentsModule,
+    TableModule,
+  ],
   providers: [MessageService, CustomToastService],
 })
 export default class HidrantesComponent implements OnInit, OnDestroy {
   public customerIdService = inject(CustomerIdService);
   public dataService = inject(DataService);
   public messageService = inject(MessageService);
-
   public customToastService = inject(CustomToastService);
 
   data: any[] = [];

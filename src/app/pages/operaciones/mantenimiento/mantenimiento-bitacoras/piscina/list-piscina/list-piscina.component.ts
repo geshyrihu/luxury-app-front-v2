@@ -6,13 +6,12 @@ import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ImageModule } from 'primeng/image';
 import { Observable, Subscription } from 'rxjs';
-import { ETypePiscinaPipe } from 'src/app/pipes/type-piscina.pipe';
 import {
   AuthService,
   CustomToastService,
   CustomerIdService,
   DataService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import { environment } from 'src/environments/environment';
@@ -27,7 +26,6 @@ import AddOrEditPiscinaComponent from '../addoredit-piscina/addoredit-piscina.co
     ComponentsModule,
     ImageModule,
     CommonModule,
-    ETypePiscinaPipe,
     RouterModule,
     TooltipModule,
   ],
@@ -38,7 +36,6 @@ export default class ListPiscinaComponent implements OnInit, OnDestroy {
   public authService = inject(AuthService);
   public dialogService = inject(DialogService);
   public messageService = inject(MessageService);
-
   public customToastService = inject(CustomToastService);
   public customerIdService = inject(CustomerIdService);
 

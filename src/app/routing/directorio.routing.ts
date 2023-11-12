@@ -33,7 +33,7 @@ export default [
     path: 'empleados/:parametro',
     loadComponent: () =>
       import(
-        'src/app/pages/operaciones/directorios/empleados/list-employee.component'
+        'src/app/pages/operaciones/directorios/empleados/list-empleados.component'
       ),
   },
   {

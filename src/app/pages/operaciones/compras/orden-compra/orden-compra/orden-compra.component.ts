@@ -7,14 +7,14 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ContextMenuModule } from 'primeng/contextmenu';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { EStatusOrdenCompraPipe } from 'src/app/pipes/status-orden-compra.pipe';
+// import { EStatusOrdenCompraPipe } from 'src/app/pipes/status-orden-compra.pipe';
 import {
   AuthService,
   CustomToastService,
   DataService,
   OrdenCompraService,
   SelectItemService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import OrdenCompraDatosPagoParcialComponent from '../components/orden-compra-datos-pago-parcial/orden-compra-datos-pago-parcial.component';
@@ -25,7 +25,7 @@ import OrdenCompraDetalleAddProductoComponent from '../orden-compra-detalle-add-
 import OrdenCompraPresupuestoComponent from '../orden-compra-presupuesto/orden-compra-presupuesto.component';
 import OrdenCompraStatusComponent from '../orden-compra-status/orden-compra-status.component';
 import OrdenCompraDenegadaComponent from './../orden-compra-denegada/orden-compra-denegada.component';
-import ModalOrdenCompraComponent from './modal-orden-compra.component';
+// import ModalOrdenCompraComponent from './modal-orden-compra.component';
 import OrdenCompraEditDetalleComponent from './orden-compra-edit-detalle.component';
 import OrdenCompraEditPresupustoUtilizadoComponent from './orden-compra-edit-presupusto-utilizado.component';
 @Component({
@@ -43,7 +43,7 @@ import OrdenCompraEditPresupustoUtilizadoComponent from './orden-compra-edit-pre
     PrimeNgModule,
     ContextMenuModule,
     ConfirmDialogModule,
-    EStatusOrdenCompraPipe,
+    // EStatusOrdenCompraPipe,
   ],
   providers: [
     DialogService,
@@ -54,7 +54,6 @@ import OrdenCompraEditPresupustoUtilizadoComponent from './orden-compra-edit-pre
 })
 export default class OrdenCompraComponent implements OnInit, OnDestroy {
   public customToastService = inject(CustomToastService);
-
   public authService = inject(AuthService);
   public dataService = inject(DataService);
   public routeActive = inject(ActivatedRoute);
@@ -347,23 +346,23 @@ export default class OrdenCompraComponent implements OnInit, OnDestroy {
     });
   }
 
-  onModalOrdenCompra() {
-    this.ref = this.dialogService.open(ModalOrdenCompraComponent, {
-      data: {
-        ordenCompra: this.ordenCompra,
-      },
-      header: 'Actualizar información',
-      styleClass: 'modal-md',
-      closeOnEscape: true,
-      baseZIndex: 10000,
-    });
-    this.ref.onClose.subscribe((resp: boolean) => {
-      if (resp) {
-        this.customToastService.onShowSuccess();
-        this.onLoadData();
-      }
-    });
-  }
+  // onModalOrdenCompra() {
+  //   this.ref = this.dialogService.open(ModalOrdenCompraComponent, {
+  //     data: {
+  //       ordenCompra: this.ordenCompra,
+  //     },
+  //     header: 'Actualizar información',
+  //     styleClass: 'modal-md',
+  //     closeOnEscape: true,
+  //     baseZIndex: 10000,
+  //   });
+  //   this.ref.onClose.subscribe((resp: boolean) => {
+  //     if (resp) {
+  //       this.customToastService.onShowSuccess();
+  //       this.onLoadData();
+  //     }
+  //   });
+  // }
   onModalOrdenCompraDatosPago() {
     this.ref = this.dialogService.open(OrdenCompraDatosPagoComponent, {
       data: {

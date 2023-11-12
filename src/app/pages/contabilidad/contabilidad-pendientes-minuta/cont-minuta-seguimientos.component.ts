@@ -12,7 +12,7 @@ import AddorEditMeetingSeguimientoComponent from 'src/app/pages/operaciones/junt
 import {
   CustomToastService,
   DataService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 
 @Component({

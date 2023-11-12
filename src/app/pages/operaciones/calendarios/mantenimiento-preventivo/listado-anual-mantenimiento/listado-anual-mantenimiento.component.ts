@@ -5,19 +5,16 @@ import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { TableModule } from 'primeng/table';
 import { Observable, Subscription } from 'rxjs';
-import { EMonths } from 'src/app/enums/meses.enum';
-import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
-import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
-import { CurrencyMexicoPipe } from 'src/app/pipes/currencyMexico.pipe';
-import { EInventoryCategoryPipe } from 'src/app/pipes/inventoryCategory.pipe';
-import { ERecurrencePipe } from 'src/app/pipes/recurrence.pipe';
-import { SanitizeHtmlPipe } from 'src/app/pipes/sanitize-html.pipe';
+import { ISelectItemDto } from 'src/app/core/interfaces/ISelectItemDto.interface';
+import { CurrencyMexicoPipe } from 'src/app/core/pipes/currencyMexico.pipe';
+import { SanitizeHtmlPipe } from 'src/app/core/pipes/sanitize-html.pipe';
 import {
   AuthService,
   CustomToastService,
   CustomerIdService,
   DataService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
+import { EnumService } from 'src/app/core/services/enum-service';
 import ComponentsModule from 'src/app/shared/components.module';
 import AddoreditMaintenancePreventiveComponent from '../addoredit-maintenance-preventive.component';
 const date = new Date();
@@ -31,8 +28,6 @@ const date = new Date();
     FormsModule,
     ComponentsModule,
     TableModule,
-    EInventoryCategoryPipe,
-    ERecurrencePipe,
     CurrencyMexicoPipe,
     SanitizeHtmlPipe,
   ],
@@ -47,15 +42,19 @@ export default class ListadoAnualMantenimientoComponent
   public customerIdService = inject(CustomerIdService);
   public messageService = inject(MessageService);
   public dialogService = inject(DialogService);
+  public enumService = inject(EnumService);
 
   data: any[] = [];
   ref: DynamicDialogRef;
   subRef$: Subscription;
   customerId$: Observable<number> = this.customerIdService.getCustomerId$();
-  month = date.getMonth() + 1;
-  months: ISelectItemDto[] = onGetSelectItemFromEnum(EMonths);
+  month = date.getMonth();
+  months: ISelectItemDto[] = [];
 
   ngOnInit() {
+    this.enumService.onGetSelectItemEmun('EMonth').subscribe((resp) => {
+      this.months = resp;
+    });
     this.onLoadData();
     this.customerId$.subscribe(() => {
       this.onLoadData();

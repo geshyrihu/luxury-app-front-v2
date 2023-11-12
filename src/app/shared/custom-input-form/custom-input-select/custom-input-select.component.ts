@@ -5,7 +5,7 @@ import {
   FormControl,
   NG_VALUE_ACCESSOR,
 } from '@angular/forms';
-import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
+import { ISelectItemDto } from 'src/app/core/interfaces/ISelectItemDto.interface';
 @Component({
   selector: 'custom-input-select',
   templateUrl: './custom-input-select.component.html',

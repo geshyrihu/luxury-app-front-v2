@@ -6,13 +6,13 @@ import {
   DynamicDialogRef,
 } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { IFechasFiltro } from 'src/app/interfaces/IFechasFiltro.interface';
-import { AuthService } from 'src/app/services/auth.service';
-import { CustomToastService } from 'src/app/services/custom-toast.service';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
-import { DataService } from 'src/app/services/data.service';
-import { DateService } from 'src/app/services/date.service';
-import { FiltroCalendarService } from 'src/app/services/filtro-calendar.service';
+import { IFechasFiltro } from 'src/app/core/interfaces/IFechasFiltro.interface';
+import { AuthService } from 'src/app/core/services/auth.service';
+import { CustomToastService } from 'src/app/core/services/custom-toast.service';
+import { CustomerIdService } from 'src/app/core/services/customer-id.service';
+import { DataService } from 'src/app/core/services/data.service';
+import { DateService } from 'src/app/core/services/date.service';
+import { FiltroCalendarService } from 'src/app/core/services/filtro-calendar.service';
 import ComponentsModule from 'src/app/shared/components.module';
 
 @Component({

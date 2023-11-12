@@ -3,17 +3,17 @@ import { Component, OnDestroy, inject } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable, Subscription } from 'rxjs';
-import { IRadioComunicacionDto } from 'src/app/interfaces/IRadioComunicacionDto.interface';
+import { IRadioComunicacionDto } from 'src/app/core/interfaces/IRadioComunicacionDto.interface';
 import {
   AuthService,
   CustomToastService,
   CustomerIdService,
   DataService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import { environment } from 'src/environments/environment';
-import AddOrEditRadioComunicacionComponent from './add-or-edit-radio-comunicacion.component';
+import AddOrEditRadioComunicacionComponent from './addoredit-radio-comunicacion.component';
 @Component({
   selector: 'app-radio-comunicacion',
   templateUrl: './radio-comunicacion.component.html',

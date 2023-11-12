@@ -8,7 +8,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { Observable, Subscription } from 'rxjs';
-import { ISelectItemCheckDto } from 'src/app/interfaces/ISelectItemDto.interface';
+import { ISelectItemCheckDto } from 'src/app/core/interfaces/ISelectItemDto.interface';
 import {
   AuthService,
   CustomToastService,
@@ -17,8 +17,8 @@ import {
   DateService,
   ReportService,
   SelectItemService,
-} from 'src/app/services/common-services';
-import { TicketFilterService } from 'src/app/services/ticket-filter.service';
+} from 'src/app/core/services/common-services';
+import { TicketFilterService } from 'src/app/core/services/ticket-filter.service';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import { environment } from 'src/environments/environment';
@@ -52,7 +52,6 @@ export default class TiketMantenimientoV2Component implements OnInit {
   public ticketFilterService = inject(TicketFilterService);
   public reportService = inject(ReportService);
   public router = inject(Router);
-
   public customToastService = inject(CustomToastService);
   public selectItemService = inject(SelectItemService);
 

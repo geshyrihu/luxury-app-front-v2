@@ -16,8 +16,8 @@ import { TopbarComponent } from '../topbar/topbar.component';
  */
 export default class VerticalComponent implements OnInit, OnDestroy {
   @ViewChild('myDialog') myDialog: Dialog; // Referencia al elemento 'myDialog' en el componente
-  private router = inject(Router); // Inyección del servicio Router
   private bnIdle = inject(BnNgIdleService); // Inyección del servicio BnNgIdleService
+  private router = inject(Router); // Inyección del servicio Router
 
   // @HostListener('window:resize', ['$event'])
   isCondensed = false; // Variable para controlar si la interfaz está condensada o no

@@ -2,8 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
-import { SidebarService } from 'src/app/services/sidebar.service';
-import { MenuItem } from '../sidebar/menu.model';
+import { SidebarService } from 'src/app/core/services/sidebar.service';
+import { MenuItem } from '../../core/interfaces/menu.model';
 
 @Component({
   selector: 'app-modal-search',

@@ -12,9 +12,7 @@ import { DynamicDialogRef } from 'primeng/dynamicdialog';
 export default class AgregarCorreoElectronicoComponent {
   email: string = '';
   mailValido: boolean = false;
-  /**
-   *
-   */
+
   constructor(public ref: DynamicDialogRef) {}
   esEmailValido(): void {
     ('use strict');

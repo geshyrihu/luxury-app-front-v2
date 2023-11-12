@@ -16,7 +16,7 @@ export default [
       ),
   },
   {
-    path: 'reporte-terminados',
+    path: 'reporte-concluidos',
     loadComponent: () =>
       import(
         'src/app/pages/operaciones/tikets/reporte-terminados/reporte-operacion.component'

@@ -8,13 +8,12 @@ import {
 } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { ERouteRecurrence } from 'src/app/enums/recurrencia-recorrido.enum';
-import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
-import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
-import { CustomerIdService } from 'src/app/services/common-services';
-import { CustomToastService } from 'src/app/services/custom-toast.service';
-import { DataService } from 'src/app/services/data.service';
-import { SelectItemService } from 'src/app/services/select-item.service';
+import { ISelectItemDto } from 'src/app/core/interfaces/ISelectItemDto.interface';
+import { CustomerIdService } from 'src/app/core/services/common-services';
+import { CustomToastService } from 'src/app/core/services/custom-toast.service';
+import { DataService } from 'src/app/core/services/data.service';
+import { EnumService } from 'src/app/core/services/enum-service';
+import { SelectItemService } from 'src/app/core/services/select-item.service';
 import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
 
@@ -37,8 +36,8 @@ export default class RecorridoAddOrEditComponent implements OnInit, OnDestroy {
   public config = inject(DynamicDialogConfig);
   public ref = inject(DynamicDialogRef);
   public customerIdService = inject(CustomerIdService);
-
   private customToastService = inject(CustomToastService);
+  private enumService = inject(EnumService);
 
   submitting: boolean = false;
 
@@ -47,8 +46,9 @@ export default class RecorridoAddOrEditComponent implements OnInit, OnDestroy {
   id: number = 0;
   cb_machinery: ISelectItemDto[] = [];
   idMachinery: number = null;
-  cb_RouteRecurrence: ISelectItemDto[] =
-    onGetSelectItemFromEnum(ERouteRecurrence);
+  cb_RouteRecurrence: ISelectItemDto[] = [];
+  // cb_RouteRecurrence: ISelectItemDto[] =
+  //   onGetSelectItemFromEnum(ERouteRecurrence);
 
   onLoadSelectItem() {
     this.selectItemService
@@ -57,6 +57,11 @@ export default class RecorridoAddOrEditComponent implements OnInit, OnDestroy {
       )
       .subscribe((resp: any) => {
         this.cb_machinery = resp;
+      });
+    this.enumService
+      .onGetSelectItemEmun('ERouteRecurrence')
+      .subscribe((resp) => {
+        this.cb_RouteRecurrence = resp;
       });
   }
 

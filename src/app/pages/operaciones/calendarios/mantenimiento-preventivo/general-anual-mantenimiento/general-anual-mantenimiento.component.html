@@ -28,7 +28,7 @@
     <tr *ngFor="let item of data">
       <td>
         <ngb-alert [dismissible]="false" type="info">
-          {{ item.mes | eMonth }}
+          {{ item.mes }}
         </ngb-alert>
         <div class="card" *ngFor="let servicio of item.servicios">
           <div class="card-body">
@@ -51,7 +51,7 @@
               <div class="col-sm-3">
                 <p class="small font-normal mb-0">
                   <span class="font-bold">Recurencia:</span>
-                  {{ servicio.recurrencia | eRecurrence }}
+                  {{ servicio.recurrencia }}
                 </p>
                 <p class="small font-normal mb-0">
                   <span class="font-bold">Día</span> {{ servicio.dia }}

@@ -10,8 +10,8 @@ import {
   DataService,
   DateService,
   FiltroCalendarService,
-} from 'src/app/services/common-services';
-import { SistemasReporteService } from 'src/app/services/sistemas-reporte.service';
+} from 'src/app/core/services/common-services';
+import { SistemasReporteService } from 'src/app/core/services/sistemas-reporte.service';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import { environment } from 'src/environments/environment';
@@ -50,9 +50,9 @@ export default class SistemasReporteComponent implements OnInit, OnDestroy {
   employeeId: number = this.authService.userTokenDto.infoEmployeeDto.employeeId;
   status: number = 0;
   pendiente: boolean = true;
-  terminado: boolean = true;
+  concluido: boolean = true;
   pendientes: number = 0;
-  terminados: number = 0;
+  concluidos: number = 0;
   url = `${environment.base_urlImg}Administration/accounts/`;
   url_Customer = `${environment.base_urlImg}Administration/customer/`;
   dates$: Observable<Date[]> = this.filtroCalendarService.getDates$();
@@ -70,9 +70,9 @@ export default class SistemasReporteComponent implements OnInit, OnDestroy {
     });
   }
 
-  onFilter(pendiente: boolean, terminado: boolean, employeeId: number): void {
+  onFilter(pendiente: boolean, concluido: boolean, employeeId: number): void {
     this.pendiente = pendiente;
-    this.terminado = terminado;
+    this.concluido = concluido;
     this.employeeId = employeeId;
     this.onLoadData(
       this.dateService.getDateFormat(this.filtroCalendarService.fechaInicial),
@@ -85,7 +85,7 @@ export default class SistemasReporteComponent implements OnInit, OnDestroy {
     this.customToastService.onLoading();
     this.subRef$ = this.dataService
       .get(
-        `Ticket/SolicitudesSistemas/${fechaInicio}/${fechaFinal}/${this.pendiente}/${this.terminado}/${this.employeeId}`
+        `Ticket/SolicitudesSistemas/${fechaInicio}/${fechaFinal}/${this.pendiente}/${this.concluido}/${this.employeeId}`
       )
       .subscribe({
         next: (resp: any) => {
@@ -93,7 +93,7 @@ export default class SistemasReporteComponent implements OnInit, OnDestroy {
 
           if (this.data !== null) {
             this.pendientes = this.onFilterItems(resp.body, 0);
-            this.terminados = this.onFilterItems(resp.body, 1);
+            this.concluidos = this.onFilterItems(resp.body, 1);
           }
           this.sistemasReporteService.setData(this.data);
           this.customToastService.onClose();

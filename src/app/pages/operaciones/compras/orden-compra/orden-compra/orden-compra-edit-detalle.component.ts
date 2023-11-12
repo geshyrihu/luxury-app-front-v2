@@ -8,9 +8,9 @@ import {
 } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { CustomToastService } from 'src/app/services/custom-toast.service';
-import { DataService } from 'src/app/services/data.service';
-import { SelectItemService } from 'src/app/services/select-item.service';
+import { CustomToastService } from 'src/app/core/services/custom-toast.service';
+import { DataService } from 'src/app/core/services/data.service';
+import { SelectItemService } from 'src/app/core/services/select-item.service';
 import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
 
@@ -35,7 +35,6 @@ export default class OrdenCompraEditDetalleComponent
   public ref = inject(DynamicDialogRef);
   public config = inject(DynamicDialogConfig);
   public selectItemService = inject(SelectItemService);
-
   public customToastService = inject(CustomToastService);
 
   submitting: boolean = false;

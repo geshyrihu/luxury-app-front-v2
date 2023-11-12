@@ -8,16 +8,15 @@ import {
 } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { EHabitant } from 'src/app/enums/habitante.enum';
-import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
-import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
+import { ISelectItemDto } from 'src/app/core/interfaces/ISelectItemDto.interface';
 import {
   AuthService,
   CustomToastService,
   CustomerIdService,
   DataService,
   SelectItemService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
+import { EnumService } from 'src/app/core/services/enum-service';
 import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
 
@@ -41,8 +40,8 @@ export default class AddOrEditCondominosComponent implements OnInit, OnDestroy {
   public dataService = inject(DataService);
   public selectItemService = inject(SelectItemService);
   public customerIdService = inject(CustomerIdService);
-
   private customToastService = inject(CustomToastService);
+  private enumService = inject(EnumService);
 
   submitting: boolean = false;
   subRef$: Subscription;
@@ -60,7 +59,7 @@ export default class AddOrEditCondominosComponent implements OnInit, OnDestroy {
       value: false,
     },
   ];
-  cb_Habitant: ISelectItemDto[] = onGetSelectItemFromEnum(EHabitant);
+  cb_Habitant: ISelectItemDto[] = [];
   form: FormGroup = this.formBuilder.group({
     id: { value: this.id, disabled: true },
     customerId: [this.customerId],
@@ -85,6 +84,10 @@ export default class AddOrEditCondominosComponent implements OnInit, OnDestroy {
       .subscribe((resp) => {
         this.cb_directory_condominium = resp;
       });
+
+    this.enumService.onGetSelectItemEmun('EHabitant').subscribe((resp) => {
+      this.cb_Habitant = resp;
+    });
     this.id = this.config.data.id;
     if (this.id !== 0) {
       this.getImem();

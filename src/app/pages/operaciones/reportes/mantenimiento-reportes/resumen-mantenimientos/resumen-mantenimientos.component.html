@@ -7,7 +7,7 @@
         <tr>
           <th scope="col" style="width: 22%">Mantenimiento</th>
           <th scope="col" style="width: 13%">Total</th>
-          <th scope="col" style="width: 13%">Terminado</th>
+          <th scope="col" style="width: 13%">Concluido</th>
           <th scope="col" style="width: 13%">Pendiente</th>
           <th scope="col" style="width: 13%">Denegado</th>
           <th scope="col" style="width: 13%">Sin Documentación</th>
@@ -28,7 +28,7 @@
             {{ dato.total }}
           </td>
           <td class="text-center font-size-16 text-black">
-            {{ dato.terminados }}
+            {{ dato.concluidos }}
           </td>
           <td class="text-center font-size-16 text-black">
             {{ dato.pendientes }}
@@ -53,7 +53,7 @@
         <tr>
           <th style="width: 40%" scope="col">PROVEEDOR</th>
           <th style="width: 15%" scope="col">TOTAL</th>
-          <th style="width: 15%" scope="col">TERMINADOS</th>
+          <th style="width: 15%" scope="col">CONCLUIDOS</th>
           <th style="width: 15%" scope="col">PENDIENTES</th>
           <th style="width: 15%" scope="col">DENEGADOS</th>
         </tr>
@@ -72,7 +72,7 @@
             <span class="badge bg-info p-2">{{ dato.total }}</span>
           </td>
           <td class="text-center">
-            <span class="badge bg-success p-2">{{ dato.terminados }}</span>
+            <span class="badge bg-success p-2">{{ dato.concluidos }}</span>
           </td>
           <td class="text-center">
             <span class="badge bg-danger p-2">{{ dato.pendientes }}</span>

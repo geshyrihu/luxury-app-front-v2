@@ -9,19 +9,19 @@ import {
 import { MessageService } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { ETypeMeeting } from 'src/app/enums/tipo-reunion.enum';
-import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
+import { ISelectItemDto } from 'src/app/core/interfaces/ISelectItemDto.interface';
 import {
   AuthService,
   CustomToastService,
   DataService,
   DateService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
+import { EnumService } from 'src/app/core/services/enum-service';
 import ComponentsModule, {
   flatpickrFactory,
 } from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
-import { IMeetingDto } from '../../../interfaces/IMeetingDto.interface';
+import { IMeetingDto } from '../../../core/interfaces/IMeetingDto.interface';
 import AddOrEditListAdministrationComponent from './addoredit-administration/addoredit-list-administration.component';
 import AddOrEditComiteComponent from './addoredit-comite/addoredit-comite.component';
 import AddOrEditInvitedComponent from './addoredit-invitado/addoredit-invited.component';
@@ -51,6 +51,7 @@ export default class AddOrEditMeetingComponent implements OnInit, OnDestroy {
   private formBuilder = inject(FormBuilder);
   public messageService = inject(MessageService);
   public customToastService = inject(CustomToastService);
+  public enumService = inject(EnumService);
 
   subRef$: Subscription;
 
@@ -63,10 +64,13 @@ export default class AddOrEditMeetingComponent implements OnInit, OnDestroy {
   idNew: number;
   customerId: number;
   participantInvitado: any[] = [];
-  cb_typeMeeting = onGetSelectItemFromEnum(ETypeMeeting);
+  cb_typeMeeting: ISelectItemDto[] = [];
   form: FormGroup;
 
   ngOnInit() {
+    this.enumService.onGetSelectItemEmun('ETypeMeeting').subscribe((resp) => {
+      this.cb_typeMeeting = resp;
+    });
     flatpickrFactory();
     this.customerId = this.config.data.customerId;
 

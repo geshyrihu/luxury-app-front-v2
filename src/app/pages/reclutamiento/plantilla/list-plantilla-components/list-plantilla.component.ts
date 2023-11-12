@@ -8,16 +8,15 @@ import {
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable, Subscription } from 'rxjs';
-import { IWorkPositionDto } from 'src/app/interfaces/IEmpresaOrganigramaDto.interface';
-import CardEmployeeComponent from 'src/app/pages/operaciones/directorios/empleados/card-employee/card-employee.component';
-import { ETurnoTrabajoPipe } from 'src/app/pipes/turno-trabajo.pipe';
+import { IWorkPositionDto } from 'src/app/core/interfaces/IEmpresaOrganigramaDto.interface';
 import {
   AuthService,
   CustomToastService,
   CustomerIdService,
   DataService,
   StatusSolicitudVacanteService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
+import CardEmployeeComponent from 'src/app/pages/operaciones/directorios/empleados/card-employee/card-employee.component';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import { environment } from 'src/environments/environment';
@@ -36,7 +35,6 @@ import HoursWorkPositionComponent from '../hours-work-position.component';
   imports: [
     CommonModule,
     ComponentsModule,
-    ETurnoTrabajoPipe,
     NgbDropdownModule,
     NgbTooltipModule,
     RouterModule,
@@ -87,6 +85,7 @@ export default class ListWorkPlantillaComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
+          console.log('🚀 ~ resp.body:', resp.body);
           this.customToastService.onClose();
         },
         error: (err) => {
@@ -177,6 +176,7 @@ export default class ListWorkPlantillaComponent implements OnInit, OnDestroy {
   }
   // Editar empleado
 
+  // TODO: Eliminar al impelnentar directo al empleado
   onModalSolicitudBaja(id: number) {
     this.ref = this.dialogService.open(SolicitudBajaComponent, {
       data: {

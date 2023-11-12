@@ -4,15 +4,15 @@
 
 <hr />
 <div class="row">
-  <div class="col-sm-3" *ngFor="let item of data">
+  <div class="col-sm-3" *ngFor="let item of data; let i = index">
     <ngb-alert [dismissible]="false" type="primary"
-      >{{ item.key.mes + 1 | eMonth }}
+      >{{ item.key.mes }}
       <button
         *ngIf="authService.onValidateRoles(['SuperUsuario'])"
         type="button"
         ngbTooltip="Agregar"
         placement="top"
-        (click)="onModalAddOrEdit(0, item.key.mes)"
+        (click)="onModalAddOrEdit(0, i)"
         class="btn btn-sm float-end"
       >
         <i class="fa-duotone fa-plus"></i>
@@ -21,7 +21,7 @@
 
     <ul class="list-group">
       <li
-        *ngFor="let evento of item.items"
+        *ngFor="let evento of item.items; let i = index"
         class="pointer list-group-item mb-2"
       >
         <div class="d-flex justify-content-start">
@@ -48,7 +48,7 @@
             >
               <a class="dropdown-item">
                 <custom-button-edit
-                  (edit)="onModalAddOrEdit(evento.id, item.key.mes)"
+                  (edit)="onModalAddOrEdit(evento.id, i)"
                 ></custom-button-edit>
               </a>
               <a class="dropdown-item">

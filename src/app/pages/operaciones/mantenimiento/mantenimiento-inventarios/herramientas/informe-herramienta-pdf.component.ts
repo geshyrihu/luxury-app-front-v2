@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
-import { SanitizeHtmlPipe } from 'src/app/pipes/sanitize-html.pipe';
-import { CustomerIdService } from 'src/app/services/common-services';
-import { ReporteHerramientasPdfService } from 'src/app/services/reporte-herramientas-pdf.service';
+import { SanitizeHtmlPipe } from 'src/app/core/pipes/sanitize-html.pipe';
+import { CustomerIdService } from 'src/app/core/services/common-services';
+import { ReporteHerramientasPdfService } from 'src/app/core/services/reporte-herramientas-pdf.service';
 import { environment } from 'src/environments/environment';
 
 @Component({

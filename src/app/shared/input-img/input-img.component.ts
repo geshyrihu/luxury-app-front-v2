@@ -1,6 +1,6 @@
 import { NgIf, NgStyle } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { imageToBase64 } from 'src/app/helpers/enumeration';
+import { imageToBase64 } from 'src/app/core/helpers/enumeration';
 import { environment } from 'src/environments/environment';
 
 @Component({

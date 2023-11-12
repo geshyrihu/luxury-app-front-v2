@@ -3,17 +3,16 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { TableModule } from 'primeng/table';
 import { Subscription } from 'rxjs';
-import { ETurnoTrabajoPipe } from 'src/app/pipes/turno-trabajo.pipe';
 import {
   CustomToastService,
   DataService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 
 @Component({
   selector: 'app-hours-work-position',
   templateUrl: './hours-work-position.component.html',
   standalone: true,
-  imports: [CommonModule, TableModule, ETurnoTrabajoPipe],
+  imports: [CommonModule, TableModule],
   providers: [CustomToastService],
 })
 export default class HoursWorkPositionComponent implements OnInit, OnDestroy {

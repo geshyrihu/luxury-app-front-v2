@@ -5,12 +5,12 @@ import * as FileSaver from 'file-saver';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { IMedidorLecturaDto } from 'src/app/interfaces/IMedidorLecturaDto.interface';
+import { IMedidorLecturaDto } from 'src/app/core/interfaces/IMedidorLecturaDto.interface';
 import {
   AuthService,
   CustomToastService,
   DataService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import AdminFormMedidorLecturaComponent from '../admin-form-medidor-lectura/admin-form-medidor-lectura.component';
@@ -29,7 +29,6 @@ import FormMedidorLecturaComponent from '../form-medidor-lectura/form-medidor-le
 })
 export default class ListMedidorLecturaComponent implements OnInit, OnDestroy {
   public authService = inject(AuthService);
-
   public customToastService = inject(CustomToastService);
   public dataService = inject(DataService);
   public dialogService = inject(DialogService);

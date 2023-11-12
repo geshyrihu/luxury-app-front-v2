@@ -212,6 +212,30 @@
           placeholder="sueldo mensual neto"
         ></custom-input-number>
       </div>
+      <div
+        class="col-sm-3 mb-2"
+        *ngIf="this.authService.onValidateRoles(['SuperUsuario'])"
+      >
+        <!-- <label class="card-text">Cliente</label> -->
+        <!-- <select
+          class="form-select form-select-sm"
+          formControlName="customerId"
+          [class.is-invalid]="
+            f.customerId.invalid && (f.customerId.dirty || f.customerId.touched)
+          "
+        >
+          <option [value]="item.value" *ngFor="let item of cb_customer">
+            {{ item.label }}
+          </option>
+        </select> -->
+        <custom-input-select
+          [control]="form.get('customerId')"
+          formControlName="customerId"
+          label="Cliente"
+          [data]="cb_customer"
+          [horizontal]="false"
+        ></custom-input-select>
+      </div>
     </div>
     <custom-button-submit
       [disabled]="this.form.invalid || submitting"

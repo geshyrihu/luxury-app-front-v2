@@ -140,15 +140,21 @@
         {{ item.justificacionGasto }}
       </td>
       <td class="text-center">
-        <span *ngIf="item.estatus == 2" class="badge bg-danger p-2 ms-1">{{
-          item.estatus | eStatusOrdenCompra
-        }}</span>
-        <span *ngIf="item.estatus == 0" class="badge bg-success p-2 ms-1">{{
-          item.estatus | eStatusOrdenCompra
-        }}</span>
-        <span *ngIf="item.estatus == 1" class="badge bg-secondary p-2 ms-1">{{
-          item.estatus | eStatusOrdenCompra
-        }}</span>
+        <span
+          *ngIf="item.estatus == 'Pendiente'"
+          class="badge bg-danger p-2 ms-1"
+          >{{ item.estatus }}</span
+        >
+        <span
+          *ngIf="item.estatus == 'Autorizado'"
+          class="badge bg-success p-2 ms-1"
+          >{{ item.estatus }}</span
+        >
+        <span
+          *ngIf="item.estatus == 'Denegado'"
+          class="badge bg-secondary p-2 ms-1"
+          >{{ item.estatus }}</span
+        >
       </td>
 
       <td class="p-column-title">

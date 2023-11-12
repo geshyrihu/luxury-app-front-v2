@@ -26,7 +26,7 @@ import InputImgReportComponent from './input-img-report/input-img-report.compone
 import InputImgComponent from './input-img/input-img.component';
 import ListadoCondominosComponent from './listado-condominos/listado-condominos.component';
 import LeafletMapComponent from './mapas/leaflet-map/leaflet-map.component';
-import MapBoxComponent from './mapas/map-box/map-box.component';
+// import MapBoxComponent from './mapas/map-box/map-box.component';
 import MesanioComponent from './mesanio/mesanio.component';
 import CalendarRangeComponent from './rango-calendario-mes-anio/calendar-range.component';
 import RangoCalendarioyyyymmddComponent from './rango-calendario-yyyymmdd/rango-calendario-yyyymmdd.component';
@@ -57,7 +57,7 @@ export function flatpickrFactory() {
     LeafletMapComponent,
     LeafletModule,
     ListadoCondominosComponent,
-    MapBoxComponent,
+    // MapBoxComponent,
     MesanioComponent,
     NgbTooltipModule,
     NgxChartsModule,
@@ -85,7 +85,7 @@ export function flatpickrFactory() {
     InputImgReportComponent,
     LeafletMapComponent,
     ListadoCondominosComponent,
-    MapBoxComponent,
+    // MapBoxComponent,
     MesanioComponent,
     PagetitleComponent,
     PieChartComponent,

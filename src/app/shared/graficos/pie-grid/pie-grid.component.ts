@@ -114,7 +114,7 @@ export var datos = [
     value: 56,
   },
   {
-    name: 'Terminado',
+    name: 'Concluido',
     value: 52,
   },
   {

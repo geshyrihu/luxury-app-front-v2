@@ -8,12 +8,12 @@ import {
 } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { IUseCFDIAddOrEditDto } from 'src/app/interfaces/IUseCFDIAddOrEditDto.interface';
+import { IUseCFDIAddOrEditDto } from 'src/app/core/interfaces/IUseCFDIAddOrEditDto.interface';
 import {
   AuthService,
   CustomToastService,
   DataService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
 

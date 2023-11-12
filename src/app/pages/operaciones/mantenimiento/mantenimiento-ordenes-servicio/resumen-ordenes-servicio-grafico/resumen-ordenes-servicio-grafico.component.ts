@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
-import { ReporteOrdenesServicioService } from 'src/app/services/reporte-ordenes-servicio.service';
+import { ReporteOrdenesServicioService } from 'src/app/core/services/reporte-ordenes-servicio.service';
 
 @Component({
   selector: 'app-resumen-ordenes-servicio-grafico',

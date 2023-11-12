@@ -4,12 +4,12 @@ import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { TableModule } from 'primeng/table';
 import { Subscription } from 'rxjs';
-import { EAreaMinutasDetallesPipe } from 'src/app/pipes/area-minuta-detalles.pipe';
-import { SanitizeHtmlPipe } from 'src/app/pipes/sanitize-html.pipe';
-import { EStatusPipe } from 'src/app/pipes/status.pipe';
-import { CustomToastService } from 'src/app/services/custom-toast.service';
-import { DataService } from 'src/app/services/data.service';
-import { DateService } from 'src/app/services/date.service';
+import { EAreaMinutasDetallesPipe } from 'src/app/core/pipes/area-minuta-detalles.pipe';
+import { SanitizeHtmlPipe } from 'src/app/core/pipes/sanitize-html.pipe';
+import { EStatusPipe } from 'src/app/core/pipes/status.pipe';
+import { CustomToastService } from 'src/app/core/services/custom-toast.service';
+import { DataService } from 'src/app/core/services/data.service';
+import { DateService } from 'src/app/core/services/date.service';
 
 @Component({
   selector: 'app-addoredit-meeting-detail',

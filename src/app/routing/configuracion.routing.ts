@@ -36,7 +36,7 @@ export default [
   {
     path: 'historial-acceso',
     loadComponent: () =>
-      import('src/app/pages/configuracion/access-log/access-log.component'),
+      import('src/app/pages/configuracion/historial-acceso/access-log.component'),
   },
   {
     path: 'categoria-medidor',

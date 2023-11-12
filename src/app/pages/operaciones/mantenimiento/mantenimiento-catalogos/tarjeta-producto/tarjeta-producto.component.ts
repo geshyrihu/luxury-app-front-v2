@@ -2,15 +2,16 @@ import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { EProductoClasificacionPipe } from 'src/app/pipes/producto-clasificacion.pipe';
-import { DataService } from 'src/app/services/data.service';
+import { DataService } from 'src/app/core/services/data.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-tarjeta-producto',
   templateUrl: './tarjeta-producto.component.html',
   standalone: true,
-  imports: [CommonModule, EProductoClasificacionPipe],
+  imports: [
+    CommonModule,
+  ],
 })
 export default class TarjetaProductoComponent implements OnInit, OnDestroy {
   public dataService = inject(DataService);

@@ -3,14 +3,13 @@ import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ImageModule } from 'primeng/image';
 import { Observable, Subscription } from 'rxjs';
-import { IInventarioExtintorDto } from 'src/app/interfaces/IInventarioExtintorDto.interface';
-import { EExtintorPipe } from 'src/app/pipes/hidrantes.pipe';
+import { IInventarioExtintorDto } from 'src/app/core/interfaces/IInventarioExtintorDto.interface';
 import {
   AuthService,
   CustomToastService,
   CustomerIdService,
   DataService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import { environment } from 'src/environments/environment';
@@ -20,7 +19,11 @@ import AddoreditInventarioExtintorComponent from './addoredit-inventario-extinto
   selector: 'app-inventario-extintor',
   templateUrl: './inventario-extintor.component.html',
   standalone: true,
-  imports: [ComponentsModule, PrimeNgModule, ImageModule, EExtintorPipe],
+  imports: [
+    ComponentsModule,
+    PrimeNgModule,
+    ImageModule,
+  ],
   providers: [DialogService, MessageService, CustomToastService],
 })
 export default class InventarioExtintorComponent implements OnInit, OnDestroy {

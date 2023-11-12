@@ -12,7 +12,7 @@ import {
   CustomerIdService,
   DataService,
   StatusSolicitudVacanteService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
@@ -42,7 +42,6 @@ export default class statuspositionrequestcomponent
   public customerIdService = inject(CustomerIdService);
   public dataService = inject(DataService);
   public dialogService = inject(DialogService);
-
   public customToastService = inject(CustomToastService);
   public router = inject(Router);
   public authService = inject(AuthService);

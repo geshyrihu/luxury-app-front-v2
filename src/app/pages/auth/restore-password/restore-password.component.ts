@@ -10,11 +10,11 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
-import { ResetPasswordDto } from 'src/app/interfaces/auth/reset-password.interface';
+import { ResetPasswordDto } from 'src/app/core/interfaces/reset-password.interface';
 import {
   CustomToastService,
   DataService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import CustomButtonComponent from 'src/app/shared/custom-buttons/custom-button/custom-button.component';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
 

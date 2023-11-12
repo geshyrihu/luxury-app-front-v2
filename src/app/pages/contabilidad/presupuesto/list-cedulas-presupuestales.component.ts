@@ -4,13 +4,13 @@ import { RouterModule } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
+import { ISelectItemDto } from 'src/app/core/interfaces/ISelectItemDto.interface';
 import {
   AuthService,
   CustomToastService,
   DataService,
   SelectItemService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 
@@ -52,7 +52,6 @@ export default class ListCedulasPresupuestalesComponent
     this.selectItemService.onGetSelectItem(`GetAllYears`).subscribe({
       next: (resp: any) => {
         this.cb_Year = resp.body;
-        console.log('🚀 ~ resp.body:', resp.body);
       },
     });
   }

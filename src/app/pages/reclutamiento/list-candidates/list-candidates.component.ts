@@ -4,9 +4,9 @@ import { MessageService } from 'primeng/api';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { TableModule } from 'primeng/table';
 import { Subscription } from 'rxjs';
-import { CustomToastService } from 'src/app/services/custom-toast.service';
-import { DataService } from 'src/app/services/data.service';
-import { DateService } from 'src/app/services/date.service';
+import { CustomToastService } from 'src/app/core/services/custom-toast.service';
+import { DataService } from 'src/app/core/services/data.service';
+import { DateService } from 'src/app/core/services/date.service';
 import ComponentsModule, {
   flatpickrFactory,
 } from 'src/app/shared/components.module';
@@ -23,7 +23,6 @@ const dateNow = new Date();
 export default class ListCandidatesComponent implements OnInit, OnDestroy {
   private dataService = inject(DataService);
   public dateService = inject(DateService);
-
   public customToastService = inject(CustomToastService);
 
   value: Date = new Date(dateNow.getFullYear(), dateNow.getMonth(), 1); //Dia primero del mes actual

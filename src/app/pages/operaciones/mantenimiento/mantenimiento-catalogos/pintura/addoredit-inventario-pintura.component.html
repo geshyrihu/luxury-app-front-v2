@@ -14,39 +14,7 @@
         label="Equipo/Instalación"
         dataListId="machineryDatalistOptions"
       ></custom-input-datalist>
-      <!-- <div class="form-group row mb-3">
-        <label class="col-sm-3">Equipo/Instalación</label>
-        <div class="col-sm-9">
-          <input
-            formControlName="machinery"
-            class="form-control"
-            list="machineryDatalistOptions"
-            id="machineryDataList"
-            placeholder="Escribir para buscar..."
-            (change)="saveMachineryId($event)"
-            [ngClass]="{
-              'is-invalid':
-                f.machinery.errors && (f.machinery.dirty || f.machinery.touched)
-            }"
-          />
 
-          <datalist id="machineryDatalistOptions">
-            <option
-              [value]="item.label"
-              *ngFor="let item of cb_machinery"
-            ></option>
-          </datalist>
-
-          <div
-            *ngIf="
-              f.machinery.invalid && (f.machinery.dirty || f.machinery.touched)
-            "
-            class="text-danger small"
-          >
-            <p *ngIf="f.machinery.errors.required">Campo requerido</p>
-          </div>
-        </div>
-      </div> -->
       <custom-input-datalist
         (propagar)="saveProductoId($event)"
         [control]="form.get('producto')"

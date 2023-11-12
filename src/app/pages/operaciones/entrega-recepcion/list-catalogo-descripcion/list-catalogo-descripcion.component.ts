@@ -6,10 +6,10 @@ import { Subscription } from 'rxjs';
 import {
   CustomToastService,
   DataService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
-import CrudCatalogoDescripcionComponent from '../crud-catalogo-descripcion/crud-catalogo-descripcion.component';
+import AddOrEditCatalogoDescripcionComponent from '../addoredit-catalogo-descripcion/addoredit-catalogo-descripcion.component';
 
 @Component({
   selector: 'app-list-catalogo-descripcion',
@@ -24,7 +24,6 @@ export default class ListCatalogoDescripcionComponent
   private dataService = inject(DataService);
   public dialogService = inject(DialogService);
   public messageService = inject(MessageService);
-
   public customToastService = inject(CustomToastService);
   data: any[] = [];
   ref: DynamicDialogRef;
@@ -72,7 +71,7 @@ export default class ListCatalogoDescripcionComponent
   }
 
   onModalAddOrEdit(data: any) {
-    this.ref = this.dialogService.open(CrudCatalogoDescripcionComponent, {
+    this.ref = this.dialogService.open(AddOrEditCatalogoDescripcionComponent, {
       data: {
         id: data.id,
       },

@@ -6,12 +6,12 @@ import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { PositionRequestAgendaDto } from 'src/app/interfaces/PositionRequestAgendaDto';
+import { PositionRequestAgendaDto } from 'src/app/core/interfaces/PositionRequestAgendaDto';
 import {
   AuthService,
   CustomToastService,
   DataService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import { environment } from 'src/environments/environment';
@@ -33,7 +33,6 @@ export default class LisVacanteCandidatosComponent implements OnInit {
   private dataService = inject(DataService);
   public authService = inject(AuthService);
   public messageService = inject(MessageService);
-
   public customToastService = inject(CustomToastService);
   public activatedRoute = inject(ActivatedRoute);
   public dialogService = inject(DialogService);

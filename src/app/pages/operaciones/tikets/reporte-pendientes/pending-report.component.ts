@@ -3,7 +3,7 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Observable, Subscription } from 'rxjs';
-import { IFilterTicket } from 'src/app/interfaces/IFilterTicket.interface';
+import { IFilterTicket } from 'src/app/core/interfaces/IFilterTicket.interface';
 import {
   AuthService,
   CustomToastService,
@@ -11,7 +11,7 @@ import {
   DataService,
   ReportService,
   TicketFilterService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import { environment } from 'src/environments/environment';
 @Component({
@@ -28,7 +28,6 @@ export default class PendingReportComponent implements OnInit, OnDestroy {
   public filterReportOperationService = inject(TicketFilterService);
   public reportService = inject(ReportService);
   public router = inject(Router);
-
   public customToastService = inject(CustomToastService);
   urlImg = '';
   data: any[] = [];

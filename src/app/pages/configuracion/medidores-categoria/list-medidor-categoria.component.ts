@@ -3,15 +3,15 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { IMedidorCategoriaDto } from 'src/app/interfaces/IMedidorCategoriaDto.interface';
+import { IMedidorCategoriaDto } from 'src/app/core/interfaces/IMedidorCategoriaDto.interface';
 import {
   AuthService,
   CustomToastService,
   DataService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
-import FormMedidorCategoriaComponent from './form-medidor-categoria.component';
+import FormMedidorCategoriaComponent from './addoredit-medidor-categoria.component';
 
 @Component({
   selector: 'app-list-medidor-categoria',
@@ -27,7 +27,6 @@ export default class ListMedidorCategoriaComponent
   private dataService = inject(DataService);
   public dialogService = inject(DialogService);
   public messageService = inject(MessageService);
-
   public customToastService = inject(CustomToastService);
 
   data: IMedidorCategoriaDto[] = [];

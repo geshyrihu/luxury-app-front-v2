@@ -10,8 +10,8 @@ import {
 import { FileUploadModule, FileUploadValidators } from '@iplab/ngx-file-upload';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { cb_ESiNo } from 'src/app/enums/si-no.enum';
-import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
+import { cb_ESiNo } from 'src/app/core/enums/si-no.enum';
+import { ISelectItemDto } from 'src/app/core/interfaces/ISelectItemDto.interface';
 import {
   AuthService,
   CustomToastService,
@@ -19,7 +19,7 @@ import {
   DataService,
   DateService,
   SelectItemService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
 

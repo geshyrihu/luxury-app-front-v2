@@ -8,16 +8,17 @@ import {
 } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { EStatusTask } from 'src/app/enums/estatus.enum';
-import { EPriority } from 'src/app/enums/prioridad.enum';
-import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
+import { EStatusTask } from 'src/app/core/enums/estatus.enum';
+import { onGetSelectItemFromEnum } from 'src/app/core/helpers/enumeration';
+import { ISelectItemDto } from 'src/app/core/interfaces/ISelectItemDto.interface';
 import {
   AuthService,
   CustomToastService,
   DataService,
   DateService,
   SelectItemService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
+import { EnumService } from 'src/app/core/services/enum-service';
 import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
 import { environment } from 'src/environments/environment';
@@ -43,8 +44,8 @@ export default class AddoreditSistemasReporteComponent
   public config = inject(DynamicDialogConfig);
   public ref = inject(DynamicDialogRef);
   private dateService = inject(DateService);
-
   private customToastService = inject(CustomToastService);
+  private enumService = inject(EnumService);
 
   submitting: boolean = false;
 
@@ -55,7 +56,7 @@ export default class AddoreditSistemasReporteComponent
   //TODOñ REVISAR ESTE CustomerId
   _customerId: number = 0;
   cb_status = onGetSelectItemFromEnum(EStatusTask);
-  cb_priority: any = onGetSelectItemFromEnum(EPriority);
+  cb_priority: ISelectItemDto[] = [];
   cb_area_responsable: any[] = [];
   cb_user: any[] = [];
   cb_responsableSistemas: any[] = [];
@@ -93,6 +94,9 @@ export default class AddoreditSistemasReporteComponent
       .subscribe((resp) => {
         this.cb_responsableSistemas = resp;
       });
+    this.enumService.onGetSelectItemEmun('EPriority').subscribe((resp) => {
+      this.cb_priority = resp;
+    });
   }
 
   loadForm(status: number) {

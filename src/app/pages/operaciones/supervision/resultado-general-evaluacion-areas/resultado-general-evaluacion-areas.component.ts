@@ -5,13 +5,13 @@ import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { TableModule } from 'primeng/table';
 import { Subscription } from 'rxjs';
-import { EAreaMinutasDetalles } from 'src/app/enums/area-minutas-detalles.enum';
-import { EStatusTask } from 'src/app/enums/estatus.enum';
-import { IFechasFiltro } from 'src/app/interfaces/IFechasFiltro.interface';
-import { CustomToastService } from 'src/app/services/custom-toast.service';
-import { DataService } from 'src/app/services/data.service';
-import { DateService } from 'src/app/services/date.service';
-import { FiltroCalendarService } from 'src/app/services/filtro-calendar.service';
+import { EAreaMinutasDetalles } from 'src/app/core/enums/area-minutas-detalles.enum';
+import { EStatusTask } from 'src/app/core/enums/estatus.enum';
+import { IFechasFiltro } from 'src/app/core/interfaces/IFechasFiltro.interface';
+import { CustomToastService } from 'src/app/core/services/custom-toast.service';
+import { DataService } from 'src/app/core/services/data.service';
+import { DateService } from 'src/app/core/services/date.service';
+import { FiltroCalendarService } from 'src/app/core/services/filtro-calendar.service';
 import ComponentsModule from 'src/app/shared/components.module';
 import ResultadoGeneralEvaluacionAreasDetalleComponent from './resultado-general-evaluacion-areas-detalle/resultado-general-evaluacion-areas-detalle.component';
 
@@ -28,7 +28,6 @@ export default class EvaluacionAreasComponent implements OnInit, OnDestroy {
   public dialogService = inject(DialogService);
   public messageService = inject(MessageService);
   public rangoCalendarioService = inject(FiltroCalendarService);
-
   public customToastService = inject(CustomToastService);
 
   fechaInicial: string = '';

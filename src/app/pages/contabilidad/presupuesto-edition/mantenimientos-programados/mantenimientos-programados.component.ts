@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subject, Subscription, takeUntil } from 'rxjs';
-import { CustomToastService } from 'src/app/services/custom-toast.service';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
-import { DataService } from 'src/app/services/data.service';
+import { CustomToastService } from 'src/app/core/services/custom-toast.service';
+import { CustomerIdService } from 'src/app/core/services/customer-id.service';
+import { DataService } from 'src/app/core/services/data.service';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 
 @Component({
@@ -46,7 +46,6 @@ export default class MantenimientosProgramadosComponent
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          console.log('🚀 ~ resp:', resp.body);
           // Oculta el mensaje de carga
           this.customToastService.onClose();
         },

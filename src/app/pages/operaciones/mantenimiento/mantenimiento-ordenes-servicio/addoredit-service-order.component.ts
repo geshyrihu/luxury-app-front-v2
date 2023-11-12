@@ -8,18 +8,18 @@ import {
 } from '@angular/forms';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { SelectItem } from 'primeng/api';
+import { MessageService, SelectItem } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { EditorModule } from 'primeng/editor';
 import { Subscription } from 'rxjs';
-import { EStatusTask } from 'src/app/enums/estatus.enum';
-import { ETypeMaintance } from 'src/app/enums/tipo-mantenimiento.enum';
-import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
-import { CustomerIdService } from 'src/app/services/common-services';
-import { CustomToastService } from 'src/app/services/custom-toast.service';
-import { DataService } from 'src/app/services/data.service';
-import { DateService } from 'src/app/services/date.service';
-import { SelectItemService } from 'src/app/services/select-item.service';
+import { EStatusTask } from 'src/app/core/enums/estatus.enum';
+import { onGetSelectItemFromEnum } from 'src/app/core/helpers/enumeration';
+import { CustomerIdService } from 'src/app/core/services/common-services';
+import { CustomToastService } from 'src/app/core/services/custom-toast.service';
+import { DataService } from 'src/app/core/services/data.service';
+import { DateService } from 'src/app/core/services/date.service';
+import { EnumService } from 'src/app/core/services/enum-service';
+import { SelectItemService } from 'src/app/core/services/select-item.service';
 import ComponentsModule, {
   flatpickrFactory,
 } from 'src/app/shared/components.module';
@@ -37,19 +37,20 @@ import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.mod
     CustomInputModule,
     CKEditorModule,
   ],
-  providers: [CustomToastService],
+  providers: [CustomToastService, MessageService],
 })
 export default class ServiceOrderAddOrEditComponent
   implements OnInit, OnDestroy
 {
+  private customToastService = inject(CustomToastService);
+  private formBuilder = inject(FormBuilder);
   public config = inject(DynamicDialogConfig);
   public customerIdService = inject(CustomerIdService);
   public dataService = inject(DataService);
   public dateService = inject(DateService);
-  private formBuilder = inject(FormBuilder);
-  public selectItemService = inject(SelectItemService);
+  public emumService = inject(EnumService);
   public ref = inject(DynamicDialogRef);
-  private customToastService = inject(CustomToastService);
+  public selectItemService = inject(SelectItemService);
 
   public Editor = ClassicEditor;
 
@@ -59,7 +60,8 @@ export default class ServiceOrderAddOrEditComponent
   cb_machinery: any[] = [];
   cb_providers: any[] = [];
   cb_Status: SelectItem[] = onGetSelectItemFromEnum(EStatusTask);
-  cb_TypeMaintance: SelectItem[] = onGetSelectItemFromEnum(ETypeMaintance);
+  // cb_TypeMaintance: SelectItem[] = onGetSelectItemFromEnum(ETypeMaintance);
+  cb_TypeMaintance: SelectItem[] = [];
   cb_user_customers: SelectItem[] = [];
 
   form: FormGroup;
@@ -99,6 +101,12 @@ export default class ServiceOrderAddOrEditComponent
       .subscribe((resp) => {
         this.cb_user_customers = resp;
       });
+
+    // this.enumService.onGetSelectItemEmun('typemaintance').sub;
+
+    this.emumService.onGetSelectItemEmun('ETypeMaintance').subscribe((resp) => {
+      this.cb_TypeMaintance = resp;
+    });
   }
 
   public saveMachineryId(e: any): void {

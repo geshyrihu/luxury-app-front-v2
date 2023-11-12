@@ -13,11 +13,11 @@ import {
   DataService,
   FilterRequestsService,
   StatusSolicitudVacanteService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import FilterRequestsComponent from '../filter-requests.component';
-import AddOrEditSolicitudAltaComponent from './add-or-edit-solicitud-alta/add-or-edit-solicitud-alta.component';
+import AddOrEditSolicitudAltaComponent from './addoredit-solicitud-alta/addoredit-solicitud-alta.component';
 @Component({
   selector: 'app-list-solicitud-alta',
   templateUrl: './list-solicitud-alta.component.html',
@@ -40,7 +40,6 @@ export default class ListSolicitudAltaComponent implements OnInit, OnDestroy {
   public dialogService = inject(DialogService);
   public messageService = inject(MessageService);
   public statusSolicitudVacanteService = inject(StatusSolicitudVacanteService);
-
   public customToastService = inject(CustomToastService);
 
   data: any[] = [];

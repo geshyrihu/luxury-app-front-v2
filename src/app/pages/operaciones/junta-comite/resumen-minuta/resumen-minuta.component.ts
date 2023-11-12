@@ -5,10 +5,10 @@ import { ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { TableModule } from 'primeng/table';
 import { Subscription } from 'rxjs';
-import { SanitizeHtmlPipe } from 'src/app/pipes/sanitize-html.pipe';
-import { CustomToastService } from 'src/app/services/custom-toast.service';
-import { DataService } from 'src/app/services/data.service';
-import { ReportService } from 'src/app/services/report.service';
+import { SanitizeHtmlPipe } from 'src/app/core/pipes/sanitize-html.pipe';
+import { CustomToastService } from 'src/app/core/services/custom-toast.service';
+import { DataService } from 'src/app/core/services/data.service';
+import { ReportService } from 'src/app/core/services/report.service';
 import ComponentsModule from 'src/app/shared/components.module';
 import ResumenMinutaGraficoComponent from '../resumen-minuta-grafico/resumen-minuta-grafico.component';
 

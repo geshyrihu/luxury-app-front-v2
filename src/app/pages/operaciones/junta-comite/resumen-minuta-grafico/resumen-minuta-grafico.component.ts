@@ -1,7 +1,7 @@
 import { Component, inject } from "@angular/core";
 import { NgxChartsModule } from "@swimlane/ngx-charts";
-import { DataService } from "src/app/services/data.service";
-import { ReportService } from "src/app/services/report.service";
+import { DataService } from "src/app/core/services/data.service";
+import { ReportService } from "src/app/core/services/report.service";
 
 @Component({
   selector: "app-resumen-minuta-grafico",

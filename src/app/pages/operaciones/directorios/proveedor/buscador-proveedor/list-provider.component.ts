@@ -4,13 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { BusquedaProveedor } from 'src/app/interfaces/IBusquedaProveedor.interface';
+import { BusquedaProveedor } from 'src/app/core/interfaces/IBusquedaProveedor.interface';
 import {
   AuthService,
   CustomToastService,
   DataService,
-} from 'src/app/services/common-services';
-// import { ViewPdfService } from 'src/app/services/view-pdf.service';
+} from 'src/app/core/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import AddoreditProveedorComponent from '../addoredit-proveedor/addoredit-proveedor.component';
@@ -33,7 +32,6 @@ export default class ListProviderComponent implements OnInit, OnDestroy {
   public messageService = inject(MessageService);
   public dialogService = inject(DialogService);
   public authService = inject(AuthService);
-  // public viewPdfService = inject(ViewPdfService);
 
   data: BusquedaProveedor[] = [];
   ref: DynamicDialogRef;

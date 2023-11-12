@@ -11,13 +11,13 @@ import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { EditorModule } from 'primeng/editor';
 import { Subscription } from 'rxjs';
-import { EAreaMinutasDetalles } from 'src/app/enums/area-minutas-detalles.enum';
-import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
+import { ISelectItemDto } from 'src/app/core/interfaces/ISelectItemDto.interface';
 import {
   AuthService,
   CustomToastService,
   DataService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
+import { EnumService } from 'src/app/core/services/enum-service';
 import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
 
@@ -43,8 +43,9 @@ export default class AddoreditMinutaDetalleComponent
   public ref = inject(DynamicDialogRef);
   public config = inject(DynamicDialogConfig);
   public authService = inject(AuthService);
-
   private customToastService = inject(CustomToastService);
+  private enumService = inject(EnumService);
+
   public Editor = ClassicEditor;
   submitting: boolean = false;
 
@@ -55,14 +56,14 @@ export default class AddoreditMinutaDetalleComponent
     },
     {
       value: 1,
-      label: 'Terminado',
+      label: 'Concluido',
     },
     {
       value: 2,
       label: 'No Autorizado',
     },
   ];
-  cb_area = onGetSelectItemFromEnum(EAreaMinutasDetalles);
+  cb_area: ISelectItemDto[] = [];
   cb_responsibleArea: any[] = [
     { value: 1, label: 'Administración' },
     { value: 12, label: 'Mantenimiento' },
@@ -89,6 +90,12 @@ export default class AddoreditMinutaDetalleComponent
   });
 
   ngOnInit(): void {
+    this.enumService
+      .onGetSelectItemEmun('EAreaMinutasDetalles')
+      .subscribe((resp) => {
+        this.cb_area = resp;
+      });
+
     this.id = this.config.data.id;
     if (this.id !== 0) this.onLoadData();
   }

@@ -3,10 +3,9 @@ import { FormsModule } from '@angular/forms';
 import { SharedModule } from 'primeng/api';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { TableModule } from 'primeng/table';
-import { IDestinatariosMailReporte } from 'src/app/interfaces/IDestinatariosMailReporte.interface';
-import { EHabitantPipe } from 'src/app/pipes/habitant.pipe';
-import { CustomerIdService } from 'src/app/services/common-services';
-import { SelectItemService } from 'src/app/services/select-item.service';
+import { IDestinatariosMailReporte } from 'src/app/core/interfaces/IDestinatariosMailReporte.interface';
+import { CustomerIdService } from 'src/app/core/services/common-services';
+import { SelectItemService } from 'src/app/core/services/select-item.service';
 import TableHeaderComponent from '../table-header/table-header.component';
 
 @Component({
@@ -18,7 +17,7 @@ import TableHeaderComponent from '../table-header/table-header.component';
     SharedModule,
     TableHeaderComponent,
     FormsModule,
-    EHabitantPipe,
+    // EHabitantPipe,
   ],
 })
 export default class ListadoCondominosComponent implements OnInit {

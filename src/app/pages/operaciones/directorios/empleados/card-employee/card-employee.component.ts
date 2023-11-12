@@ -2,10 +2,10 @@ import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { IUserCardDto } from 'src/app/interfaces/IUserCardDto.interface';
-import PhoneFormatPipe from 'src/app/pipes/phone-format.pipe';
-import { CustomToastService } from 'src/app/services/custom-toast.service';
-import { DataService } from 'src/app/services/data.service';
+import { IUserCardDto } from 'src/app/core/interfaces/IUserCardDto.interface';
+import PhoneFormatPipe from 'src/app/core/pipes/phone-format.pipe';
+import { CustomToastService } from 'src/app/core/services/custom-toast.service';
+import { DataService } from 'src/app/core/services/data.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -24,12 +24,10 @@ export default class CardEmployeeComponent implements OnInit, OnDestroy {
   subRef$: Subscription;
   urlImage: string = '';
   employeeId: number = 0;
-  // employeeId: number = 0;
   user: IUserCardDto;
 
   ngOnInit(): void {
     this.employeeId = this.config.data.employeeId;
-    // this.employeeId = this.config.data.employeeId;
     this.onLoadData();
   }
 

@@ -4,17 +4,19 @@ import { FormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { EPositionComitePipe } from 'src/app/pipes/position-comite.pipe';
 import {
   CustomToastService,
   DataService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 
 @Component({
   selector: 'app-addoredit-comite',
   templateUrl: './addoredit-comite.component.html',
   standalone: true,
-  imports: [FormsModule, CommonModule, EPositionComitePipe],
+  imports: [
+    FormsModule,
+    CommonModule,
+  ],
   providers: [MessageService, CustomToastService],
 })
 export default class AddOrEditComiteComponent implements OnInit, OnDestroy {

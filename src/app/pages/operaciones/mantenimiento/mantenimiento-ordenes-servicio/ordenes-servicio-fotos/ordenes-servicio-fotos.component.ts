@@ -8,7 +8,7 @@ import {
   CustomToastService,
   CustomerIdService,
   DataService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import { environment } from 'src/environments/environment';
 
@@ -27,7 +27,6 @@ export default class OrdenesServicioFotosComponent
   public dataService = inject(DataService);
   public messageService = inject(MessageService);
   public ref = inject(DynamicDialogRef);
-
   public customToastService = inject(CustomToastService);
 
   id: number = 0;
@@ -46,8 +45,11 @@ export default class OrdenesServicioFotosComponent
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          this.nameCarpetaFecha = this.data[0].nameFolder;
-          this.urlImg = `${environment.base_urlImg}customers/${this.customerIdService.customerId}/ordenServicio/${this.nameCarpetaFecha}/`;
+
+          if (this.data.length !== 0) {
+            this.nameCarpetaFecha = this.data[0].nameFolder;
+            this.urlImg = `${environment.base_urlImg}customers/${this.customerIdService.customerId}/ordenServicio/${this.nameCarpetaFecha}/`;
+          }
         },
         error: (err) => {
           this.customToastService.onShowError();

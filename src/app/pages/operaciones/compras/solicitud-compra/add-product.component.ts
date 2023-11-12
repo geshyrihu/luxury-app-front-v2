@@ -19,15 +19,15 @@ import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ToastModule } from 'primeng/toast';
 import { Subscription } from 'rxjs';
-import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
+import { ISelectItemDto } from 'src/app/core/interfaces/ISelectItemDto.interface';
 import TarjetaProductoComponent from 'src/app/pages/operaciones/mantenimiento/mantenimiento-catalogos/tarjeta-producto/tarjeta-producto.component';
 import {
   AuthService,
   CustomToastService,
   DataService,
   SelectItemService,
-} from 'src/app/services/common-services';
-import { SolicitudCompraService } from 'src/app/services/solicitud-compra.service';
+} from 'src/app/core/services/common-services';
+import { SolicitudCompraService } from 'src/app/core/services/solicitud-compra.service';
 import ComponentsModule from 'src/app/shared/components.module';
 import { environment } from 'src/environments/environment';
 

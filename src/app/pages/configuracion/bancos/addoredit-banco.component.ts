@@ -8,11 +8,11 @@ import {
 } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { IBankAddOrEditDto } from 'src/app/interfaces/IBankAddOrEditDto.interface';
+import { IBankAddOrEditDto } from 'src/app/core/interfaces/IBankAddOrEditDto.interface';
 import {
   CustomToastService,
   DataService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputTextComponent from 'src/app/shared/custom-input-form/custom-input-text/custom-input-text.component';
 

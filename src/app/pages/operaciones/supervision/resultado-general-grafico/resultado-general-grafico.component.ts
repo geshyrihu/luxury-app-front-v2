@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
-import { FiltroCalendarService } from 'src/app/services/filtro-calendar.service';
-import { ResultadoGeneralService } from 'src/app/services/resultado-general.service';
+import { FiltroCalendarService } from 'src/app/core/services/filtro-calendar.service';
+import { ResultadoGeneralService } from 'src/app/core/services/resultado-general.service';
 
 @Component({
   selector: 'app-grafico-resultado-general',
@@ -73,13 +73,13 @@ export default class ResultadoGeneralGraficoComponent implements OnInit {
     );
     this.graficoMinutasLegal = this.onFilter(this.graficoMinutasLegal);
 
-    this.totalMinutasLegal = this.graficoMinutasLegal.evaluacionTerminado;
-    this.totalMinutas = this.graficoMinutas.evaluacionTerminado;
-    this.totalMttoPreventivos = this.graficoMttoPreventivos.evaluacionTerminado;
-    this.totalsMantenimiento = this.graficosMantenimiento.evaluacionTerminado;
-    this.totalMinutasContable = this.graficoMinutasContable.evaluacionTerminado;
+    this.totalMinutasLegal = this.graficoMinutasLegal.evaluacionConcluido;
+    this.totalMinutas = this.graficoMinutas.evaluacionConcluido;
+    this.totalMttoPreventivos = this.graficoMttoPreventivos.evaluacionConcluido;
+    this.totalsMantenimiento = this.graficosMantenimiento.evaluacionConcluido;
+    this.totalMinutasContable = this.graficoMinutasContable.evaluacionConcluido;
     this.totalMinutasOperaciones =
-      this.graficoMinutasOperaciones.evaluacionTerminado;
+      this.graficoMinutasOperaciones.evaluacionConcluido;
   }
   onLoadTotal(): number {
     return 0;
@@ -87,29 +87,29 @@ export default class ResultadoGeneralGraficoComponent implements OnInit {
   onFilter(data: any) {
     let grafico: any;
     let pendienteCount: number = 0;
-    let terminadoCount: number = 0;
+    let concluidoCount: number = 0;
 
     data.forEach((resp) => {
       pendienteCount = pendienteCount + Number(resp.solicitudesPendientes);
-      terminadoCount = terminadoCount + Number(resp.solicitudesAtendidas);
+      concluidoCount = concluidoCount + Number(resp.solicitudesAtendidas);
     });
 
     grafico = {
-      totalTerminado: terminadoCount,
-      evaluacionTerminado: this.onEvaluation(pendienteCount, terminadoCount),
-      totalItems: pendienteCount + terminadoCount,
+      totalConcluido: concluidoCount,
+      evaluacionConcluido: this.onEvaluation(pendienteCount, concluidoCount),
+      totalItems: pendienteCount + concluidoCount,
       totalPendiente: pendienteCount,
-      evaluacionPendiente: this.onEvaluation(terminadoCount, pendienteCount),
+      evaluacionPendiente: this.onEvaluation(concluidoCount, pendienteCount),
       textEvaluacion: this.onLoadTitle(
-        this.onEvaluation(pendienteCount, terminadoCount)
+        this.onEvaluation(pendienteCount, concluidoCount)
       ),
     };
 
     return grafico;
   }
-  onEvaluation(pendiente: number, terminado: number): number {
-    let total: number = pendiente + terminado;
-    let procentajePositivo: number = terminado / total;
+  onEvaluation(pendiente: number, concluido: number): number {
+    let total: number = pendiente + concluido;
+    let procentajePositivo: number = concluido / total;
     let resultadoredondo: number = Math.round(procentajePositivo * 100);
     return resultadoredondo;
   }
@@ -122,6 +122,8 @@ export default class ResultadoGeneralGraficoComponent implements OnInit {
     }
     if (dataEvaluacion >= 95 && dataEvaluacion <= 99) {
       return 'REGULAR';
+    }else{
+      return'';
     }
   }
 }

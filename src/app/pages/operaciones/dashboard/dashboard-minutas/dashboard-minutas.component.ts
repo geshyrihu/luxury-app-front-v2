@@ -6,15 +6,14 @@ import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ToastModule } from 'primeng/toast';
 import { Observable, Subscription } from 'rxjs';
-import { EAreaMinutasDetalles } from 'src/app/enums/area-minutas-detalles.enum';
-import { IFechasFiltro } from 'src/app/interfaces/IFechasFiltro.interface';
+import { IFechasFiltro } from 'src/app/core/interfaces/IFechasFiltro.interface';
 import {
   AuthService,
   CustomToastService,
   CustomerIdService,
   DataService,
   FiltroCalendarService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import DashboardMinutasResumenComponent from '../dashboard-minutas-resumen/dashboard-minutas-resumen.component';
 
@@ -98,16 +97,16 @@ export default class DashboardMinutasComponent implements OnInit, OnDestroy {
       });
   }
 
-  onModalAddOrEditMinutaDetalle(eAreaMinutasDetalles: EAreaMinutasDetalles) {
+  onModalAddOrEditMinutaDetalle(eAreaMinutasDetalles: number) {
     let titulo: string = '';
 
-    if (eAreaMinutasDetalles == EAreaMinutasDetalles.Contable) {
+    if (eAreaMinutasDetalles == 0) {
       titulo = 'Contable';
     }
-    if (eAreaMinutasDetalles == EAreaMinutasDetalles.Operaciones) {
+    if (eAreaMinutasDetalles == 1) {
       titulo = 'Operaciones';
     }
-    if (eAreaMinutasDetalles == EAreaMinutasDetalles.Legal) {
+    if (eAreaMinutasDetalles == 2) {
       titulo = 'Legal';
     }
     this.ref = this.dialogService.open(DashboardMinutasResumenComponent, {

@@ -12,8 +12,8 @@ import {
   AuthService,
   CustomToastService,
   DataService,
-} from 'src/app/services/common-services';
-import { CustomerIdService } from 'src/app/services/customer-id.service';
+} from 'src/app/core/services/common-services';
+import { CustomerIdService } from 'src/app/core/services/customer-id.service';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import OrdenesCompraCedulaComponent from '../../operaciones/compras/cedula-presupuestal/ordenes-compra-cedula/ordenes-compra-cedula.component';
@@ -74,7 +74,6 @@ export default class PresupuestoIndividualComponent implements OnInit {
         next: (resp: any) => {
           // Cuando se obtienen los datos con éxito, actualizar la variable 'data' y ocultar el mensaje de carga
           this.data = resp.body;
-          console.log('🚀 ~ resp.body:', resp.body);
           this.customToastService.onClose();
         },
         error: (err) => {
@@ -123,7 +122,6 @@ export default class PresupuestoIndividualComponent implements OnInit {
             (item) => item.id === id
           );
           if (index !== -1) {
-            console.log('id a ekiminbar,', id);
             this.data.budgetDetailDto.splice(index, 1);
           }
 
@@ -187,7 +185,6 @@ export default class PresupuestoIndividualComponent implements OnInit {
   }
 
   ServiciosMttoProgramados(cuentaId: number) {
-    console.log('🚀 ~ cuentaId:', cuentaId);
     this.ref = this.dialogService.open(MantenimientosProgramadosComponent, {
       data: {
         cuentaId,
@@ -235,7 +232,6 @@ export default class PresupuestoIndividualComponent implements OnInit {
       .pipe(takeUntil(this.destroy$)) // Cancelar la suscripción cuando el componente se destruye
       .subscribe({
         next: (resp: any) => {
-          console.log('🚀 ~ resp:', resp.body);
           // Cuando se actualiza el elemento con éxito, buscar su índice en la matriz
           const index = this.data.budgetDetailDto.findIndex(
             (existingItem) => existingItem.id === data.id
@@ -256,10 +252,6 @@ export default class PresupuestoIndividualComponent implements OnInit {
                 this.data.duracion * parseFloat(data.monthlyBudget)
               ).toLocaleString(),
             };
-            console.log(
-              '🚀 ~ this.data.budgetDetailDto[index]:',
-              this.data.budgetDetailDto[index]
-            );
           }
 
           // Oculta el mensaje de carga

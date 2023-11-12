@@ -15,24 +15,15 @@
           </div>
         </div>
         <div class="card-body text-center">
-          <!-- <p-knob
-            [(ngModel)]="totalMinutasContable"
-            [readonly]="true"
-            [min]="0"
-            [max]="100"
-            [size]="100"
-            valueColor="#00B050"
-            rangeColor="#FF0004"
-          >
-          </p-knob> -->
+     
         </div>
         <div class="card-footer">
           <div class="w-100">
             <span class="info-box-text">
               <span class="float-left">
                 <i class="fa-duotone fa-check-double text-success"></i>
-                Terminado :
-                {{ graficoMinutasContable.totalTerminado }}
+                Concluido :
+                {{ graficoMinutasContable.totalConcluido }}
               </span>
               <span class="float-right">
                 <i class="fa-duotone fa-xmark text-danger"></i>
@@ -44,13 +35,13 @@
           <br />
           <div class="w-100">
             <span
-              *ngIf="onValidateNan(graficoMinutasContable.evaluacionTerminado)"
+              *ngIf="onValidateNan(graficoMinutasContable.evaluacionConcluido)"
               [style]="
-                'width:' + graficoMinutasContable.evaluacionTerminado + '%'
+                'width:' + graficoMinutasContable.evaluacionConcluido + '%'
               "
               class="badge py-2 bg-success rounded-0"
             >
-              {{ graficoMinutasContable.evaluacionTerminado }}%
+              {{ graficoMinutasContable.evaluacionConcluido }}%
             </span>
             <span
               *ngIf="onValidateNan(graficoMinutasContable.evaluacionPendiente)"
@@ -90,8 +81,8 @@
           <div class="w-100">
             <span class="float-left">
               <i class="fa-duotone fa-check-double text-success"></i>
-              Terminado :
-              {{ graficoMinutasOperaciones.totalTerminado }}
+              Concluido :
+              {{ graficoMinutasOperaciones.totalConcluido }}
             </span>
             <span class="float-right">
               <i class="fa-duotone fa-xmark text-danger"></i>
@@ -103,14 +94,14 @@
           <div class="w-100">
             <span
               *ngIf="
-                onValidateNan(graficoMinutasOperaciones.evaluacionTerminado)
+                onValidateNan(graficoMinutasOperaciones.evaluacionConcluido)
               "
               [style]="
-                'width:' + graficoMinutasOperaciones.evaluacionTerminado + '%'
+                'width:' + graficoMinutasOperaciones.evaluacionConcluido + '%'
               "
               class="badge py-2 bg-success rounded-0"
             >
-              {{ graficoMinutasOperaciones.evaluacionTerminado }}%
+              {{ graficoMinutasOperaciones.evaluacionConcluido }}%
             </span>
             <span
               *ngIf="
@@ -153,8 +144,8 @@
             <span class="info-box-text">
               <span class="float-left">
                 <i class="fa-duotone fa-check-double text-success"></i>
-                Terminado :
-                {{ graficoMinutasLegal.totalTerminado }}
+                Concluido :
+                {{ graficoMinutasLegal.totalConcluido }}
               </span>
               <span class="float-right">
                 <i class="fa-duotone fa-xmark text-danger"></i>
@@ -166,11 +157,11 @@
           <br />
           <div class="w-100">
             <span
-              *ngIf="onValidateNan(graficoMinutasLegal.evaluacionTerminado)"
-              [style]="'width:' + graficoMinutasLegal.evaluacionTerminado + '%'"
+              *ngIf="onValidateNan(graficoMinutasLegal.evaluacionConcluido)"
+              [style]="'width:' + graficoMinutasLegal.evaluacionConcluido + '%'"
               class="badge py-2 bg-success rounded-0"
             >
-              {{ graficoMinutasLegal.evaluacionTerminado }}%
+              {{ graficoMinutasLegal.evaluacionConcluido }}%
             </span>
             <span
               *ngIf="onValidateNan(graficoMinutasLegal.evaluacionPendiente)"
@@ -214,8 +205,8 @@
             <span class="info-box-text">
               <span class="float-left">
                 <i class="fa-duotone fa-check-double text-success"></i>
-                Terminado :
-                {{ graficoMttoPreventivos.totalTerminado }}
+                Concluido :
+                {{ graficoMttoPreventivos.totalConcluido }}
               </span>
               <span class="float-right">
                 <i class="fa-duotone fa-xmark text-danger"></i>
@@ -227,13 +218,13 @@
           <br />
           <div class="w-100">
             <span
-              *ngIf="onValidateNan(graficoMttoPreventivos.evaluacionTerminado)"
+              *ngIf="onValidateNan(graficoMttoPreventivos.evaluacionConcluido)"
               [style]="
-                'width:' + graficoMttoPreventivos.evaluacionTerminado + '%'
+                'width:' + graficoMttoPreventivos.evaluacionConcluido + '%'
               "
               class="badge py-2 bg-success rounded-0"
             >
-              {{ graficoMttoPreventivos.evaluacionTerminado }}%
+              {{ graficoMttoPreventivos.evaluacionConcluido }}%
             </span>
             <span
               *ngIf="onValidateNan(graficoMttoPreventivos.evaluacionPendiente)"
@@ -274,8 +265,8 @@
             <span class="info-box-text">
               <span class="float-left">
                 <i class="fa-duotone fa-check-double text-success"></i>
-                Terminado :
-                {{ graficosMantenimiento.totalTerminado }}
+                Concluido :
+                {{ graficosMantenimiento.totalConcluido }}
               </span>
               <span class="float-right">
                 <i class="fa-duotone fa-xmark text-danger"></i>
@@ -287,13 +278,13 @@
           <br />
           <div class="w-100">
             <span
-              *ngIf="onValidateNan(graficosMantenimiento.evaluacionTerminado)"
+              *ngIf="onValidateNan(graficosMantenimiento.evaluacionConcluido)"
               [style]="
-                'width:' + graficosMantenimiento.evaluacionTerminado + '%'
+                'width:' + graficosMantenimiento.evaluacionConcluido + '%'
               "
               class="badge py-2 bg-success rounded-0"
             >
-              {{ graficosMantenimiento.evaluacionTerminado }}%
+              {{ graficosMantenimiento.evaluacionConcluido }}%
             </span>
             <span
               *ngIf="onValidateNan(graficosMantenimiento.evaluacionPendiente)"

@@ -13,18 +13,25 @@
         label="Nombre"
         placeholder="Nombre"
       ></custom-input-text>
-      <!-- <custom-input-date
-        [control]="form.get('executionDate')"
-        formControlName="executionDate"
-        label="Fecha de alta"
-        placeholder="fecha de alta"
-      ></custom-input-date> -->
-      <custom-input-select
+      <!-- <custom-input-select
         [control]="form.get('typeContractRegister')"
         formControlName="typeContractRegister"
         label="Tipo de contrato"
         [data]="cb_typeContractRegister"
-      ></custom-input-select>
+      ></custom-input-select> -->
+      <div class="form-group row mb-2">
+        <label class="col-sm-3">Tipo de contrato</label>
+        <div class="col-sm-9">
+          <select formControlName="typeContractRegister" class="form-select">
+            <option
+              *ngFor="let item of cb_typeContractRegister"
+              [value]="item.value"
+            >
+              {{ item.label }}
+            </option>
+          </select>
+        </div>
+      </div>
       <custom-input-text
         [control]="form.get('boss')"
         formControlName="boss"

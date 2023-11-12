@@ -10,7 +10,7 @@ import {
   CustomerIdService,
   DataService,
   OrdenCompraService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 
@@ -60,10 +60,6 @@ export default class OrdenCompraPresupuestoComponent
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          console.log(
-            '🚀 ~ resp.bodyaca estamos en el presupuesto:',
-            resp.body
-          );
           this.data.forEach(
             (x) => (
               (x.dineroUsado = this.total),

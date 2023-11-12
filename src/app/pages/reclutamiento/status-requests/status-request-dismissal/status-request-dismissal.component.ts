@@ -6,20 +6,20 @@ import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import CardEmployeeComponent from 'src/app/pages/operaciones/directorios/empleados/card-employee/card-employee.component';
-import PhoneFormatPipe from 'src/app/pipes/phone-format.pipe';
+import PhoneFormatPipe from 'src/app/core/pipes/phone-format.pipe';
 import {
   AuthService,
   CustomToastService,
   CustomerIdService,
   DataService,
-} from 'src/app/services/common-services';
-import { StatusSolicitudVacanteService } from 'src/app/services/status-solicitud-vacante.service';
+} from 'src/app/core/services/common-services';
+import { StatusSolicitudVacanteService } from 'src/app/core/services/status-solicitud-vacante.service';
 import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import { environment } from 'src/environments/environment';
 import AddoreditSolicitudBajaComponent from '../../list-solicitudes/list-solicitud-baja/addoredit-solicitud-baja/addoredit-solicitud-baja.component';
-import AddOrEditStatusRequestDismissalDiscountComponent from './add-or-edit-status-request-dismissal-discount/add-or-edit-status-request-dismissal-discount.component';
+import AddOrEditStatusRequestDismissalDiscountComponent from './addoredit-status-request-dismissal-discount/addoredit-status-request-dismissal-discount.component';
 
 @Component({
   selector: 'app-status-request-dismissal',
@@ -44,7 +44,6 @@ export default class StatusRequestDismissalComponent
   public dataService = inject(DataService);
   public dialogService = inject(DialogService);
   public router = inject(Router);
-
   public customToastService = inject(CustomToastService);
 
   workPositionId = this.statusSolicitudVacanteService.getworkPositionId();

@@ -5,7 +5,7 @@ import {
   CustomToastService,
   CustomerIdService,
   DataService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import { environment } from 'src/environments/environment';
 
 @Component({

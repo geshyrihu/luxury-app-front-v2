@@ -3,14 +3,13 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable, Subscription } from 'rxjs';
-import { IListCondominoDto } from 'src/app/interfaces/IListCondominoDto.interface';
-import { EHabitantPipe } from 'src/app/pipes/habitant.pipe';
+import { IListCondominoDto } from 'src/app/core/interfaces/IListCondominoDto.interface';
 import {
   AuthService,
   CustomToastService,
   CustomerIdService,
   DataService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import AddOrEditCondominosComponent from './addoredit-condominos.component';
@@ -19,7 +18,11 @@ import AddOrEditCondominosComponent from './addoredit-condominos.component';
   selector: 'app-list-condominos',
   templateUrl: './list-condominos.component.html',
   standalone: true,
-  imports: [CommonModule, ComponentsModule, PrimeNgModule, EHabitantPipe],
+  imports: [
+    CommonModule,
+    ComponentsModule,
+    PrimeNgModule,
+  ],
   providers: [DialogService, MessageService, CustomToastService],
 })
 export default class ListCondominosComponent implements OnInit, OnDestroy {

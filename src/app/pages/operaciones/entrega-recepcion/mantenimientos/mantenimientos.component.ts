@@ -2,13 +2,12 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { TableModule } from 'primeng/table';
 import { Observable, Subscription } from 'rxjs';
-import { SanitizeHtmlPipe } from 'src/app/pipes/sanitize-html.pipe';
-import { ETypeMaintancePipe } from 'src/app/pipes/typeMaintance.pipe';
+import { SanitizeHtmlPipe } from 'src/app/core/pipes/sanitize-html.pipe';
 import {
   CustomToastService,
   CustomerIdService,
   DataService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import { environment } from 'src/environments/environment';
 
@@ -19,7 +18,6 @@ import { environment } from 'src/environments/environment';
   imports: [
     ComponentsModule,
     TableModule,
-    ETypeMaintancePipe,
     SanitizeHtmlPipe,
   ],
   providers: [MessageService, CustomToastService],
@@ -28,7 +26,6 @@ export default class MantenimientosComponent implements OnInit, OnDestroy {
   public customerIdService = inject(CustomerIdService);
   public dataService = inject(DataService);
   public messageService = inject(MessageService);
-
   public customToastService = inject(CustomToastService);
   data: any[] = [];
   subRef$: Subscription;

@@ -8,13 +8,13 @@ import {
 } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { IDirectoryCondominiumAddOrEditDto } from 'src/app/interfaces/IDirectoryCondominiumAddOrEditDto.interface';
+import { IDirectoryCondominiumAddOrEditDto } from 'src/app/core/interfaces/IDirectoryCondominiumAddOrEditDto.interface';
 import {
   AuthService,
   CustomToastService,
   CustomerIdService,
   DataService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
 

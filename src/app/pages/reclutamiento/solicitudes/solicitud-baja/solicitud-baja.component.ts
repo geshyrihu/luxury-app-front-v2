@@ -11,17 +11,16 @@ import {
 import { FileUploadModule, FileUploadValidators } from '@iplab/ngx-file-upload';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { cb_ESiNo } from 'src/app/enums/si-no.enum';
-import { ETypeOfDeparture } from 'src/app/enums/type-departure.enum';
-import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
-import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
+import { cb_ESiNo } from 'src/app/core/enums/si-no.enum';
+import { ISelectItemDto } from 'src/app/core/interfaces/ISelectItemDto.interface';
 import {
   AuthService,
   CustomToastService,
   CustomerIdService,
   DataService,
   DateService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
+import { EnumService } from 'src/app/core/services/enum-service';
 import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
 
@@ -46,6 +45,7 @@ export default class SolicitudBajaComponent implements OnInit {
   public dateService = inject(DateService);
   public customerIdService = inject(CustomerIdService);
   public authService = inject(AuthService);
+  private enumService = inject(EnumService);
 
   data: any;
   id: number = 0;
@@ -53,8 +53,7 @@ export default class SolicitudBajaComponent implements OnInit {
   subRef$: Subscription;
   workPositionId: number = this.config.data.workPositionId;
 
-  cb_type_departure: ISelectItemDto[] =
-    onGetSelectItemFromEnum(ETypeOfDeparture);
+  cb_type_departure: ISelectItemDto[] = [];
   cb_si_no: ISelectItemDto[] = cb_ESiNo;
 
   form: FormGroup = this.formBuilder.group({
@@ -77,6 +76,11 @@ export default class SolicitudBajaComponent implements OnInit {
     this.onLoadData();
   }
   onLoadData() {
+    this.enumService
+      .onGetSelectItemEmun('ETypeOfDeparture')
+      .subscribe((resp) => {
+        this.cb_type_departure = resp;
+      });
     this.subRef$ = this.dataService
       .get(`RequestDismissal/GetRequestDismissal/${this.workPositionId}`)
       .subscribe({
@@ -223,7 +227,7 @@ export interface SolicitudBajaDto {
   executionDate: string;
   employee: number;
   phoneEmployee: string;
-  typeOfDeparture: ETypeOfDeparture;
+  typeOfDeparture: string;
   reasonForLeaving: string;
   discountDescription: DiscountDescription[];
   supportFiles: File[];

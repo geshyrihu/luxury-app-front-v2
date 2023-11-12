@@ -4,13 +4,13 @@ import { RouterModule } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
+import { ISelectItemDto } from 'src/app/core/interfaces/ISelectItemDto.interface';
 import {
   AuthService,
   CustomToastService,
   DataService,
   SelectItemService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import AccessCustomerComponent from './customer-account/access-customer.component';
 import UpdateAccountComponent from './update-account/update-account.component';
 import UpdatePasswordAccountComponent from './update-password/update-password-account.component';

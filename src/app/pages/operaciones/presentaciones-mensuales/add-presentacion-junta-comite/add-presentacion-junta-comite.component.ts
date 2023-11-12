@@ -15,7 +15,7 @@ import {
   CustomerIdService,
   DataService,
   DateService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import ComponentsModule, {
   flatpickrFactory,
 } from 'src/app/shared/components.module';
@@ -40,7 +40,6 @@ export default class AddPresentacionJuntaComiteComponent implements OnDestroy {
   public ref = inject(DynamicDialogRef);
   public config = inject(DynamicDialogConfig);
   public customerIdService = inject(CustomerIdService);
-
   private customToastService = inject(CustomToastService);
 
   submitting: boolean = false;

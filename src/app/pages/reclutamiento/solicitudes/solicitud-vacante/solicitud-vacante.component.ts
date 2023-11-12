@@ -9,15 +9,14 @@ import {
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { TableModule } from 'primeng/table';
 import { Subscription } from 'rxjs';
-import { AutosizeDirective } from 'src/app/directives/autosize-text-area.diective';
-import { ETurnoTrabajo } from 'src/app/enums/turno-trabajo.enum';
-import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
-import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
+import { AutosizeDirective } from 'src/app/core/directives/autosize-text-area.diective';
+import { ISelectItemDto } from 'src/app/core/interfaces/ISelectItemDto.interface';
 import {
   AuthService,
   CustomToastService,
   DataService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
+import { EnumService } from 'src/app/core/services/enum-service';
 import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
 
@@ -41,6 +40,7 @@ export default class SolicitudVacanteComponent implements OnInit, OnDestroy {
   public config = inject(DynamicDialogConfig);
   public ref = inject(DynamicDialogRef);
   public authService = inject(AuthService);
+  public enumService = inject(EnumService);
 
   workPositionId: number = this.config.data.workPositionId;
 
@@ -49,7 +49,7 @@ export default class SolicitudVacanteComponent implements OnInit, OnDestroy {
 
   id: number = 0;
   subRef$: Subscription;
-  cb_turnoTrabajo: ISelectItemDto[] = onGetSelectItemFromEnum(ETurnoTrabajo);
+  cb_turnoTrabajo: ISelectItemDto[] = [];
   form: FormGroup = this.formBuilder.group({
     id: [this.config.data.workPositionId],
     professionName: [, Validators.required],
@@ -78,6 +78,9 @@ export default class SolicitudVacanteComponent implements OnInit, OnDestroy {
   }
 
   onLoadData() {
+    this.enumService.onGetSelectItemEmun('ETurnoTrabajo').subscribe((resp) => {
+      this.cb_turnoTrabajo = resp;
+    });
     this.subRef$ = this.dataService
       .get(`WorkPosition/${this.workPositionId}`)
       .subscribe({

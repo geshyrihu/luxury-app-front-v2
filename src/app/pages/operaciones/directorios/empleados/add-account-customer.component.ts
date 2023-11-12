@@ -9,15 +9,15 @@ import {
 import { MessageService } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { imageToBase64 } from 'src/app/helpers/enumeration';
-import { UserInfoDto } from 'src/app/interfaces/auth/user-info.interface';
+import { imageToBase64 } from 'src/app/core/helpers/enumeration';
+import { UserInfoDto } from 'src/app/core/interfaces/user-info.interface';
 import {
   CustomToastService,
   CustomerIdService,
-} from 'src/app/services/common-services';
-import { DataService } from 'src/app/services/data.service';
-import { DateService } from 'src/app/services/date.service';
-import { SelectItemService } from 'src/app/services/select-item.service';
+} from 'src/app/core/services/common-services';
+import { DataService } from 'src/app/core/services/data.service';
+import { DateService } from 'src/app/core/services/date.service';
+import { SelectItemService } from 'src/app/core/services/select-item.service';
 import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
 import { environment } from 'src/environments/environment';

@@ -13,15 +13,14 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ToastModule } from 'primeng/toast';
 import { Subscription } from 'rxjs';
-import { EStatusOrdenCompra } from 'src/app/enums/estatus-orden-compra.enum';
-import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
 import {
   AuthService,
   CustomToastService,
   CustomerIdService,
   DataService,
   DateService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
+import { EnumService } from 'src/app/core/services/enum-service';
 import ComponentsModule from 'src/app/shared/components.module';
 import CreateOrdenCompraComponent from '../orden-compra/orden-compra/create-orden-compra/create-orden-compra.component';
 import AddProductModalComponent from './add-product-modal.component';
@@ -61,15 +60,16 @@ export default class SolicitudCompraComponent implements OnInit, OnDestroy {
   public dialogService = inject(DialogService);
   public messageService = inject(MessageService);
   public customerIdService = inject(CustomerIdService);
+  public enumService = inject(EnumService);
 
   submitting: boolean = false;
 
-  statusCompra = onGetSelectItemFromEnum(EStatusOrdenCompra);
+  statusCompra = [];
+  _cb_Status = [];
   id: number = 0;
   solicitudCompra: any;
   idAuth: string =
     this.authService.userTokenDto.infoUserAuthDto.applicationUserId;
-  private _cb_Status = onGetSelectItemFromEnum(EStatusOrdenCompra);
   public get cb_Status() {
     return this._cb_Status;
   }
@@ -84,6 +84,11 @@ export default class SolicitudCompraComponent implements OnInit, OnDestroy {
   cotizacionesRelacionadas: any[] = [];
 
   ngOnInit(): void {
+    this.enumService
+      .onGetSelectItemEmun('EStatusOrdenCompra')
+      .subscribe((resp) => {
+        this.statusCompra = resp;
+      });
     this.routeActive.params.subscribe((resp) => {
       this.id = resp['id'];
     });

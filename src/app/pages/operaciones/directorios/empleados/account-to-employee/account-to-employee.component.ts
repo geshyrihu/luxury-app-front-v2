@@ -6,13 +6,14 @@ import {
   CustomToastService,
   CustomerIdService,
   DataService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
+import PrimeNgModule from 'src/app/shared/prime-ng.module';
 
 @Component({
   selector: 'app-account-to-employee',
   templateUrl: './account-to-employee.component.html',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, PrimeNgModule],
   providers: [CustomToastService],
 })
 export default class AccountToEmployeeComponent implements OnInit {
@@ -48,7 +49,6 @@ export default class AccountToEmployeeComponent implements OnInit {
   onRadioChange(newValue: string) {
     // Esta función se llamará cada vez que cambie el valor del radio button
     this.applicationUserId = newValue;
-    console.log('Nuevo valor seleccionado:', newValue);
     // Realiza las acciones que desees con el nuevo valor aquí
   }
 

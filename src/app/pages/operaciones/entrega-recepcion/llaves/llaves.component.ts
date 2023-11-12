@@ -2,9 +2,9 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { TableModule } from 'primeng/table';
 import { Observable, Subscription } from 'rxjs';
-import { CustomerIdService } from 'src/app/services/common-services';
-import { CustomToastService } from 'src/app/services/custom-toast.service';
-import { DataService } from 'src/app/services/data.service';
+import { CustomerIdService } from 'src/app/core/services/common-services';
+import { CustomToastService } from 'src/app/core/services/custom-toast.service';
+import { DataService } from 'src/app/core/services/data.service';
 import ComponentsModule from 'src/app/shared/components.module';
 
 @Component({
@@ -17,7 +17,6 @@ import ComponentsModule from 'src/app/shared/components.module';
 export default class LlavesComponent implements OnInit, OnDestroy {
   public customerIdService = inject(CustomerIdService);
   public dataService = inject(DataService);
-
   public customToastService = inject(CustomToastService);
   data: any[] = [];
   subRef$: Subscription;

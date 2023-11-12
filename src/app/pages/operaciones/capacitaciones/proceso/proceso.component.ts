@@ -7,11 +7,11 @@ import {
   AuthService,
   CustomToastService,
   DataService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import { environment } from 'src/environments/environment';
-import AddOrEditProcesoComponent from './add-or-edit-proceso.component';
+import AddOrEditProcesoComponent from './addoredit-proceso.component';
 
 @Component({
   selector: 'app-proceso',

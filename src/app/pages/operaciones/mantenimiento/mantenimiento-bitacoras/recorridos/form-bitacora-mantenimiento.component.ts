@@ -14,7 +14,7 @@ import {
   CustomToastService,
   CustomerIdService,
   DataService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
 
@@ -38,7 +38,6 @@ export default class FormBitacoraMantenimientoComponent
   public customerIdService = inject(CustomerIdService);
   public dataService = inject(DataService);
   public ref = inject(DynamicDialogRef);
-
   public customToastService = inject(CustomToastService);
 
   submitting: boolean = false;

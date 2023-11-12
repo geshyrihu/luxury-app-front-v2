@@ -5,10 +5,10 @@ import { Subscription } from 'rxjs';
 import {
   CustomToastService,
   DataService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
-import AddOrEditCalendarioMaestroEquipoComponent from './add-or-edit-calendario-maestro-equipo.component';
+import AddOrEditCalendarioMaestroEquipoComponent from './addoredit-calendario-maestro-equipo.component';
 
 @Component({
   selector: 'app-calendario-maestro-equipo',

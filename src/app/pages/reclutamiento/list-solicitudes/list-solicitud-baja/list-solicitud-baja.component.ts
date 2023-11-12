@@ -7,13 +7,13 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable, Subscription } from 'rxjs';
-import PhoneFormatPipe from 'src/app/pipes/phone-format.pipe';
+import PhoneFormatPipe from 'src/app/core/pipes/phone-format.pipe';
 import {
   AuthService,
   CustomToastService,
   DataService,
   FilterRequestsService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import FilterRequestsComponent from '../filter-requests.component';

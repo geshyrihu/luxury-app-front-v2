@@ -9,11 +9,11 @@ import {
   CustomToastService,
   CustomerIdService,
   DataService,
-} from 'src/app/services/common-services';
-import { ViewPdfService } from 'src/app/services/view-pdf.service';
+} from 'src/app/core/services/common-services';
+import { ViewPdfService } from 'src/app/core/services/view-pdf.service';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
-import CrudEntregaRecepcionClienteComponent from '../crud-entrega-recepcion-cliente/crud-entrega-recepcion-cliente.component';
+import CrudEntregaRecepcionClienteComponent from '../addoredit-entrega-recepcion-cliente/addoredit-entrega-recepcion-cliente.component';
 
 @Component({
   selector: 'app-entrega-recepcion-cliente',

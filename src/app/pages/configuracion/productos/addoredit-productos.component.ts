@@ -8,14 +8,14 @@ import {
 } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { EProductClasificacion } from 'src/app/enums/producto-clasificacion.enum';
-import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
+import { ISelectItemDto } from 'src/app/core/interfaces/ISelectItemDto.interface';
 import {
   AuthService,
   CustomToastService,
   DataService,
   SelectItemService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
+import { EnumService } from 'src/app/core/services/enum-service';
 import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
 import { environment } from 'src/environments/environment';
@@ -40,6 +40,7 @@ export default class AddOrEditProductosComponent implements OnInit, OnDestroy {
   public dataService = inject(DataService);
   public selectItemService = inject(SelectItemService);
   private customToastService = inject(CustomToastService);
+  private enumService = inject(EnumService);
 
   submitting: boolean = false;
   subRef$: Subscription;
@@ -51,12 +52,19 @@ export default class AddOrEditProductosComponent implements OnInit, OnDestroy {
   userId = '';
   form: FormGroup;
   cb_category: any[] = [];
-  cb_clasificacion = onGetSelectItemFromEnum(EProductClasificacion);
+  // cb_clasificacion = onGetSelectItemFromEnum(EProductClasificacion);
+  cb_clasificacion: ISelectItemDto[] = [];
 
   onLoadSelectItem() {
     this.selectItemService.onGetSelectItem('Categories').subscribe((resp) => {
       this.cb_category = resp;
     });
+
+    this.enumService
+      .onGetSelectItemEmun('EProductClasificacion')
+      .subscribe((resp) => {
+        this.cb_clasificacion = resp;
+      });
   }
 
   public savecategoryId(e: any): void {

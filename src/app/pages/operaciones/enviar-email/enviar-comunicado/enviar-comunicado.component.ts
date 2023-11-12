@@ -17,12 +17,12 @@ import {
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { IDestinatariosMailReporte } from 'src/app/interfaces/IDestinatariosMailReporte.interface';
+import { IDestinatariosMailReporte } from 'src/app/core/interfaces/IDestinatariosMailReporte.interface';
 import {
   CustomToastService,
   CustomerIdService,
   DataService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import AgregarCorreoElectronicoComponent from 'src/app/shared/agregar-correo-electronico/agregar-correo-electronico.component';
 import ListadoCondominosComponent from 'src/app/shared/listado-condominos/listado-condominos.component';
 @Component({

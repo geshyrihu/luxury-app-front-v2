@@ -8,10 +8,10 @@ import {
   AuthService,
   CustomToastService,
   DataService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 import ComponentsModule from 'src/app/shared/components.module';
 import { environment } from 'src/environments/environment';
-import AddOrEditTelefonosEmergenciaComponent from './add-or-edit-telefonos-emergencia.component';
+import AddOrEditTelefonosEmergenciaComponent from './addoredit-telefonos-emergencia.component';
 
 @Component({
   selector: 'app-telefonos-emergencia',
@@ -24,7 +24,6 @@ export default class TelefonosEmergenciaComponent {
   public authService = inject(AuthService);
   public dataService = inject(DataService);
   public messageService = inject(MessageService);
-
   public customToastService = inject(CustomToastService);
   public dialogService = inject(DialogService);
   data: any[] = [];

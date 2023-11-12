@@ -9,16 +9,14 @@ import {
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { EDecisionCandidadoReclutamiento } from 'src/app/enums/decision-candidado-reclutamiento';
-import { EFuenteReclutamiento } from 'src/app/enums/fuente-reclutamiento';
-import { onGetSelectItemFromEnum } from 'src/app/helpers/enumeration';
-import { ISelectItemDto } from 'src/app/interfaces/ISelectItemDto.interface';
+import { ISelectItemDto } from 'src/app/core/interfaces/ISelectItemDto.interface';
 import {
   AuthService,
   CustomToastService,
   DataService,
   DateService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
+import { EnumService } from 'src/app/core/services/enum-service';
 import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
 
@@ -45,8 +43,8 @@ export default class AddOrEditVacanteCandidatoComponent
   public datePipe = inject(DatePipe);
   public dateService = inject(DateService);
   public ref = inject(DynamicDialogRef);
-
   private customToastService = inject(CustomToastService);
+  private enumService = inject(EnumService);
 
   submitting: boolean = false;
 
@@ -54,12 +52,8 @@ export default class AddOrEditVacanteCandidatoComponent
   subRef$: Subscription;
   file: any = null;
 
-  cb_fuentesReclutamiento: ISelectItemDto[] =
-    onGetSelectItemFromEnum(EFuenteReclutamiento);
-  cb_decision: ISelectItemDto[] = onGetSelectItemFromEnum(
-    EDecisionCandidadoReclutamiento
-  );
-
+  cb_fuentesReclutamiento: ISelectItemDto[] = [];
+  cb_decision: ISelectItemDto[] = [];
   form: FormGroup = this.formBuilder.group({
     id: { value: this.id, disabled: true },
     firstName: ['', Validators.required],
@@ -80,6 +74,16 @@ export default class AddOrEditVacanteCandidatoComponent
     sendMail: [false],
   });
   ngOnInit(): void {
+    this.enumService
+      .onGetSelectItemEmun('EFuenteReclutamiento')
+      .subscribe((resp) => {
+        this.cb_fuentesReclutamiento = resp;
+      });
+    this.enumService
+      .onGetSelectItemEmun('EDecisionCandidadoReclutamiento')
+      .subscribe((resp) => {
+        this.cb_decision = resp;
+      });
     this.id = this.config.data.id;
 
     if (this.config.data.positionRequestId !== null) {

@@ -1,18 +1,35 @@
 /* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
+  // Extiende la configuración del archivo tsconfig.json principal.
   "extends": "./tsconfig.json",
+
+  // Configuración del compilador TypeScript para las pruebas unitarias.
   "compilerOptions": {
+    // Directorio de salida para los archivos transpilados de las pruebas unitarias.
     "outDir": "./out-tsc/spec",
+
+    // Tipos de TypeScript requeridos para las pruebas unitarias (en este caso, Jasmine).
     "types": [
       "jasmine"
     ]
   },
+
+  // Lista de archivos que se incluirán en la compilación.
   "files": [
+    // Punto de entrada para las pruebas unitarias.
     "src/test.ts",
+
+    // Archivo que proporciona polyfills necesarios para ejecutar las pruebas en navegadores antiguos.
     "src/polyfills.ts"
   ],
+
+  // Lista de archivos que se incluirán en la compilación, utilizando patrones de inclusión.
   "include": [
+    // Incluye todos los archivos .spec.ts (pruebas unitarias) en la carpeta src y sus subcarpetas.
     "src/**/*.spec.ts",
+
+    // Incluye todos los archivos .d.ts (declaraciones de tipo) en la carpeta src y sus subcarpetas.
     "src/**/*.d.ts"
   ]
 }
+

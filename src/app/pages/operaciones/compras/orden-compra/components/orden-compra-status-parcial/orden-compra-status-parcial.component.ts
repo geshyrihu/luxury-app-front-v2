@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { EBoolTextPipe } from 'src/app/pipes/bool-text.pipe';
+import { EBoolTextPipe } from 'src/app/core/pipes/bool-text.pipe';
 
 @Component({
   selector: 'app-orden-compra-status-parcial',

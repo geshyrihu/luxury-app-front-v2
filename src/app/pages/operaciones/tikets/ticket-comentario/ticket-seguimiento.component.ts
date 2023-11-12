@@ -9,12 +9,12 @@ import {
 } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { ITicketseguimiento } from 'src/app/interfaces/ITicketseguimiento.interface';
+import { ITicketseguimiento } from 'src/app/core/interfaces/ITicketseguimiento.interface';
 import {
   AuthService,
   CustomToastService,
   DataService,
-} from 'src/app/services/common-services';
+} from 'src/app/core/services/common-services';
 
 @Component({
   selector: 'app-ticket-seguimiento',
