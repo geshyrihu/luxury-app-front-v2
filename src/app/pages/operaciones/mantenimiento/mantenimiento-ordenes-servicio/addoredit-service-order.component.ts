@@ -12,7 +12,7 @@ import { MessageService, SelectItem } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { EditorModule } from 'primeng/editor';
 import { Subscription } from 'rxjs';
-import { EStatusTask } from 'src/app/core/enums/estatus.enum';
+import { EStatusTask } from 'src/app/core/enums/estatus-task.enum';
 import { onGetSelectItemFromEnum } from 'src/app/core/helpers/enumeration';
 import { CustomerIdService } from 'src/app/core/services/common-services';
 import { CustomToastService } from 'src/app/core/services/custom-toast.service';

@@ -21,8 +21,6 @@ import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import { environment } from 'src/environments/environment';
 import DescripcionPuestoComponent from '../../professions/descripcion-puesto.component';
-import SolicitudBajaComponent from '../../solicitudes/solicitud-baja/solicitud-baja.component';
-import SolicitudModificacionSalarioComponent from '../../solicitudes/solicitud-modificacion-salario/solicitud-modificacion-salario.component';
 import SolicitudVacanteComponent from '../../solicitudes/solicitud-vacante/solicitud-vacante.component';
 import AddoreditPlantillaComponent from '../addoredit-plantilla.component';
 import EmployeeToWorkPositionComponent from '../employee-to-work-position/employee-to-work-position.component';
@@ -52,11 +50,11 @@ export default class ListWorkPlantillaComponent implements OnInit, OnDestroy {
   public authService = inject(AuthService);
   public confirmationService = inject(ConfirmationService);
   public customerIdService = inject(CustomerIdService);
+  public customToastService = inject(CustomToastService);
   public dataService = inject(DataService);
   public dialogService = inject(DialogService);
   public messageService = inject(MessageService);
   public statusSolicitudVacanteService = inject(StatusSolicitudVacanteService);
-  public customToastService = inject(CustomToastService);
 
   customerId$: Observable<number> = this.customerIdService.getCustomerId$();
   data: any[] = [];
@@ -85,7 +83,6 @@ export default class ListWorkPlantillaComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          console.log('🚀 ~ resp.body:', resp.body);
           this.customToastService.onClose();
         },
         error: (err) => {
@@ -177,45 +174,45 @@ export default class ListWorkPlantillaComponent implements OnInit, OnDestroy {
   // Editar empleado
 
   // TODO: Eliminar al impelnentar directo al empleado
-  onModalSolicitudBaja(id: number) {
-    this.ref = this.dialogService.open(SolicitudBajaComponent, {
-      data: {
-        workPositionId: id,
-      },
-      header: 'Solicitud de baja',
-      width: '100%',
-      height: '100%',
-      closeOnEscape: true,
-      baseZIndex: 10000,
-    });
-    this.ref.onClose.subscribe((resp: boolean) => {
-      if (resp) {
-        this.customToastService.onShowSuccess();
-        this.onLoadData();
-      }
-    });
-  }
+  // onModalSolicitudBaja(id: number) {
+  //   this.ref = this.dialogService.open(SolicitudBajaComponent, {
+  //     data: {
+  //       workPositionId: id,
+  //     },
+  //     header: 'Solicitud de baja',
+  //     width: '100%',
+  //     height: '100%',
+  //     closeOnEscape: true,
+  //     baseZIndex: 10000,
+  //   });
+  //   this.ref.onClose.subscribe((resp: boolean) => {
+  //     if (resp) {
+  //       this.customToastService.onShowSuccess();
+  //       this.onLoadData();
+  //     }
+  //   });
+  // }
 
   //Solicitar Modificacion de salario
 
-  onModalSolicitudModificacionSalarion(id: number) {
-    this.ref = this.dialogService.open(SolicitudModificacionSalarioComponent, {
-      data: {
-        workPositionId: id,
-      },
-      header: 'Solicitud de Modificación de salario',
-      width: '100%',
-      height: '100%',
-      closeOnEscape: true,
-      baseZIndex: 10000,
-    });
-    this.ref.onClose.subscribe((resp: boolean) => {
-      if (resp) {
-        this.customToastService.onShowSuccess();
-        this.onLoadData();
-      }
-    });
-  }
+  // onModalSolicitudModificacionSalarion(id: number) {
+  //   this.ref = this.dialogService.open(SolicitudModificacionSalarioComponent, {
+  //     data: {
+  //       workPositionId: id,
+  //     },
+  //     header: 'Solicitud de Modificación de salario',
+  //     width: '100%',
+  //     height: '100%',
+  //     closeOnEscape: true,
+  //     baseZIndex: 10000,
+  //   });
+  //   this.ref.onClose.subscribe((resp: boolean) => {
+  //     if (resp) {
+  //       this.customToastService.onShowSuccess();
+  //       this.onLoadData();
+  //     }
+  //   });
+  // }
 
   //Ver tarjeta de Colaborador
   onCardEmployee(employeeId: any) {

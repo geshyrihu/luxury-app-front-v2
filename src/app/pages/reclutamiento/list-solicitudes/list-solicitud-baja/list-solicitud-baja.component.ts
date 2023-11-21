@@ -53,7 +53,7 @@ export default class ListSolicitudBajaComponent implements OnInit {
 
   onLoadData() {
     this.subRef$ = this.dataService
-      .get(`RequestDismissal/List/`, this.filterRequestsService.getParams())
+      .get(`requestdismissal/list/`, this.filterRequestsService.getParams())
       .subscribe({
         next: (resp: any) => {
           // Cuando se obtienen los datos con éxito, actualizar la variable 'data' y ocultar el mensaje de carga

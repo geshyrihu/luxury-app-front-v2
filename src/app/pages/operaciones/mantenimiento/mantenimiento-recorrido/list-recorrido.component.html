@@ -3,11 +3,11 @@
   <div class="col-sm-5 mb-2 mb-sm-0">
     <h4 class="h4">Recorrido de Mantenimiento</h4>
   </div>
-  <div class="col-sm-3 d-flex">
+  <div class="col-sm-3 d-flex hide-print-mode">
     <a
       ngbTooltip="Ver bitacora"
       routerLink="/mantenimiento/bitacora/reporte-bitacora-recorrido"
-      class="btn btn-danger me-1"
+      class="btn btn-danger me-1 hide-print-mode"
     >
       <i class="fa-duotone fa-file-pdf"></i>
     </a>
@@ -18,19 +18,19 @@
       inactivas="Semanal"
     ></custom-button-active-desactive>
   </div>
-  <div class="col-sm-3 d-grid mb-2 mb-sm-0">
+  <div class="col-sm-3 d-grid mb-2 mb-sm-0 hide-print-mode">
     <input
       [(ngModel)]="this.filterValue"
       type="text"
       (input)="filterGlobal()"
       placeholder="Ingresa texto para buscar..."
-      class="form-control"
+      class="form-control hide-print-mode"
     />
   </div>
   <div class="col-sm-1 d-grid mb-2 mb-sm-0">
     <button
       type="button"
-      class="btn btn-info"
+      class="btn btn-info hide-print-mode"
       (click)="onModalAddOrEdit({ id: 0, title: 'Nuevo Registro' })"
     >
       Nuevo
@@ -46,9 +46,9 @@
           {{ item.position }}.- {{ item.nameMachinery }}
         </h3>
       </div>
-      <div class="col-sm-4 text-end d-flex mb-2">
+      <div class="col-sm-4 text-end d-flex mb-2 hide-print-mode">
         <button
-          class="btn btn-primary pointer me-1"
+          class="btn btn-primary pointer me-1 hide-print-mode"
           (click)="onModalBitacora(item.machineryId)"
           ngbTooltip="Agregar datos de revisión"
           placement="top"
@@ -60,7 +60,7 @@
         <button
           ngbTooltip="Ver historico de bitacora"
           placement="top"
-          class="btn btn-primary pointer me-1"
+          class="btn btn-primary pointer me-1 hide-print-mode"
           (click)="
             onModalBitacoraIndividual({
               machineryId: item.machineryId,
@@ -75,7 +75,7 @@
           <button
             ngbTooltip="Editar Recorrido"
             placement="top"
-            class="btn btn-secondary dropdown-toggle"
+            class="btn btn-secondary dropdown-toggle hide-print-mode"
             type="button"
             id="dropdownMenuButton"
             data-bs-toggle="dropdown"
@@ -174,14 +174,5 @@
         </ul>
       </div>
     </div>
-  </div>
-</div>
-
-<div class="row">
-  <div class="col-sm-8"></div>
-  <div class="col-sm-4">
-    <button class="btn">btn1</button>
-    <button class="btn">btn1</button>
-    <button class="btn">btn1</button>
   </div>
 </div>

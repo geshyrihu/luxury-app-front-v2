@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { IFondeoCaratulaDto } from '../interfaces/IFondeoCaratulaDto.interface';
-import { IRequestFondeoCaratulaDto } from 'src/app/core/interfaces/IRequestFondeoCaratulaDto.interface';
+import { IRequestFondeoCaratulaDto } from '../interfaces/IRequestFondeoCaratulaDto.interface';
 
 @Injectable({
   providedIn: 'root',

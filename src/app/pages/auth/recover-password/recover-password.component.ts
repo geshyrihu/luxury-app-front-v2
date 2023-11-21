@@ -31,8 +31,8 @@ import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.mod
 export default class RecoverPasswordComponent implements OnInit, OnDestroy {
   private dataService = inject(DataService);
   private formBuilder = inject(FormBuilder);
-  public customToastService = inject(CustomToastService);
   private router = inject(Router);
+  public customToastService = inject(CustomToastService);
 
   form: FormGroup;
   sendEmail: boolean = false;

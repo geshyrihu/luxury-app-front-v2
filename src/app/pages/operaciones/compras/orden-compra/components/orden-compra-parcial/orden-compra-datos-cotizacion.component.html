@@ -6,64 +6,52 @@
   type="button"
   class="btn btn-info mb-2 p-1 w-100"
 >
-  Datos Cotización
+  DATOS COTIZACIÓN
 </button>
 <table class="table table-sm">
   <tbody>
     <tr>
-      <td class="font-weight-light" style="width: 40%">
-        <small> Folio </small>
-      </td>
-      <td class="small font-weight-light" style="width: 60%">
+      <td style="width: 40%">Folio</td>
+      <td style="width: 60%">
         {{ ordenCompra.folio }}
       </td>
     </tr>
 
     <tr *ngIf="ordenCompra.folioSolicitudCompra">
-      <td class="font-weight-light" style="width: 40%">
-        <small> Solicitud Compra</small>
-      </td>
-      <td class="font-weight-light" style="width: 60%" class="pointer">
-        <small>
-          <a
-            [routerLink]="[
-              '/operaciones/compras/solicitud-compra/',
-              solicitudCompraId
-            ]"
-          >
-            {{ ordenCompra.folioSolicitudCompra }}
-          </a>
-        </small>
+      <td style="width: 40%">Solicitud Compra</td>
+      <td style="width: 60%" class="pointer">
+        <a
+          [routerLink]="[
+            '/operaciones/compras/solicitud-compra/',
+            solicitudCompraId
+          ]"
+        >
+          {{ ordenCompra.folioSolicitudCompra }}
+        </a>
       </td>
     </tr>
 
     <tr>
-      <td class="small font-weight-light" style="width: 40%">
-        Fecha de Solicitud
-      </td>
-      <td class="small font-weight-light" style="width: 70%">
-        {{ ordenCompra.fechaSolicitud | date }}
+      <td style="width: 40%">Fecha de Solicitud</td>
+      <td style="width: 70%">
+        {{ ordenCompra.fechaSolicitud }}
       </td>
     </tr>
     <tr>
-      <td class="small font-weight-light" style="width: 40%">
-        Equipo o instalación
-      </td>
-      <td class="small font-weight-light" style="width: 70%">
+      <td style="width: 40%">Donde se ocupa</td>
+      <td style="width: 70%">
         {{ ordenCompra.equipoOInstalacion }}
       </td>
     </tr>
     <tr>
-      <td class="small font-weight-light text-justify" style="width: 40%">
-        Justificación del gasto
-      </td>
-      <td class="small font-weight-light text-justify" style="width: 70%">
+      <td class="text-justify" style="width: 40%">Justificación</td>
+      <td class="text-justify" style="width: 70%">
         {{ ordenCompra.justificacionGasto }}
       </td>
     </tr>
     <tr>
-      <td class="small font-weight-light" style="width: 40%">Archivos</td>
-      <td class="small font-weight-light" style="width: 60%">
+      <td style="width: 40%">LuxuryCloud</td>
+      <td style="width: 60%">
         <a
           [href]="ordenCompra.urlFile"
           target="_blank"

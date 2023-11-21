@@ -1,16 +1,9 @@
 <p-toast position="top-left" [baseZIndex]="99999"></p-toast>
 
 <p-table
-  [(selection)]="data"
   #dt
   styleClass="custom-table"
   [value]="data"
-  [rows]="100"
-  [paginator]="true"
-  [rowHover]="true"
-  currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
-  [showCurrentPageReport]="true"
-  [rowsPerPageOptions]="[100]"
   [globalFilterFields]="[
     'cellPhone',
     'directoryCondominium',
@@ -38,7 +31,7 @@
 
   <ng-template pTemplate="header">
     <tr>
-      <th scope="col" style="width: 5%" pSortableColumn="directoryCondominium">
+      <th scope="col" style="width: 10%" pSortableColumn="directoryCondominium">
         Depto.
         <p-sortIcon field="directoryCondominium"></p-sortIcon>
       </th>
@@ -70,7 +63,12 @@
         Email
         <p-sortIcon field="mail"></p-sortIcon>
       </th>
-      <th scope="col" style="width: 10%" pSortableColumn="mail">
+      <th
+        scope="col"
+        style="width: 10%"
+        pSortableColumn="mail"
+        class="hide-print-mode"
+      >
         Enviar Info
         <p-sortIcon field="mail"></p-sortIcon>
       </th>
@@ -84,6 +82,7 @@
         "
         scope="col"
         style="width: 5%"
+        class="hide-print-mode"
       >
         Opciones
       </th>
@@ -112,7 +111,7 @@
       <td>
         {{ item.mail }}
       </td>
-      <td>
+      <td class="hide-print-mode">
         <i
           *ngIf="item.enviarMails"
           class="text-success fa-duotone fa-check-double"
@@ -121,7 +120,7 @@
       </td>
 
       <td
-        class="p-column-title"
+        class="p-column-title hide-print-mode"
         *ngIf="
           authService.onValidateRoles([
             'Asistente',

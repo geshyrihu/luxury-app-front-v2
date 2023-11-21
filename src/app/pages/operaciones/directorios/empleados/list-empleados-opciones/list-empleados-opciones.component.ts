@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { MessageService } from 'primeng/api';
 import {
@@ -30,7 +30,12 @@ import ContactEmployeeComponent from '../contact-employee.component';
   imports: [ComponentsModule, NgbTooltip, PrimeNgModule, CommonModule],
   providers: [CustomToastService, MessageService],
 })
-export default class ListEmpleadosOpcionesComponent implements OnDestroy {
+export default class ListEmpleadosOpcionesComponent
+  implements OnInit, OnDestroy
+{
+  ngOnInit(): void {
+    this.onValidarSolicitudesAbiertas();
+  }
   private dialogService = inject(DialogService);
   public customToastService = inject(CustomToastService);
   public config = inject(DynamicDialogConfig);
@@ -43,6 +48,10 @@ export default class ListEmpleadosOpcionesComponent implements OnDestroy {
   applicationUserId: string = this.config.data.applicationUserId;
   employeeId: number = this.config.data.employeeId;
   active: boolean = this.config.data.active;
+
+  solicitudBajaStatus: any;
+  solicitudModificacionSalarioStatus: any;
+  workPosition: any;
 
   onShowModalcontactEmployee() {
     this.ref = this.dialogService.open(ContactEmployeeComponent, {
@@ -70,6 +79,14 @@ export default class ListEmpleadosOpcionesComponent implements OnDestroy {
       baseZIndex: 10000,
       closeOnEscape: true,
       styleClass: 'modal-md',
+    });
+
+    // Escuchar el evento 'onClose' cuando se cierra el cuadro de diálogo
+    this.ref.onClose.subscribe((resp: boolean) => {
+      if (resp) {
+        // Cuando se recibe 'true', mostrar un mensaje de éxito y volver a cargar los datos
+        this.customToastService.onShowSuccess();
+      }
     });
   }
 
@@ -183,6 +200,14 @@ export default class ListEmpleadosOpcionesComponent implements OnDestroy {
       closeOnEscape: true,
       baseZIndex: 10000,
     });
+    // Escuchar el evento 'onClose' cuando se cierra el cuadro de diálogo
+    this.ref.onClose.subscribe((resp: boolean) => {
+      if (resp) {
+        // Cuando se recibe 'true', mostrar un mensaje de éxito y volver a cargar los datos
+        this.customToastService.onShowSuccess();
+        this.onValidarSolicitudesAbiertas();
+      }
+    });
   }
 
   //Solicitar Modificacion de salario
@@ -198,6 +223,36 @@ export default class ListEmpleadosOpcionesComponent implements OnDestroy {
       closeOnEscape: true,
       baseZIndex: 10000,
     });
+    // Escuchar el evento 'onClose' cuando se cierra el cuadro de diálogo
+    this.ref.onClose.subscribe((resp: boolean) => {
+      if (resp) {
+        // Cuando se recibe 'true', mostrar un mensaje de éxito y volver a cargar los datos
+        this.customToastService.onShowSuccess();
+        this.onValidarSolicitudesAbiertas();
+      }
+    });
+  }
+
+  // Metodo para validar si hay solicitudes abiertas
+  // Solicitud de baja
+  // Solicitud de modificacion de salario
+  onValidarSolicitudesAbiertas() {
+    this.dataService
+      .get(`employees/validarsolicitudesabiertas/${this.employeeId}`)
+      .pipe(takeUntil(this.destroy$)) // Cancelar la suscripción cuando el componente se destruye
+      .subscribe({
+        next: (resp: any) => {
+          this.workPosition = resp.body.workPosition;
+          this.solicitudBajaStatus = resp.body.solicitudBaja;
+          this.solicitudModificacionSalarioStatus =
+            resp.body.solicitudModificacionSalario;
+        },
+        error: (err) => {
+          // En caso de error, mostrar un mensaje de error y registrar el error en la consola
+          this.customToastService.onCloseToError();
+          console.log(err.error);
+        },
+      });
   }
 
   ngOnDestroy() {

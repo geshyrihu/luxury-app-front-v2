@@ -5,7 +5,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { TableModule } from 'primeng/table';
 import { Subscription } from 'rxjs';
 import { EAreaMinutasDetalles } from 'src/app/core/enums/area-minutas-detalles.enum';
-import { EStatusTask } from 'src/app/core/enums/estatus.enum';
+import { EStatusTask } from 'src/app/core/enums/estatus-task.enum';
 import { SanitizeHtmlPipe } from 'src/app/core/pipes/sanitize-html.pipe';
 import { EStatusPipe } from 'src/app/core/pipes/status.pipe';
 import {

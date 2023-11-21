@@ -75,6 +75,13 @@ export default [
         'src/app/pages/contabilidad/presupuesto/list-cedulas-presupuestales.component'
       ),
   },
+  {
+    path: 'reporte-envio-financieros',
+    loadComponent: () =>
+      import(
+        'src/app/pages/contabilidad/reporte-envio-financieros/reporte-envio-financieros.component'
+      ),
+  },
   // {
   //   path: 'cedula-presupuestal-detalle/:id',
   //   loadComponent: () =>

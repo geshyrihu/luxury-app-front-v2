@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
+import { ISelectItemDto } from 'src/app/core/interfaces/ISelectItemDto.interface';
 import {
   CustomToastService,
   DataService,
@@ -13,10 +14,7 @@ import {
   selector: 'app-addoredit-comite',
   templateUrl: './addoredit-comite.component.html',
   standalone: true,
-  imports: [
-    FormsModule,
-    CommonModule,
-  ],
+  imports: [FormsModule, CommonModule],
   providers: [MessageService, CustomToastService],
 })
 export default class AddOrEditComiteComponent implements OnInit, OnDestroy {
@@ -32,7 +30,7 @@ export default class AddOrEditComiteComponent implements OnInit, OnDestroy {
   @Input()
   meetingId: number;
   cb_ParticipantComite: any[] = [];
-  cb_Comite: any[] = [];
+  cb_Comite: ISelectItemDto[] = [];
   comiteparticipante = '';
   participantsList: any[] = [];
   listaParticipantesComite: any[] = [];

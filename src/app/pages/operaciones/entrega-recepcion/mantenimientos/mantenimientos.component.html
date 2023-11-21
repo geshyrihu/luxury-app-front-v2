@@ -1,14 +1,12 @@
 <app-report-header></app-report-header>
 
-<p-table [value]="data" styleClass="custom-table">
-  <ng-template pTemplate="caption">
-    <div class="flex align-items-center justify-content-between">
-      <h5 class="m-0 h5">Mantenimientos Preventivos</h5>
-    </div>
-  </ng-template>
+<div class="flex align-items-center justify-content-between">
+  <h5 class="m-0 h5">Mantenimientos Preventivos</h5>
+</div>
 
-  <ng-template pTemplate="body" let-item>
-    <tr class="page-break">
+<table class="custom-table">
+  <tbody>
+    <tr *ngFor="let item of data" class="page-break">
       <td>
         <table class="table table-sm table-striped table-bordered mt-1">
           <tr>
@@ -59,5 +57,12 @@
         </table>
       </td>
     </tr>
-  </ng-template>
-</p-table>
+  </tbody>
+</table>
+<style>
+  @media print {
+    .page-break {
+      page-break-inside: avoid;
+    }
+  }
+</style>

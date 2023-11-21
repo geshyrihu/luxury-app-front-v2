@@ -4,8 +4,9 @@
     #dt
     [value]="data"
     [globalFilterFields]="['professionName', 'departament', 'empleado']"
-    styleClass="p-datatable-sm p-datatable-gridlines"
+    styleClass="custom-table"
   >
+    <!-- styleClass="p-datatable-sm p-datatable-gridlines" -->
     <ng-template pTemplate="caption">
       <div class="row">
         <div class="col-sm-10">
@@ -90,7 +91,7 @@
           style="width: 10%"
           scope="col"
         >
-          Tickets
+          Solicitud
         </th>
       </tr>
     </ng-template>
@@ -120,7 +121,7 @@
               ></custom-button>
               <!-- Solicitar vacante para puesto de trabajo -->
               <!-- Solicitar baja de empleado -->
-              <custom-button
+              <!-- <custom-button
                 *ngIf="
                   item.person &&
                   item.requestDismissal !== 0 &&
@@ -132,11 +133,11 @@
                 customClass="btn-outline-danger   w-100 mt-1 text-start"
                 icon="fa-duotone fa-user-minus me-2"
                 label="Solicitar baja"
-              ></custom-button>
+              ></custom-button> -->
               <!-- Solicitar baja de empleado -->
               <br />
               <!-- Solicitar modificación de salario -->
-              <ng-contentainer
+              <!-- <ng-contentainer
                 *ngIf="
                   item.person &&
                   item.requestSalaryModification !== 0 &&
@@ -150,9 +151,9 @@
                   icon="fa-duotone fa-money-bill-1 me-2"
                   label="Solicitar mod. de salario"
                 ></custom-button>
-                <!-- Solicitar modificación de salario -->
                 <br />
-              </ng-contentainer>
+              </ng-contentainer> -->
+              <!-- Solicitar modificación de salario -->
               <!-- Asignar empleado -->
               <custom-button
                 *ngIf="authService.onValidateRoles(['SuperUsuario'])"
@@ -297,7 +298,7 @@
 
             <!-- Solicitud de vacante -->
             <!-- Solicitud de baja -->
-
+            <!-- 
             <custom-button
               *ngIf="item.requestDismissal === 0 || item.requestDismissal === 3"
               ngbTooltip="Solicitud de baja vigente"
@@ -305,11 +306,11 @@
               customClass="btn-sm btn-outline-danger"
               icon="fa-duotone fa-tags fa-2x"
               (clicked)="onRouteEstatusRequestDismissal(item.id)"
-            ></custom-button>
+            ></custom-button> -->
             <!-- Solicitud de baja -->
             <!-- Solicitud de modiicacion de salario -->
             <!-- &&                item.positionRequest.status === 3 -->
-            <custom-button
+            <!-- <custom-button
               *ngIf="item.requestSalaryModification === 0"
               ngbTooltip="Solicitud modificacion de salario vigente"
               placement="top"
@@ -318,7 +319,7 @@
               (clicked)="
                 onRouteEstatusSalaryModification(item.employeeId, item.id)
               "
-            ></custom-button>
+            ></custom-button> -->
             <!-- Solicitud de modiicacion de salario -->
             <!-- fin tickets -->
           </div>

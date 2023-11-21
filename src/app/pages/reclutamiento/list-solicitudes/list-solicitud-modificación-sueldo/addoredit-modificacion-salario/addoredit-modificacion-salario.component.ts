@@ -10,7 +10,6 @@ import { FlatpickrModule } from 'angularx-flatpickr';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import { cb_ESiNo } from 'src/app/core/enums/si-no.enum';
-import { onGetSelectItemFromEnum } from 'src/app/core/helpers/enumeration';
 import { ISelectItemDto } from 'src/app/core/interfaces/ISelectItemDto.interface';
 import {
   CustomToastService,
@@ -45,7 +44,7 @@ export default class AddoreditModificacionSalarioComponent
 
   submitting: boolean = false;
 
-  cb_status : ISelectItemDto[]= [];
+  cb_status: ISelectItemDto[] = [];
   cb_si_no: ISelectItemDto[] = cb_ESiNo;
   id: number = 0;
   subRef$: Subscription;
@@ -71,12 +70,11 @@ export default class AddoreditModificacionSalarioComponent
     if (this.id !== 0) this.onLoadData();
   }
   onLoadData() {
-
-    this.enumService.onGetSelectItemEmun('EStatus').subscribe(resp=>{
-      this.cb_status=resp
-    })
+    this.enumService.onGetSelectItemEmun('EStatus').subscribe((resp) => {
+      this.cb_status = resp;
+    });
     this.subRef$ = this.dataService
-      .get(`RequestSalaryModification/GetById/${this.id}`)
+      .get(`requestsalarymodification/getbyid/${this.id}`)
       .subscribe({
         next: (resp: any) => {
           this.form.patchValue(resp.body);
@@ -101,7 +99,7 @@ export default class AddoreditModificacionSalarioComponent
     this.submitting = true;
 
     this.subRef$ = this.dataService
-      .put(`RequestSalaryModification/${this.id}`, this.form.value)
+      .put(`requestsalarymodification/${this.id}`, this.form.value)
       .subscribe({
         next: () => {
           this.ref.close(true);

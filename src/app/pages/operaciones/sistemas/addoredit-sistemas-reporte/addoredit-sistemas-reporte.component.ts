@@ -8,7 +8,7 @@ import {
 } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { EStatusTask } from 'src/app/core/enums/estatus.enum';
+import { EStatusTask } from 'src/app/core/enums/estatus-task.enum';
 import { onGetSelectItemFromEnum } from 'src/app/core/helpers/enumeration';
 import { ISelectItemDto } from 'src/app/core/interfaces/ISelectItemDto.interface';
 import {

@@ -6,7 +6,7 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { TableModule } from 'primeng/table';
 import { Subscription } from 'rxjs';
 import { EAreaMinutasDetalles } from 'src/app/core/enums/area-minutas-detalles.enum';
-import { EStatusTask } from 'src/app/core/enums/estatus.enum';
+import { EStatusTask } from 'src/app/core/enums/estatus-task.enum';
 import { IFechasFiltro } from 'src/app/core/interfaces/IFechasFiltro.interface';
 import { CustomToastService } from 'src/app/core/services/custom-toast.service';
 import { DataService } from 'src/app/core/services/data.service';

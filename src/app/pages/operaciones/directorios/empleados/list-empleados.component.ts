@@ -14,6 +14,7 @@ import {
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import { environment } from 'src/environments/environment';
+import AddAccountCustomerComponent from './add-account-customer.component';
 import ListEmpleadosOpcionesComponent from './list-empleados-opciones/list-empleados-opciones.component';
 
 const base_urlImg = environment.base_urlImg + 'Administration/accounts/';
@@ -75,7 +76,6 @@ export default class ListEmployeeComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (resp: any) => {
           this.data = resp.body;
-          console.log('🚀 ~ resp.body:', resp.body);
           this.customToastService.onClose();
         },
         error: (err) => {
@@ -100,6 +100,21 @@ export default class ListEmployeeComponent implements OnInit, OnDestroy {
       baseZIndex: 10000,
       closeOnEscape: true,
       styleClass: 'modal-md',
+    });
+    this.ref.onClose.subscribe((resp: boolean) => {
+      if (resp) {
+        this.customToastService.onShowSuccess();
+        this.onLoadData();
+      }
+    });
+  }
+  showModalAddAccount() {
+    this.ref = this.dialogService.open(AddAccountCustomerComponent, {
+      data: {},
+      header: 'Agregar cuenta de usuario',
+      styleClass: 'modal-lg',
+      baseZIndex: 10000,
+      closeOnEscape: true,
     });
     this.ref.onClose.subscribe((resp: boolean) => {
       if (resp) {

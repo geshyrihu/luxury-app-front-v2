@@ -94,6 +94,7 @@ export default class OrdenCompraDatosPagoComponent
       .subscribe({
         next: (resp: any) => {
           this.form.patchValue(resp.body);
+          console.log('🚀 ~ datos de pago:', resp.body);
         },
         error: (err) => {
           this.customToastService.onShowError();

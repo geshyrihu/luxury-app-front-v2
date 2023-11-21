@@ -91,6 +91,15 @@ export class SidebarService {
           link: 'operaciones/compras/cedula-cliente',
           name: 'Contabilidad-Presupuesto',
         },
+        {
+          visible: this.authService.onValidateRoles([
+            'Contador',
+            'SuperUsuario',
+          ]),
+          label: 'Reporte Envio Financieros',
+          link: 'contabilidad/reporte-envio-financieros',
+          name: 'Reporte-Envio-Financieros',
+        },
 
         {
           visible: this.authService.onValidateRoles(['SuperUsuario']),
@@ -1176,9 +1185,19 @@ export class SidebarService {
         {
           visible: this.authService.onValidateRoles([
             'SuperUsuario',
-            'Reclutamiento',
+            'Residente',
+            'Asistente',
           ]),
           label: 'Solicitudes',
+          link: 'reclutamiento/solicitudes_cliente',
+          name: 'Reclutamiento-Solicitudes por cliente',
+        },
+        {
+          visible: this.authService.onValidateRoles([
+            'SuperUsuario',
+            'Reclutamiento',
+          ]),
+          label: 'Solicitudes Recl',
           link: 'reclutamiento/solicitudes/vacantes',
           name: 'Reclutamiento-Solicitudes a reclutamiento',
         },

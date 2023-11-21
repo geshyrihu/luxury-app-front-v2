@@ -52,3 +52,8 @@ export function onGetSelectItemFromEnum(enumeracion: any): ISelectItemDto[] {
 
   return enumeraciones;
 }
+/**
+ * Convierte una enumeración TypeScript en un array de objetos ISelectItemDto para su uso en componentes de selección.
+ * @param enumeracion La enumeración TypeScript que se va a convertir en opciones select.
+ * @returns Un array de objetos ISelectItemDto que representan las opciones select.
+ */

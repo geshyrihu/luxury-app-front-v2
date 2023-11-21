@@ -8,6 +8,8 @@ import {
 } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
+import { EPosicionComite } from 'src/app/core/enums/position.comite.enum';
+import { onGetSelectItemFromEnum } from 'src/app/core/helpers/enumeration';
 import { IComiteVigilanciaAddOrEditDto } from 'src/app/core/interfaces/IComiteVigilanciaAddOrEditDto.interface';
 import { ISelectItemDto } from 'src/app/core/interfaces/ISelectItemDto.interface';
 import { CustomerIdService } from 'src/app/core/services/common-services';
@@ -43,14 +45,14 @@ export default class AddOrEditComiteVigilanciaComponent
 
   submitting: boolean = false;
 
-  cb_position: ISelectItemDto[] = [];
+  cb_position: ISelectItemDto[] = onGetSelectItemFromEnum(EPosicionComite);
   cb_condomino: ISelectItemDto[] = [];
   id: number = 0;
   form: FormGroup = this.formBuilder.group({
     id: { value: this.id, disabled: true },
     listCondominoId: ['', Validators.required],
     nameDirectoryCondominium: ['', Validators.required],
-    ePosicionComite: ['', [Validators.required]],
+    ePosicionComite: [0, [Validators.required]],
     customerId: [],
   });
   subRef$: Subscription;
@@ -65,10 +67,6 @@ export default class AddOrEditComiteVigilanciaComponent
       .subscribe((resp) => {
         this.cb_condomino = resp;
       });
-
-    this.enumService.onGetSelectItemEmun('ECargoComite').subscribe((resp) => {
-      this.cb_position = resp;
-    });
 
     this.form.patchValue({
       customerId: this.customerIdService.getcustomerId(),

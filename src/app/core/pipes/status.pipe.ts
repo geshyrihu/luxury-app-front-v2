@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { EStatusTask } from '../enums/estatus.enum';
+import { EStatusTask } from '../enums/estatus-task.enum';
 import { onGetSelectItemFromEnum } from '../helpers/enumeration';
 
 @Pipe({

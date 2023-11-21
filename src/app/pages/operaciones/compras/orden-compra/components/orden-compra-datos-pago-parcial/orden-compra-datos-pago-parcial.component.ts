@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-orden-compra-datos-pago-parcial',
@@ -6,7 +6,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   standalone: true,
   imports: [],
 })
-export default class OrdenCompraDatosPagoParcialComponent {
+export default class OrdenCompraDatosPagoParcialComponent implements OnInit {
   @Input()
   ordenCompra: any;
   @Input()
@@ -17,4 +17,6 @@ export default class OrdenCompraDatosPagoParcialComponent {
   onModalOrdenCompraDatosPago() {
     this.modalOrdenCompra.emit();
   }
+
+  ngOnInit(): void {}
 }

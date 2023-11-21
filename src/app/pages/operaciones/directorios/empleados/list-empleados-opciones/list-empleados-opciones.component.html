@@ -55,16 +55,38 @@
     </div>
     <div class="col-6">
       <ul class="list-group">
-        <li class="list-group-item pointer" (click)="onModalSolicitudBaja()">
-          <i class="fa-duotone fa-user-minus me-3"></i>
-          Solicitar Baja
+        <li class="list-group-item text-danger" *ngIf="!workPosition">
+          <em>
+            Para solicitar baja o modificación de salario, este empleado debe
+            estar cubriendo una vacante.
+          </em>
         </li>
         <li
           class="list-group-item pointer"
+          *ngIf="!solicitudBajaStatus && workPosition"
+          (click)="onModalSolicitudBaja()"
+        >
+          <i class="fa-duotone fa-user-minus me-3"></i>
+          Solicitar Baja
+        </li>
+        <li class="list-group-item disabled" *ngIf="solicitudBajaStatus">
+          <i class="fa-duotone fa-user-minus me-3"></i>
+          Solicitar Baja en proceso
+        </li>
+        <li
+          class="list-group-item pointer"
+          *ngIf="!solicitudModificacionSalarioStatus && workPosition"
           (click)="onModalSolicitudModificacionSalarion()"
         >
           <i class="fa-duotone fa-money-bill-1 me-3"></i>
           Solicitar modificación de salario
+        </li>
+        <li
+          class="list-group-item disabled"
+          *ngIf="solicitudModificacionSalarioStatus"
+        >
+          <i class="fa-duotone fa-money-bill-1 me-3"></i>
+          Solicitar modificación de salario en proceso
         </li>
         <li class="list-group-item pointer" (click)="onShowModalAddOrEdit()">
           <i class="fa-duotone fa-pen-to-square me-3"></i>

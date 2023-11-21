@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { EStatusTask } from 'src/app/core/enums/estatus.enum';
+import { EStatusTask } from 'src/app/core/enums/estatus-task.enum';
 import { onGetSelectItemFromEnum } from 'src/app/core/helpers/enumeration';
 import { IFilterTicket } from 'src/app/core/interfaces/IFilterTicket.interface';
 import { ISelectItemDto } from 'src/app/core/interfaces/ISelectItemDto.interface';

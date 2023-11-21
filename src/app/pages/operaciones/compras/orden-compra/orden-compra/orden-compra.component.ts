@@ -7,7 +7,6 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ContextMenuModule } from 'primeng/contextmenu';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-// import { EStatusOrdenCompraPipe } from 'src/app/pipes/status-orden-compra.pipe';
 import {
   AuthService,
   CustomToastService,
@@ -26,6 +25,7 @@ import OrdenCompraPresupuestoComponent from '../orden-compra-presupuesto/orden-c
 import OrdenCompraStatusComponent from '../orden-compra-status/orden-compra-status.component';
 import OrdenCompraDenegadaComponent from './../orden-compra-denegada/orden-compra-denegada.component';
 // import ModalOrdenCompraComponent from './modal-orden-compra.component';
+import ModalOrdenCompraComponent from './modal-orden-compra.component';
 import OrdenCompraEditDetalleComponent from './orden-compra-edit-detalle.component';
 import OrdenCompraEditPresupustoUtilizadoComponent from './orden-compra-edit-presupusto-utilizado.component';
 @Component({
@@ -43,7 +43,6 @@ import OrdenCompraEditPresupustoUtilizadoComponent from './orden-compra-edit-pre
     PrimeNgModule,
     ContextMenuModule,
     ConfirmDialogModule,
-    // EStatusOrdenCompraPipe,
   ],
   providers: [
     DialogService,
@@ -204,8 +203,9 @@ export default class OrdenCompraComponent implements OnInit, OnDestroy {
       .get(`OrdenCompra/${this.ordenCompraId}`)
       .subscribe({
         next: (resp: any) => {
+          console.log('🚀 ~ resp.body:', resp.body);
+          this.customToastService.onClose();
           this.ordenCompra = resp.body;
-
           if (this.ordenCompra.ordenCompraDatosPago.tipoGasto === 0) {
             this.esGastoFijo = true;
           }
@@ -232,7 +232,9 @@ export default class OrdenCompraComponent implements OnInit, OnDestroy {
 
           //   Validando si ya fue revisada por el Residente
 
-          if (this.ordenCompra.ordenCompraAuth.revisadoPorResidente) {
+          if (
+            this.ordenCompra.ordenCompraAuth.revisadoPorResidente.length > 0
+          ) {
             this.revisadaPorResidente = true;
             this.mensajeRevision = 'Revocar Revisión';
           } else {
@@ -346,23 +348,23 @@ export default class OrdenCompraComponent implements OnInit, OnDestroy {
     });
   }
 
-  // onModalOrdenCompra() {
-  //   this.ref = this.dialogService.open(ModalOrdenCompraComponent, {
-  //     data: {
-  //       ordenCompra: this.ordenCompra,
-  //     },
-  //     header: 'Actualizar información',
-  //     styleClass: 'modal-md',
-  //     closeOnEscape: true,
-  //     baseZIndex: 10000,
-  //   });
-  //   this.ref.onClose.subscribe((resp: boolean) => {
-  //     if (resp) {
-  //       this.customToastService.onShowSuccess();
-  //       this.onLoadData();
-  //     }
-  //   });
-  // }
+  onModalOrdenCompra() {
+    this.ref = this.dialogService.open(ModalOrdenCompraComponent, {
+      data: {
+        ordenCompra: this.ordenCompra,
+      },
+      header: 'Actualizar información',
+      styleClass: 'modal-md',
+      closeOnEscape: true,
+      baseZIndex: 10000,
+    });
+    this.ref.onClose.subscribe((resp: boolean) => {
+      if (resp) {
+        this.customToastService.onShowSuccess();
+        this.onLoadData();
+      }
+    });
+  }
   onModalOrdenCompraDatosPago() {
     this.ref = this.dialogService.open(OrdenCompraDatosPagoComponent, {
       data: {

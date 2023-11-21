@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { TableModule } from 'primeng/table';
@@ -15,11 +16,7 @@ import { environment } from 'src/environments/environment';
   selector: 'app-mantenimientos',
   templateUrl: './mantenimientos.component.html',
   standalone: true,
-  imports: [
-    ComponentsModule,
-    TableModule,
-    SanitizeHtmlPipe,
-  ],
+  imports: [ComponentsModule, TableModule, SanitizeHtmlPipe, CommonModule],
   providers: [MessageService, CustomToastService],
 })
 export default class MantenimientosComponent implements OnInit, OnDestroy {

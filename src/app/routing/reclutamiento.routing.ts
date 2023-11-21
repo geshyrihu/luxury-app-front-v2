@@ -69,4 +69,11 @@ export default [
         'src/app/pages/reclutamiento/list-candidates/list-candidates.component'
       ),
   },
+  {
+    path: 'solicitudes_cliente',
+    loadComponent: () =>
+      import(
+        'src/app/pages/reclutamiento/list-solicitudes-por-cliente/list-solicitudes-por-cliente.component'
+      ),
+  },
 ] as Routes;

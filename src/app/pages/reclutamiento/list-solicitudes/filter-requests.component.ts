@@ -69,7 +69,7 @@ export default class FilterRequestsComponent implements OnInit, OnDestroy {
     // Mostrar un mensaje de carga
     this.customToastService.onLoading();
     this.subRef$ = this.dataService
-      .get(`SolicitudesReclutamiento/SendReportVacants`)
+      .get(`solicitudesreclutamiento/sendreportvacants`)
       .subscribe({
         next: (_) => {
           this.customToastService.onCloseToSuccess();
