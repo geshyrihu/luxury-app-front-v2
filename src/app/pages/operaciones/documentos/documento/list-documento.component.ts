@@ -8,7 +8,7 @@ import {
   CustomerIdService,
   DataService,
 } from 'src/app/core/services/common-services';
-import { ViewPdfService } from 'src/app/core/services/view-pdf.service';
+// import { ViewPdfService } from 'src/app/core/services/view-pdf.service';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import { environment } from 'src/environments/environment';
@@ -25,7 +25,7 @@ export default class ListDocumentoComponent implements OnInit, OnDestroy {
   public customToastService = inject(CustomToastService);
   public dataService = inject(DataService);
   public customerIdService = inject(CustomerIdService);
-  public viewPdfService = inject(ViewPdfService);
+  // public viewPdfService = inject(ViewPdfService);
   public dialogService = inject(DialogService);
   public messageService = inject(MessageService);
   data: any[] = [];

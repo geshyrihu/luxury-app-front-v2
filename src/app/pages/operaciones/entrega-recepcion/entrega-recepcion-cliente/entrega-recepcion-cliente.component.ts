@@ -10,7 +10,6 @@ import {
   CustomerIdService,
   DataService,
 } from 'src/app/core/services/common-services';
-import { ViewPdfService } from 'src/app/core/services/view-pdf.service';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 import CrudEntregaRecepcionClienteComponent from '../addoredit-entrega-recepcion-cliente/addoredit-entrega-recepcion-cliente.component';
@@ -31,7 +30,7 @@ export default class EntregaRecepcionClienteComponent
   public customerIdService = inject(CustomerIdService);
   public messageService = inject(MessageService);
   public dialogService = inject(DialogService);
-  public viewPdfService = inject(ViewPdfService);
+  // public viewPdfService = inject(ViewPdfService);
 
   public route = inject(Router);
 
@@ -124,7 +123,7 @@ export default class EntregaRecepcionClienteComponent
       this.customerIdService.getcustomerId() +
       '/entregarecepcion/' +
       url;
-    this.viewPdfService.setNameDocument(urlFinal);
+    // this.viewPdfService.setNameDocument(urlFinal);
     this.route.navigate(['documento/view-documento']);
   }
 

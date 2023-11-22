@@ -33,12 +33,9 @@
               "leaflet",
               "apexcharts",
               "sweetalert2",
-              "quill",
               "pdfmake/build/pdfmake",
               "can-use-dom",
               "file-saver",
-              "pdfjs-dist/build/pdf",
-              "pdfjs-dist/web/pdf_viewer",
               "flatpickr/dist/l10n/es",
               "@ckeditor/ckeditor5-build-classic"
             ],

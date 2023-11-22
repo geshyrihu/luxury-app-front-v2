@@ -8,7 +8,7 @@ import { CustomToastService } from 'src/app/core/services/custom-toast.service';
 import { DataService } from 'src/app/core/services/data.service';
 import { DateService } from 'src/app/core/services/date.service';
 import { FiltroCalendarService } from 'src/app/core/services/filtro-calendar.service';
-import { ViewPdfService } from 'src/app/core/services/view-pdf.service';
+// import { ViewPdfService } from 'src/app/core/services/view-pdf.service';
 import ComponentsModule from 'src/app/shared/components.module';
 import PrimeNgModule from 'src/app/shared/prime-ng.module';
 
@@ -25,7 +25,7 @@ export default class PresentacionesJuntasComiteComponent
   private dataService = inject(DataService);
   private rangoCalendarioService = inject(FiltroCalendarService);
   private route = inject(Router);
-  private viewPdfService = inject(ViewPdfService);
+  // private viewPdfService = inject(ViewPdfService);
   public dateService = inject(DateService);
   public messageService = inject(MessageService);
   public customToastService = inject(CustomToastService);
@@ -63,7 +63,7 @@ export default class PresentacionesJuntasComiteComponent
   }
 
   navigateToPdf(url: string) {
-    this.viewPdfService.setNameDocument(url);
+    // this.viewPdfService.setNameDocument(url);
     this.route.navigate(['documento/view-documento']);
   }
   ngOnDestroy(): void {
