@@ -9,27 +9,20 @@ import {
   DynamicDialogConfig,
   DynamicDialogRef,
 } from 'primeng/dynamicdialog';
-import { EditorModule } from 'primeng/editor';
 import { Subscription } from 'rxjs';
-import AddoreditMaintenancePreventiveComponent from 'src/app/pages/operaciones/calendarios/mantenimiento-preventivo/addoredit-maintenance-preventive.component';
 import {
   AuthService,
   CustomToastService,
   DataService,
 } from 'src/app/core/services/common-services';
+import AddoreditMaintenancePreventiveComponent from 'src/app/pages/operaciones/calendarios/mantenimiento-preventivo/addoredit-maintenance-preventive.component';
 import ComponentsModule from 'src/app/shared/components.module';
 //TODO: VALIDAR SU AUN ESTA ACTIVO ESTE MODULO
 @Component({
   selector: 'app-order-service',
   templateUrl: './order-service.component.html',
   standalone: true,
-  imports: [
-    CommonModule,
-    ComponentsModule,
-    FormsModule,
-    EditorModule,
-    CKEditorModule,
-  ],
+  imports: [CommonModule, ComponentsModule, FormsModule, CKEditorModule],
   providers: [MessageService, CustomToastService],
 })
 export default class OrderServiceComponent implements OnInit, OnDestroy {

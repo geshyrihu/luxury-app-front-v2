@@ -10,7 +10,6 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { MessageService, SelectItem } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { EditorModule } from 'primeng/editor';
 import { Subscription } from 'rxjs';
 import { EStatusTask } from 'src/app/core/enums/estatus-task.enum';
 import { onGetSelectItemFromEnum } from 'src/app/core/helpers/enumeration';
@@ -33,7 +32,6 @@ import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.mod
     CommonModule,
     ReactiveFormsModule,
     ComponentsModule,
-    EditorModule,
     CustomInputModule,
     CKEditorModule,
   ],

@@ -37,9 +37,6 @@
   <tbody>
     <tr *ngFor="let item of maintenanceCalendars">
       <td>
-        <!-- <p-editor [(ngModel)]="item.activity" [readonly]="true">
-          <ng-template pTemplate="header"> </ng-template>
-        </p-editor> -->
         <ckeditor
           [config]="{ toolbar: ['heading', '|', 'bold', 'italic'] }"
           [editor]="Editor"
