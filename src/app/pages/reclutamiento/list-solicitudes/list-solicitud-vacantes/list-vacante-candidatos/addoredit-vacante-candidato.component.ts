@@ -69,8 +69,7 @@ export default class AddOrEditVacanteCandidatoComponent
     date: ['', Validators.required],
     hour: ['', Validators.required],
     decision: [''],
-    observations: [''],
-    comments: [],
+    comments: ['', Validators.maxLength(200)],
     sendMail: [false],
   });
   ngOnInit(): void {
@@ -176,6 +175,7 @@ export default class AddOrEditVacanteCandidatoComponent
     formData.append('date', this.dateService.getDateFormat(dto.date));
     formData.append('hour', String(dto.hour));
     formData.append('sendMail', String(dto.sendMail));
+    formData.append('comments', String(dto.comments));
     formData.append(
       'applicationUserId',
       this.authService.infoUserAuthDto.applicationUserId

@@ -9,6 +9,13 @@ export default [
       ),
   },
   {
+    path: 'agenda-entrevistas',
+    loadComponent: () =>
+      import(
+        'src/app/pages/reclutamiento/agenda-entrevistas/agenda-entrevistas.component'
+      ),
+  },
+  {
     path: 'plantilla-interna',
     title: 'Plantilla interna',
     loadComponent: () =>

@@ -8,6 +8,8 @@ import {
 } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
+import { EProductClasificacion } from 'src/app/core/enums/product-clasificacion.enum';
+import { onGetSelectItemFromEnum } from 'src/app/core/helpers/enumeration';
 import { ISelectItemDto } from 'src/app/core/interfaces/ISelectItemDto.interface';
 import {
   AuthService,
@@ -52,19 +54,14 @@ export default class AddOrEditProductosComponent implements OnInit, OnDestroy {
   userId = '';
   form: FormGroup;
   cb_category: any[] = [];
-  // cb_clasificacion = onGetSelectItemFromEnum(EProductClasificacion);
-  cb_clasificacion: ISelectItemDto[] = [];
+  cb_clasificacion: ISelectItemDto[] = onGetSelectItemFromEnum(
+    EProductClasificacion
+  );
 
   onLoadSelectItem() {
     this.selectItemService.onGetSelectItem('Categories').subscribe((resp) => {
       this.cb_category = resp;
     });
-
-    this.enumService
-      .onGetSelectItemEmun('EProductClasificacion')
-      .subscribe((resp) => {
-        this.cb_clasificacion = resp;
-      });
   }
 
   public savecategoryId(e: any): void {
@@ -88,7 +85,7 @@ export default class AddOrEditProductosComponent implements OnInit, OnDestroy {
       urlImagen: [''],
       marca: [''],
       modelo: [''],
-      clasificacion: [0],
+      clasificacion: [EProductClasificacion.Producto],
       employeeId: [this.authService.userTokenDto.infoEmployeeDto.employeeId],
     });
   }

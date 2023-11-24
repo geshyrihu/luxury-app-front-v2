@@ -1,4 +1,5 @@
 <p-toast position="top-left" [baseZIndex]="99999"></p-toast>
+
 <div class="card" *ngIf="data !== undefined && data.candidates !== undefined">
   <p-table
     #dt
@@ -38,23 +39,38 @@
 
     <ng-template pTemplate="header">
       <tr>
-        <th scope="col" class="small">SELECT</th>
-        <th scope="col" class="small">ENVIADO</th>
-        <th scope="col" class="small" pSortableColumn="candidate">
+        <th style="width: 5%" scope="col" class="small">SELECT</th>
+        <th style="width: 10%" scope="col" class="small">ENVIADO</th>
+        <th
+          style="width: 15%"
+          scope="col"
+          class="small"
+          pSortableColumn="candidate"
+        >
           CANDIDADATO <p-sortIcon field="candidate"></p-sortIcon>
         </th>
-        <th scope="col" class="small" pSortableColumn="fuente">
+        <th
+          style="width: 10%"
+          scope="col"
+          class="small"
+          pSortableColumn="fuente"
+        >
           FUENTE
           <p-sortIcon field="fuente"></p-sortIcon>
         </th>
-        <th scope="col" class="small" pSortableColumn="phone">
+        <th
+          style="width: 10%"
+          scope="col"
+          class="small"
+          pSortableColumn="phone"
+        >
           TELÉFONO<p-sortIcon field="phone"></p-sortIcon>
         </th>
-        <th scope="col" class="small">CV</th>
-        <th scope="col" class="small">CITA</th>
-        <th scope="col" class="small">DECISIÓN</th>
-        <th scope="col" class="small">COMENTARIOS</th>
-        <th scope="col" class="small"></th>
+        <th style="width: 10%" scope="col" class="small">CV</th>
+        <th style="width: 5%" scope="col" class="small">CITA</th>
+        <th style="width: 10%" scope="col" class="small">DECISIÓN</th>
+        <th style="width: 15%" scope="col" class="small">COMENTARIOS</th>
+        <th style="width: 5%" scope="col" class="small"></th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-item>

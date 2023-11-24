@@ -8,6 +8,9 @@ import {
 } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
+import { EStatus } from 'src/app/core/enums/status.enum';
+import { ETurnoTrabajo } from 'src/app/core/enums/turno-trabajo.enum';
+import { onGetSelectItemFromEnum } from 'src/app/core/helpers/enumeration';
 import { IWorkPositionAddOrEditDto } from 'src/app/core/interfaces/IEmpresaOrganigramaAddOrEditDto.interface';
 import { ISelectItemDto } from 'src/app/core/interfaces/ISelectItemDto.interface';
 import {
@@ -17,7 +20,6 @@ import {
   DataService,
   SelectItemService,
 } from 'src/app/core/services/common-services';
-import { EnumService } from 'src/app/core/services/enum-service';
 import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
 @Component({
@@ -41,7 +43,6 @@ export default class AddoreditPlantillaComponent implements OnInit, OnDestroy {
   public dataService = inject(DataService);
   public ref = inject(DynamicDialogRef);
   public selectItemService = inject(SelectItemService);
-  public enumService = inject(EnumService);
 
   submitting: boolean = false;
 
@@ -49,8 +50,8 @@ export default class AddoreditPlantillaComponent implements OnInit, OnDestroy {
   checked: boolean = false;
   cb_profession: ISelectItemDto[] = [];
   cb_employee: ISelectItemDto[] = [];
-  cb_turnoTrabajo: ISelectItemDto[] = [];
-  cb_state: ISelectItemDto[] = [];
+  cb_turnoTrabajo: ISelectItemDto[] = onGetSelectItemFromEnum(ETurnoTrabajo);
+  cb_state: ISelectItemDto[] = onGetSelectItemFromEnum(EStatus);
 
   subRef$: Subscription;
   form: FormGroup = this.formBuilder.group({
@@ -169,10 +170,6 @@ export default class AddoreditPlantillaComponent implements OnInit, OnDestroy {
     this.selectItemService.onGetSelectItem('Professions').subscribe((resp) => {
       this.cb_profession = resp;
     });
-
-    this.enumService.onGetSelectItemEmun('ETurnoTrabajo').subscribe((resp) => {
-      this.cb_turnoTrabajo = resp;
-    });
   }
 
   onLoadSelectItem() {
@@ -181,9 +178,6 @@ export default class AddoreditPlantillaComponent implements OnInit, OnDestroy {
       .subscribe((resp) => {
         this.cb_employee = resp;
       });
-    this.enumService.onGetSelectItemEmun('EState').subscribe((resp) => {
-      this.cb_state = resp;
-    });
   }
   public saveemployeeIdId(e: any): void {
     let find = this.cb_employee.find((x) => x?.label === e.target.value);

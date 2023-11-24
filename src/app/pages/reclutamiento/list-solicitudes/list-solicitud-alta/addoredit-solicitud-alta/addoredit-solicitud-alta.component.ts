@@ -44,7 +44,7 @@ export default class AddOrEditSolicitudAltaComponent
   submitting: boolean = false;
 
   // cb_status = onGetSelectItemFromEnum(EStatus);
-  cb_status:ISelectItemDto[] = [];
+  cb_status: ISelectItemDto[] = [];
   // cb_typeContractRegister = onGetSelectItemFromEnum(ETypeContractRegister);
   cb_typeContractRegister = [];
   id: number = 0;
@@ -70,16 +70,15 @@ export default class AddOrEditSolicitudAltaComponent
       .subscribe((resp) => {
         this.cb_typeContractRegister = resp;
       });
-    this.enumService
-      .getEnumValuesDisplay('EStatus')
-      .subscribe((resp) => {
-        this.cb_status = resp;
-      });
+    this.enumService.getEnumValuesDisplay('EStatus').subscribe((resp) => {
+      this.cb_status = resp;
+    });
     this.subRef$ = this.dataService
       .get(`RequestEmployeeRegister/${this.id}`)
       .subscribe({
         next: (resp: any) => {
           this.form.patchValue(resp.body);
+          console.log('🚀 ~ resp.body:', resp.body);
         },
         error: (err) => {
           this.customToastService.onShowError();

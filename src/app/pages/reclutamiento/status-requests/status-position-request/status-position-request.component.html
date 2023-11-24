@@ -1,5 +1,4 @@
 <p-toast position="top-left" [baseZIndex]="99999"></p-toast>
-
 <div class="card" *ngIf="data !== undefined && data.candidates !== undefined">
   <p-table
     #dt
@@ -25,7 +24,6 @@
             [dt]="dt"
             [showAdd]="true"
           ></app-table-header>
-
         </div>
         <div
           class="col-1"
@@ -52,26 +50,18 @@
         </div>
       </div>
     </ng-template>
-
     <ng-template pTemplate="header">
       <tr>
-        <th scope="col" class="small">SELECT</th>
-        <th scope="col" class="small">ENVIADO</th>
-        <th scope="col" class="small" pSortableColumn="candidate">
-          CANDIDADATO <p-sortIcon field="candidate"></p-sortIcon>
-        </th>
-        <th scope="col" class="small" pSortableColumn="fuente">
-          FUENTE
-          <p-sortIcon field="fuente"></p-sortIcon>
-        </th>
-        <th scope="col" class="small" pSortableColumn="phone">
-          TELÉFONO<p-sortIcon field="phone"></p-sortIcon>
-        </th>
-        <th scope="col" class="small">CV</th>
-        <th scope="col" class="small">CITA</th>
-        <th scope="col" class="small">DECISIÓN</th>
-        <th scope="col" class="small">COMENTARIOS</th>
-        <th scope="col" class="small"></th>
+        <th style="width: 5%" scope="col" class="small">SELECT</th>
+        <th style="width: 5%" scope="col" class="small">ENVIADO</th>
+        <th style="width: 10%" scope="col" class="small">CANDIDADATO</th>
+        <th style="width: 5%" scope="col" class="small">FUENTE</th>
+        <th style="width: 10%" scope="col" class="small">TELÉFONO</th>
+        <th style="width: 5%" scope="col" class="small">CV</th>
+        <th style="width: 5%" scope="col" class="small">CITA</th>
+        <th style="width: 10%" scope="col" class="small">DECISIÓN</th>
+        <th style="width: 30%" scope="col" class="small">COMENTARIOS</th>
+        <th style="width: 10%" scope="col" class="small"></th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-item>
@@ -151,7 +141,6 @@
               icon="fa-duotone fa-file-signature "
               (clicked)="onModalSolicitudALta(item.id)"
             ></custom-button>
-            <!-- Solo puede editar o modificar los candidatos que cada usuario registro -->
             <custom-button-edit
               (edit)="
                 onModalAddOrEdit({
@@ -161,11 +150,12 @@
                 })
               "
             ></custom-button-edit>
+            <!-- Solo puede eliminar los candidatos que cada usuario registro -->
             <custom-button-delete
               *ngIf="applicationUserId == item.applicationUserId"
               (OnConfirm)="onDelete(item)"
             ></custom-button-delete>
-            <!-- Solo puede editar o modificar los candidatos que cada usuario registro -->
+            <!-- Solo puede eliminar los candidatos que cada usuario registro -->
           </div>
         </td>
         <!-- Opciones -->

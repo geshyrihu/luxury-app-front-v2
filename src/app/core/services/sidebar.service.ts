@@ -1184,6 +1184,17 @@ export class SidebarService {
         },
         {
           visible: this.authService.onValidateRoles([
+            'Asistente',
+            'Residente',
+            'SuperUsuario',
+            'SupervisionOperativa',
+          ]),
+          label: 'Agenda Entrevistas',
+          link: 'reclutamiento/agenda-entrevistas',
+          name: 'agenda entrevistas',
+        },
+        {
+          visible: this.authService.onValidateRoles([
             'SuperUsuario',
             'Residente',
             'Asistente',

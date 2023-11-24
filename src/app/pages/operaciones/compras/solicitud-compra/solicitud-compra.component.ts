@@ -13,6 +13,9 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ToastModule } from 'primeng/toast';
 import { Subscription } from 'rxjs';
+import { EStatusOrdenCompra } from 'src/app/core/enums/estatus-orden-compra.enum';
+import { onGetSelectItemFromEnum } from 'src/app/core/helpers/enumeration';
+import { ISelectItemDto } from 'src/app/core/interfaces/ISelectItemDto.interface';
 import {
   AuthService,
   CustomToastService,
@@ -20,7 +23,6 @@ import {
   DataService,
   DateService,
 } from 'src/app/core/services/common-services';
-import { EnumService } from 'src/app/core/services/enum-service';
 import ComponentsModule from 'src/app/shared/components.module';
 import CreateOrdenCompraComponent from '../orden-compra/orden-compra/create-orden-compra/create-orden-compra.component';
 import AddProductModalComponent from './add-product-modal.component';
@@ -60,11 +62,10 @@ export default class SolicitudCompraComponent implements OnInit, OnDestroy {
   public dialogService = inject(DialogService);
   public messageService = inject(MessageService);
   public customerIdService = inject(CustomerIdService);
-  public enumService = inject(EnumService);
 
   submitting: boolean = false;
 
-  statusCompra = [];
+  statusCompra: ISelectItemDto[] = onGetSelectItemFromEnum(EStatusOrdenCompra);
   _cb_Status = [];
   id: number = 0;
   solicitudCompra: any;
@@ -84,11 +85,11 @@ export default class SolicitudCompraComponent implements OnInit, OnDestroy {
   cotizacionesRelacionadas: any[] = [];
 
   ngOnInit(): void {
-    this.enumService
-      .onGetSelectItemEmun('EStatusOrdenCompra')
-      .subscribe((resp) => {
-        this.statusCompra = resp;
-      });
+    // this.enumService
+    //   .onGetSelectItemEmun('EStatusOrdenCompra')
+    //   .subscribe((resp) => {
+    //     this.statusCompra = resp;
+    //   });
     this.routeActive.params.subscribe((resp) => {
       this.id = resp['id'];
     });

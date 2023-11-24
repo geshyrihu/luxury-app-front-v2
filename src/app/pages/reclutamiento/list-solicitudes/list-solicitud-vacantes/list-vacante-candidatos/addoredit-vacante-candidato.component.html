@@ -77,6 +77,13 @@
       </select>
     </div>
   </div>
+
+  <custom-input-text-area
+    [control]="form.get('comments')"
+    formControlName="comments"
+    label="Comentarios"
+    placeholder="comentarios"
+  ></custom-input-text-area>
   <custom-button-submit
     [disabled]="this.form.invalid || submitting"
   ></custom-button-submit>

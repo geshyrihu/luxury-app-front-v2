@@ -30,6 +30,7 @@
 
     <ng-template pTemplate="header" let-columns>
       <tr>
+        <th>Id</th>
         <th scope="col" style="width: 30%" pSortableColumn="numeroCuenta">
           CUENTA
           <p-sortIcon field="numeroCuenta"></p-sortIcon>
@@ -47,6 +48,9 @@
     </ng-template>
     <ng-template pTemplate="body" let-item let-columns="columns">
       <tr>
+        <td class="p-column-title">
+          {{ item.id }}
+        </td>
         <td class="p-column-title">
           {{ item.numeroCuenta }}
         </td>

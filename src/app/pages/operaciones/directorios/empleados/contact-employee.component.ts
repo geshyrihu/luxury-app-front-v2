@@ -12,12 +12,13 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ToastModule } from 'primeng/toast';
 import { Subscription } from 'rxjs';
+import { ERelationEmployee } from 'src/app/core/enums/relation-employee.enum';
+import { onGetSelectItemFromEnum } from 'src/app/core/helpers/enumeration';
 import { ISelectItemDto } from 'src/app/core/interfaces/ISelectItemDto.interface';
 import {
   CustomToastService,
   DataService,
 } from 'src/app/core/services/common-services';
-import { EnumService } from 'src/app/core/services/enum-service';
 import ComponentsModule from 'src/app/shared/components.module';
 
 @Component({
@@ -41,11 +42,11 @@ export default class ContactEmployeeComponent implements OnInit, OnDestroy {
   public ref = inject(DynamicDialogRef);
   public dataService = inject(DataService);
   public messageService = inject(MessageService);
-  public enumService = inject(EnumService);
 
   id: number;
   idEmployee: number;
-  cb_contactEmployee: ISelectItemDto[] = [];
+  cb_contactEmployee: ISelectItemDto[] =
+    onGetSelectItemFromEnum(ERelationEmployee);
   showButtonAddOrCancel: boolean = false;
   contactEmployeeAdd: any;
   submitting: boolean = false;
@@ -55,11 +56,6 @@ export default class ContactEmployeeComponent implements OnInit, OnDestroy {
   form: FormGroup;
 
   ngOnInit(): void {
-    this.enumService
-      .getEnumValuesDisplay('ERelationEmployee')
-      .subscribe((resp) => {
-        this.cb_contactEmployee = resp;
-      });
     this.idEmployee = this.config.data.id;
     this.onLoadForm();
     this.getContactEmployees();

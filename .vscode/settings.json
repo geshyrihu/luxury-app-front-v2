@@ -29,5 +29,6 @@
   "editor.fontLigatures": false,
   "turboConsoleLog.includeFileNameAndLineNum": false,
   "turboConsoleLog.insertEnclosingClass": false,
-  "turboConsoleLog.insertEnclosingFunction": false
+  "turboConsoleLog.insertEnclosingFunction": false,
+  "editor.inlineSuggest.showToolbar": "onHover"
 }

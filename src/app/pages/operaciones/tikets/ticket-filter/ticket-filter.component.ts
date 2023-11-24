@@ -3,10 +3,10 @@ import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { EStatusTask } from 'src/app/core/enums/estatus-task.enum';
+import { EPriority } from 'src/app/core/enums/priority.enum';
 import { onGetSelectItemFromEnum } from 'src/app/core/helpers/enumeration';
 import { IFilterTicket } from 'src/app/core/interfaces/IFilterTicket.interface';
 import { ISelectItemDto } from 'src/app/core/interfaces/ISelectItemDto.interface';
-import { EnumService } from 'src/app/core/services/enum-service';
 import { SelectItemService } from 'src/app/core/services/select-item.service';
 import { TicketFilterService } from 'src/app/core/services/ticket-filter.service';
 import { flatpickrFactory } from 'src/app/shared/components.module';
@@ -24,11 +24,10 @@ export default class FilterTicketComponent implements OnInit {
   private selectItemService = inject(SelectItemService);
   public config = inject(DynamicDialogConfig);
   public ref = inject(DynamicDialogRef);
-  public enumService = inject(EnumService);
 
   filterTicket: IFilterTicket;
   cb_status: ISelectItemDto[] = onGetSelectItemFromEnum(EStatusTask);
-  cb_priority: ISelectItemDto[] = [];
+  cb_priority: ISelectItemDto[] = onGetSelectItemFromEnum(EPriority);
   cb_area_responsable: ISelectItemDto[] = [];
   cb_customer: ISelectItemDto[] = [];
   cb_solicitantes: ISelectItemDto[] = [];
@@ -73,9 +72,6 @@ export default class FilterTicketComponent implements OnInit {
       .subscribe((resp) => {
         this.cb_solicitantes = resp;
       });
-    this.enumService.onGetSelectItemEmun('EPriority').subscribe((resp) => {
-      this.cb_priority = resp;
-    });
   }
   onResetForm() {
     this.form.reset();

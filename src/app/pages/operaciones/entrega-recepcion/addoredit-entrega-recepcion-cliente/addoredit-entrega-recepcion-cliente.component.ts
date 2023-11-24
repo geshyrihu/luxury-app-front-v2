@@ -2,6 +2,8 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
+import { EState } from 'src/app/core/enums/state.enum';
+import { onGetSelectItemFromEnum } from 'src/app/core/helpers/enumeration';
 import { ISelectItemDto } from 'src/app/core/interfaces/ISelectItemDto.interface';
 import {
   AuthService,
@@ -35,22 +37,18 @@ export default class CrudEntregaRecepcionClienteComponent
   id: number = 0;
   subRef$: Subscription;
 
-  // cb_estatus: ISelectItemDto[] = onGetSelectItemFromEnum(EState);
-  cb_estatus: ISelectItemDto[] = [];
+  cb_estatus: ISelectItemDto[] = onGetSelectItemFromEnum(EState);
   form: FormGroup = this.formBuilder.group({
     id: { value: this.id, disabled: true },
     observaciones: [''],
     archivo: [''],
-    estatus: [0],
+    estatus: [EState.Activo],
     employeeId: [this.authService.userTokenDto.infoEmployeeDto.employeeId],
   });
 
   submitting: boolean = false;
 
   ngOnInit(): void {
-    this.enumService.onGetSelectItemEmun('EState').subscribe((resp) => {
-      this.cb_estatus = resp;
-    });
     this.id = this.config.data.id;
     this.onLoadData();
   }

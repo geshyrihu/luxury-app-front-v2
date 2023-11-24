@@ -8,6 +8,8 @@ import {
 } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
+import { EHabitant } from 'src/app/core/enums/habitant.enum';
+import { onGetSelectItemFromEnum } from 'src/app/core/helpers/enumeration';
 import { ISelectItemDto } from 'src/app/core/interfaces/ISelectItemDto.interface';
 import {
   AuthService,
@@ -59,7 +61,7 @@ export default class AddOrEditCondominosComponent implements OnInit, OnDestroy {
       value: false,
     },
   ];
-  cb_Habitant: ISelectItemDto[] = [];
+  cb_Habitant: ISelectItemDto[] = onGetSelectItemFromEnum(EHabitant);
   form: FormGroup = this.formBuilder.group({
     id: { value: this.id, disabled: true },
     customerId: [this.customerId],
@@ -85,9 +87,6 @@ export default class AddOrEditCondominosComponent implements OnInit, OnDestroy {
         this.cb_directory_condominium = resp;
       });
 
-    this.enumService.onGetSelectItemEmun('EHabitant').subscribe((resp) => {
-      this.cb_Habitant = resp;
-    });
     this.id = this.config.data.id;
     if (this.id !== 0) {
       this.getImem();

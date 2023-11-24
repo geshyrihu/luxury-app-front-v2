@@ -11,6 +11,9 @@ import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { SelectItem } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
+import { ERecurrence } from 'src/app/core/enums/recurrence.enum';
+import { ETypeMaintance } from 'src/app/core/enums/type-maintance.enum';
+import { onGetSelectItemFromEnum } from 'src/app/core/helpers/enumeration';
 import { ISelectItemDto } from 'src/app/core/interfaces/ISelectItemDto.interface';
 import {
   AuthService,
@@ -51,12 +54,11 @@ export default class AddoreditMaintenancePreventiveComponent
 
   public Editor = ClassicEditor;
 
-  cb_machinery: any[] = [];
-  cb_providers: any[] = [];
-  // cb_recurrencia: ISelectItemDto[] = onGetSelectItemFromEnum(ERecurrence);
-  cb_recurrencia: ISelectItemDto[] = [];
+  cb_machinery: ISelectItemDto[] = [];
+  cb_providers: ISelectItemDto[] = [];
+  cb_recurrencia: ISelectItemDto[] = onGetSelectItemFromEnum(ERecurrence);
   cb_subCuentaId: ISelectItemDto[] = [];
-  cb_TypeMaintance: SelectItem[];
+  cb_TypeMaintance: SelectItem[] = onGetSelectItemFromEnum(ETypeMaintance);
 
   submitting: boolean = false;
   subRef$: Subscription;
@@ -105,13 +107,6 @@ export default class AddoreditMaintenancePreventiveComponent
       .subscribe((resp: any) => {
         this.cb_subCuentaId = resp;
       });
-
-    this.enumService.onGetSelectItemEmun('ETypeMaintance').subscribe((resp) => {
-      this.cb_TypeMaintance = resp;
-    });
-    this.enumService.onGetSelectItemEmun('ERecurrence').subscribe((resp) => {
-      this.cb_recurrencia = resp;
-    });
   }
 
   onGetMachinerySelectItem() {

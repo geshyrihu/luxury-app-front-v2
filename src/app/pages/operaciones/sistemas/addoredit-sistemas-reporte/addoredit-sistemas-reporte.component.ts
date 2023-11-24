@@ -9,6 +9,7 @@ import {
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import { EStatusTask } from 'src/app/core/enums/estatus-task.enum';
+import { EPriority } from 'src/app/core/enums/priority.enum';
 import { onGetSelectItemFromEnum } from 'src/app/core/helpers/enumeration';
 import { ISelectItemDto } from 'src/app/core/interfaces/ISelectItemDto.interface';
 import {
@@ -56,7 +57,7 @@ export default class AddoreditSistemasReporteComponent
   //TODOñ REVISAR ESTE CustomerId
   _customerId: number = 0;
   cb_status = onGetSelectItemFromEnum(EStatusTask);
-  cb_priority: ISelectItemDto[] = [];
+  cb_priority: ISelectItemDto[] = onGetSelectItemFromEnum(EPriority);
   cb_area_responsable: any[] = [];
   cb_user: any[] = [];
   cb_responsableSistemas: any[] = [];
@@ -94,15 +95,11 @@ export default class AddoreditSistemasReporteComponent
       .subscribe((resp) => {
         this.cb_responsableSistemas = resp;
       });
-    this.enumService.onGetSelectItemEmun('EPriority').subscribe((resp) => {
-      this.cb_priority = resp;
-    });
   }
 
   loadForm(status: number) {
     let dateFinal: any;
     if (this.config.data.status === 1) {
-      // dateFinal = this.dateService.getDateNow();
       dateFinal = new Date();
     }
 

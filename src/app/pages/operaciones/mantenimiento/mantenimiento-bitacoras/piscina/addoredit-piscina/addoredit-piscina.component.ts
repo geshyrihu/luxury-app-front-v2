@@ -8,6 +8,8 @@ import {
 } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
+import { ETypePiscina } from 'src/app/core/enums/type-piscina.enum';
+import { onGetSelectItemFromEnum } from 'src/app/core/helpers/enumeration';
 import { ISelectItemDto } from 'src/app/core/interfaces/ISelectItemDto.interface';
 import {
   AuthService,
@@ -15,7 +17,6 @@ import {
   CustomerIdService,
   DataService,
 } from 'src/app/core/services/common-services';
-import { EnumService } from 'src/app/core/services/enum-service';
 import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
 import { environment } from 'src/environments/environment';
@@ -40,7 +41,6 @@ export default class AddOrEditPiscinaComponent implements OnInit, OnDestroy {
   public ref = inject(DynamicDialogRef);
   public customerIdService = inject(CustomerIdService);
   private customToastService = inject(CustomToastService);
-  private enumService = inject(EnumService);
 
   submitting: boolean = false;
 
@@ -51,13 +51,10 @@ export default class AddOrEditPiscinaComponent implements OnInit, OnDestroy {
   photoFileUpdate: boolean = false;
   subRef$: Subscription;
 
-  cb_typePiscina: ISelectItemDto[] = [];
+  cb_typePiscina: ISelectItemDto[] = onGetSelectItemFromEnum(ETypePiscina);
   form: FormGroup;
 
   ngOnInit(): void {
-    this.enumService.onGetSelectItemEmun('ETypePiscina').subscribe((resp) => {
-      this.cb_typePiscina = resp;
-    });
     this.id = this.config.data.id;
     if (this.id !== 0) this.onLoadData();
 

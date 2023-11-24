@@ -9,6 +9,8 @@ import {
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import { cb_ESiNo } from 'src/app/core/enums/si-no.enum';
+import { ETurnoTrabajo } from 'src/app/core/enums/turno-trabajo.enum';
+import { onGetSelectItemFromEnum } from 'src/app/core/helpers/enumeration';
 import { ISelectItemDto } from 'src/app/core/interfaces/ISelectItemDto.interface';
 import { CustomToastService } from 'src/app/core/services/custom-toast.service';
 import { DataService } from 'src/app/core/services/data.service';
@@ -19,8 +21,7 @@ import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.mod
 
 @Component({
   selector: 'app-addoredit-status-request-salary-modification',
-  templateUrl:
-    './addoredit-status-request-salary-modification.component.html',
+  templateUrl: './addoredit-status-request-salary-modification.component.html',
   standalone: true,
   imports: [
     ComponentsModule,
@@ -47,7 +48,7 @@ export default class AddOrEditStatusRequestSalaryModificationComponent
   subRef$: Subscription;
 
   cb_profession: ISelectItemDto[] = [];
-  cb_status: ISelectItemDto[] = [];
+  cb_status: ISelectItemDto[] = onGetSelectItemFromEnum(ETurnoTrabajo);
   cb_type_departure: ISelectItemDto[] = [];
   cb_si_no: ISelectItemDto[] = cb_ESiNo;
 
@@ -70,9 +71,6 @@ export default class AddOrEditStatusRequestSalaryModificationComponent
   });
 
   ngOnInit(): void {
-    this.enumService.onGetSelectItemEmun('EStatus').subscribe(resp=>{
-      this.cb_status=resp
-    })
     this.onProfessionSelectItem();
     this.id = this.config.data.id;
     if (this.id !== 0) this.onLoadData();

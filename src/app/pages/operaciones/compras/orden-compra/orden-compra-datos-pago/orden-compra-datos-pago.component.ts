@@ -8,10 +8,11 @@ import {
 } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
+import { ETipoGasto } from 'src/app/core/enums/tipo-gasto.enum';
+import { onGetSelectItemFromEnum } from 'src/app/core/helpers/enumeration';
 import { ISelectItemDto } from 'src/app/core/interfaces/ISelectItemDto.interface';
 import { CustomToastService } from 'src/app/core/services/custom-toast.service';
 import { DataService } from 'src/app/core/services/data.service';
-import { EnumService } from 'src/app/core/services/enum-service';
 import { SelectItemService } from 'src/app/core/services/select-item.service';
 import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
@@ -37,17 +38,16 @@ export default class OrdenCompraDatosPagoComponent
   public dataService = inject(DataService);
   public selectItemService = inject(SelectItemService);
   private customToastService = inject(CustomToastService);
-  private enumService = inject(EnumService);
 
   submitting: boolean = false;
   subRef$: Subscription;
 
   ordenCompraDatosPagoId = 0;
-  cb_providers: any[] = [];
-  cb_formaPago: any[] = [];
-  cb_payment_method: any[] = [];
-  cb_usoCfdi: any[] = [];
-  cb_tipoGasto: ISelectItemDto[] = [];
+  cb_providers: ISelectItemDto[] = [];
+  cb_formaPago: ISelectItemDto[] = [];
+  cb_payment_method: ISelectItemDto[] = [];
+  cb_usoCfdi: ISelectItemDto[] = [];
+  cb_tipoGasto: ISelectItemDto[] = onGetSelectItemFromEnum(ETipoGasto);
   form: FormGroup = this.formBuilder.group({
     id: [0],
     ordenCompraId: [0],
@@ -83,10 +83,6 @@ export default class OrdenCompraDatosPagoComponent
     });
     this.selectItemService.onGetSelectItem('WayToPay').subscribe((resp) => {
       this.cb_formaPago = resp;
-    });
-
-    this.enumService.onGetSelectItemEmun('ETipoGasto').subscribe((resp) => {
-      this.cb_tipoGasto = resp;
     });
 
     this.subRef$ = this.dataService

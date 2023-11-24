@@ -9,6 +9,8 @@ import {
 import { MessageService } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
+import { ETypeMeeting } from 'src/app/core/enums/type-meeting.enum';
+import { onGetSelectItemFromEnum } from 'src/app/core/helpers/enumeration';
 import { ISelectItemDto } from 'src/app/core/interfaces/ISelectItemDto.interface';
 import {
   AuthService,
@@ -16,7 +18,6 @@ import {
   DataService,
   DateService,
 } from 'src/app/core/services/common-services';
-import { EnumService } from 'src/app/core/services/enum-service';
 import ComponentsModule, {
   flatpickrFactory,
 } from 'src/app/shared/components.module';
@@ -51,7 +52,6 @@ export default class AddOrEditMeetingComponent implements OnInit, OnDestroy {
   private formBuilder = inject(FormBuilder);
   public messageService = inject(MessageService);
   public customToastService = inject(CustomToastService);
-  public enumService = inject(EnumService);
 
   subRef$: Subscription;
 
@@ -64,13 +64,10 @@ export default class AddOrEditMeetingComponent implements OnInit, OnDestroy {
   idNew: number;
   customerId: number;
   participantInvitado: any[] = [];
-  cb_typeMeeting: ISelectItemDto[] = [];
+  cb_typeMeeting: ISelectItemDto[] = onGetSelectItemFromEnum(ETypeMeeting);
   form: FormGroup;
 
   ngOnInit() {
-    this.enumService.onGetSelectItemEmun('ETypeMeeting').subscribe((resp) => {
-      this.cb_typeMeeting = resp;
-    });
     flatpickrFactory();
     this.customerId = this.config.data.customerId;
 

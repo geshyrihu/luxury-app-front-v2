@@ -11,9 +11,9 @@ import { FlatpickrModule } from 'angularx-flatpickr';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import { EStatusTask } from 'src/app/core/enums/estatus-task.enum';
+import { EPriority } from 'src/app/core/enums/priority.enum';
 import { onGetSelectItemFromEnum } from 'src/app/core/helpers/enumeration';
 import { IFilterTicket } from 'src/app/core/interfaces/IFilterTicket.interface';
-import { ISelectItemDto } from 'src/app/core/interfaces/ISelectItemDto.interface';
 import {
   AuthService,
   CustomerIdService,
@@ -22,7 +22,6 @@ import {
   DateService,
   SelectItemService,
 } from 'src/app/core/services/common-services';
-import { EnumService } from 'src/app/core/services/enum-service';
 import ComponentsModule, {
   flatpickrFactory,
 } from 'src/app/shared/components.module';
@@ -53,12 +52,10 @@ export default class AddoreditTicketComponent implements OnInit, OnDestroy {
   public authService = inject(AuthService);
   public config = inject(DynamicDialogConfig);
   public ref = inject(DynamicDialogRef);
-  public enumService = inject(EnumService);
 
   subRef$: Subscription;
 
-  // cb_priority = onGetSelectItemFromEnum(EPriority);
-  cb_priority: ISelectItemDto[] = [];
+  cb_priority = onGetSelectItemFromEnum(EPriority);
   cb_area_responsable: any[] = [];
   cb_status = onGetSelectItemFromEnum(EStatusTask);
   cb_user_customers: any[] = [];
@@ -117,10 +114,6 @@ export default class AddoreditTicketComponent implements OnInit, OnDestroy {
       .subscribe((resp) => {
         this.cb_user_customers = resp;
       });
-
-    this.enumService.onGetSelectItemEmun('EPriority').subscribe((resp) => {
-      this.cb_priority = resp;
-    });
   }
 
   public fechaProgramacion = this.dateService.formatDateTime(diaActual);

@@ -12,6 +12,7 @@ import { MessageService, SelectItem } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import { EStatusTask } from 'src/app/core/enums/estatus-task.enum';
+import { ETypeMaintance } from 'src/app/core/enums/type-maintance.enum';
 import { onGetSelectItemFromEnum } from 'src/app/core/helpers/enumeration';
 import { CustomerIdService } from 'src/app/core/services/common-services';
 import { CustomToastService } from 'src/app/core/services/custom-toast.service';
@@ -58,8 +59,7 @@ export default class ServiceOrderAddOrEditComponent
   cb_machinery: any[] = [];
   cb_providers: any[] = [];
   cb_Status: SelectItem[] = onGetSelectItemFromEnum(EStatusTask);
-  // cb_TypeMaintance: SelectItem[] = onGetSelectItemFromEnum(ETypeMaintance);
-  cb_TypeMaintance: SelectItem[] = [];
+  cb_TypeMaintance: SelectItem[] = onGetSelectItemFromEnum(ETypeMaintance);
   cb_user_customers: SelectItem[] = [];
 
   form: FormGroup;
@@ -99,12 +99,6 @@ export default class ServiceOrderAddOrEditComponent
       .subscribe((resp) => {
         this.cb_user_customers = resp;
       });
-
-    // this.enumService.onGetSelectItemEmun('typemaintance').sub;
-
-    this.emumService.onGetSelectItemEmun('ETypeMaintance').subscribe((resp) => {
-      this.cb_TypeMaintance = resp;
-    });
   }
 
   public saveMachineryId(e: any): void {

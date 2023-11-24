@@ -10,11 +10,12 @@ import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable } from 'rxjs';
+import { ETipoGasto } from 'src/app/core/enums/tipo-gasto.enum';
+import { onGetSelectItemFromEnum } from 'src/app/core/helpers/enumeration';
 import { ISelectItemDto } from 'src/app/core/interfaces/ISelectItemDto.interface';
 import { CaratulaFondeoService } from 'src/app/core/services/caratula-fondeo.service';
 import { CustomerIdService } from 'src/app/core/services/common-services';
 import { DateService } from 'src/app/core/services/date.service';
-import { EnumService } from 'src/app/core/services/enum-service';
 import ComponentsModule from 'src/app/shared/components.module';
 import CustomInputModule from 'src/app/shared/custom-input-form/custom-input.module';
 
@@ -38,11 +39,10 @@ export default class CaratulaFondeoComponent implements OnInit {
   public customerIdService = inject(CustomerIdService);
   public router = inject(Router);
   public caratulaFondeoService = inject(CaratulaFondeoService);
-  public enumService = inject(EnumService);
 
   submitting: boolean = false;
 
-  tipoGasto: ISelectItemDto[] = [];
+  tipoGasto: ISelectItemDto[] = onGetSelectItemFromEnum(ETipoGasto);
   form: FormGroup = this.formBuilder.group({
     fechaInicial: ['', Validators.required],
     fechaFinal: [this.dateService.getDateFormat(date), Validators.required],
@@ -55,9 +55,6 @@ export default class CaratulaFondeoComponent implements OnInit {
   customerId$: Observable<number> = this.customerIdService.getCustomerId$();
 
   ngOnInit(): void {
-    this.enumService.onGetSelectItemEmun('ETipoGasto').subscribe((resp) => {
-      this.tipoGasto = resp;
-    });
     if (this.caratulaFondeoService.requestFondeoCaratulaDto !== undefined) {
       this.form.patchValue(this.caratulaFondeoService.requestFondeoCaratulaDto);
     }
